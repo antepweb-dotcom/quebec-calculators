@@ -1,11 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { calculateTaxes, TaxCalculationResult } from '@/utils/taxLogic'
 import Navbar from "@/components/Navbar"
 import { Calculator, TrendingDown, PiggyBank, FileText } from 'lucide-react'
 
-// Metadata will be handled by parent or we'll add it back if needed
 interface PageProps {
   params: { salary: string }
 }
@@ -19,17 +19,25 @@ const formatCurrency = (amount: number) => {
 }
 
 export default function Page({ params }: PageProps) {
-  const salaryAmount = parseInt(params.salary)
+  const router = useRouter()
+  const initialSalary = parseInt(params.salary)
+  const [salary, setSalary] = useState(initialSalary)
   const [results, setResults] = useState<TaxCalculationResult | null>(null)
 
   useEffect(() => {
-    if (!isNaN(salaryAmount) && salaryAmount > 0) {
-      const calculatedResults = calculateTaxes(salaryAmount)
+    if (!isNaN(salary) && salary > 0) {
+      const calculatedResults = calculateTaxes(salary)
       setResults(calculatedResults)
     }
-  }, [salaryAmount])
+  }, [salary])
 
-  if (isNaN(salaryAmount)) {
+  const handleSalaryChange = (newSalary: number) => {
+    setSalary(newSalary)
+    // Update URL without page reload
+    window.history.replaceState(null, '', `/salaire-net-quebec/${newSalary}`)
+  }
+
+  if (isNaN(initialSalary)) {
     return <div className="p-10 text-center">Montant invalide</div>
   }
 
@@ -44,7 +52,7 @@ export default function Page({ params }: PageProps) {
               Calculateur d'Impôt Québec 2026
             </h1>
             <p className="text-xl text-gray-600">
-              Salaire brut: {formatCurrency(salaryAmount)}
+              Salaire brut: <span className="font-bold text-blue-600">{formatCurrency(salary)}</span>
             </p>
           </header>
 
@@ -60,6 +68,34 @@ export default function Page({ params }: PageProps) {
 
             {/* Middle Column - Results */}
             <div className="lg:col-span-2">
+              {/* Salary Adjuster */}
+              <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                <label className="block text-lg font-semibold text-gray-700 mb-3">
+                  Ajustez votre salaire annuel brut
+                </label>
+                <div className="flex items-center gap-4">
+                  <input 
+                    type="range" 
+                    min="20000" 
+                    max="200000" 
+                    step="1000" 
+                    value={salary}
+                    onChange={(e) => handleSalaryChange(parseInt(e.target.value))}
+                    className="flex-1 h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                  />
+                  <input 
+                    type="number" 
+                    value={salary}
+                    onChange={(e) => handleSalaryChange(parseInt(e.target.value) || 20000)}
+                    className="w-32 px-4 py-2 border-2 border-gray-300 rounded-lg text-right font-bold focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div className="flex justify-between text-sm text-gray-500 mt-2">
+                  <span>20 000 $</span>
+                  <span>200 000 $</span>
+                </div>
+              </div>
+
               {results && (
                 <>
                   {/* HERO RESULT - V2 Gold Standard */}
@@ -95,7 +131,7 @@ export default function Page({ params }: PageProps) {
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-3">
                           <div 
-                            className="bg-red-500 h-3 rounded-full transition-all duration-500"
+                            className="bg-red-500 h-3 rounded-full transition-all duration-700"
                             style={{ width: `${(results.federalTax / results.grossIncome) * 100}%` }}
                           />
                         </div>
@@ -111,7 +147,7 @@ export default function Page({ params }: PageProps) {
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-3">
                           <div 
-                            className="bg-blue-500 h-3 rounded-full transition-all duration-500"
+                            className="bg-blue-500 h-3 rounded-full transition-all duration-700"
                             style={{ width: `${(results.provincialTax / results.grossIncome) * 100}%` }}
                           />
                         </div>
@@ -127,7 +163,7 @@ export default function Page({ params }: PageProps) {
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-3">
                           <div 
-                            className="bg-yellow-500 h-3 rounded-full transition-all duration-500"
+                            className="bg-yellow-500 h-3 rounded-full transition-all duration-700"
                             style={{ width: `${(results.qpp / results.grossIncome) * 100}%` }}
                           />
                         </div>
@@ -143,7 +179,7 @@ export default function Page({ params }: PageProps) {
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-3">
                           <div 
-                            className="bg-purple-500 h-3 rounded-full transition-all duration-500"
+                            className="bg-purple-500 h-3 rounded-full transition-all duration-700"
                             style={{ width: `${((results.qpip + results.ei) / results.grossIncome) * 100}%` }}
                           />
                         </div>
@@ -169,7 +205,56 @@ export default function Page({ params }: PageProps) {
                   {/* Ad Space - Middle */}
                   <div className="bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 p-6 text-center mb-6">
                     <p className="text-gray-500 font-medium">Espace Publicitaire</p>
-                    <p className="text-sm text-gray-400 mt-2">728x90</p>
+                    <p className="text-sm text-gray-400 mt-2">728x90 - Bannière horizontale</p>
+                  </div>
+
+                  {/* Visual Chart */}
+                  <div className="bg-white rounded-xl shadow-lg p-6">
+                    <h2 className="text-xl font-bold text-gray-900 mb-4">Répartition visuelle</h2>
+                    <div className="flex h-12 rounded-lg overflow-hidden">
+                      <div 
+                        className="bg-green-500 flex items-center justify-center text-white text-sm font-bold transition-all duration-500"
+                        style={{ width: `${(results.netIncome / results.grossIncome * 100).toFixed(1)}%` }}
+                      >
+                        Net {(results.netIncome / results.grossIncome * 100).toFixed(1)}%
+                      </div>
+                      <div 
+                        className="bg-red-500 flex items-center justify-center text-white text-xs transition-all duration-500"
+                        style={{ width: `${(results.federalTax / results.grossIncome * 100).toFixed(1)}%` }}
+                      >
+                        Féd
+                      </div>
+                      <div 
+                        className="bg-blue-500 flex items-center justify-center text-white text-xs transition-all duration-500"
+                        style={{ width: `${(results.provincialTax / results.grossIncome * 100).toFixed(1)}%` }}
+                      >
+                        Prov
+                      </div>
+                      <div 
+                        className="bg-yellow-500 flex items-center justify-center text-white text-xs transition-all duration-500"
+                        style={{ width: `${((results.qpp + results.qpip + results.ei) / results.grossIncome * 100).toFixed(1)}%` }}
+                      >
+                        Autre
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-4 gap-2 mt-4 text-center text-sm">
+                      <div>
+                        <div className="w-4 h-4 bg-green-500 rounded mx-auto mb-1"></div>
+                        <p className="text-gray-600">Salaire Net</p>
+                      </div>
+                      <div>
+                        <div className="w-4 h-4 bg-red-500 rounded mx-auto mb-1"></div>
+                        <p className="text-gray-600">Impôt Fédéral</p>
+                      </div>
+                      <div>
+                        <div className="w-4 h-4 bg-blue-500 rounded mx-auto mb-1"></div>
+                        <p className="text-gray-600">Impôt Provincial</p>
+                      </div>
+                      <div>
+                        <div className="w-4 h-4 bg-yellow-500 rounded mx-auto mb-1"></div>
+                        <p className="text-gray-600">RRQ + RQAP</p>
+                      </div>
+                    </div>
                   </div>
                 </>
               )}

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculateur Salaire Net Québec 2026 - Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-slide-in {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+        .progress-bar {
+            transition: width 0.8s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <h1 class="text-2xl font-bold text-blue-600">💰 Outils Financiers QC</h1>
+                <div class="flex gap-4">
+                    <a href="#" class="text-gray-600 hover:text-blue-600">Accueil</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600">Calculateurs</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-12 max-w-7xl">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                Calculateur d'Impôt Québec 2026
+            </h1>
+            <p class="text-xl text-gray-600">
+                Salaire brut: <span id="salary-display" class="font-bold text-blue-600">50 000 $</span>
+            </p>
+        </header>
+
+        <!-- 3 Column Layout -->
+        <div class="grid lg:grid-cols-3 gap-6">
+            <!-- Left Column - Ad Space -->
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 p-8 text-center sticky top-6">
+                    <p class="text-gray-500 font-medium">Espace Publicitaire</p>
+                    <p class="text-sm text-gray-400 mt-2">300x600</p>
+                    <div class="mt-4 text-xs text-gray-400">
+                        <p>Bannière verticale</p>
+                        <p>Google AdSense</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Middle Column - Results -->
+            <div class="lg:col-span-2">
+                <!-- Input Section -->
+                <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                    <label class="block text-lg font-semibold text-gray-700 mb-3">
+                        Ajustez votre salaire annuel brut
+                    </label>
+                    <div class="flex items-center gap-4">
+                        <input 
+                            type="range" 
+                            id="salary-slider" 
+                            min="20000" 
+                            max="200000" 
+                            step="1000" 
+                            value="50000"
+                            class="flex-1 h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                        >
+                        <input 
+                            type="number" 
+                            id="salary-input" 
+                            value="50000"
+                            class="w-32 px-4 py-2 border-2 border-gray-300 rounded-lg text-right font-bold"
+                        >
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-500 mt-2">
+                        <span>20 000 $</span>
+                        <span>200 000 $</span>
+                    </div>
+                </div>
+
+                <!-- HERO RESULT -->
+                <div class="bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl shadow-2xl p-8 mb-6 text-white text-center animate-slide-in">
+                    <h2 class="text-xl font-medium mb-3 opacity-90">Votre Salaire Net Annuel</h2>
+                    <p id="net-income" class="text-5xl md:text-6xl font-bold mb-6">
+                        38 250 $
+                    </p>
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="bg-white/20 rounded-lg p-3">
+                            <p class="text-xs opacity-90 mb-1">Par mois</p>
+                            <p id="monthly" class="text-lg font-bold">3 188 $</p>
+                        </div>
+                        <div class="bg-white/20 rounded-lg p-3">
+                            <p class="text-xs opacity-90 mb-1">Aux 2 semaines</p>
+                            <p id="biweekly" class="text-lg font-bold">1 471 $</p>
+                        </div>
+                        <div class="bg-white/20 rounded-lg p-3">
+                            <p class="text-xs opacity-90 mb-1">Par semaine</p>
+                            <p id="weekly" class="text-lg font-bold">735 $</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tax Breakdown with Progress Bars -->
+                <div class="bg-white rounded-xl shadow-lg p-6 mb-6 animate-slide-in" style="animation-delay: 0.2s">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Répartition des déductions</h2>
+                    <div class="space-y-4">
+                        <!-- Federal Tax -->
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-semibold text-gray-700">Impôt Fédéral</span>
+                                <span id="federal-tax" class="text-sm font-bold text-red-600">5 143 $</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div id="federal-bar" class="bg-red-500 h-3 rounded-full progress-bar" style="width: 10.3%"></div>
+                            </div>
+                            <p id="federal-percent" class="text-xs text-gray-500 mt-1">10.3% de votre salaire brut</p>
+                        </div>
+
+                        <!-- Provincial Tax -->
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-semibold text-gray-700">Impôt Provincial (Québec)</span>
+                                <span id="provincial-tax" class="text-sm font-bold text-blue-600">4 476 $</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div id="provincial-bar" class="bg-blue-500 h-3 rounded-full progress-bar" style="width: 9.0%"></div>
+                            </div>
+                            <p id="provincial-percent" class="text-xs text-gray-500 mt-1">9.0% de votre salaire brut</p>
+                        </div>
+
+                        <!-- QPP -->
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-semibold text-gray-700">RRQ (Régie des rentes)</span>
+                                <span id="qpp-tax" class="text-sm font-bold text-yellow-600">3 200 $</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div id="qpp-bar" class="bg-yellow-500 h-3 rounded-full progress-bar" style="width: 6.4%"></div>
+                            </div>
+                            <p id="qpp-percent" class="text-xs text-gray-500 mt-1">6.4% de votre salaire brut</p>
+                        </div>
+
+                        <!-- QPIP + EI -->
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-sm font-semibold text-gray-700">RQAP + AE</span>
+                                <span id="other-tax" class="text-sm font-bold text-purple-600">882 $</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div id="other-bar" class="bg-purple-500 h-3 rounded-full progress-bar" style="width: 1.8%"></div>
+                            </div>
+                            <p id="other-percent" class="text-xs text-gray-500 mt-1">1.8% de votre salaire brut</p>
+                        </div>
+
+                        <!-- Total -->
+                        <div class="pt-3 border-t-2 border-gray-300">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-gray-900">Total des déductions</span>
+                                <span id="total-deductions" class="text-xl font-bold text-red-600">13 701 $</span>
+                            </div>
+                            <p class="text-xs text-gray-600 mt-1">
+                                Taux d'imposition effectif: <strong id="effective-rate">27.4%</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ad Space - Middle -->
+                <div class="bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 p-6 text-center mb-6">
+                    <p class="text-gray-500 font-medium">Espace Publicitaire</p>
+                    <p class="text-sm text-gray-400 mt-2">728x90 - Bannière horizontale</p>
+                </div>
+
+                <!-- Visual Chart -->
+                <div class="bg-white rounded-xl shadow-lg p-6 animate-slide-in" style="animation-delay: 0.4s">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4">Répartition visuelle</h2>
+                    <div class="flex h-12 rounded-lg overflow-hidden">
+                        <div id="chart-net" class="bg-green-500 flex items-center justify-center text-white text-sm font-bold" style="width: 76.5%">
+                            Net 76.5%
+                        </div>
+                        <div id="chart-federal" class="bg-red-500 flex items-center justify-center text-white text-xs" style="width: 10.3%">
+                            Féd
+                        </div>
+                        <div id="chart-provincial" class="bg-blue-500 flex items-center justify-center text-white text-xs" style="width: 9.0%">
+                            Prov
+                        </div>
+                        <div id="chart-other" class="bg-yellow-500 flex items-center justify-center text-white text-xs" style="width: 4.2%">
+                            Autre
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-4 gap-2 mt-4 text-center text-sm">
+                        <div>
+                            <div class="w-4 h-4 bg-green-500 rounded mx-auto mb-1"></div>
+                            <p class="text-gray-600">Salaire Net</p>
+                        </div>
+                        <div>
+                            <div class="w-4 h-4 bg-red-500 rounded mx-auto mb-1"></div>
+                            <p class="text-gray-600">Impôt Fédéral</p>
+                        </div>
+                        <div>
+                            <div class="w-4 h-4 bg-blue-500 rounded mx-auto mb-1"></div>
+                            <p class="text-gray-600">Impôt Provincial</p>
+                        </div>
+                        <div>
+                            <div class="w-4 h-4 bg-yellow-500 rounded mx-auto mb-1"></div>
+                            <p class="text-gray-600">RRQ + RQAP</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Educational Section -->
+        <section class="mt-12 bg-white rounded-xl shadow-lg p-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
+                Comment fonctionne le calcul ?
+            </h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                        <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">Impôt Fédéral</h3>
+                    <p class="text-sm text-gray-600">
+                        Taux progressifs de <strong>15% à 33%</strong> après déduction du montant personnel de base de 15 705 $.
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">Impôt Provincial (Québec)</h3>
+                    <p class="text-sm text-gray-600">
+                        Taux progressifs de <strong>14% à 25,75%</strong> après déduction du montant personnel de base de 18 056 $.
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">Cotisations sociales</h3>
+                    <p class="text-sm text-gray-600">
+                        <strong>RRQ:</strong> 6,4% jusqu'à 68 500 $<br/>
+                        <strong>RQAP:</strong> 0,494%<br/>
+                        <strong>AE:</strong> 1,27%
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-12 text-center text-sm text-gray-500">
+            <p>© 2026 Calculateur d'Impôt Québec. Les calculs sont fournis à titre indicatif seulement.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Simplified tax calculation (approximation)
+        function calculateTaxes(grossIncome) {
+            const federalBasic = 15705;
+            const provincialBasic = 18056;
+            const qppMax = 68500;
+            const qppRate = 0.064;
+            const qpipRate = 0.00494;
+            const eiRate = 0.0127;
+            const eiMax = 63200;
+
+            // Federal tax (simplified progressive)
+            let federalTaxable = Math.max(0, grossIncome - federalBasic);
+            let federalTax = 0;
+            if (federalTaxable <= 55867) {
+                federalTax = federalTaxable * 0.15;
+            } else if (federalTaxable <= 111733) {
+                federalTax = 55867 * 0.15 + (federalTaxable - 55867) * 0.205;
+            } else if (federalTaxable <= 173205) {
+                federalTax = 55867 * 0.15 + 55866 * 0.205 + (federalTaxable - 111733) * 0.26;
+            } else if (federalTaxable <= 246752) {
+                federalTax = 55867 * 0.15 + 55866 * 0.205 + 61472 * 0.26 + (federalTaxable - 173205) * 0.29;
+            } else {
+                federalTax = 55867 * 0.15 + 55866 * 0.205 + 61472 * 0.26 + 73547 * 0.29 + (federalTaxable - 246752) * 0.33;
+            }
+
+            // Provincial tax (simplified progressive)
+            let provincialTaxable = Math.max(0, grossIncome - provincialBasic);
+            let provincialTax = 0;
+            if (provincialTaxable <= 51780) {
+                provincialTax = provincialTaxable * 0.14;
+            } else if (provincialTaxable <= 103545) {
+                provincialTax = 51780 * 0.14 + (provincialTaxable - 51780) * 0.19;
+            } else if (provincialTaxable <= 126000) {
+                provincialTax = 51780 * 0.14 + 51765 * 0.19 + (provincialTaxable - 103545) * 0.24;
+            } else {
+                provincialTax = 51780 * 0.14 + 51765 * 0.19 + 22455 * 0.24 + (provincialTaxable - 126000) * 0.2575;
+            }
+
+            // QPP
+            const qpp = Math.min(grossIncome, qppMax) * qppRate;
+
+            // QPIP
+            const qpip = grossIncome * qpipRate;
+
+            // EI
+            const ei = Math.min(grossIncome, eiMax) * eiRate;
+
+            const totalDeductions = federalTax + provincialTax + qpp + qpip + ei;
+            const netIncome = grossIncome - totalDeductions;
+
+            return {
+                grossIncome,
+                federalTax,
+                provincialTax,
+                qpp,
+                qpip,
+                ei,
+                totalDeductions,
+                netIncome
+            };
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('fr-CA', {
+                style: 'currency',
+                currency: 'CAD',
+                maximumFractionDigits: 0
+            }).format(amount);
+        }
+
+        function updateDisplay(salary) {
+            const results = calculateTaxes(salary);
+
+            // Update salary display
+            document.getElementById('salary-display').textContent = formatCurrency(salary);
+
+            // Update net income
+            document.getElementById('net-income').textContent = formatCurrency(results.netIncome);
+            document.getElementById('monthly').textContent = formatCurrency(results.netIncome / 12);
+            document.getElementById('biweekly').textContent = formatCurrency(results.netIncome / 26);
+            document.getElementById('weekly').textContent = formatCurrency(results.netIncome / 52);
+
+            // Update deductions
+            document.getElementById('federal-tax').textContent = formatCurrency(results.federalTax);
+            document.getElementById('provincial-tax').textContent = formatCurrency(results.provincialTax);
+            document.getElementById('qpp-tax').textContent = formatCurrency(results.qpp);
+            document.getElementById('other-tax').textContent = formatCurrency(results.qpip + results.ei);
+            document.getElementById('total-deductions').textContent = formatCurrency(results.totalDeductions);
+
+            // Update percentages
+            const federalPercent = (results.federalTax / salary * 100).toFixed(1);
+            const provincialPercent = (results.provincialTax / salary * 100).toFixed(1);
+            const qppPercent = (results.qpp / salary * 100).toFixed(1);
+            const otherPercent = ((results.qpip + results.ei) / salary * 100).toFixed(1);
+            const effectiveRate = (results.totalDeductions / salary * 100).toFixed(1);
+
+            document.getElementById('federal-percent').textContent = `${federalPercent}% de votre salaire brut`;
+            document.getElementById('provincial-percent').textContent = `${provincialPercent}% de votre salaire brut`;
+            document.getElementById('qpp-percent').textContent = `${qppPercent}% de votre salaire brut`;
+            document.getElementById('other-percent').textContent = `${otherPercent}% de votre salaire brut`;
+            document.getElementById('effective-rate').textContent = `${effectiveRate}%`;
+
+            // Update progress bars
+            document.getElementById('federal-bar').style.width = `${federalPercent}%`;
+            document.getElementById('provincial-bar').style.width = `${provincialPercent}%`;
+            document.getElementById('qpp-bar').style.width = `${qppPercent}%`;
+            document.getElementById('other-bar').style.width = `${otherPercent}%`;
+
+            // Update visual chart
+            const netPercent = (results.netIncome / salary * 100).toFixed(1);
+            document.getElementById('chart-net').style.width = `${netPercent}%`;
+            document.getElementById('chart-net').textContent = `Net ${netPercent}%`;
+            document.getElementById('chart-federal').style.width = `${federalPercent}%`;
+            document.getElementById('chart-provincial').style.width = `${provincialPercent}%`;
+            document.getElementById('chart-other').style.width = `${(parseFloat(qppPercent) + parseFloat(otherPercent)).toFixed(1)}%`;
+        }
+
+        // Event listeners
+        const slider = document.getElementById('salary-slider');
+        const input = document.getElementById('salary-input');
+
+        slider.addEventListener('input', (e) => {
+            const value = parseInt(e.target.value);
+            input.value = value;
+            updateDisplay(value);
+        });
+
+        input.addEventListener('input', (e) => {
+            const value = parseInt(e.target.value) || 20000;
+            slider.value = value;
+            updateDisplay(value);
+        });
+
+        // Initial calculation
+        updateDisplay(50000);
+    </script>
+</body>
+</html>

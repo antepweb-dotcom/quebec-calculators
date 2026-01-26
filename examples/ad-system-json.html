@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reklam Sistemi - JSON Yöntemi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="max-w-6xl mx-auto p-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8">🎯 Reklam Sistemi - JSON Dosyası Yöntemi</h1>
+        
+        <!-- Açıklama -->
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8 rounded-lg">
+            <h2 class="text-xl font-bold text-blue-900 mb-2">Nasıl Çalışır?</h2>
+            <ul class="list-disc list-inside text-blue-800 space-y-2">
+                <li>Reklam ayarları <code class="bg-blue-100 px-2 py-1 rounded">public/ads-config.json</code> dosyasında saklanır</li>
+                <li>Admin panelinden değişiklik yapınca JSON dosyası güncellenir</li>
+                <li>Sayfalar yüklenirken JSON dosyası okunur</li>
+                <li>Veritabanı gerekmez, basit ve hızlı</li>
+                <li>⚠️ Dezavantaj: Çok yüksek trafikte performans sorunu olabilir</li>
+            </ul>
+        </div>
+
+        <!-- Örnek JSON Yapısı -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">📄 ads-config.json Örneği</h3>
+            <pre class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto"><code>{
+  "enabled": true,
+  "frequency": "medium",
+  "slots": {
+    "header": {
+      "enabled": true,
+      "adId": "ca-pub-1234567890",
+      "position": "top"
+    },
+    "sidebar": {
+      "enabled": true,
+      "adId": "1234567890",
+      "position": "right"
+    },
+    "inArticle": {
+      "enabled": true,
+      "adId": "0987654321",
+      "position": "middle"
+    }
+  },
+  "pages": {
+    "salaire-net-quebec": true,
+    "calcul-hypotheque": true,
+    "tps-tvq-quebec": true,
+    "all": true
+  }
+}</code></pre>
+        </div>
+
+        <!-- Örnek Sayfa Görünümü -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">👁️ Sayfa Görünümü Örneği</h3>
+            
+            <!-- Header Reklam -->
+            <div class="bg-gradient-to-r from-purple-100 to-pink-100 border-2 border-dashed border-purple-300 rounded-lg p-8 mb-6 text-center">
+                <p class="text-purple-700 font-bold mb-2">📢 HEADER REKLAM ALANI</p>
+                <p class="text-sm text-purple-600">728x90 Banner</p>
+                <p class="text-xs text-purple-500 mt-2">ID: ca-pub-1234567890</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <!-- Ana İçerik -->
+                <div class="lg:col-span-3 space-y-6">
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <h4 class="text-xl font-bold text-gray-900 mb-4">Hesaplayıcı İçeriği</h4>
+                        <div class="space-y-3">
+                            <div class="h-12 bg-gray-200 rounded animate-pulse"></div>
+                            <div class="h-12 bg-gray-200 rounded animate-pulse"></div>
+                            <div class="h-12 bg-gray-200 rounded animate-pulse"></div>
+                        </div>
+                    </div>
+
+                    <!-- İçerik Arası Reklam -->
+                    <div class="bg-gradient-to-r from-green-100 to-blue-100 border-2 border-dashed border-green-300 rounded-lg p-8 text-center">
+                        <p class="text-green-700 font-bold mb-2">📢 İÇERİK ARASI REKLAM</p>
+                        <p class="text-sm text-green-600">Native Ad / 300x250</p>
+                        <p class="text-xs text-green-500 mt-2">ID: 0987654321</p>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <div class="space-y-3">
+                            <div class="h-12 bg-gray-200 rounded animate-pulse"></div>
+                            <div class="h-12 bg-gray-200 rounded animate-pulse"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Reklam -->
+                <div class="lg:col-span-1">
+                    <div class="bg-gradient-to-b from-orange-100 to-yellow-100 border-2 border-dashed border-orange-300 rounded-lg p-6 text-center sticky top-4">
+                        <p class="text-orange-700 font-bold mb-2">📢 SIDEBAR REKLAM</p>
+                        <p class="text-sm text-orange-600">300x600</p>
+                        <p class="text-xs text-orange-500 mt-2">ID: 1234567890</p>
+                        <div class="mt-4 h-64 bg-orange-200 rounded"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Endpoint Örnekleri -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mt-8">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">🔌 API Endpoints</h3>
+            <div class="space-y-4">
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <p class="text-sm font-mono text-gray-600 mb-2">GET /api/ads/config</p>
+                    <p class="text-xs text-gray-500">Reklam ayarlarını getir</p>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <p class="text-sm font-mono text-gray-600 mb-2">POST /api/ads/config</p>
+                    <p class="text-xs text-gray-500">Reklam ayarlarını güncelle (Admin only)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Avantajlar/Dezavantajlar -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+            <div class="bg-green-50 border border-green-200 rounded-xl p-6">
+                <h3 class="text-lg font-bold text-green-900 mb-4">✅ Avantajlar</h3>
+                <ul class="space-y-2 text-green-800">
+                    <li>✓ Kolay kurulum</li>
+                    <li>✓ Veritabanı gerekmez</li>
+                    <li>✓ Hızlı geliştirme</li>
+                    <li>✓ Basit yedekleme</li>
+                    <li>✓ Düşük maliyet</li>
+                </ul>
+            </div>
+            <div class="bg-red-50 border border-red-200 rounded-xl p-6">
+                <h3 class="text-lg font-bold text-red-900 mb-4">⚠️ Dezavantajlar</h3>
+                <ul class="space-y-2 text-red-800">
+                    <li>✗ Yüksek trafikte yavaş</li>
+                    <li>✗ Eşzamanlı yazma sorunu</li>
+                    <li>✗ Gelişmiş sorgulama yok</li>
+                    <li>✗ Ölçeklenebilirlik sınırlı</li>
+                    <li>✗ Geçmiş takibi zor</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
