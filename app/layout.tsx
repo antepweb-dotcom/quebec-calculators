@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
+import GlobalWrapper from '@/components/GlobalWrapper'
+import AnalyticsTracker from '@/components/AnalyticsTracker'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,7 +24,10 @@ export default function RootLayout({
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
           <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
         )}
-        {children}
+        <AnalyticsTracker />
+        <GlobalWrapper>
+          {children}
+        </GlobalWrapper>
       </body>
     </html>
   )

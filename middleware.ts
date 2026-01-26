@@ -1,50 +1,30 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+
+const SESSION_COOKIE_NAME = 'admin_session'
+const SESSION_TOKEN = 'authenticated'
 
 export function middleware(request: NextRequest) {
   // Only protect /admin routes
   if (request.nextUrl.pathname.startsWith('/admin')) {
-    const authHeader = request.headers.get('authorization');
+    // Check for session cookie
+    const sessionCookie = request.cookies.get(SESSION_COOKIE_NAME)
     
-    // Hardcoded credentials (no database yet)
-    const validUser = 'admin';
-    const validPassword = 'quebec-master-2026';
-    
-    if (!authHeader) {
-      // No auth header - trigger browser login popup
-      return new NextResponse('Authentication required', {
-        status: 401,
-        headers: {
-          'WWW-Authenticate': 'Basic realm="Admin Panel"',
-        },
-      });
+    // If no cookie or invalid token, redirect to login
+    if (!sessionCookie || sessionCookie.value !== SESSION_TOKEN) {
+      const loginUrl = new URL('/login', request.url)
+      return NextResponse.redirect(loginUrl)
     }
     
-    // Parse Basic Auth header
-    const base64Credentials = authHeader.split(' ')[1];
-    const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
-    const [username, password] = credentials.split(':');
-    
-    // Validate credentials
-    if (username === validUser && password === validPassword) {
-      // Credentials valid - allow access
-      return NextResponse.next();
-    } else {
-      // Invalid credentials - trigger login popup again
-      return new NextResponse('Invalid credentials', {
-        status: 401,
-        headers: {
-          'WWW-Authenticate': 'Basic realm="Admin Panel"',
-        },
-      });
-    }
+    // Cookie valid - allow access
+    return NextResponse.next()
   }
   
   // Allow all other routes
-  return NextResponse.next();
+  return NextResponse.next()
 }
 
 // Configure which routes to run middleware on
 export const config = {
   matcher: '/admin/:path*',
-};
+}

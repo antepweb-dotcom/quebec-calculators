@@ -6,19 +6,23 @@ datasource db {
   provider = "postgresql"
 }
 
-// Site Ayarları (Reklamlar, Uyarılar)
+// Site Configuration (Ads, Alerts)
 model SiteConfig {
   id             Int     @id @default(1)
   isAdsEnabled   Boolean @default(true)
-  adSenseId      String  @default("")
-  bannerSlotId   String  @default("")
+  adSenseId      String  @default("ca-pub-XXXXXXXXXXXXXXXX") // Client ID
+  bannerSlotId   String  @default("") // Top Banner
+  sidebarSlotId  String  @default("") // Sidebar Box
   alertMessage   String  @default("")
   isAlertActive  Boolean @default(false)
 }
 
-// Basit Analitik (Hangi sayfa gezildi?)
+// Analytics (Page Visit Tracking)
 model Analytics {
   id        String   @id @default(uuid())
-  path      String
+  path      String   // e.g., "/calcul-impot"
   createdAt DateTime @default(now())
+  
+  @@index([path])
+  @@index([createdAt])
 }
