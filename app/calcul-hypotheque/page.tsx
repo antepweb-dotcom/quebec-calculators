@@ -33,18 +33,23 @@ export default function MortgagePage() {
         <div className="grid lg:grid-cols-4 gap-6 mb-12">
           <div className="lg:col-span-3">
             <MortgageCalculator />
+            
+            {/* Mobile Ad - Only visible on mobile, replaces sidebar */}
+            <div className="lg:hidden mt-8 flex justify-center">
+              <AdSlot position="inArticle" />
+            </div>
           </div>
           
-          {/* Sidebar Ad */}
-          <div className="lg:col-span-1">
+          {/* Sidebar Ad - Hidden on mobile */}
+          <div className="hidden lg:block lg:col-span-1">
             <div className="sticky top-6">
               <AdSlot position="sidebar" />
             </div>
           </div>
         </div>
 
-        {/* In-Article Ad */}
-        <div className="mb-12 flex justify-center">
+        {/* In-Article Ad - Desktop only (mobile has one above) */}
+        <div className="hidden lg:flex mb-12 justify-center">
           <AdSlot position="inArticle" />
         </div>
 

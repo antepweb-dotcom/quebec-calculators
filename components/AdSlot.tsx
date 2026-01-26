@@ -73,25 +73,28 @@ export default function AdSlot({
 
   // AdSense
   if (adConfig.type === 'adsense' && adConfig.adId) {
+    const responsiveClass = getResponsiveClass(position, adConfig.size || '300x250');
+    
     return (
       <div className={`ad-slot ad-slot-${position} ${className}`}>
         <div className="text-xs text-gray-400 text-center mb-1">Publicité</div>
         <div 
-          className="bg-gray-100 border border-gray-200 rounded-lg flex items-center justify-center"
-          style={getSizeStyle(adConfig.size || '300x250')}
+          className={`bg-gray-100 border border-gray-200 rounded-lg flex items-center justify-center ${responsiveClass}`}
         >
           {/* AdSense placeholder - gerçek AdSense kodu buraya gelecek */}
           <div className="text-center p-4">
             <p className="text-sm text-gray-500 font-medium">AdSense Slot</p>
             <p className="text-xs text-gray-400 mt-1">{adConfig.adId}</p>
-            <p className="text-xs text-gray-400">{adConfig.size}</p>
+            <p className="text-xs text-gray-400 hidden md:block">{adConfig.size}</p>
+            <p className="text-xs text-gray-400 md:hidden">Responsive</p>
           </div>
           {/* Gerçek kullanım:
           <ins className="adsbygoogle"
                style={{ display: 'block' }}
                data-ad-client={adConfig.adId}
                data-ad-slot="..."
-               data-ad-format="auto"></ins>
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
           */}
         </div>
       </div>
@@ -126,6 +129,32 @@ function getSizeStyle(size: string): React.CSSProperties {
   };
 
   return sizeMap[size] || { width: '300px', height: '250px' };
+}
+
+// Responsive class helper - mobilde uygun boyutlar
+function getResponsiveClass(position: string, size: string): string {
+  // Sidebar - mobilde gizle veya küçült
+  if (position === 'sidebar') {
+    return 'hidden lg:block lg:w-[300px] lg:h-[600px]';
+  }
+  
+  // Header - mobilde 320x50, desktop'ta 728x90
+  if (position === 'header') {
+    return 'w-full h-[50px] md:w-[728px] md:h-[90px] max-w-full';
+  }
+  
+  // In-article - her yerde 300x250
+  if (position === 'inArticle') {
+    return 'w-full max-w-[300px] h-[250px]';
+  }
+  
+  // Footer - header ile aynı
+  if (position === 'footer') {
+    return 'w-full h-[50px] md:w-[728px] md:h-[90px] max-w-full';
+  }
+  
+  // Default - responsive
+  return 'w-full max-w-[300px] h-[250px]';
 }
 
 // Basit HTML sanitization (XSS koruması)
