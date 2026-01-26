@@ -1,31 +1,33 @@
-import { getSiteConfig } from '@/app/actions/adminActions';
+import { getAlertConfig, siteConfig } from '@/app/site-config';
 import Script from 'next/script';
 
 export default async function GlobalWrapper({ children }: { children: React.ReactNode }) {
-  let config = null;
-  
-  try {
-    config = await getSiteConfig();
-  } catch (error) {
-    console.error('Failed to load site config:', error);
-    // Gracefully handle error - site will work without config
-  }
+  const alert = getAlertConfig();
+  const ads = siteConfig.ads;
+
+  // Alert color mapping
+  const alertColors = {
+    info: 'bg-blue-600',
+    warning: 'bg-yellow-600',
+    error: 'bg-red-600',
+    success: 'bg-green-600'
+  };
 
   return (
     <>
       {/* Alert Banner */}
-      {config?.isAlertActive && config?.alertMessage && (
-        <div className="bg-blue-600 text-white px-4 py-3 text-center">
-          <p className="text-sm font-medium">{config.alertMessage}</p>
+      {alert.isActive && alert.message && (
+        <div className={`${alertColors[alert.type]} text-white px-4 py-3 text-center`}>
+          <p className="text-sm font-medium">{alert.message}</p>
         </div>
       )}
 
       {/* Google AdSense Script */}
-      {config?.isAdsEnabled && config?.adSenseId && (
+      {ads.isEnabled && ads.googleAdSenseId && (
         <>
           <Script
             async
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${config.adSenseId}`}
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ads.googleAdSenseId}`}
             crossOrigin="anonymous"
             strategy="afterInteractive"
           />

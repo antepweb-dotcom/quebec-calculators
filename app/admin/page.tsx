@@ -2,38 +2,37 @@ import {
   LayoutDashboard, DollarSign, Bell, Lock, Users, TrendingUp,
   Calculator, MousePointerClick, Settings, BarChart3, Eye, Activity
 } from 'lucide-react';
+import { Suspense } from 'react';
 import AdminClient from '@/app/admin/AdminClient';
 import LogoutButton from '@/app/admin/LogoutButton';
 import TrafficChart from '@/app/admin/TrafficChart';
+import LiveStats from '@/components/LiveStats';
+import { getAnalyticsData, siteConfig } from '@/app/site-config';
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboard() {
-  // Static mock data (no database)
+  // Get data from centralized config
+  const analytics = getAnalyticsData();
+  
   const stats = {
-    visitors: 1240,
-    revenue: 45.20,
-    topTool: "Calcul Hypothèque",
-    totalViews: 49820,
-    recentViews: 38640,
-    topPaths: [
-      { path: '/salaire-net-quebec', count: 8420 },
-      { path: '/calcul-hypotheque', count: 7850 },
-      { path: '/tps-tvq-quebec', count: 5240 },
-      { path: '/capacite-emprunt', count: 4680 },
-      { path: '/pret-auto', count: 3920 }
-    ]
+    visitors: analytics.totalVisitors,
+    revenue: analytics.monthlyRevenue,
+    topTool: analytics.topTool,
+    totalViews: analytics.totalViews,
+    recentViews: analytics.recentViews,
+    topPaths: analytics.topPaths
   };
 
   const config = {
     id: 1,
-    isAdsEnabled: true,
-    adSenseId: 'ca-pub-XXXXXXXXXXXXXXXX',
+    isAdsEnabled: siteConfig.ads.isEnabled,
+    adSenseId: siteConfig.ads.googleAdSenseId,
     bannerSlotId: '',
     sidebarSlotId: '',
-    alertMessage: '',
-    isAlertActive: false
+    alertMessage: siteConfig.alert.message,
+    isAlertActive: siteConfig.alert.isActive
   };
 
   // Calculate derived stats
@@ -92,6 +91,20 @@ export default async function AdminDashboard() {
         <div className="p-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-8">Overview 💸</h2>
           
+          {/* Live Stats - Real-time Active Users */}
+          <div className="mb-8">
+            <Suspense fallback={
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 shadow-sm border border-green-200">
+                <div className="animate-pulse">
+                  <div className="h-6 bg-green-200 rounded w-32 mb-4"></div>
+                  <div className="h-12 bg-green-200 rounded w-24"></div>
+                </div>
+              </div>
+            }>
+              <LiveStats initialActiveUsers={0} />
+            </Suspense>
+          </div>
+
           {/* Hero Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">

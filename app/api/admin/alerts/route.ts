@@ -1,45 +1,37 @@
 import { NextResponse } from 'next/server'
-import fs from 'fs'
-import path from 'path'
+import { getAlertConfig } from '@/app/site-config'
 
-const ALERTS_PATH = path.join(process.cwd(), 'public', 'alerts-config.json')
-
-// Initialize alerts config if it doesn't exist
-function initAlertsConfig() {
-  if (!fs.existsSync(ALERTS_PATH)) {
-    const defaultConfig = {
-      enabled: false,
-      message: '',
-      color: 'info',
-      updatedAt: new Date().toISOString()
-    }
-    fs.writeFileSync(ALERTS_PATH, JSON.stringify(defaultConfig, null, 2))
-  }
-}
-
+/**
+ * GET /api/admin/alerts
+ * Returns alert configuration from site-config.ts
+ */
 export async function GET() {
   try {
-    initAlertsConfig()
-    const data = fs.readFileSync(ALERTS_PATH, 'utf8')
-    const config = JSON.parse(data)
-    return NextResponse.json(config)
+    const alert = getAlertConfig()
+    return NextResponse.json({
+      enabled: alert.isActive,
+      message: alert.message,
+      color: alert.type,
+      updatedAt: new Date().toISOString()
+    })
   } catch (error) {
     return NextResponse.json({ error: 'Failed to read alerts config' }, { status: 500 })
   }
 }
 
+/**
+ * POST /api/admin/alerts
+ * Note: In stateless architecture, config changes require editing site-config.ts
+ */
 export async function POST(request: Request) {
   try {
     const body = await request.json()
     
-    const updatedConfig = {
-      ...body,
-      updatedAt: new Date().toISOString()
-    }
-    
-    fs.writeFileSync(ALERTS_PATH, JSON.stringify(updatedConfig, null, 2))
-    
-    return NextResponse.json({ success: true, config: updatedConfig })
+    return NextResponse.json({ 
+      success: false,
+      message: 'Alert configuration is managed in app/site-config.ts. Please edit the file directly and redeploy.',
+      receivedConfig: body
+    })
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update alerts config' }, { status: 500 })
   }

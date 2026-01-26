@@ -2,9 +2,8 @@
 
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { validateAdminPassword } from '@/app/site-config'
 
-// Hardcoded credentials for admin panel
-const ADMIN_PASSWORD = 'quebec2026'
 const SESSION_COOKIE_NAME = 'admin_session'
 const SESSION_TOKEN = 'authenticated'
 
@@ -15,8 +14,8 @@ const SESSION_TOKEN = 'authenticated'
 export async function login(formData: FormData) {
   const password = formData.get('password') as string
 
-  // Check password
-  if (password !== ADMIN_PASSWORD) {
+  // Check password using centralized config
+  if (!validateAdminPassword(password)) {
     redirect('/login?error=true')
   }
 

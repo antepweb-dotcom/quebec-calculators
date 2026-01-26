@@ -1,46 +1,45 @@
-import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { NextResponse } from 'next/server'
+import { siteConfig } from '@/app/site-config'
 
-const CONFIG_PATH = path.join(process.cwd(), 'public', 'ads-config.json');
-
-// GET - Reklam config'ini getir
+/**
+ * GET /api/ads/config
+ * Returns ads configuration from site-config.ts
+ */
 export async function GET() {
   try {
-    const fileContent = fs.readFileSync(CONFIG_PATH, 'utf-8');
-    const config = JSON.parse(fileContent);
-    
-    return NextResponse.json(config);
+    return NextResponse.json({
+      enabled: siteConfig.ads.isEnabled,
+      googleAdSenseId: siteConfig.ads.googleAdSenseId,
+      slots: siteConfig.ads.slots
+    })
   } catch (error) {
-    console.error('Error reading ads config:', error);
+    console.error('Error reading ads config:', error)
     return NextResponse.json(
       { error: 'Failed to load ads configuration' },
       { status: 500 }
-    );
+    )
   }
 }
 
-// POST - Reklam config'ini güncelle (Admin only)
+/**
+ * POST /api/ads/config
+ * Note: In stateless architecture, config changes require editing site-config.ts
+ * This endpoint returns a message indicating manual update is required
+ */
 export async function POST(request: Request) {
   try {
-    const newConfig = await request.json();
-    
-    // Timestamp ekle
-    newConfig.updatedAt = new Date().toISOString();
-    
-    // Dosyaya yaz
-    fs.writeFileSync(CONFIG_PATH, JSON.stringify(newConfig, null, 2), 'utf-8');
+    const newConfig = await request.json()
     
     return NextResponse.json({ 
-      success: true, 
-      message: 'Ads configuration updated successfully',
-      config: newConfig
-    });
+      success: false,
+      message: 'Configuration is managed in app/site-config.ts. Please edit the file directly and redeploy.',
+      receivedConfig: newConfig
+    }, { status: 200 })
   } catch (error) {
-    console.error('Error updating ads config:', error);
+    console.error('Error updating ads config:', error)
     return NextResponse.json(
       { error: 'Failed to update ads configuration' },
       { status: 500 }
-    );
+    )
   }
 }

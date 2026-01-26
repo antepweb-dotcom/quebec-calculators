@@ -1,10 +1,11 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import { getAnalyticsData, siteConfig } from '@/app/site-config'
 
 /**
  * Get dashboard statistics
- * Returns mock data for demo purposes (no database)
+ * Returns data from site-config.ts (stateless architecture)
  */
 export async function getDashboardStats(): Promise<{
   totalViews: number
@@ -12,14 +13,7 @@ export async function getDashboardStats(): Promise<{
   topPaths: Array<{ path: string; count: number }>
   dailyViews: Array<{ date: Date; count: number }>
 }> {
-  // Mock data for demonstration
-  const mockTopPaths = [
-    { path: '/salaire-net-quebec', count: 8420 },
-    { path: '/calcul-hypotheque', count: 7850 },
-    { path: '/tps-tvq-quebec', count: 5240 },
-    { path: '/capacite-emprunt', count: 4680 },
-    { path: '/pret-auto', count: 3920 }
-  ]
+  const analytics = getAnalyticsData()
 
   // Generate mock daily views for last 30 days
   const mockDailyViews = Array.from({ length: 30 }, (_, i) => ({
@@ -28,27 +22,26 @@ export async function getDashboardStats(): Promise<{
   }))
 
   return {
-    totalViews: 49820,
-    recentViews: 38640,
-    topPaths: mockTopPaths,
+    totalViews: analytics.totalViews,
+    recentViews: analytics.recentViews,
+    topPaths: analytics.topPaths,
     dailyViews: mockDailyViews
   }
 }
 
 /**
  * Get site configuration
- * Returns default config (no database)
+ * Returns config from site-config.ts (stateless architecture)
  */
 export async function getSiteConfig() {
-  // Return default configuration
   return {
     id: 1,
-    isAdsEnabled: true,
-    adSenseId: 'ca-pub-XXXXXXXXXXXXXXXX',
+    isAdsEnabled: siteConfig.ads.isEnabled,
+    adSenseId: siteConfig.ads.googleAdSenseId,
     bannerSlotId: '',
     sidebarSlotId: '',
-    alertMessage: '',
-    isAlertActive: false
+    alertMessage: siteConfig.alert.message,
+    isAlertActive: siteConfig.alert.isActive
   }
 }
 

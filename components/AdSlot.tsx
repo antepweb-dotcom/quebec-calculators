@@ -1,20 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
-interface AdConfig {
-  enabled: boolean;
-  type: 'adsense' | 'affiliate' | 'custom';
-  adId?: string;
-  html?: string;
-  size?: string;
-  description?: string;
-}
+import { getAdSlotConfig, type AdSlotConfig } from '@/app/site-config';
 
 interface AdSlotProps {
-  position: 'header' | 'sidebar' | 'inArticle' | 'footer' | 'affiliate1' | 'affiliate2' | string;
+  position: 'header' | 'sidebar' | 'inArticle' | 'footer' | 'affiliate1' | 'affiliate2';
   className?: string;
-  // Manuel override için
+  // Manual override options
   type?: 'adsense' | 'affiliate' | 'custom';
   adId?: string;
   html?: string;
@@ -29,11 +21,11 @@ export default function AdSlot({
   html: manualHtml,
   size: manualSize
 }: AdSlotProps) {
-  const [adConfig, setAdConfig] = useState<AdConfig | null>(null);
+  const [adConfig, setAdConfig] = useState<AdSlotConfig | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Manuel override varsa config'i atla
+    // Manual override - use provided props
     if (manualType) {
       setAdConfig({
         enabled: true,
@@ -46,12 +38,13 @@ export default function AdSlot({
       return;
     }
 
-    // Config'den oku
-    fetch('/ads-config.json')
+    // Load from site-config via API endpoint
+    fetch('/api/ads/config')
       .then(res => res.json())
       .then(data => {
-        if (data.enabled && data.slots[position]) {
-          setAdConfig(data.slots[position]);
+        const slot = data.slots?.[position];
+        if (slot && slot.enabled) {
+          setAdConfig(slot);
         }
         setIsLoading(false);
       })
@@ -61,12 +54,12 @@ export default function AdSlot({
       });
   }, [position, manualType, manualAdId, manualHtml, manualSize]);
 
-  // Yükleniyor
+  // Loading state
   if (isLoading) {
     return null;
   }
 
-  // Reklam kapalı veya config yok
+  // Ad disabled or no config
   if (!adConfig || !adConfig.enabled) {
     return null;
   }
@@ -81,14 +74,14 @@ export default function AdSlot({
         <div 
           className={`bg-gray-100 border border-gray-200 rounded-lg flex items-center justify-center ${responsiveClass}`}
         >
-          {/* AdSense placeholder - gerçek AdSense kodu buraya gelecek */}
+          {/* AdSense placeholder - replace with actual AdSense code */}
           <div className="text-center p-4">
             <p className="text-sm text-gray-500 font-medium">AdSense Slot</p>
             <p className="text-xs text-gray-400 mt-1">{adConfig.adId}</p>
             <p className="text-xs text-gray-400 hidden md:block">{adConfig.size}</p>
             <p className="text-xs text-gray-400 md:hidden">Responsive</p>
           </div>
-          {/* Gerçek kullanım:
+          {/* Real implementation:
           <ins className="adsbygoogle"
                style={{ display: 'block' }}
                data-ad-client={adConfig.adId}
@@ -101,7 +94,7 @@ export default function AdSlot({
     );
   }
 
-  // Affiliate veya Custom HTML
+  // Affiliate or Custom HTML
   if ((adConfig.type === 'affiliate' || adConfig.type === 'custom') && adConfig.html) {
     return (
       <div className={`ad-slot ad-slot-${position} ${className}`}>

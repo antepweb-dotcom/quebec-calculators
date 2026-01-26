@@ -1,0 +1,70 @@
+import { NextResponse } from 'next/server';
+import { BetaAnalyticsDataClient } from '@google-analytics/data';
+
+const propertyId = process.env.GA4_PROPERTY_ID;
+
+// Initialize GA4 client
+let analyticsDataClient: BetaAnalyticsDataClient | null = null;
+
+if (process.env.GA4_CREDENTIALS) {
+  try {
+    const credentials = JSON.parse(process.env.GA4_CREDENTIALS);
+    analyticsDataClient = new BetaAnalyticsDataClient({
+      credentials
+    });
+  } catch (error) {
+    console.error('Failed to initialize GA4 client:', error);
+  }
+}
+
+/**
+ * GET /api/admin/live-stats
+ * Returns real-time active users from Google Analytics 4
+ * Falls back to simulated data if GA4 is not configured
+ */
+export async function GET() {
+  try {
+    // If GA4 is configured, fetch real data
+    if (analyticsDataClient && propertyId) {
+      const [realtimeResponse] = await analyticsDataClient.runRealtimeReport({
+        property: `properties/${propertyId}`,
+        metrics: [{ name: 'activeUsers' }],
+      });
+
+      const activeUsers = parseInt(
+        realtimeResponse.rows?.[0]?.metricValues?.[0]?.value || '0'
+      );
+
+      return NextResponse.json({
+        activeUsers,
+        isRealData: true,
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    // Fallback: Simulated live data (random between 0-20)
+    const simulatedActiveUsers = Math.floor(Math.random() * 20);
+    
+    return NextResponse.json({
+      activeUsers: simulatedActiveUsers,
+      isRealData: false,
+      timestamp: new Date().toISOString(),
+      message: 'GA4 not configured, using simulated data'
+    });
+
+  } catch (error) {
+    console.error('Error fetching live stats:', error);
+    
+    // Return simulated data on error
+    return NextResponse.json({
+      activeUsers: Math.floor(Math.random() * 15),
+      isRealData: false,
+      timestamp: new Date().toISOString(),
+      error: 'Failed to fetch real-time data'
+    });
+  }
+}
+
+// Use Node.js runtime (required for GA4 client)
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
