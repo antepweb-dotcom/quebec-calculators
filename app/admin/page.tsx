@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   LayoutDashboard, 
   DollarSign, 
@@ -153,16 +153,105 @@ export default function AdminDashboard() {
   const [inArticleId, setInArticleId] = useState('0987654321');
   const [adFrequency, setAdFrequency] = useState<'low' | 'medium' | 'high'>('medium');
   
+  // Affiliate/Custom Ads State
+  const [affiliateHtml1, setAffiliateHtml1] = useState('');
+  const [affiliateHtml2, setAffiliateHtml2] = useState('');
+  const [customHtml, setCustomHtml] = useState('');
+  
   // Alerts State
   const [alertEnabled, setAlertEnabled] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [alertColor, setAlertColor] = useState<'info' | 'warning' | 'error'>('info');
 
+  // Load config on mount
+  useEffect(() => {
+    fetch('/api/ads/config')
+      .then(res => res.json())
+      .then(data => {
+        if (data.enabled !== undefined) setAdsEnabled(data.enabled);
+        if (data.frequency) setAdFrequency(data.frequency);
+        if (data.slots?.header?.adId) setHeaderBannerId(data.slots.header.adId);
+        if (data.slots?.sidebar?.adId) setSidebarSquareId(data.slots.sidebar.adId);
+        if (data.slots?.inArticle?.adId) setInArticleId(data.slots.inArticle.adId);
+        if (data.slots?.affiliate1?.html) setAffiliateHtml1(data.slots.affiliate1.html);
+        if (data.slots?.affiliate2?.html) setCustomHtml(data.slots.affiliate2.html);
+      })
+      .catch(err => console.error('Failed to load config:', err));
+  }, []);
+
   const t = translations[language];
 
-  const handleSave = () => {
-    setShowToast(true);
-    setTimeout(() => setShowToast(false), 3000);
+  const handleSave = async () => {
+    try {
+      const config = {
+        enabled: adsEnabled,
+        slots: {
+          header: {
+            enabled: adsEnabled,
+            type: 'adsense',
+            adId: headerBannerId,
+            size: '728x90',
+            description: 'Header banner - top of page'
+          },
+          sidebar: {
+            enabled: adsEnabled,
+            type: 'adsense',
+            adId: sidebarSquareId,
+            size: '300x600',
+            description: 'Sidebar - right column'
+          },
+          inArticle: {
+            enabled: adsEnabled,
+            type: 'adsense',
+            adId: inArticleId,
+            size: '300x250',
+            description: 'In-article - middle of content'
+          },
+          footer: {
+            enabled: false,
+            type: 'adsense',
+            adId: '',
+            size: '728x90',
+            description: 'Footer banner - bottom of page'
+          },
+          affiliate1: {
+            enabled: affiliateHtml1.length > 0,
+            type: 'affiliate',
+            html: affiliateHtml1,
+            size: 'custom',
+            description: 'Custom affiliate slot 1'
+          },
+          affiliate2: {
+            enabled: customHtml.length > 0,
+            type: 'custom',
+            html: customHtml,
+            size: 'custom',
+            description: 'Custom HTML slot 2'
+          }
+        },
+        pages: {
+          all: true,
+          exclude: ['admin']
+        },
+        frequency: adFrequency
+      };
+
+      const response = await fetch('/api/ads/config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(config)
+      });
+
+      if (response.ok) {
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 3000);
+      } else {
+        alert('Kaydetme hatası!');
+      }
+    } catch (error) {
+      console.error('Save error:', error);
+      alert('Kaydetme hatası!');
+    }
   };
 
   const sidebarItems = [
@@ -505,6 +594,41 @@ export default function AdminDashboard() {
                       <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
                         {adFrequency === 'low' ? t.low : adFrequency === 'medium' ? t.medium : t.high}
                       </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Affiliate/Custom Ads Section */}
+                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-6">Affiliate & Custom Ads</h3>
+                  
+                  <div className="space-y-5">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Affiliate Slot 1 (HTML)
+                      </label>
+                      <textarea
+                        value={affiliateHtml1}
+                        onChange={(e) => setAffiliateHtml1(e.target.value)}
+                        placeholder='<a href="https://affiliate.com/ref"><img src="banner.jpg" alt="Ad"/></a>'
+                        rows={4}
+                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none font-mono text-sm"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">Paste your affiliate banner HTML code here</p>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Custom HTML Slot 2
+                      </label>
+                      <textarea
+                        value={customHtml}
+                        onChange={(e) => setCustomHtml(e.target.value)}
+                        placeholder='<!-- Amazon Native Shopping Ads or any custom HTML -->'
+                        rows={4}
+                        className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none font-mono text-sm"
+                      />
+                      <p className="text-xs text-gray-500 mt-1">Any custom HTML/JavaScript code</p>
                     </div>
                   </div>
                 </div>

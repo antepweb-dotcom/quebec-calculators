@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import MortgageCalculator from '@/components/MortgageCalculator'
 import Navbar from '@/components/Navbar'
+import AdSlot from '@/components/AdSlot'
 import { Home, TrendingUp, DollarSign } from 'lucide-react'
 
 export const metadata: Metadata = {
@@ -23,7 +24,29 @@ export default function MortgagePage() {
           </p>
         </header>
 
-        <MortgageCalculator />
+        {/* Header Ad */}
+        <div className="mb-8 flex justify-center">
+          <AdSlot position="header" />
+        </div>
+
+        {/* 2 Column Layout: Calculator + Sidebar Ad */}
+        <div className="grid lg:grid-cols-4 gap-6 mb-12">
+          <div className="lg:col-span-3">
+            <MortgageCalculator />
+          </div>
+          
+          {/* Sidebar Ad */}
+          <div className="lg:col-span-1">
+            <div className="sticky top-6">
+              <AdSlot position="sidebar" />
+            </div>
+          </div>
+        </div>
+
+        {/* In-Article Ad */}
+        <div className="mb-12 flex justify-center">
+          <AdSlot position="inArticle" />
+        </div>
 
         {/* Educational Section - V2 Gold Standard */}
         <section className="mt-12 bg-white rounded-xl shadow-lg p-8">

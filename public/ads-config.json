@@ -1,0 +1,53 @@
+{
+  "enabled": true,
+  "slots": {
+    "header": {
+      "enabled": true,
+      "type": "adsense",
+      "adId": "ca-pub-1234567890",
+      "size": "728x90",
+      "description": "Header banner - top of page"
+    },
+    "sidebar": {
+      "enabled": true,
+      "type": "adsense",
+      "adId": "1234567890",
+      "size": "300x600",
+      "description": "Sidebar - right column"
+    },
+    "inArticle": {
+      "enabled": true,
+      "type": "adsense",
+      "adId": "0987654321",
+      "size": "300x250",
+      "description": "In-article - middle of content"
+    },
+    "footer": {
+      "enabled": false,
+      "type": "adsense",
+      "adId": "",
+      "size": "728x90",
+      "description": "Footer banner - bottom of page"
+    },
+    "affiliate1": {
+      "enabled": false,
+      "type": "affiliate",
+      "html": "",
+      "size": "custom",
+      "description": "Custom affiliate slot 1"
+    },
+    "affiliate2": {
+      "enabled": false,
+      "type": "custom",
+      "html": "",
+      "size": "custom",
+      "description": "Custom HTML slot 2"
+    }
+  },
+  "pages": {
+    "all": true,
+    "exclude": ["admin"]
+  },
+  "frequency": "medium",
+  "updatedAt": "2026-01-26T00:00:00Z"
+}
