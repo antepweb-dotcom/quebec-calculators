@@ -30,24 +30,26 @@
       "description": "Footer banner - bottom of page"
     },
     "affiliate1": {
-      "enabled": false,
+      "enabled": true,
       "type": "affiliate",
-      "html": "",
+      "html": "deneme",
       "size": "custom",
       "description": "Custom affiliate slot 1"
     },
     "affiliate2": {
-      "enabled": false,
+      "enabled": true,
       "type": "custom",
-      "html": "",
+      "html": "deneme",
       "size": "custom",
       "description": "Custom HTML slot 2"
     }
   },
   "pages": {
     "all": true,
-    "exclude": ["admin"]
+    "exclude": [
+      "admin"
+    ]
   },
   "frequency": "medium",
-  "updatedAt": "2026-01-26T00:00:00Z"
+  "updatedAt": "2026-01-26T15:34:41.259Z"
 }

@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import RentCalculator from '@/components/RentCalculator'
 import Navbar from '@/components/Navbar'
+import AdSlot from '@/components/AdSlot'
 import { Scale, FileText, TrendingUp } from 'lucide-react'
 
 export const metadata: Metadata = {
@@ -23,7 +24,34 @@ export default function RentIncreasePage() {
           </p>
         </header>
 
-        <RentCalculator />
+        {/* Header Ad */}
+        <div className="mb-8 flex justify-center">
+          <AdSlot position="header" />
+        </div>
+
+        {/* 2 Column Layout */}
+        <div className="grid lg:grid-cols-4 gap-6 mb-12">
+          <div className="lg:col-span-3">
+            <RentCalculator />
+            
+            {/* Mobile Ad */}
+            <div className="lg:hidden mt-8 flex justify-center">
+              <AdSlot position="inArticle" />
+            </div>
+          </div>
+          
+          {/* Sidebar Ad - Desktop only */}
+          <div className="hidden lg:block lg:col-span-1">
+            <div className="sticky top-6">
+              <AdSlot position="sidebar" />
+            </div>
+          </div>
+        </div>
+
+        {/* In-Article Ad - Desktop only */}
+        <div className="hidden lg:flex mb-12 justify-center">
+          <AdSlot position="inArticle" />
+        </div>
 
         {/* Educational Section - V2 Gold Standard */}
         <section className="mt-12 bg-white rounded-xl shadow-lg p-8">
