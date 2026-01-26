@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
+// Read-only admin panel - no database required
 const SESSION_COOKIE_NAME = 'admin_session'
 const SESSION_TOKEN = 'authenticated'
 
@@ -16,7 +17,7 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(loginUrl)
     }
     
-    // Cookie valid - allow access
+    // Cookie valid - allow access to read-only dashboard
     return NextResponse.next()
   }
   

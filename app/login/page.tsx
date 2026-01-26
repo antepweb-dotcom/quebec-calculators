@@ -1,10 +1,9 @@
 'use client'
 
-import { useFormState, useFormStatus } from 'react-dom'
 import { login } from '@/app/actions/auth'
-import { Lock, User, KeyRound } from 'lucide-react'
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { Lock, KeyRound } from 'lucide-react'
+import { useSearchParams } from 'next/navigation'
+import { useFormStatus } from 'react-dom'
 
 function SubmitButton() {
   const { pending } = useFormStatus()
@@ -22,7 +21,8 @@ function SubmitButton() {
 }
 
 export default function LoginPage() {
-  const [state, formAction] = useFormState(login, null)
+  const searchParams = useSearchParams()
+  const hasError = searchParams.get('error') === 'true'
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 p-4">
@@ -35,7 +35,7 @@ export default function LoginPage() {
               <Lock className="w-8 h-8 text-blue-600" />
             </div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              Admin Panel
+              Outils Financiers Admin
             </h1>
             <p className="text-gray-600">
               Connectez-vous pour accéder au tableau de bord
@@ -43,40 +43,16 @@ export default function LoginPage() {
           </div>
 
           {/* Error Message */}
-          {state?.message && (
+          {hasError && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
               <p className="text-sm text-red-800 font-medium">
-                ⚠️ {state.message}
+                Mot de passe incorrect
               </p>
             </div>
           )}
 
           {/* Login Form */}
-          <form action={formAction} className="space-y-5">
-            {/* Username Field */}
-            <div>
-              <label 
-                htmlFor="username" 
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Nom d'utilisateur
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  autoComplete="username"
-                  required
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                  placeholder="admin"
-                />
-              </div>
-            </div>
-
+          <form action={login} className="space-y-5">
             {/* Password Field */}
             <div>
               <label 
@@ -95,8 +71,9 @@ export default function LoginPage() {
                   name="password"
                   autoComplete="current-password"
                   required
+                  autoFocus
                   className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-                  placeholder="••••••••••••"
+                  placeholder="Entrez le mot de passe"
                 />
               </div>
             </div>
@@ -113,11 +90,14 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Credentials Hint (Remove in production) */}
-        <div className="mt-4 p-4 bg-slate-800 rounded-lg text-center">
-          <p className="text-xs text-slate-400 mb-2">Identifiants de test:</p>
-          <p className="text-sm text-slate-300 font-mono">
-            admin / quebec2026
+        {/* Read-Only Mode Notice */}
+        <div className="mt-4 p-4 bg-slate-800 rounded-lg">
+          <p className="text-xs text-slate-400 mb-2 text-center">Mode Sans Base de Données (Lecture Seule)</p>
+          <p className="text-sm text-slate-300 font-mono text-center mb-2">
+            demo2026
+          </p>
+          <p className="text-xs text-slate-500 text-center">
+            Les modifications ne seront pas sauvegardées
           </p>
         </div>
       </div>

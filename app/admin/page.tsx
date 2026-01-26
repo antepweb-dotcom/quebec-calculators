@@ -2,7 +2,6 @@ import {
   LayoutDashboard, DollarSign, Bell, Lock, Users, TrendingUp,
   Calculator, MousePointerClick, Settings, BarChart3, Eye, Activity
 } from 'lucide-react';
-import { getDashboardStats, getSiteConfig } from '@/app/actions/adminActions';
 import AdminClient from '@/app/admin/AdminClient';
 import LogoutButton from '@/app/admin/LogoutButton';
 import TrafficChart from '@/app/admin/TrafficChart';
@@ -11,22 +10,42 @@ import TrafficChart from '@/app/admin/TrafficChart';
 export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboard() {
-  // Fetch real data from database
-  const [stats, config] = await Promise.all([
-    getDashboardStats(),
-    getSiteConfig()
-  ]);
+  // Static mock data (no database)
+  const stats = {
+    visitors: 1240,
+    revenue: 45.20,
+    topTool: "Calcul Hypothèque",
+    totalViews: 49820,
+    recentViews: 38640,
+    topPaths: [
+      { path: '/salaire-net-quebec', count: 8420 },
+      { path: '/calcul-hypotheque', count: 7850 },
+      { path: '/tps-tvq-quebec', count: 5240 },
+      { path: '/capacite-emprunt', count: 4680 },
+      { path: '/pret-auto', count: 3920 }
+    ]
+  };
+
+  const config = {
+    id: 1,
+    isAdsEnabled: true,
+    adSenseId: 'ca-pub-XXXXXXXXXXXXXXXX',
+    bannerSlotId: '',
+    sidebarSlotId: '',
+    alertMessage: '',
+    isAlertActive: false
+  };
 
   // Calculate derived stats
-  const estimatedRevenue = stats.recentViews * 0.025;
+  const estimatedRevenue = stats.revenue;
   const estimatedClicks = Math.floor(stats.recentViews * 0.024);
   const ctr = 2.4;
 
-  // Format daily views for chart
-  const chartData = stats.dailyViews.map((item, index) => ({
+  // Generate mock daily views for chart (last 30 days)
+  const chartData = Array.from({ length: 30 }, (_, index) => ({
     day: index + 1,
-    traffic: item.count,
-    revenue: item.count * 0.025
+    traffic: Math.floor(1200 + Math.random() * 1500),
+    revenue: (Math.floor(1200 + Math.random() * 1500)) * 0.025
   }));
 
   return (
@@ -161,17 +180,7 @@ export default async function AdminDashboard() {
             </div>
           )}
 
-          {/* Empty State */}
-          {stats.totalViews === 0 && (
-            <div className="bg-white rounded-xl p-12 shadow-sm border border-gray-200 text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
-                <BarChart3 className="w-8 h-8 text-gray-400" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">No Data Yet</h3>
-              <p className="text-gray-600 mb-4">Start visiting pages to see analytics data here.</p>
-              <p className="text-sm text-gray-500">Database is connected and ready to track visits.</p>
-            </div>
-          )}
+
 
           {/* Client-side interactive components */}
           <AdminClient config={config} />

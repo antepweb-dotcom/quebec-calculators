@@ -3,35 +3,21 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-// Hardcoded credentials (in production, use environment variables and hashed passwords)
-const ADMIN_USERNAME = 'admin'
-const ADMIN_PASSWORD = 'quebec2026'
+// Hardcoded credentials for read-only admin panel
+const ADMIN_PASSWORD = 'demo2026'
 const SESSION_COOKIE_NAME = 'admin_session'
 const SESSION_TOKEN = 'authenticated'
 
-interface LoginState {
-  message?: string
-}
-
 /**
  * Login server action
- * Validates credentials and sets secure cookie
+ * Validates password and sets secure cookie
  */
-export async function login(
-  prevState: LoginState | null,
-  formData: FormData
-): Promise<LoginState> {
-  const username = formData.get('username') as string
+export async function login(formData: FormData) {
   const password = formData.get('password') as string
 
-  // Validate inputs
-  if (!username || !password) {
-    return { message: 'Veuillez remplir tous les champs' }
-  }
-
-  // Check credentials
-  if (username !== ADMIN_USERNAME || password !== ADMIN_PASSWORD) {
-    return { message: 'Mot de passe incorrect' }
+  // Check password
+  if (password !== ADMIN_PASSWORD) {
+    redirect('/login?error=true')
   }
 
   // Set secure HTTPOnly cookie

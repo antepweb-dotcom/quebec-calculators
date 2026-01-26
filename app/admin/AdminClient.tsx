@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useTransition } from 'react';
-import { Save, Bell } from 'lucide-react';
-import { updateSiteConfig } from '@/app/actions/adminActions';
+import { useState } from 'react';
+import { Save, Bell, Info } from 'lucide-react';
 
 interface AdminClientProps {
   config: {
@@ -17,9 +16,7 @@ interface AdminClientProps {
 }
 
 export default function AdminClient({ config }: AdminClientProps) {
-  const [isPending, startTransition] = useTransition();
   const [showToast, setShowToast] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   // Form state
   const [adsEnabled, setAdsEnabled] = useState(config.isAdsEnabled);
@@ -31,41 +28,41 @@ export default function AdminClient({ config }: AdminClientProps) {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setError(null);
-
-    const formData = new FormData();
-    formData.append('adsEnabled', String(adsEnabled));
-    formData.append('adSenseId', adSenseId);
-    formData.append('bannerSlotId', bannerSlotId);
-    formData.append('sidebarSlotId', sidebarSlotId);
-    formData.append('alertActive', String(alertActive));
-    formData.append('alertMessage', alertMessage);
-
-    startTransition(async () => {
-      const result = await updateSiteConfig(formData);
-      
-      if (result.success) {
-        setShowToast(true);
-        setTimeout(() => setShowToast(false), 3000);
-      } else {
-        setError(result.error || 'Failed to save changes');
-      }
+    
+    // Read-only mode - just log to console
+    console.log('Saved locally (read-only mode):', {
+      adsEnabled,
+      adSenseId,
+      bannerSlotId,
+      sidebarSlotId,
+      alertActive,
+      alertMessage
     });
+    
+    // Show success toast
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 3000);
   }
 
   return (
     <>
+      {/* Read-Only Mode Banner */}
+      <div className="mb-6 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-lg">
+        <div className="flex items-center gap-3">
+          <Info className="w-5 h-5 text-blue-600 flex-shrink-0" />
+          <div>
+            <h4 className="text-sm font-semibold text-blue-900">Mode Sans Base de Données (Lecture Seule)</h4>
+            <p className="text-sm text-blue-700 mt-1">
+              Les modifications ne seront pas sauvegardées. Les données sont affichées à partir de fichiers JSON statiques.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Toast Notification */}
       {showToast && (
         <div className="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-in">
-          ✓ Changes saved successfully!
-        </div>
-      )}
-
-      {/* Error Message */}
-      {error && (
-        <div className="fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
-          ✗ {error}
+          ✓ Logged to console (read-only mode)
         </div>
       )}
 
@@ -103,7 +100,6 @@ export default function AdminClient({ config }: AdminClientProps) {
                   onChange={(e) => setAdSenseId(e.target.value)}
                   placeholder="ca-pub-xxxxxxxxxxxxxxxx"
                   className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  disabled={isPending}
                 />
               </div>
 
@@ -117,7 +113,6 @@ export default function AdminClient({ config }: AdminClientProps) {
                   onChange={(e) => setBannerSlotId(e.target.value)}
                   placeholder="1234567890"
                   className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  disabled={isPending}
                 />
               </div>
 
@@ -131,7 +126,6 @@ export default function AdminClient({ config }: AdminClientProps) {
                   onChange={(e) => setSidebarSlotId(e.target.value)}
                   placeholder="9876543210"
                   className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  disabled={isPending}
                 />
               </div>
             </div>
@@ -169,7 +163,6 @@ export default function AdminClient({ config }: AdminClientProps) {
                 placeholder="Important announcement..."
                 rows={3}
                 className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                disabled={isPending}
               />
             </div>
 
@@ -191,11 +184,10 @@ export default function AdminClient({ config }: AdminClientProps) {
         {/* Save Button */}
         <button
           type="submit"
-          disabled={isPending}
-          className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors shadow-sm"
+          className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-sm"
         >
           <Save className="w-5 h-5" />
-          {isPending ? 'Saving...' : 'Save All Changes'}
+          Save to Console (Read-Only)
         </button>
       </form>
     </>
