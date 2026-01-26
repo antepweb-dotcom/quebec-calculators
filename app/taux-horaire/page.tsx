@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
+import AdSlot from '@/components/AdSlot'
 import WageConverter from '@/components/WageConverter'
 
 export const metadata: Metadata = {
@@ -13,7 +14,6 @@ export default function WageConverterPage() {
       <Navbar />
       <main className="min-h-screen bg-gradient-to-br from-cyan-50 to-blue-100">
         <div className="container mx-auto px-4 py-12 max-w-7xl">
-          {/* Header */}
           <header className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Convertisseur de Taux Horaire
@@ -23,8 +23,15 @@ export default function WageConverterPage() {
             </p>
           </header>
 
-          {/* Calculator */}
-          <WageConverter />
+          <div className="mb-8 flex justify-center"><AdSlot position="header" /></div>
+          <div className="grid lg:grid-cols-4 gap-6 mb-12">
+            <div className="lg:col-span-3">
+              <WageConverter />
+              <div className="lg:hidden mt-8 flex justify-center"><AdSlot position="inArticle" /></div>
+            </div>
+            <div className="hidden lg:block lg:col-span-1"><div className="sticky top-6"><AdSlot position="sidebar" /></div></div>
+          </div>
+          <div className="hidden lg:flex mb-12 justify-center"><AdSlot position="inArticle" /></div>
 
           {/* Info Section */}
           <section className="mt-12 bg-white rounded-xl shadow-lg p-8">

@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import Navbar from '@/components/Navbar'
+import AdSlot from '@/components/AdSlot'
 import VacationPayCalculator from '@/components/VacationPayCalculator'
 import { Calendar, Percent, CheckCircle } from 'lucide-react'
 
@@ -14,7 +15,6 @@ export default function VacationPayPage() {
       <Navbar />
       <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="container mx-auto px-4 py-12 max-w-7xl">
-          {/* Header */}
           <header className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Calculateur de Paie de Vacances
@@ -24,8 +24,15 @@ export default function VacationPayPage() {
             </p>
           </header>
 
-          {/* Calculator */}
-          <VacationPayCalculator />
+          <div className="mb-8 flex justify-center"><AdSlot position="header" /></div>
+          <div className="grid lg:grid-cols-4 gap-6 mb-12">
+            <div className="lg:col-span-3">
+              <VacationPayCalculator />
+              <div className="lg:hidden mt-8 flex justify-center"><AdSlot position="inArticle" /></div>
+            </div>
+            <div className="hidden lg:block lg:col-span-1"><div className="sticky top-6"><AdSlot position="sidebar" /></div></div>
+          </div>
+          <div className="hidden lg:flex mb-12 justify-center"><AdSlot position="inArticle" /></div>
 
           {/* Educational Section - V2 Gold Standard */}
           <section className="mt-12 bg-white rounded-xl shadow-lg p-8">
