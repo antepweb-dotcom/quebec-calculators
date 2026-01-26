@@ -6,32 +6,24 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "db:generate": "prisma generate",
-    "db:push": "prisma db push",
-    "db:studio": "prisma studio",
-    "db:init": "tsx scripts/init-database.ts"
+    "lint": "next lint"
   },
   "dependencies": {
     "@google-analytics/data": "^5.2.1",
-    "@prisma/adapter-pg": "^7.3.0",
     "dotenv": "^17.2.3",
     "lucide-react": "^0.563.0",
     "next": "^14.2.0",
-    "pg": "^8.17.2",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "recharts": "^2.15.4"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "@types/pg": "^8.16.0",
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.0",
     "postcss": "^8.4.0",
     "tailwindcss": "^3.4.0",
-    "tsx": "^4.21.0",
     "typescript": "^5.0.0"
   }
 }
