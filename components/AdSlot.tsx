@@ -143,9 +143,9 @@ function getResponsiveClass(position: string, size: string): string {
     return 'w-full h-[50px] md:w-[728px] md:h-[90px] max-w-full';
   }
   
-  // In-article - her yerde 300x250
+  // In-article - mobilde 320x50, desktop'ta 728x90 (yatay)
   if (position === 'inArticle') {
-    return 'w-full max-w-[300px] h-[250px]';
+    return 'w-full h-[50px] md:w-[728px] md:h-[90px] max-w-full';
   }
   
   // Footer - header ile aynı
