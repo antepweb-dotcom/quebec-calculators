@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Site Ayarları (Reklamlar, Uyarılar)
+model SiteConfig {
+  id             Int     @id @default(1)
+  isAdsEnabled   Boolean @default(true)
+  adSenseId      String  @default("")
+  bannerSlotId   String  @default("")
+  alertMessage   String  @default("")
+  isAlertActive  Boolean @default(false)
+}
+
+// Basit Analitik (Hangi sayfa gezildi?)
+model Analytics {
+  id        String   @id @default(uuid())
+  path      String
+  createdAt DateTime @default(now())
+}
