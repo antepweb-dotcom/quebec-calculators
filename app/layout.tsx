@@ -1,0 +1,23 @@
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+
+const inter = Inter({ subsets: ['latin'] })
+
+export const metadata: Metadata = {
+  title: 'Calculateur d\'Impôt Québec 2026 | Calculez votre revenu net',
+  description: 'Calculateur d\'impôt gratuit pour le Québec 2026. Calculez votre revenu net après impôts fédéral, provincial, RRQ, RQAP et AE.',
+  keywords: 'calculateur impôt québec, impôt québec 2026, revenu net québec, calculateur salaire québec',
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="fr-CA">
+      <body className={inter.className}>{children}</body>
+    </html>
+  )
+}
