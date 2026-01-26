@@ -90,17 +90,6 @@ function LoginForm() {
             </p>
           </div>
         </div>
-
-        {/* Read-Only Mode Notice */}
-        <div className="mt-4 p-4 bg-slate-800 rounded-lg">
-          <p className="text-xs text-slate-400 mb-2 text-center">Mode Sans Base de Données (Lecture Seule)</p>
-          <p className="text-sm text-slate-300 font-mono text-center mb-2">
-            demo2026
-          </p>
-          <p className="text-xs text-slate-500 text-center">
-            Les modifications ne seront pas sauvegardées
-          </p>
-        </div>
       </div>
     </div>
   )

@@ -3,8 +3,8 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-// Hardcoded credentials for read-only admin panel
-const ADMIN_PASSWORD = 'demo2026'
+// Hardcoded credentials for admin panel
+const ADMIN_PASSWORD = 'quebec2026'
 const SESSION_COOKIE_NAME = 'admin_session'
 const SESSION_TOKEN = 'authenticated'
 
