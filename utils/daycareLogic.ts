@@ -1,8 +1,11 @@
 // Quebec Daycare Cost Calculator Logic
 // Compares CPE (subsidized) vs Private daycare with tax credits
 
-export const CPE_DAILY_RATE = 9.10; // 2025/2026 subsidized rate
-export const DEFAULT_DAYS_PER_YEAR = 260; // Typical work days
+import { DAYCARE } from './taxConstants';
+
+// Re-export for backward compatibility
+export const CPE_DAILY_RATE = DAYCARE.CPE_DAILY_RATE;
+export const DEFAULT_DAYS_PER_YEAR = DAYCARE.DEFAULT_DAYS_PER_YEAR;
 
 export interface DaycareInputs {
   familyIncome: number;
@@ -36,12 +39,12 @@ export interface DaycareResult {
  * Simplified grid for MVP
  */
 export function calculateTaxCreditPercentage(familyIncome: number): number {
-  if (familyIncome < 36500) {
-    return 0.78; // 78% return
-  } else if (familyIncome <= 100000) {
-    return 0.70; // 70% return
+  if (familyIncome < DAYCARE.INCOME_THRESHOLDS.LOW) {
+    return DAYCARE.TAX_CREDIT_RATES.LOW_INCOME;
+  } else if (familyIncome <= DAYCARE.INCOME_THRESHOLDS.MEDIUM) {
+    return DAYCARE.TAX_CREDIT_RATES.MEDIUM_INCOME;
   } else {
-    return 0.67; // 67% return
+    return DAYCARE.TAX_CREDIT_RATES.HIGH_INCOME;
   }
 }
 
@@ -49,7 +52,7 @@ export function calculateDaycareCosts(inputs: DaycareInputs): DaycareResult {
   const { familyIncome, privateDailyRate, daysPerYear } = inputs;
   
   // CPE (Subsidized) Calculation
-  const cpeDailyRate = CPE_DAILY_RATE;
+  const cpeDailyRate = DAYCARE.CPE_DAILY_RATE;
   const cpeAnnualCost = cpeDailyRate * daysPerYear;
   
   // Private Daycare Calculation

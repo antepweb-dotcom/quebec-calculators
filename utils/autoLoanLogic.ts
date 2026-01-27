@@ -1,7 +1,10 @@
 // Quebec Auto Loan Calculator Logic
 // Standard amortization with sales tax option
 
-export const QUEBEC_SALES_TAX_RATE = 0.14975; // TPS 5% + TVQ 9.975%
+import { QUEBEC_SALES_TAX_RATE } from './taxConstants';
+
+// Re-export for backward compatibility
+export { QUEBEC_SALES_TAX_RATE };
 
 export type LoanTermMonths = 36 | 48 | 60 | 72 | 84;
 

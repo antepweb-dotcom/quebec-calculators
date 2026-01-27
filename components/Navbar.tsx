@@ -61,6 +61,9 @@ export default function Navbar() {
                     <Link href="/tps-tvq-quebec" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
                       🧾 TPS/TVQ
                     </Link>
+                    <Link href="/declaration-simplifiee" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                      📄 Déclaration Simplifiée
+                    </Link>
                   </div>
 
                   {/* Section 2: Immobilier */}
@@ -100,9 +103,6 @@ export default function Navbar() {
                     </Link>
                     <Link href="/epargne-retraite" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
                       📊 Épargne-Retraite
-                    </Link>
-                    <Link href="/inflation" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
-                      📉 Inflation
                     </Link>
                   </div>
                 </div>
@@ -146,6 +146,9 @@ export default function Navbar() {
               <Link href="/tps-tvq-quebec" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
                 🧾 TPS/TVQ
               </Link>
+              <Link href="/declaration-simplifiee" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                📄 Déclaration Simplifiée
+              </Link>
             </div>
 
             {/* Section 2 */}
@@ -182,9 +185,6 @@ export default function Navbar() {
               </Link>
               <Link href="/epargne-retraite" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
                 📊 Épargne-Retraite
-              </Link>
-              <Link href="/inflation" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
-                📉 Inflation
               </Link>
             </div>
           </div>

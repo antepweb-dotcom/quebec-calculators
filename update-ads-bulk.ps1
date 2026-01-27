@@ -9,7 +9,7 @@ $pages = @(
   @{file="app/paie-vacances/page.tsx"; component="VacationPayCalculator"},
   @{file="app/taux-horaire/page.tsx"; component="WageConverter"},
   @{file="app/taxe-de-bienvenue/page.tsx"; component="TransferTaxCalculator"},
-  @{file="app/inflation/page.tsx"; component="InflationCalculator"}
+  @{file="app/declaration-simplifiee/page.tsx"; component="DeclarationSimplifiee"}
 )
 
 Write-Host "Files to update: $($pages.Count)"

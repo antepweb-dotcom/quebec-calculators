@@ -1,30 +1,16 @@
 // Quebec Land Transfer Tax Calculator (Taxe de Bienvenue / Droits de mutation)
 // Progressive tax brackets similar to income tax
 
+import { TRANSFER_TAX, type TransferTaxBracket } from './taxConstants';
+
 export type Location = 'montreal' | 'quebec';
 
-export interface TransferTaxBracket {
-  min: number;
-  max: number;
-  rate: number;
-}
+// Re-export type for backward compatibility
+export type { TransferTaxBracket };
 
-// Standard Quebec (Provincial Base)
-export const QUEBEC_BRACKETS: TransferTaxBracket[] = [
-  { min: 0, max: 58900, rate: 0.005 },
-  { min: 58900, max: 294600, rate: 0.01 },
-  { min: 294600, max: Infinity, rate: 0.015 },
-];
-
-// Montreal (Higher rates for luxury properties)
-export const MONTREAL_BRACKETS: TransferTaxBracket[] = [
-  { min: 0, max: 58900, rate: 0.005 },
-  { min: 58900, max: 294600, rate: 0.01 },
-  { min: 294600, max: 589200, rate: 0.015 },
-  { min: 589200, max: 1178500, rate: 0.02 },
-  { min: 1178500, max: 2357000, rate: 0.025 },
-  { min: 2357000, max: Infinity, rate: 0.035 },
-];
+// Re-export brackets for backward compatibility
+export const QUEBEC_BRACKETS = TRANSFER_TAX.QUEBEC_BRACKETS as TransferTaxBracket[];
+export const MONTREAL_BRACKETS = TRANSFER_TAX.MONTREAL_BRACKETS as TransferTaxBracket[];
 
 export interface TaxBreakdown {
   bracketLabel: string;

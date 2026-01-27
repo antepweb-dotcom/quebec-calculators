@@ -141,7 +141,7 @@ function getToolNameFromPath(path: string): string | null {
     '/pret-etudiant': 'Prêt Étudiant',
     '/dettes-credit': 'Dettes & Crédit',
     '/taxe-de-bienvenue': 'Taxe de Bienvenue',
-    '/inflation': 'Inflation',
+    '/declaration-simplifiee': 'Déclaration Simplifiée',
     '/frais-de-garde': 'Frais de Garde',
     '/paie-vacances': 'Paie Vacances',
     '/assurance-emploi': 'Assurance Emploi'
@@ -187,7 +187,7 @@ function getMockData() {
       { name: 'Prêt Étudiant', views: 2180, avgTime: '3:38', bounceRate: '36%' },
       { name: 'Dettes & Crédit', views: 1920, avgTime: '4:05', bounceRate: '33%' },
       { name: 'Taxe de Bienvenue', views: 1680, avgTime: '2:55', bounceRate: '41%' },
-      { name: 'Inflation', views: 1420, avgTime: '3:12', bounceRate: '37%' },
+      { name: 'Déclaration Simplifiée', views: 1420, avgTime: '3:12', bounceRate: '37%' },
       { name: 'Frais de Garde', views: 1180, avgTime: '2:48', bounceRate: '39%' },
       { name: 'Paie Vacances', views: 980, avgTime: '2:22', bounceRate: '44%' },
       { name: 'Assurance Emploi', views: 840, avgTime: '2:58', bounceRate: '40%' }

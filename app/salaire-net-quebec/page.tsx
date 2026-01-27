@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Navbar from '@/components/Navbar'
+import Header from '@/components/Header'
 
 export default function SalaryLandingPage() {
   const [salary, setSalary] = useState<string>('')
@@ -28,7 +28,7 @@ export default function SalaryLandingPage() {
 
   return (
     <>
-      <Navbar />
+      <Header />
       <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         {/* Header */}

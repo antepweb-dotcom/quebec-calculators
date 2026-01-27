@@ -1,10 +1,12 @@
 // Employment Insurance (Assurance-Emploi) Calculator
 // Federal program with Quebec-specific considerations
 
-export const EI_RATE = 0.55; // 55% of insurable earnings
-export const MAX_INSURABLE_EARNINGS = 63200; // 2025/2026 cap
+import { MAX_INSURABLE_EARNINGS, EI } from './taxConstants';
+
+export const EI_RATE = EI.BENEFIT_RATE; // 55% of insurable earnings
+export { MAX_INSURABLE_EARNINGS }; // Re-export for backward compatibility
 export const WEEKS_PER_YEAR = 52;
-export const MAX_WEEKLY_BENEFIT = 668; // Approximate maximum
+export const MAX_WEEKLY_BENEFIT = EI.MAX_WEEKLY_BENEFIT; // Approximate maximum
 export const ESTIMATED_TAX_RATE = 0.10; // ~10% tax withholding
 
 export type Region = 'montreal' | 'quebec-city' | 'other';

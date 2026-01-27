@@ -1,9 +1,11 @@
 // Quebec Sales Tax Calculator (TPS/TVQ)
 // Supports both adding taxes and reverse calculation (extracting taxes)
 
-export const TPS_RATE = 0.05; // 5% GST (Federal)
-export const TVQ_RATE = 0.09975; // 9.975% QST (Quebec)
-export const TOTAL_TAX_RATE = TPS_RATE + TVQ_RATE; // 14.975%
+import { SALES_TAX } from './taxConstants';
+
+export const TPS_RATE = SALES_TAX.TPS; // 5% GST (Federal)
+export const TVQ_RATE = SALES_TAX.TVQ; // 9.975% QST (Quebec)
+export const TOTAL_TAX_RATE = SALES_TAX.COMBINED; // 14.975%
 
 export type CalculationMode = 'add' | 'reverse';
 

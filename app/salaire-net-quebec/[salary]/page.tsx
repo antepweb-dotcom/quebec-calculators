@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { calculateTaxes, TaxCalculationResult } from '@/utils/taxLogic'
-import Navbar from "@/components/Navbar"
+import Header from "@/components/Header"
 import { Calculator, TrendingDown, PiggyBank, FileText } from 'lucide-react'
 
 interface PageProps {
@@ -43,7 +43,7 @@ export default function Page({ params }: PageProps) {
 
   return (
     <>
-      <Navbar />
+      <Header />
       <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="container mx-auto px-4 py-12 max-w-7xl">
           {/* Header */}

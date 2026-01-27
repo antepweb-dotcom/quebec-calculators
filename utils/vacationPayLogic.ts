@@ -1,3 +1,5 @@
+import { VACATION_PAY } from './taxConstants';
+
 export interface VacationPayResult {
   annualSalary: number
   yearsOfService: number
@@ -13,11 +15,15 @@ export function calculateVacationPay(
   yearsOfService: number
 ): VacationPayResult {
   // Quebec vacation pay rules: 4% for < 3 years, 6% for >= 3 years
-  const percentage = yearsOfService >= 3 ? 6 : 4
+  const percentage = yearsOfService >= VACATION_PAY.SERVICE_THRESHOLD 
+    ? VACATION_PAY.RATE_3_YEARS_PLUS * 100 
+    : VACATION_PAY.RATE_UNDER_3_YEARS * 100;
   const vacationPay = annualSalary * (percentage / 100)
   
   // Calculate alternative scenario
-  const alternativePercentage = percentage === 4 ? 6 : 4
+  const alternativePercentage = percentage === (VACATION_PAY.RATE_UNDER_3_YEARS * 100) 
+    ? VACATION_PAY.RATE_3_YEARS_PLUS * 100 
+    : VACATION_PAY.RATE_UNDER_3_YEARS * 100;
   const alternativeVacationPay = annualSalary * (alternativePercentage / 100)
   const difference = Math.abs(vacationPay - alternativeVacationPay)
 

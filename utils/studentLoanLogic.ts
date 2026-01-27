@@ -1,3 +1,5 @@
+import { STUDENT_LOAN } from './taxConstants';
+
 export interface StudentLoanResult {
   loanAmount: number
   interestRate: number
@@ -10,7 +12,8 @@ export interface StudentLoanResult {
   taxCreditPercentage: number
 }
 
-const TAX_CREDIT_RATE = 0.20 // 20% tax credit on interest paid in Quebec
+// Re-export for backward compatibility
+const TAX_CREDIT_RATE = STUDENT_LOAN.TAX_CREDIT_RATE;
 
 export function calculateStudentLoan(
   loanAmount: number,

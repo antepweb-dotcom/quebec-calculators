@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/api/',
     },
-    sitemap: 'https://votre-domaine.com/sitemap.xml', // Replace with your actual domain
+    sitemap: 'https://quebec-calculators.vercel.app/sitemap.xml',
   }
 }

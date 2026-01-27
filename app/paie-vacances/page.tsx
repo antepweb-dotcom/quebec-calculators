@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import Navbar from '@/components/Navbar'
+import Header from '@/components/Header'
 import AdSlot from '@/components/AdSlot'
 import VacationPayCalculator from '@/components/VacationPayCalculator'
 import { Calendar, Percent, CheckCircle } from 'lucide-react'
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function VacationPayPage() {
   return (
     <>
-      <Navbar />
+      <Header />
       <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="container mx-auto px-4 py-12 max-w-7xl">
           <header className="text-center mb-12">

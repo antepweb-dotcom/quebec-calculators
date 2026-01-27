@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://seninsiten.com' // CANLIYA ALINCA BURAYI KENDİ DOMAININ YAP
+  const baseUrl = 'https://quebec-calculators.vercel.app'
   
   // 1. STATİK SAYFALAR (Tüm Araçlar)
   const staticRoutes = [
@@ -12,20 +12,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/tps-tvq-quebec',
     '/calcul-hypotheque',
     '/capacite-emprunt',
+    '/louer-ou-acheter',
     '/pret-auto',
     '/pret-etudiant',
     '/frais-de-garde',
-    '/inflation',
+    '/declaration-simplifiee',
     '/assurance-emploi',
     '/epargne-retraite',
     '/dettes-credit',
     '/paie-vacances',
-    '/pourboire',
+    '/allocations-familiales',
     '/taux-horaire',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
+    changeFrequency: route === '/declaration-simplifiee' ? 'monthly' as const : 'weekly' as const,
     priority: route === '' ? 1 : 0.9,
   }))
 

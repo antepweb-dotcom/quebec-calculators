@@ -1,6 +1,8 @@
 // Quebec Rent Increase Calculator Logic (TAL - Tribunal administratif du logement)
 // Simplified 2026 factors for MVP
 
+import { RENT_INCREASE } from './taxConstants';
+
 export type HeatingType = 'none' | 'electricity' | 'gas' | 'oil';
 
 export interface RentIncreaseInputs {
@@ -28,17 +30,16 @@ export interface RentIncreaseResult {
   percentageIncrease: number;
 }
 
-// Simplified TAL factors for 2026 (approximation)
-const BASE_INDEX_RATE = 0.04; // 4% base increase for unheated units
+// Re-export for backward compatibility
+const BASE_INDEX_RATE = RENT_INCREASE.BASE_INDEX_RATE;
 const HEATING_ADJUSTMENT_RATES = {
-  none: 0,
-  electricity: 0.015, // 1.5% additional for electric heating
-  gas: 0.012, // 1.2% additional for gas heating
-  oil: 0.018, // 1.8% additional for oil heating
+  none: RENT_INCREASE.HEATING_ADJUSTMENT_RATES.NONE,
+  electricity: RENT_INCREASE.HEATING_ADJUSTMENT_RATES.ELECTRICITY,
+  gas: RENT_INCREASE.HEATING_ADJUSTMENT_RATES.GAS,
+  oil: RENT_INCREASE.HEATING_ADJUSTMENT_RATES.OIL,
 };
-
-const RENOVATION_AMORTIZATION_RATE = 0.048; // 4.8% of renovation cost per year
-const MONTHS_PER_YEAR = 12;
+const RENOVATION_AMORTIZATION_RATE = RENT_INCREASE.RENOVATION_AMORTIZATION_RATE;
+const MONTHS_PER_YEAR = RENT_INCREASE.MONTHS_PER_YEAR;
 
 export function calculateRentIncrease(inputs: RentIncreaseInputs): RentIncreaseResult {
   const {

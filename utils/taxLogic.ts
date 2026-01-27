@@ -1,32 +1,33 @@
-// 2026 Quebec and Federal Tax Brackets
-export const FEDERAL_BPA = 15705; // Federal Basic Personal Amount
-export const QUEBEC_BPA = 18056; // Quebec Basic Personal Amount
+// Import centralized tax constants
+import {
+  FEDERAL_BPA,
+  QUEBEC_BPA,
+  FEDERAL_TAX_BRACKETS_2026,
+  QUEBEC_TAX_BRACKETS_2026,
+  QPP_RATE,
+  QPP_MAX_EARNINGS,
+  QPP_EXEMPTION,
+  QPIP_RATE,
+  QPIP_MAX_EARNINGS,
+  EI_RATE,
+  EI_MAX_EARNINGS,
+  type TaxBracket,
+} from './taxConstants';
 
-export const FEDERAL_TAX_BRACKETS_2026 = [
-  { min: 0, max: 55867, rate: 0.15 },
-  { min: 55867, max: 111733, rate: 0.205 },
-  { min: 111733, max: 173205, rate: 0.26 },
-  { min: 173205, max: 246752, rate: 0.29 },
-  { min: 246752, max: Infinity, rate: 0.33 },
-];
-
-export const QUEBEC_TAX_BRACKETS_2026 = [
-  { min: 0, max: 51780, rate: 0.14 },
-  { min: 51780, max: 103545, rate: 0.19 },
-  { min: 103545, max: 126000, rate: 0.24 },
-  { min: 126000, max: Infinity, rate: 0.2575 },
-];
-
-// Contribution rates for 2026
-export const QPP_RATE = 0.064; // Quebec Pension Plan (RRQ)
-export const QPP_MAX_EARNINGS = 68500;
-export const QPP_EXEMPTION = 3500;
-
-export const QPIP_RATE = 0.00494; // Quebec Parental Insurance Plan (RQAP)
-export const QPIP_MAX_EARNINGS = 94000;
-
-export const EI_RATE = 0.0127; // Employment Insurance (AE)
-export const EI_MAX_EARNINGS = 63200;
+// Re-export for backward compatibility
+export {
+  FEDERAL_BPA,
+  QUEBEC_BPA,
+  FEDERAL_TAX_BRACKETS_2026,
+  QUEBEC_TAX_BRACKETS_2026,
+  QPP_RATE,
+  QPP_MAX_EARNINGS,
+  QPP_EXEMPTION,
+  QPIP_RATE,
+  QPIP_MAX_EARNINGS,
+  EI_RATE,
+  EI_MAX_EARNINGS,
+};
 
 export interface TaxCalculationResult {
   grossIncome: number;
@@ -39,7 +40,7 @@ export interface TaxCalculationResult {
   netIncome: number;
 }
 
-function calculateProgressiveTax(taxableIncome: number, brackets: typeof FEDERAL_TAX_BRACKETS_2026): number {
+function calculateProgressiveTax(taxableIncome: number, brackets: readonly TaxBracket[]): number {
   // If taxable income is 0 or negative, no tax
   if (taxableIncome <= 0) return 0;
 
