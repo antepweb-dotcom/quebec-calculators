@@ -2,43 +2,59 @@ import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://quebec-calculators.vercel.app'
+  const currentDate = new Date()
   
-  // 1. STATİK SAYFALAR (Tüm Araçlar)
+  // 1. STATIC PAGES (All Tools) - Organized by priority
   const staticRoutes = [
-    '', // Ana Sayfa
-    '/salaire-net-quebec',
-    '/augmentation-loyer-2026',
-    '/taxe-de-bienvenue',
-    '/tps-tvq-quebec',
-    '/calcul-hypotheque',
-    '/capacite-emprunt',
-    '/louer-ou-acheter',
-    '/pret-auto',
-    '/pret-etudiant',
-    '/frais-de-garde',
-    '/declaration-simplifiee',
-    '/assurance-emploi',
-    '/epargne-retraite',
-    '/dettes-credit',
-    '/paie-vacances',
-    '/allocations-familiales',
-    '/taux-horaire',
-    '/auto-electrique-vs-essence',
-    '/interets-composes',
-  ].map((route) => ({
+    // Homepage
+    { route: '', priority: 1.0, changeFrequency: 'daily' as const },
+    
+    // Tax & Income Tools (High Priority)
+    { route: '/salaire-net-quebec', priority: 1.0, changeFrequency: 'weekly' as const },
+    { route: '/declaration-simplifiee', priority: 0.9, changeFrequency: 'weekly' as const },
+    { route: '/assurance-emploi', priority: 0.9, changeFrequency: 'weekly' as const },
+    { route: '/taux-horaire', priority: 0.8, changeFrequency: 'weekly' as const },
+    { route: '/paie-vacances', priority: 0.8, changeFrequency: 'weekly' as const },
+    { route: '/tps-tvq-quebec', priority: 0.8, changeFrequency: 'weekly' as const },
+    
+    // Real Estate Tools (High Priority)
+    { route: '/louer-ou-acheter', priority: 0.9, changeFrequency: 'weekly' as const },
+    { route: '/calcul-hypotheque', priority: 0.9, changeFrequency: 'weekly' as const },
+    { route: '/capacite-emprunt', priority: 0.9, changeFrequency: 'weekly' as const },
+    { route: '/taxe-de-bienvenue', priority: 0.9, changeFrequency: 'weekly' as const },
+    { route: '/augmentation-loyer-2026', priority: 0.9, changeFrequency: 'monthly' as const },
+    
+    // Family & Daily Tools
+    { route: '/allocations-familiales', priority: 0.9, changeFrequency: 'weekly' as const },
+    { route: '/frais-de-garde', priority: 0.8, changeFrequency: 'weekly' as const },
+    { route: '/auto-electrique-vs-essence', priority: 0.9, changeFrequency: 'weekly' as const },
+    { route: '/pret-auto', priority: 0.8, changeFrequency: 'weekly' as const },
+    { route: '/pret-etudiant', priority: 0.8, changeFrequency: 'weekly' as const },
+    
+    // Debt & Planning Tools
+    { route: '/dettes-credit', priority: 0.8, changeFrequency: 'weekly' as const },
+    { route: '/epargne-retraite', priority: 0.8, changeFrequency: 'weekly' as const },
+    
+    // Investment & Retirement Tools
+    { route: '/interets-composes', priority: 0.9, changeFrequency: 'weekly' as const },
+    
+    // Static Pages
+    { route: '/confidentialite', priority: 0.3, changeFrequency: 'monthly' as const },
+    { route: '/a-propos', priority: 0.3, changeFrequency: 'monthly' as const },
+  ].map(({ route, priority, changeFrequency }) => ({
     url: `${baseUrl}${route}`,
-    lastModified: new Date(),
-    changeFrequency: route === '/declaration-simplifiee' ? 'monthly' as const : 'weekly' as const,
-    priority: route === '' ? 1 : 0.9,
+    lastModified: currentDate,
+    changeFrequency,
+    priority,
   }))
 
-  // 2. DİNAMİK MAAŞ SAYFALARI (Sadece en popülerleri)
-  // 5.000 tane yerine stratejik 20-150k arası üretelim, build süresi uzamasın
+  // 2. DYNAMIC SALARY PAGES (Strategic range for SEO)
+  // Generate pages for common salary ranges (20k to 150k)
   const salaryRoutes = []
   for (let salary = 20000; salary <= 150000; salary += 2000) {
     salaryRoutes.push({
       url: `${baseUrl}/salaire-net-quebec/${salary}`,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     })

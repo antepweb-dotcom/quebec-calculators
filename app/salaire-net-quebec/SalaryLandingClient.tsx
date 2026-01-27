@@ -1,52 +1,32 @@
-import { Metadata } from 'next'
-import SalaryLandingClient from './SalaryLandingClient'
-import StructuredData from '@/components/StructuredData'
-import SEOContent from '@/components/SEOContent'
-import RelatedTools from '@/components/RelatedTools'
+'use client'
 
-export const metadata: Metadata = {
-  title: "Calculateur Salaire Net Québec 2026 - Précis & Gratuit",
-  description: "Estimez votre revenu net après impôts en 2 secondes. Intègre les taux 2026, RRQ, RQAP et déductions fédérales. Calcul précis pour tous les salaires au Québec.",
-  keywords: [
-    'salaire net québec',
-    'calculateur impôt québec 2026',
-    'revenu net après impôt',
-    'calculateur salaire',
-    'impôt québec',
-    'RRQ RQAP',
-    'déductions salariales',
-  ],
-  alternates: {
-    canonical: '/salaire-net-quebec',
-  },
-  openGraph: {
-    title: "Calculateur Salaire Net Québec 2026 - Précis & Gratuit",
-    description: "Estimez votre revenu net après impôts en 2 secondes. Intègre les taux 2026, RRQ, RQAP et déductions fédérales.",
-    url: '/salaire-net-quebec',
-    type: 'website',
-    locale: 'fr_CA',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: "Calculateur Salaire Net Québec 2026",
-    description: "Estimez votre revenu net après impôts en 2 secondes",
-  },
-}
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
-export default function SalaryLandingPage() {
+export default function SalaryLandingClient() {
+  const [salary, setSalary] = useState<string>('')
+  const router = useRouter()
+
+  const handleCalculate = () => {
+    const numericSalary = parseFloat(salary)
+    
+    if (isNaN(numericSalary) || numericSalary <= 0) {
+      alert('Veuillez entrer un salaire valide')
+      return
+    }
+
+    // Redirect to dynamic route
+    router.push(`/salaire-net-quebec/${Math.round(numericSalary)}`)
+  }
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleCalculate()
+    }
+  }
+
   return (
-    <>
-      <StructuredData
-        name="Calculateur Salaire Net Québec 2026"
-        description="Calculateur gratuit pour estimer votre salaire net après impôts au Québec. Intègre tous les taux d'imposition 2026, RRQ, RQAP, AE et déductions fédérales et provinciales. Calcul instantané et précis."
-        url="https://quebec-calculators.vercel.app/salaire-net-quebec"
-        category="FinanceApplication"
-        aggregateRating={{
-          ratingValue: 4.8,
-          ratingCount: 2450,
-        }}
-      />
-      <SalaryLandingClient />
+    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         {/* Header */}
         <header className="text-center mb-12">
@@ -172,44 +152,6 @@ export default function SalaryLandingPage() {
           <p>© 2026 Calculateur d'Impôt Québec. Les calculs sont fournis à titre indicatif seulement.</p>
         </footer>
       </div>
-
-      {/* SEO Content Section */}
-      <SEOContent
-        title="Comprendre votre salaire net au Québec"
-        intro="Le calcul du salaire net au Québec est complexe car il implique plusieurs paliers d'imposition et déductions obligatoires. Notre calculateur intègre tous les taux 2026 pour vous donner une estimation précise de votre revenu réel après impôts, RRQ, RQAP et assurance-emploi."
-        faqs={[
-          {
-            question: "Comment est calculé mon salaire net?",
-            answer: "Votre salaire net est calculé en soustrayant plusieurs déductions de votre salaire brut. D'abord, l'impôt fédéral (15% à 33% selon votre revenu) et l'impôt provincial du Québec (14% à 25,75%). Ensuite, les cotisations au Régime de rentes du Québec (RRQ) à 6,4% jusqu'à 68 500$, le Régime québécois d'assurance parentale (RQAP) à 0,494%, et l'assurance-emploi fédérale (AE) à 1,63%. Le total de ces déductions représente généralement entre 25% et 40% de votre salaire brut, selon votre niveau de revenu."
-          },
-          {
-            question: "Quelle est la différence entre brut et net?",
-            answer: "Le salaire brut est le montant total que votre employeur paie avant toute déduction. C'est le chiffre qui apparaît dans votre contrat de travail. Le salaire net est ce qui reste après avoir soustrait tous les impôts et cotisations obligatoires. C'est le montant réel qui est déposé dans votre compte bancaire. Par exemple, un salaire brut de 60 000$ donnera environ 44 000$ net au Québec, soit une différence de 16 000$ (27% de déductions)."
-          },
-          {
-            question: "Quelles sont les déductions obligatoires?",
-            answer: "Au Québec, les déductions obligatoires incluent : l'impôt fédéral (taux progressifs de 15% à 33%), l'impôt provincial (14% à 25,75%), le RRQ (6,4% jusqu'à 68 500$), le RQAP (0,494% du salaire brut), et l'assurance-emploi fédérale (1,63% jusqu'à 63 200$). Ces déductions sont automatiquement retenues par votre employeur à chaque paie. Certains employeurs peuvent aussi déduire des cotisations syndicales, des assurances collectives ou des REER collectifs, mais celles-ci sont optionnelles ou négociées."
-          },
-          {
-            question: "Comment réduire mes impôts légalement?",
-            answer: "Plusieurs stratégies légales permettent de réduire vos impôts au Québec. Cotisez à un REER (jusqu'à 18% de votre revenu) pour réduire votre revenu imposable immédiatement. Utilisez un CELI pour faire croître vos épargnes à l'abri de l'impôt. Déduisez vos frais de garde d'enfants (jusqu'à 9 000$ par enfant de moins de 7 ans). Si vous travaillez de la maison, déduisez une partie de vos dépenses de bureau. Réclamez les crédits d'impôt pour transport en commun, dons de charité, et frais médicaux. Un planificateur financier peut vous aider à optimiser votre situation."
-          },
-          {
-            question: "Qu'est-ce que le taux d'imposition effectif?",
-            answer: "Le taux d'imposition effectif est le pourcentage réel d'impôt que vous payez sur votre revenu total, contrairement au taux marginal qui s'applique seulement à votre dernier dollar gagné. Par exemple, avec un salaire de 70 000$, votre taux marginal pourrait être de 37,12% (combiné fédéral-provincial), mais votre taux effectif sera d'environ 23% car les premiers dollars sont imposés à des taux plus bas. C'est le taux effectif qui détermine vraiment combien vous payez d'impôt au total."
-          },
-          {
-            question: "Les déductions changent-elles chaque année?",
-            answer: "Oui, les taux d'imposition et les seuils de cotisation sont ajustés annuellement par les gouvernements fédéral et provincial. En 2026, le maximum des gains admissibles au RRQ est de 68 500$, et le maximum assurable pour l'AE est de 63 200$. Les paliers d'imposition sont aussi indexés à l'inflation chaque année. C'est pourquoi il est important d'utiliser un calculateur à jour comme le nôtre, qui intègre tous les taux 2026 officiels publiés par l'Agence du revenu du Canada et Revenu Québec."
-          }
-        ]}
-      />
-
-      {/* Related Tools Section */}
-      <RelatedTools 
-        currentTool="/salaire-net-quebec"
-        currentCategory="tax"
-      />
-    </>
+    </main>
   )
 }

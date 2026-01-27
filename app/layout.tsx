@@ -14,9 +14,56 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'Calculateur d\'Impôt Québec 2026 | Calculez votre revenu net',
-  description: 'Calculateur d\'impôt gratuit pour le Québec 2026. Calculez votre revenu net après impôts fédéral, provincial, RRQ, RQAP et AE.',
-  keywords: 'calculateur impôt québec, impôt québec 2026, revenu net québec, calculateur salaire québec',
+  metadataBase: new URL('https://quebec-calculators.vercel.app'),
+  title: {
+    template: '%s | Quebec Calculators',
+    default: 'Outils Financiers Québec 2026 - Impôt, Immobilier, Auto & Famille',
+  },
+  description: 'Le site référence pour vos finances au Québec. 19 calculateurs gratuits pour impôts, hypothèque, salaire net, allocations familiales et plus. Mis à jour 2026.',
+  keywords: [
+    'calculateur impôt québec',
+    'salaire net québec',
+    'calculateur hypothèque',
+    'allocations familiales',
+    'outils financiers québec',
+    'calculateur québec 2026',
+    'impôt québec 2026',
+    'taxe de bienvenue',
+    'loyer québec',
+  ],
+  authors: [{ name: 'Quebec Calculators' }],
+  creator: 'Quebec Calculators',
+  publisher: 'Quebec Calculators',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'fr_CA',
+    url: '/',
+    siteName: 'Quebec Calculators',
+    title: 'Outils Financiers Québec 2026 - Impôt, Immobilier, Auto & Famille',
+    description: 'Le site référence pour vos finances au Québec. 19 calculateurs gratuits pour impôts, hypothèque, salaire net, allocations familiales et plus.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Outils Financiers Québec 2026',
+    description: 'Le site référence pour vos finances au Québec. 19 calculateurs gratuits.',
+  },
+  verification: {
+    google: 'your-google-verification-code', // Add your actual verification code
+  },
 }
 
 export default function RootLayout({

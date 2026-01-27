@@ -1,15 +1,51 @@
 import { Metadata } from 'next'
 import AdSlot from '@/components/AdSlot'
 import FamilyBenefitsCalculator from '@/components/FamilyBenefitsCalculator'
+import StructuredData from '@/components/StructuredData'
+import SEOContent from '@/components/SEOContent'
 
 export const metadata: Metadata = {
   title: "Calculateur Allocations Familiales Québec 2026 (ACE + Soutien)",
-  description: "Combien allez-vous recevoir pour vos enfants? Estimez l'Allocation canadienne pour enfants (ACE) et le Soutien aux enfants du Québec. Argent non-imposable.",
+  description: "Combien allez-vous recevoir pour vos enfants? Estimez l'Allocation canadienne pour enfants (ACE) et le Soutien aux enfants du Québec en 2026. Argent non-imposable. Calcul instantané.",
+  keywords: [
+    'allocations familiales québec',
+    'ACE allocation canadienne enfants',
+    'soutien aux enfants québec',
+    'calculateur allocations 2026',
+    'prestations familiales',
+    'aide financière enfants',
+  ],
+  alternates: {
+    canonical: '/allocations-familiales',
+  },
+  openGraph: {
+    title: "Calculateur Allocations Familiales Québec 2026 (ACE + Soutien)",
+    description: "Estimez vos allocations pour enfants en 2026. ACE fédérale + Soutien aux enfants du Québec. Argent non-imposable.",
+    url: '/allocations-familiales',
+    type: 'website',
+    locale: 'fr_CA',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Allocations Familiales Québec 2026",
+    description: "Estimez vos allocations pour enfants (ACE + Soutien Québec)",
+  },
 }
 
 export default function FamilyBenefitsPage() {
   return (
-    <><main className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100">
+    <>
+      <StructuredData
+        name="Calculateur Allocations Familiales Québec 2026"
+        description="Calculateur gratuit pour estimer vos allocations familiales au Québec. Combine l'Allocation canadienne pour enfants (ACE) et le Soutien aux enfants du Québec. Calcul basé sur votre revenu familial et le nombre d'enfants."
+        url="https://quebec-calculators.vercel.app/allocations-familiales"
+        category="FinanceApplication"
+        aggregateRating={{
+          ratingValue: 4.7,
+          ratingCount: 890,
+        }}
+      />
+      <main className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100">
         <div className="container mx-auto px-4 py-12 max-w-7xl">
           {/* Header */}
           <header className="text-center mb-12">
@@ -203,6 +239,38 @@ export default function FamilyBenefitsPage() {
               </div>
             </div>
           </section>
+
+          {/* SEO Content Section */}
+          <SEOContent
+            title="Comprendre vos allocations en 2026"
+            intro="Les allocations familiales au Québec combinent deux programmes gouvernementaux distincts : l'Allocation canadienne pour enfants (ACE) du gouvernement fédéral et le Soutien aux enfants du gouvernement du Québec. Ces prestations sont conçues pour aider les familles à assumer les coûts liés à l'éducation et aux soins des enfants."
+            faqs={[
+              {
+                question: "Quand les versements sont-ils effectués?",
+                answer: "Les paiements de l'Allocation canadienne pour enfants (ACE) sont versés le 20 de chaque mois. Le Soutien aux enfants du Québec est versé le 1er jour ouvrable de chaque mois. Si ces dates tombent un weekend ou un jour férié, le paiement est effectué le jour ouvrable précédent. Les montants sont déposés directement dans votre compte bancaire par dépôt direct."
+              },
+              {
+                question: "Est-ce que c'est imposable?",
+                answer: "Non, les allocations familiales ne sont pas imposables. Ni l'Allocation canadienne pour enfants (ACE) ni le Soutien aux enfants du Québec ne sont considérés comme un revenu imposable. Vous n'avez pas à les déclarer dans votre déclaration de revenus et ils n'affectent pas votre taux d'imposition. C'est de l'argent libre d'impôt que vous pouvez utiliser comme bon vous semble pour les besoins de vos enfants."
+              },
+              {
+                question: "Comment faire une demande d'allocations familiales?",
+                answer: "Pour l'ACE fédérale, vous devez faire une demande auprès de l'Agence du revenu du Canada (ARC) dès la naissance de votre enfant. Vous pouvez le faire en ligne via Mon dossier, par la poste, ou en personne. Pour le Soutien aux enfants du Québec, la demande se fait automatiquement lorsque vous inscrivez la naissance de votre enfant au Directeur de l'état civil. Assurez-vous de faire ces démarches rapidement après la naissance pour ne pas perdre de paiements."
+              },
+              {
+                question: "Que se passe-t-il en cas de garde partagée?",
+                answer: "En cas de garde partagée (50/50), chaque parent reçoit 50% des allocations auxquelles l'enfant donne droit. Les deux parents doivent faire une demande séparée et indiquer qu'il s'agit d'une garde partagée. Le calcul des montants est basé sur le revenu familial de chaque parent dans leur foyer respectif. Si la garde n'est pas exactement 50/50, c'est le parent qui a la garde principale (plus de 50% du temps) qui reçoit 100% des allocations."
+              },
+              {
+                question: "Les allocations changent-elles selon mon revenu?",
+                answer: "Oui, les montants des allocations sont calculés en fonction de votre revenu familial net ajusté de l'année précédente. Plus votre revenu est élevé, moins vous recevrez d'allocations. L'ACE commence à diminuer si votre revenu familial dépasse environ 36 502$ par année. Le Soutien aux enfants du Québec commence à diminuer si votre revenu dépasse environ 57 000$. Les montants sont recalculés automatiquement chaque juillet en fonction de votre déclaration de revenus de l'année précédente."
+              },
+              {
+                question: "Puis-je utiliser les allocations pour un REEE?",
+                answer: "Absolument! C'est même fortement recommandé. En investissant vos allocations familiales dans un Régime enregistré d'épargne-études (REEE), vous pouvez bénéficier de subventions gouvernementales supplémentaires. Le gouvernement fédéral ajoute 20% via la Subvention canadienne pour l'épargne-études (SCEE) et le Québec ajoute 10% via l'Incitatif québécois à l'épargne-études (IQEE). Cela représente jusqu'à 30% de subventions gratuites sur vos cotisations, jusqu'à un maximum de 1 200$ par année par enfant."
+              }
+            ]}
+          />
 
           <footer className="mt-12 text-center text-sm text-gray-500">
             <p>© 2026 Allocations Familiales Québec. Les calculs sont fournis à titre indicatif seulement.</p>

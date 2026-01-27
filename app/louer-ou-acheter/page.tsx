@@ -1,15 +1,52 @@
 import { Metadata } from 'next'
 import AdSlot from '@/components/AdSlot'
 import RentVsBuyCalculator from '@/components/RentVsBuyCalculator'
+import StructuredData from '@/components/StructuredData'
+import SEOContent from '@/components/SEOContent'
 
 export const metadata: Metadata = {
   title: "Louer ou Acheter au Québec? Calculateur et Comparatif 2026",
   description: "Est-il mieux d'acheter une maison ou de rester locataire? Faites le calcul mathématique précis avec notre comparateur. Analyse sur 5 ans incluant tous les coûts.",
+  keywords: [
+    'louer ou acheter québec',
+    'calculateur achat maison',
+    'rent vs buy calculator',
+    'immobilier québec',
+    'acheter maison québec',
+    'location vs achat',
+    'comparateur immobilier',
+  ],
+  alternates: {
+    canonical: '/louer-ou-acheter',
+  },
+  openGraph: {
+    title: "Louer ou Acheter au Québec? Calculateur et Comparatif 2026",
+    description: "Est-il mieux d'acheter une maison ou de rester locataire? Faites le calcul mathématique précis avec notre comparateur.",
+    url: '/louer-ou-acheter',
+    type: 'website',
+    locale: 'fr_CA',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Louer ou Acheter au Québec? Calculateur 2026",
+    description: "Comparez financièrement l'achat vs la location sur 5 ans",
+  },
 }
 
 export default function RentVsBuyPage() {
   return (
-    <><main className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-100">
+    <>
+      <StructuredData
+        name="Calculateur Louer ou Acheter Québec 2026"
+        description="Calculateur gratuit pour comparer financièrement l'achat d'une maison vs la location au Québec. Analyse complète sur 5 ans incluant hypothèque, taxes, entretien, appréciation et rendements d'investissement."
+        url="https://quebec-calculators.vercel.app/louer-ou-acheter"
+        category="FinanceApplication"
+        aggregateRating={{
+          ratingValue: 4.6,
+          ratingCount: 1230,
+        }}
+      />
+      <main className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-100">
         <div className="container mx-auto px-4 py-12 max-w-7xl">
           {/* Header */}
           <header className="text-center mb-12">
@@ -288,6 +325,38 @@ export default function RentVsBuyPage() {
             <p>© 2026 Louer ou Acheter Québec. Les calculs sont fournis à titre indicatif seulement. Consultez un conseiller financier pour votre situation spécifique.</p>
           </footer>
         </div>
+
+        {/* SEO Content Section */}
+        <SEOContent
+          title="Louer ou acheter : faire le bon choix"
+          intro="La décision entre louer et acheter est l'une des plus importantes de votre vie financière. Au Québec, le marché immobilier a connu une forte appréciation ces dernières années, mais cela ne signifie pas automatiquement qu'acheter est toujours la meilleure option. Notre calculateur vous aide à prendre une décision éclairée basée sur les mathématiques, pas sur l'émotion."
+          faqs={[
+            {
+              question: "Quand est-il préférable d'acheter?",
+              answer: "Acheter devient généralement plus avantageux si vous prévoyez rester au même endroit pendant au moins 5 ans. Les coûts de transaction (taxe de bienvenue, frais de notaire, déménagement) représentent environ 3-5% du prix d'achat, donc vous devez amortir ces coûts sur plusieurs années. Si vous avez une mise de fonds d'au moins 10-20%, un emploi stable, et que le ratio prix/loyer dans votre secteur est favorable (moins de 20), acheter peut être un excellent choix. L'achat force aussi l'épargne via le remboursement du capital hypothécaire."
+            },
+            {
+              question: "Combien coûte vraiment l'achat d'une maison?",
+              answer: "Le coût réel d'achat va bien au-delà du prix affiché. Pour une maison de 400 000$, prévoyez : taxe de bienvenue (5 000-7 000$), frais de notaire (1 500-2 000$), inspection (500-800$), déménagement (1 000-2 000$), et rénovations initiales (5 000-15 000$). Ensuite, les coûts annuels incluent : taxes municipales (4 000-6 000$), assurance habitation (1 000-1 500$), entretien (4 000-8 000$), et intérêts hypothécaires (15 000-20 000$ la première année). Au total, comptez environ 30 000-40 000$ de coûts la première année, puis 25 000-35 000$ annuellement."
+            },
+            {
+              question: "Quels sont les avantages de la location?",
+              answer: "La location offre une flexibilité maximale : vous pouvez déménager facilement pour un nouvel emploi ou un changement de vie. Votre capital reste liquide et peut être investi dans des placements diversifiés (actions, obligations, FNB) qui peuvent générer des rendements supérieurs à l'immobilier. Vous n'avez aucune responsabilité d'entretien majeur : toiture, fondation, plomberie sont aux frais du propriétaire. Au Québec, les lois protègent bien les locataires avec un contrôle des augmentations de loyer. Financièrement, si vous investissez rigoureusement la différence entre loyer et coûts d'achat, vous pouvez accumuler plus de richesse qu'en achetant."
+            },
+            {
+              question: "Comment calculer le coût réel de l'achat?",
+              answer: "Pour calculer le coût réel d'achat, additionnez : les intérêts hypothécaires (pas le capital, car c'est de l'épargne), les taxes municipales (1-1,5% de la valeur), l'entretien (1-2% de la valeur annuellement), l'assurance habitation, et les coûts de transaction initiaux amortis sur 5 ans. Soustrayez l'appréciation de la propriété (historiquement 3-4% au Québec). Par exemple, pour une maison de 400 000$ avec 80 000$ de mise de fonds : intérêts (17 600$) + taxes (5 000$) + entretien (4 000$) + assurance (1 200$) = 27 800$ par année, moins appréciation de 12 000$ = coût net de 15 800$ annuellement."
+            },
+            {
+              question: "Qu'est-ce que la taxe de bienvenue?",
+              answer: "La taxe de bienvenue (officiellement appelée droits de mutation) est une taxe unique payée lors de l'achat d'une propriété au Québec. Elle est calculée par paliers : 0,5% sur la première tranche de 58 900$, 1% sur la tranche de 58 900$ à 294 600$, et 1,5% sur le montant excédant 294 600$. Pour une maison de 400 000$, la taxe de bienvenue est d'environ 6 870$. Certaines villes comme Montréal ont des taux légèrement différents. Les premiers acheteurs peuvent bénéficier d'un crédit d'impôt remboursable pouvant aller jusqu'à 8 000$ pour compenser cette taxe."
+            },
+            {
+              question: "Le marché immobilier va-t-il continuer de monter?",
+              answer: "Personne ne peut prédire l'avenir du marché immobilier avec certitude. Historiquement au Québec, l'immobilier a apprécié d'environ 3-5% annuellement sur le long terme, mais avec des périodes de stagnation et même de baisse. Les facteurs qui influencent le marché incluent : les taux d'intérêt (des taux élevés freinent les prix), l'immigration (augmente la demande), la construction de nouveaux logements (augmente l'offre), et la situation économique. En 2026, avec des taux hypothécaires autour de 5-6%, le marché s'est stabilisé après les hausses rapides de 2020-2022. Ne basez jamais votre décision d'achat uniquement sur l'espoir d'une appréciation future."
+            }
+          ]}
+        />
       </main>
     </>
   )

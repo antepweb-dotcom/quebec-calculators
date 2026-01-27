@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { calculateTaxes, TaxCalculationResult } from '@/utils/taxLogic'
 import { Calculator, TrendingDown, PiggyBank, FileText } from 'lucide-react'
+import SalaryChart from '@/components/SalaryChart'
+import AffiliateCard from '@/components/AffiliateCard'
 
 interface PageProps {
   params: { salary: string }
@@ -199,60 +201,44 @@ export default function Page({ params }: PageProps) {
                     </div>
                   </div>
 
-                  {/* Ad Space - Middle */}
-                  <div className="bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 p-6 text-center mb-6">
-                    <p className="text-gray-500 font-medium">Espace Publicitaire</p>
-                    <p className="text-sm text-gray-400 mt-2">728x90 - Bannière horizontale</p>
+                  {/* Affiliate Recommendation Card */}
+                  <AffiliateCard
+                    title="Ouvrez un compte CELI avec Wealthsimple"
+                    description="Obtenez 25$ de bonus en vous inscrivant et commencez à investir sans frais de commission. Parfait pour faire fructifier votre salaire net à l'abri de l'impôt."
+                    buttonText="Profiter de l'offre"
+                    link="https://wealthsimple.com/fr-ca"
+                    theme="dark"
+                  />
+
+                  {/* Visual Chart - Donut Chart */}
+                  <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
+                    <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">Répartition visuelle de votre salaire</h2>
+                    <SalaryChart
+                      net={results.netIncome}
+                      impotFederal={results.federalTax}
+                      impotQuebec={results.provincialTax}
+                      rrq={results.qpp}
+                      rqap={results.qpip}
+                      ae={results.ei}
+                    />
+                    <div className="mt-6 pt-6 border-t border-gray-200">
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Taux effectif:</span>
+                          <span className="font-bold text-gray-900">
+                            {((results.totalDeductions / results.grossIncome) * 100).toFixed(1)}%
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-600">Vous gardez:</span>
+                          <span className="font-bold text-green-600">
+                            {((results.netIncome / results.grossIncome) * 100).toFixed(1)}%
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Visual Chart */}
-                  <div className="bg-white rounded-xl shadow-lg p-6">
-                    <h2 className="text-xl font-bold text-gray-900 mb-4">Répartition visuelle</h2>
-                    <div className="flex h-12 rounded-lg overflow-hidden">
-                      <div 
-                        className="bg-green-500 flex items-center justify-center text-white text-sm font-bold transition-all duration-500"
-                        style={{ width: `${(results.netIncome / results.grossIncome * 100).toFixed(1)}%` }}
-                      >
-                        Net {(results.netIncome / results.grossIncome * 100).toFixed(1)}%
-                      </div>
-                      <div 
-                        className="bg-red-500 flex items-center justify-center text-white text-xs transition-all duration-500"
-                        style={{ width: `${(results.federalTax / results.grossIncome * 100).toFixed(1)}%` }}
-                      >
-                        Féd
-                      </div>
-                      <div 
-                        className="bg-blue-500 flex items-center justify-center text-white text-xs transition-all duration-500"
-                        style={{ width: `${(results.provincialTax / results.grossIncome * 100).toFixed(1)}%` }}
-                      >
-                        Prov
-                      </div>
-                      <div 
-                        className="bg-yellow-500 flex items-center justify-center text-white text-xs transition-all duration-500"
-                        style={{ width: `${((results.qpp + results.qpip + results.ei) / results.grossIncome * 100).toFixed(1)}%` }}
-                      >
-                        Autre
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-4 gap-2 mt-4 text-center text-sm">
-                      <div>
-                        <div className="w-4 h-4 bg-green-500 rounded mx-auto mb-1"></div>
-                        <p className="text-gray-600">Salaire Net</p>
-                      </div>
-                      <div>
-                        <div className="w-4 h-4 bg-red-500 rounded mx-auto mb-1"></div>
-                        <p className="text-gray-600">Impôt Fédéral</p>
-                      </div>
-                      <div>
-                        <div className="w-4 h-4 bg-blue-500 rounded mx-auto mb-1"></div>
-                        <p className="text-gray-600">Impôt Provincial</p>
-                      </div>
-                      <div>
-                        <div className="w-4 h-4 bg-yellow-500 rounded mx-auto mb-1"></div>
-                        <p className="text-gray-600">RRQ + RQAP</p>
-                      </div>
-                    </div>
-                  </div>
                 </>
               )}
             </div>
