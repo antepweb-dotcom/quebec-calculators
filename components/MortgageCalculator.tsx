@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { calculateMortgage, MortgageInputs, MortgageResult, PaymentFrequency, AmortizationYears, formatCurrency, getFrequencyLabel } from '@/utils/mortgageLogic'
 import { generateMortgagePDF } from '@/utils/pdfGenerator'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts'
@@ -12,6 +12,7 @@ export default function MortgageCalculator() {
   const [paymentFrequency, setPaymentFrequency] = useState<PaymentFrequency>('monthly')
   const [stressTestEnabled, setStressTestEnabled] = useState<boolean>(false)
   const [result, setResult] = useState<MortgageResult | null>(null)
+  const resultsRef = useRef<HTMLDivElement>(null)
 
   const handleCalculate = () => {
     const loan = parseFloat(loanAmount)
@@ -36,6 +37,11 @@ export default function MortgageCalculator() {
 
     const calculatedResult = calculateMortgage(inputs, stressTestEnabled)
     setResult(calculatedResult)
+    
+    // Auto-scroll to results
+    setTimeout(() => {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 100)
   }
 
   // Recalculate when stress test toggle changes
@@ -188,7 +194,7 @@ export default function MortgageCalculator() {
       {/* Right Column - Results */}
       <div className="lg:col-span-2">
         {result ? (
-          <div className="space-y-6">
+          <div ref={resultsRef} className="space-y-6">
             {/* HERO RESULT - V2 Gold Standard */}
             <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl shadow-2xl p-8 text-white text-center">
               <h2 className="text-2xl font-medium mb-4 opacity-90">Votre Paiement Hypothécaire</h2>

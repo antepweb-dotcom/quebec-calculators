@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { calculateRentVsBuy, RentVsBuyInput } from '@/utils/rentVsBuyLogic'
 import { Home, Building2, TrendingUp, TrendingDown } from 'lucide-react'
 
@@ -12,7 +12,22 @@ export default function RentVsBuyCalculator() {
     investmentReturnRate: 5,
   })
 
+  const [hasCalculated, setHasCalculated] = useState(false)
+  const resultsRef = useRef<HTMLDivElement>(null)
+
   const result = calculateRentVsBuy(input)
+
+  // Trigger scroll on first interaction
+  const handleInputChange = (newInput: Partial<RentVsBuyInput>) => {
+    setInput({ ...input, ...newInput })
+    
+    if (!hasCalculated) {
+      setHasCalculated(true)
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+    }
+  }
 
   return (
     <div className="space-y-8">
@@ -40,7 +55,7 @@ export default function RentVsBuyCalculator() {
               max="1000000"
               step="10000"
               value={input.homePrice}
-              onChange={(e) => setInput({ ...input, homePrice: Number(e.target.value) })}
+              onChange={(e) => handleInputChange({ homePrice: Number(e.target.value) })}
               className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
             />
             <div className="flex justify-between text-xs text-gray-500 mt-1">
@@ -65,7 +80,7 @@ export default function RentVsBuyCalculator() {
               max="4000"
               step="50"
               value={input.monthlyRent}
-              onChange={(e) => setInput({ ...input, monthlyRent: Number(e.target.value) })}
+              onChange={(e) => handleInputChange({ monthlyRent: Number(e.target.value) })}
               className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
             />
             <div className="flex justify-between text-xs text-gray-500 mt-1">
@@ -90,7 +105,7 @@ export default function RentVsBuyCalculator() {
               max="35"
               step="5"
               value={input.downPaymentPercent}
-              onChange={(e) => setInput({ ...input, downPaymentPercent: Number(e.target.value) })}
+              onChange={(e) => handleInputChange({ downPaymentPercent: Number(e.target.value) })}
               className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
             />
             <div className="flex justify-between text-xs text-gray-500 mt-1">
@@ -115,7 +130,7 @@ export default function RentVsBuyCalculator() {
               max="10"
               step="0.5"
               value={input.investmentReturnRate}
-              onChange={(e) => setInput({ ...input, investmentReturnRate: Number(e.target.value) })}
+              onChange={(e) => handleInputChange({ investmentReturnRate: Number(e.target.value) })}
               className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
             />
             <div className="flex justify-between text-xs text-gray-500 mt-1">
@@ -127,7 +142,7 @@ export default function RentVsBuyCalculator() {
       </div>
 
       {/* The Verdict Card */}
-      <div className={`rounded-xl shadow-2xl p-8 ${
+      <div ref={resultsRef} className={`rounded-xl shadow-2xl p-8 ${
         result.recommendation === 'buy' 
           ? 'bg-gradient-to-br from-green-50 to-emerald-100' 
           : 'bg-gradient-to-br from-blue-50 to-cyan-100'

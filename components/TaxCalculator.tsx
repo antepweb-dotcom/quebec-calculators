@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { calculateTaxes, convertToAnnual, PayFrequency, TaxCalculationResult } from '@/utils/taxLogic'
 import { generateSalaryPDF } from '@/utils/pdfGenerator'
 import ResultsDisplay from './ResultsDisplay'
@@ -13,6 +13,7 @@ export default function TaxCalculator({ initialSalary }: TaxCalculatorProps) {
   const [income, setIncome] = useState<string>(initialSalary ? initialSalary.toString() : '')
   const [frequency, setFrequency] = useState<PayFrequency>('annual')
   const [results, setResults] = useState<TaxCalculationResult | null>(null)
+  const resultsRef = useRef<HTMLDivElement>(null)
 
   // Auto-calculate when initialSalary is provided
   useEffect(() => {
@@ -32,6 +33,11 @@ export default function TaxCalculator({ initialSalary }: TaxCalculatorProps) {
     const annualIncome = convertToAnnual(numericIncome, frequency)
     const calculatedResults = calculateTaxes(annualIncome)
     setResults(calculatedResults)
+    
+    // Auto-scroll to results
+    setTimeout(() => {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 100)
   }
 
   const handleDownloadPDF = () => {
@@ -104,7 +110,7 @@ export default function TaxCalculator({ initialSalary }: TaxCalculatorProps) {
       {/* Right Column - Results Section */}
       <div className="lg:col-span-2">
         {results ? (
-          <div className="space-y-4">
+          <div ref={resultsRef} className="space-y-4">
             <ResultsDisplay results={results} />
             
             {/* PDF Download Button */}
