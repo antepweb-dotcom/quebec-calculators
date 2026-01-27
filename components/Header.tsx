@@ -11,7 +11,8 @@ import {
   Calculator,
   Home,
   Users,
-  TrendingDown
+  TrendingDown,
+  TrendingUp
 } from 'lucide-react'
 
 interface NavItem {
@@ -58,6 +59,7 @@ const NAV_ITEMS: NavCategory[] = [
       { name: 'Frais de Garde', href: '/frais-de-garde' },
       { name: 'Prêt Auto', href: '/pret-auto' },
       { name: 'Prêt Étudiant', href: '/pret-etudiant' },
+      { name: 'Auto Électrique vs Essence', href: '/auto-electrique-vs-essence', badge: 'NOUVEAU' },
     ]
   },
   {
@@ -66,6 +68,13 @@ const NAV_ITEMS: NavCategory[] = [
     items: [
       { name: 'Remboursement de Dettes', href: '/dettes-credit' },
       { name: 'Épargne-Retraite', href: '/epargne-retraite' },
+    ]
+  },
+  {
+    title: 'Investissement & Retraite',
+    icon: <TrendingUp className="w-5 h-5" />,
+    items: [
+      { name: 'Intérêts Composés', href: '/interets-composes', badge: 'NOUVEAU' },
     ]
   },
 ]

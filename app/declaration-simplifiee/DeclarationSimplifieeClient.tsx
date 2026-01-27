@@ -1,7 +1,6 @@
 'use client'
 
-import { useState } from 'react'
-import Header from '@/components/Header'
+import { useState, useRef } from 'react'
 import AdSlot from '@/components/AdSlot'
 import { calculateTaxForm, TaxFormInputs, TaxFormResult } from '@/utils/taxFormLogic'
 import jsPDF from 'jspdf'
@@ -18,10 +17,16 @@ export default function DeclarationSimplifieeClient() {
 
   const [result, setResult] = useState<TaxFormResult | null>(null)
   const [showGuide, setShowGuide] = useState(false)
+  const resultsRef = useRef<HTMLDivElement>(null)
 
   const handleCalculate = () => {
     const calculatedResult = calculateTaxForm(inputs)
     setResult(calculatedResult)
+    
+    // Auto-scroll to results after state update
+    setTimeout(() => {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 100)
   }
 
   const formatCurrency = (amount: number): string => {
@@ -144,9 +149,7 @@ export default function DeclarationSimplifieeClient() {
   }
 
   return (
-    <>
-      <Header />
-      <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-12">
+    <><main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-12">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center mb-12">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-full mb-4">
@@ -305,7 +308,7 @@ export default function DeclarationSimplifieeClient() {
               </div>
 
               {result && (
-                <div className="bg-white rounded-xl shadow-lg p-8">
+                <div ref={resultsRef} className="bg-white rounded-xl shadow-lg p-8">
                   <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                     <span className="text-blue-600">📊</span>
                     Résultat de votre déclaration

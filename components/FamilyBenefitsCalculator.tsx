@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { calculateFamilyBenefits, FamilyBenefitsInput } from '@/utils/familyBenefitsLogic'
 import { Baby, Users, Minus, Plus } from 'lucide-react'
 
@@ -12,6 +12,9 @@ export default function FamilyBenefitsCalculator() {
     children6to17: 0,
   })
 
+  const [hasCalculated, setHasCalculated] = useState(false)
+  const resultsRef = useRef<HTMLDivElement>(null)
+
   const result = calculateFamilyBenefits(input)
 
   const updateChildren = (type: 'under6' | '6to17', delta: number) => {
@@ -20,7 +23,24 @@ export default function FamilyBenefitsCalculator() {
       childrenUnder6: type === 'under6' ? Math.max(0, prev.childrenUnder6 + delta) : prev.childrenUnder6,
       children6to17: type === '6to17' ? Math.max(0, prev.children6to17 + delta) : prev.children6to17,
     }))
+    
+    // Mark as calculated and trigger scroll
+    if (!hasCalculated) {
+      setHasCalculated(true)
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+    }
   }
+
+  // Trigger scroll when income or custody changes (if already calculated)
+  useEffect(() => {
+    if (hasCalculated) {
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+    }
+  }, [input.familyIncome, input.custody, hasCalculated])
 
   return (
     <div className="space-y-8">
@@ -143,7 +163,7 @@ export default function FamilyBenefitsCalculator() {
       </div>
 
       {/* Results Section - "The Paycheque" */}
-      <div className="bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl shadow-2xl p-8">
+      <div ref={resultsRef} className="bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl shadow-2xl p-8">
         <div className="text-center mb-6">
           <p className="text-lg text-gray-600 mb-2">Vos allocations familiales estimées</p>
           <div className="text-6xl font-bold text-green-600 mb-2">

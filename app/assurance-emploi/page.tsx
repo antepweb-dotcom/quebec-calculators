@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import EICalculator from '@/components/EICalculator'
-import Header from '@/components/Header'
 import AdSlot from '@/components/AdSlot'
 
 export const metadata: Metadata = {
@@ -10,9 +9,7 @@ export const metadata: Metadata = {
 
 export default function EIPage() {
   return (
-    <>
-      <Header />
-      <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <><main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 py-12 max-w-7xl">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">

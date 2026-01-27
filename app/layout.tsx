@@ -1,10 +1,17 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import ScrollToTop from '@/components/ScrollToTop'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import GlobalWrapper from '@/components/GlobalWrapper'
 
-const inter = Inter({ subsets: ['latin'] })
+const plusJakartaSans = Plus_Jakarta_Sans({ 
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-jakarta',
+})
 
 export const metadata: Metadata = {
   title: 'Calculateur d\'Impôt Québec 2026 | Calculez votre revenu net',
@@ -18,13 +25,18 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr-CA">
-      <body className={inter.className}>
+    <html lang="fr">
+      <body className={`${plusJakartaSans.className} bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-50 via-white to-white text-slate-900`}>
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
           <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
         )}
         <GlobalWrapper>
-          {children}
+          <Header />
+          <main className="min-h-screen pt-4 pb-12">
+            {children}
+          </main>
+          <Footer />
+          <ScrollToTop />
         </GlobalWrapper>
       </body>
     </html>

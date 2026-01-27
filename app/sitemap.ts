@@ -23,6 +23,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/paie-vacances',
     '/allocations-familiales',
     '/taux-horaire',
+    '/auto-electrique-vs-essence',
+    '/interets-composes',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),

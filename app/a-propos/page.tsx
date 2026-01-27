@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import Header from '@/components/Header'
 import Link from 'next/link'
 import { Calculator, Shield, TrendingUp } from 'lucide-react'
 
@@ -10,9 +9,7 @@ export const metadata: Metadata = {
 
 export default function AProposPage() {
   return (
-    <>
-      <Header />
-      <main className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <><main className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
         <div className="container mx-auto px-4 py-12 max-w-4xl">
           <h1 className="text-4xl font-bold text-gray-900 mb-8">À Propos</h1>
           

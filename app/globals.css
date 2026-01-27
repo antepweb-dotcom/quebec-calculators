@@ -18,17 +18,70 @@
 }
 
 :root {
-  --foreground-rgb: 0, 0, 0;
+  --foreground-rgb: 15, 23, 42;
   --background-start-rgb: 249, 250, 251;
   --background-end-rgb: 255, 255, 255;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+/* Premium Fintech Global Styles */
+@layer base {
+  /* Typography - Better number rendering */
+  body {
+    @apply antialiased;
+    font-feature-settings: 'tnum' 1, 'lnum' 1;
+    color: rgb(var(--foreground-rgb));
+  }
+
+  /* Input Styles - Premium Focus States */
+  input[type="number"],
+  input[type="text"],
+  input[type="email"],
+  textarea,
+  select {
+    @apply rounded-xl border-2 border-slate-200 transition-all duration-200;
+  }
+
+  input[type="number"]:focus,
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  textarea:focus,
+  select:focus {
+    @apply ring-2 ring-blue-100 border-blue-300 outline-none;
+  }
+
+  /* Smooth scrolling */
+  html {
+    @apply scroll-smooth;
+  }
 }
+
+@layer components {
+  /* Premium Card Styles */
+  .card {
+    @apply bg-white border border-slate-100 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300;
+  }
+
+  /* Premium Button Base */
+  .btn-primary {
+    @apply bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105;
+  }
+
+  /* Number Display - Tabular figures for better alignment */
+  .number-display {
+    font-feature-settings: 'tnum' 1;
+    @apply font-semibold tracking-tight;
+  }
+}
+
+@layer utilities {
+  /* Glass morphism utility */
+  .glass {
+    @apply backdrop-blur-md bg-white/80 border border-white/20;
+  }
+
+  /* Subtle gradient backgrounds */
+  .gradient-subtle {
+    @apply bg-gradient-to-br from-slate-50 via-white to-slate-50;
+  }
+}
+

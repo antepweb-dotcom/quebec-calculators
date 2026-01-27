@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import RetirementCalculator from '@/components/RetirementCalculator'
-import Header from '@/components/Header'
 import AdSlot from '@/components/AdSlot'
 
 export const metadata: Metadata = {
@@ -10,9 +9,7 @@ export const metadata: Metadata = {
 
 export default function RetirementPage() {
   return (
-    <>
-      <Header />
-      <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <><main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <header className="text-center mb-8">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3">

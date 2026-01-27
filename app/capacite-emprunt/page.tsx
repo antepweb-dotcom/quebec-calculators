@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import Header from '@/components/Header'
 import AdSlot from '@/components/AdSlot'
 import AffordabilityCalculator from '@/components/AffordabilityCalculator'
 
@@ -10,9 +9,7 @@ export const metadata: Metadata = {
 
 export default function AffordabilityPage() {
   return (
-    <>
-      <Header />
-      <main className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100">
+    <><main className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100">
         <div className="container mx-auto px-4 py-12 max-w-7xl">
           {/* Header */}
           <header className="text-center mb-12">

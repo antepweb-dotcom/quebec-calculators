@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { Metadata } from 'next'
-import Header from '@/components/Header'
 import ContactSection from '@/components/ContactSection'
 import { 
   Calculator, FileText, TrendingUp, Home as HomeIcon, Scale, Receipt, 
@@ -15,11 +14,9 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <>
-      <Header />
-      <main className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
-        {/* Hero Section */}
-        <section className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white py-20">
+    <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white py-20">
           <div className="container mx-auto px-4 max-w-6xl">
             <div className="text-center">
               <div className="flex justify-center mb-6">
@@ -36,7 +33,7 @@ export default function Home() {
               <div className="flex flex-wrap justify-center gap-8 text-sm md:text-base">
                 <div className="flex items-center gap-2">
                   <Calculator className="w-5 h-5" />
-                  <span className="font-semibold">18 Outils Disponibles</span>
+                  <span className="font-semibold">19 Outils Disponibles</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <TrendingUp className="w-5 h-5" />
@@ -72,8 +69,8 @@ export default function Home() {
                   <div className="absolute top-4 right-4">
                     <span className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full">POPULAIRE</span>
                   </div>
-                  <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <DollarSign className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <DollarSign className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                     Salaire Net Québec
@@ -93,8 +90,8 @@ export default function Home() {
                   <div className="absolute top-4 right-4">
                     <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full">NOUVEAU</span>
                   </div>
-                  <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <FileText className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <FileText className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">
                     Déclaration Simplifiée
@@ -111,8 +108,8 @@ export default function Home() {
               {/* Assurance-Emploi */}
               <Link href="/assurance-emploi" className="group">
                 <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-cyan-500 h-full">
-                  <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Shield className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <Shield className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-cyan-600 transition-colors">
                     Assurance-Emploi
@@ -129,8 +126,8 @@ export default function Home() {
               {/* Taux Horaire */}
               <Link href="/taux-horaire" className="group">
                 <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-sky-500 h-full">
-                  <div className="w-14 h-14 bg-gradient-to-br from-sky-500 to-sky-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Clock className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <Clock className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-sky-600 transition-colors">
                     Taux Horaire
@@ -147,8 +144,8 @@ export default function Home() {
               {/* Paie de Vacances */}
               <Link href="/paie-vacances" className="group">
                 <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-yellow-500 h-full">
-                  <div className="w-14 h-14 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Briefcase className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <Briefcase className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-yellow-600 transition-colors">
                     Paie de Vacances
@@ -165,8 +162,8 @@ export default function Home() {
               {/* TPS/TVQ */}
               <Link href="/tps-tvq-quebec" className="group">
                 <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-orange-500 h-full">
-                  <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Receipt className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <Receipt className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">
                     TPS/TVQ
@@ -201,8 +198,8 @@ export default function Home() {
                   <div className="absolute top-4 right-4">
                     <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full">NOUVEAU</span>
                   </div>
-                  <div className="w-14 h-14 bg-gradient-to-br from-amber-500 to-amber-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Scale className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <Scale className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-amber-600 transition-colors">
                     Louer ou Acheter?
@@ -219,8 +216,8 @@ export default function Home() {
               {/* Calcul Hypothécaire */}
               <Link href="/calcul-hypotheque" className="group">
                 <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-teal-500 h-full">
-                  <div className="w-14 h-14 bg-gradient-to-br from-teal-500 to-teal-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <HomeIcon className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <HomeIcon className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-teal-600 transition-colors">
                     Calcul Hypothécaire
@@ -237,8 +234,8 @@ export default function Home() {
               {/* Capacité d'Emprunt */}
               <Link href="/capacite-emprunt" className="group">
                 <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-violet-500 h-full">
-                  <div className="w-14 h-14 bg-gradient-to-br from-violet-500 to-violet-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <DollarSign className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <DollarSign className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-violet-600 transition-colors">
                     Capacité d'Emprunt
@@ -255,8 +252,8 @@ export default function Home() {
               {/* Taxe de Bienvenue */}
               <Link href="/taxe-de-bienvenue" className="group">
                 <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-purple-500 h-full">
-                  <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Receipt className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <Receipt className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
                     Taxe de Bienvenue
@@ -273,8 +270,8 @@ export default function Home() {
               {/* Augmentation de Loyer */}
               <Link href="/augmentation-loyer-2026" className="group">
                 <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-green-500 h-full">
-                  <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <TrendingUp className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <TrendingUp className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">
                     Augmentation de Loyer
@@ -309,8 +306,8 @@ export default function Home() {
                   <div className="absolute top-4 right-4">
                     <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full">NOUVEAU</span>
                   </div>
-                  <div className="w-14 h-14 bg-gradient-to-br from-pink-500 to-pink-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <HeartHandshake className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <HeartHandshake className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
                     Allocations Familiales
@@ -327,8 +324,8 @@ export default function Home() {
               {/* Frais de Garde */}
               <Link href="/frais-de-garde" className="group">
                 <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-rose-500 h-full">
-                  <div className="w-14 h-14 bg-gradient-to-br from-rose-500 to-rose-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Baby className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <Baby className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-rose-600 transition-colors">
                     Frais de Garde
@@ -345,8 +342,8 @@ export default function Home() {
               {/* Prêt Auto */}
               <Link href="/pret-auto" className="group">
                 <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-indigo-500 h-full">
-                  <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Car className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <Car className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">
                     Prêt Auto
@@ -363,8 +360,8 @@ export default function Home() {
               {/* Prêt Étudiant */}
               <Link href="/pret-etudiant" className="group">
                 <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-purple-500 h-full">
-                  <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <FileText className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <FileText className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
                     Prêt Étudiant
@@ -396,8 +393,8 @@ export default function Home() {
               {/* Remboursement de Dettes */}
               <Link href="/dettes-credit" className="group">
                 <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-red-500 h-full">
-                  <div className="w-14 h-14 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <CreditCard className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <CreditCard className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors">
                     Remboursement de Dettes
@@ -414,8 +411,8 @@ export default function Home() {
               {/* Épargne-Retraite */}
               <Link href="/epargne-retraite" className="group">
                 <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-emerald-500 h-full">
-                  <div className="w-14 h-14 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <PiggyBank className="w-7 h-7 text-white" />
+                  <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <PiggyBank className="w-7 h-7" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-emerald-600 transition-colors">
                     Épargne-Retraite
@@ -424,6 +421,42 @@ export default function Home() {
                     Planifiez votre retraite avec les intérêts composés
                   </p>
                   <div className="flex items-center text-emerald-600 font-semibold text-sm">
+                    <span>Calculer →</span>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          </section>
+
+          {/* Category E: Investissement & Retraite */}
+          <section className="mb-16">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+                <TrendingUp className="w-7 h-7 text-indigo-600" />
+              </div>
+              <div>
+                <h2 className="text-3xl font-bold text-gray-900">Investissement & Retraite</h2>
+                <p className="text-gray-600">Faites fructifier votre argent</p>
+              </div>
+            </div>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Intérêts Composés */}
+              <Link href="/interets-composes" className="group">
+                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-indigo-500 h-full relative">
+                  <div className="absolute top-4 right-4">
+                    <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full">NOUVEAU</span>
+                  </div>
+                  <div className="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <TrendingUp className="w-7 h-7" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">
+                    Intérêts Composés
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Découvrez la puissance des intérêts composés
+                  </p>
+                  <div className="flex items-center text-indigo-600 font-semibold text-sm">
                     <span>Calculer →</span>
                   </div>
                 </div>
@@ -479,27 +512,7 @@ export default function Home() {
 
           {/* Contact Form Section */}
           <ContactSection accessKey={process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || 'YOUR_ACCESS_KEY_HERE'} />
-
-          {/* Footer */}
-          <footer className="border-t border-gray-200 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <div className="text-center md:text-left">
-                <p className="text-sm text-gray-600">
-                  © 2026 Outils Financiers Québec. Tous les calculs sont fournis à titre indicatif seulement.
-                </p>
-              </div>
-              <div className="flex gap-6 text-sm">
-                <Link href="/confidentialite" className="text-gray-600 hover:text-blue-600 transition-colors">
-                  Confidentialité
-                </Link>
-                <Link href="/a-propos" className="text-gray-600 hover:text-blue-600 transition-colors">
-                  À propos
-                </Link>
-              </div>
-            </div>
-          </footer>
         </div>
-      </main>
-    </>
+      </div>
   )
 }

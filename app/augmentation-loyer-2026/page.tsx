@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import RentCalculator from '@/components/RentCalculator'
-import Header from '@/components/Header'
 import AdSlot from '@/components/AdSlot'
 import { Scale, FileText, TrendingUp } from 'lucide-react'
 
@@ -11,9 +10,7 @@ export const metadata: Metadata = {
 
 export default function RentIncreasePage() {
   return (
-    <>
-      <Header />
-      <main className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
+    <><main className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
       <div className="container mx-auto px-4 py-12 max-w-7xl">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
