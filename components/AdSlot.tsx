@@ -159,3 +159,4 @@ function sanitizeHtml(html: string): string {
   // Not: Gerçek production'da DOMPurify gibi bir kütüphane kullanın
   return sanitized;
 }
+

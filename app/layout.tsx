@@ -15,26 +15,30 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://quebec-calculators.vercel.app'),
+  metadataBase: new URL('https://qcfinance.ca'),
   title: {
-    template: '%s | Quebec Calculators',
-    default: 'Calculateurs Financiers Québec 2026 | 19 Outils Gratuits',
+    template: '%s | QCFinance - Outils Financiers Québec',
+    default: 'QCFinance | Calculatrices d\'Impôt, Hypothèque et Salaire Net Québec (2026)',
   },
-  description: 'Calculez impôts, salaire net, hypothèque et plus. 19 outils financiers gratuits pour le Québec. Résultats instantanés.',
+  description: 'Le site de référence pour vos finances au Québec. Calculatrices gratuites et précises pour l\'impôt 2026, le salaire net, l\'assurance-emploi et l\'immobilier.',
   keywords: [
+    'impôt québec 2026',
+    'calcul salaire net québec',
+    'calculatrice hypothécaire québec',
+    'frais de garde',
+    'rrq',
+    'rqap',
     'calculateur impôt québec',
     'salaire net québec',
-    'calculateur hypothèque',
     'allocations familiales',
     'outils financiers québec',
-    'calculateur québec 2026',
-    'impôt québec 2026',
     'taxe de bienvenue',
     'loyer québec',
+    'assurance-emploi',
   ],
-  authors: [{ name: 'Quebec Calculators' }],
-  creator: 'Quebec Calculators',
-  publisher: 'Quebec Calculators',
+  authors: [{ name: 'QCFinance' }],
+  creator: 'QCFinance',
+  publisher: 'QCFinance',
   robots: {
     index: true,
     follow: true,
@@ -53,7 +57,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'fr_CA',
     url: '/',
-    siteName: 'Quebec Calculators',
+    siteName: 'QCFinance',
     title: 'Outils Financiers Québec 2026 - Impôt, Immobilier, Auto & Famille',
     description: 'Le site référence pour vos finances au Québec. 19 calculateurs gratuits pour impôts, hypothèque, salaire net, allocations familiales et plus.',
   },
@@ -73,7 +77,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr">
+    <html lang="fr-CA">
       <head>
         <OrganizationSchema />
       </head>
@@ -93,3 +97,4 @@ export default function RootLayout({
     </html>
   )
 }
+

@@ -202,3 +202,4 @@ export function getAnalyticsData() {
 export function validateAdminPassword(password: string): boolean {
   return password === siteConfig.auth.password;
 }
+

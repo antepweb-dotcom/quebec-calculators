@@ -38,3 +38,4 @@ export default async function GlobalWrapper({ children }: { children: React.Reac
     </>
   );
 }
+

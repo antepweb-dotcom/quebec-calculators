@@ -101,3 +101,4 @@ export default function SEOContent({ title, intro, faqs, additionalContent }: SE
     </section>
   )
 }
+

@@ -264,3 +264,4 @@ export default function TaxCalculator({ initialSalary }: TaxCalculatorProps) {
     </div>
   )
 }
+

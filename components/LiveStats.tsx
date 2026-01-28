@@ -90,3 +90,4 @@ export default function LiveStats({ initialActiveUsers = 0 }: LiveStatsProps) {
     </div>
   );
 }
+

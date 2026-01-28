@@ -85,3 +85,4 @@ export async function trackVisit(path: string): Promise<{
   console.log('Visit tracking disabled (no database):', path)
   return { success: true }
 }
+

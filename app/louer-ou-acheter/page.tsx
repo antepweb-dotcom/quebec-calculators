@@ -39,7 +39,7 @@ export default function RentVsBuyPage() {
       <StructuredData
         name="Calculateur Louer ou Acheter Québec 2026"
         description="Calculateur gratuit pour comparer financièrement l'achat d'une maison vs la location au Québec. Analyse complète sur 5 ans incluant hypothèque, taxes, entretien, appréciation et rendements d'investissement."
-        url="https://quebec-calculators.vercel.app/louer-ou-acheter"
+        url="https://qcfinance.ca/louer-ou-acheter"
         category="FinanceApplication"
         aggregateRating={{
           ratingValue: 4.6,
@@ -342,3 +342,4 @@ export default function RentVsBuyPage() {
     </>
   )
 }
+

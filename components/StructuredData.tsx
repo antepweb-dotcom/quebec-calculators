@@ -39,13 +39,13 @@ export default function StructuredData({
     dateModified: new Date().toISOString().split('T')[0],
     author: {
       '@type': 'Organization',
-      name: 'Quebec Calculators',
-      url: 'https://quebec-calculators.vercel.app',
+      name: 'QCFinance',
+      url: 'https://qcfinance.ca',
     },
     provider: {
       '@type': 'Organization',
-      name: 'Quebec Calculators',
-      url: 'https://quebec-calculators.vercel.app',
+      name: 'QCFinance',
+      url: 'https://qcfinance.ca',
     },
     ...(aggregateRating && {
       aggregateRating: {
@@ -68,8 +68,8 @@ export default function StructuredData({
     inLanguage: 'fr-CA',
     isPartOf: {
       '@type': 'WebSite',
-      name: 'Quebec Calculators',
-      url: 'https://quebec-calculators.vercel.app',
+      name: 'QCFinance',
+      url: 'https://qcfinance.ca',
     },
     about: {
       '@type': 'Thing',
@@ -97,3 +97,4 @@ export default function StructuredData({
     </>
   )
 }
+

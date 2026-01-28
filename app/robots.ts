@@ -6,10 +6,9 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/admin/'],
       },
     ],
-    sitemap: 'https://quebec-calculators.vercel.app/sitemap.xml',
-    host: 'https://quebec-calculators.vercel.app',
+    sitemap: 'https://qcfinance.ca/sitemap.xml',
   }
 }
+

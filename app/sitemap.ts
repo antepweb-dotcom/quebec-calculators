@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://quebec-calculators.vercel.app'
+  const baseUrl = 'https://qcfinance.ca'
   
   // 1. STATIC PAGES (All Tools) - Organized by priority with real dates
   const staticRoutes = [
@@ -62,3 +62,4 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [...staticRoutes, ...salaryRoutes]
 }
+

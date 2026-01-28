@@ -33,10 +33,11 @@ export default async function Image() {
             <div style={{ fontSize: '36px', fontWeight: 'bold', color: GRADIENT_START, display: 'flex' }}>Calculer Maintenant</div>
             <div style={{ fontSize: '36px', display: 'flex' }}>→</div>
           </div>
-          <div style={{ fontSize: '20px', color: 'rgba(255, 255, 255, 0.7)', marginTop: '40px', display: 'flex' }}>quebec-calculators.vercel.app</div>
+          <div style={{ fontSize: '20px', color: 'rgba(255, 255, 255, 0.7)', marginTop: '40px', display: 'flex' }}>qcfinance.ca</div>
         </div>
       </div>
     ),
     { ...size }
   )
 }
+

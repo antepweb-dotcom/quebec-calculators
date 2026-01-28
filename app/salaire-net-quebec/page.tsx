@@ -40,7 +40,7 @@ export default function SalaryLandingPage() {
       <StructuredData
         name="Calculateur Salaire Net Québec 2026"
         description="Calculateur gratuit pour estimer votre salaire net après impôts au Québec. Intègre tous les taux d'imposition 2026, RRQ, RQAP, AE et déductions fédérales et provinciales. Calcul instantané et précis."
-        url="https://quebec-calculators.vercel.app/salaire-net-quebec"
+        url="https://qcfinance.ca/salaire-net-quebec"
         category="FinanceApplication"
         aggregateRating={{
           ratingValue: 4.8,
@@ -102,3 +102,4 @@ export default function SalaryLandingPage() {
     </>
   )
 }
+

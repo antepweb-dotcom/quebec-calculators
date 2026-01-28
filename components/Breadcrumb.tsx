@@ -22,13 +22,13 @@ export default function Breadcrumb({ items }: BreadcrumbProps) {
         '@type': 'ListItem',
         position: 1,
         name: 'Accueil',
-        item: 'https://quebec-calculators.vercel.app',
+        item: 'https://qcfinance.ca',
       },
       ...items.map((item, index) => ({
         '@type': 'ListItem',
         position: index + 2,
         name: item.label,
-        ...(item.href && { item: `https://quebec-calculators.vercel.app${item.href}` }),
+        ...(item.href && { item: `https://qcfinance.ca${item.href}` }),
       })),
     ],
   }
@@ -74,3 +74,4 @@ export default function Breadcrumb({ items }: BreadcrumbProps) {
     </>
   )
 }
+

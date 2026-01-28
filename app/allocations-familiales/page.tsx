@@ -38,7 +38,7 @@ export default function FamilyBenefitsPage() {
       <StructuredData
         name="Calculateur Allocations Familiales Québec 2026"
         description="Calculateur gratuit pour estimer vos allocations familiales au Québec. Combine l'Allocation canadienne pour enfants (ACE) et le Soutien aux enfants du Québec. Calcul basé sur votre revenu familial et le nombre d'enfants."
-        url="https://quebec-calculators.vercel.app/allocations-familiales"
+        url="https://qcfinance.ca/allocations-familiales"
         category="FinanceApplication"
         aggregateRating={{
           ratingValue: 4.7,
@@ -261,3 +261,4 @@ export default function FamilyBenefitsPage() {
     </>
   )
 }
+

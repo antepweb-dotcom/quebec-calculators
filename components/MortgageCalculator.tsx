@@ -328,3 +328,4 @@ export default function MortgageCalculator() {
     </div>
   )
 }
+

@@ -325,3 +325,4 @@ export default function RelatedTools({ currentTool, currentCategory }: RelatedTo
     </section>
   )
 }
+

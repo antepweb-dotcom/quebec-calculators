@@ -54,3 +54,4 @@ export async function isAuthenticated(): Promise<boolean> {
   const sessionCookie = cookies().get(SESSION_COOKIE_NAME)
   return sessionCookie?.value === SESSION_TOKEN
 }
+

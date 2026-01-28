@@ -28,3 +28,4 @@ export default function AnalyticsTracker() {
   // This component renders nothing
   return null;
 }
+

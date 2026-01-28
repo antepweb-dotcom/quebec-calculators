@@ -215,3 +215,4 @@ export default function VacationPayCalculator() {
     </div>
   )
 }
+

@@ -4,10 +4,10 @@ export default function OrganizationSchema() {
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Quebec Calculators',
+    name: 'QCFinance',
     alternateName: 'Calculateurs Québec',
-    url: 'https://quebec-calculators.vercel.app',
-    logo: 'https://quebec-calculators.vercel.app/logo.png',
+    url: 'https://qcfinance.ca',
+    logo: 'https://qcfinance.ca/logo.png',
     description: 'Outils financiers gratuits pour le Québec - Calculateurs d\'impôts, hypothèque, salaire net et plus',
     address: {
       '@type': 'PostalAddress',
@@ -28,19 +28,19 @@ export default function OrganizationSchema() {
     ],
     sameAs: [
       // Ajoutez vos réseaux sociaux ici quand disponibles
-      // 'https://facebook.com/quebeccalculators',
-      // 'https://twitter.com/quebeccalc',
-      // 'https://linkedin.com/company/quebeccalculators',
+      // 'https://facebook.com/qcfinance',
+      // 'https://twitter.com/qcfinance',
+      // 'https://linkedin.com/company/qcfinance',
     ],
   }
 
   const localBusinessSchema = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    '@id': 'https://quebec-calculators.vercel.app',
-    name: 'Quebec Calculators',
-    image: 'https://quebec-calculators.vercel.app/logo.png',
-    url: 'https://quebec-calculators.vercel.app',
+    '@id': 'https://qcfinance.ca',
+    name: 'QCFinance',
+    image: 'https://qcfinance.ca/logo.png',
+    url: 'https://qcfinance.ca',
     telephone: '', // Ajoutez si disponible
     priceRange: 'Gratuit',
     address: {
@@ -79,13 +79,13 @@ export default function OrganizationSchema() {
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Quebec Calculators',
-    url: 'https://quebec-calculators.vercel.app',
+    name: 'QCFinance',
+    url: 'https://qcfinance.ca',
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://quebec-calculators.vercel.app/search?q={search_term_string}',
+        urlTemplate: 'https://qcfinance.ca/search?q={search_term_string}',
       },
       'query-input': 'required name=search_term_string',
     },
@@ -109,3 +109,4 @@ export default function OrganizationSchema() {
     </>
   )
 }
+

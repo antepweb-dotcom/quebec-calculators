@@ -33,3 +33,4 @@ export default function TrafficChart({ data }: TrafficChartProps) {
     </div>
   )
 }
+

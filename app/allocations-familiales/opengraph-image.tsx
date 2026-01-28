@@ -160,7 +160,7 @@ export default async function Image() {
               display: 'flex',
             }}
           >
-            quebec-calculators.vercel.app
+            qcfinance.ca
           </div>
         </div>
       </div>
@@ -170,3 +170,4 @@ export default async function Image() {
     }
   )
 }
+

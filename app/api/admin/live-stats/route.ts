@@ -77,3 +77,4 @@ export async function GET() {
 // Use Node.js runtime (required for GA4 client)
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
+

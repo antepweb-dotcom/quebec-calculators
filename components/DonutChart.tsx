@@ -59,3 +59,4 @@ export default function DonutChart({ netIncome, totalTax }: DonutChartProps) {
     </ResponsiveContainer>
   )
 }
+
