@@ -325,7 +325,7 @@ export default function WageConverter() {
               description="Utilisez Wealthsimple pour gérer votre budget et épargner automatiquement une partie de votre salaire. Obtenez 25$ de bonus."
               buttonText="Obtenir 25$ de bonus"
               link="https://wealthsimple.com/fr-ca"
-              theme="cyan"
+              theme="blue"
             />
           </div>
         ) : (
