@@ -6,6 +6,7 @@ import { Calculator, PiggyBank, FileText, Lock, CheckCircle2, TrendingDown } fro
 import SalaryChart from '@/components/SalaryChart'
 import Breadcrumb from '@/components/Breadcrumb'
 import AffiliateCard from '@/components/AffiliateCard'
+import SalarySEOContent from '@/components/SalarySEOContent'
 
 interface PageProps {
   params: { salary: string }
@@ -587,6 +588,9 @@ export default function SalaryDetailPage({ params }: PageProps) {
                 </details>
               </div>
             </section>
+
+            {/* SEO Content Section - Programmatic Content + Structured Data */}
+            <SalarySEOContent salary={salary} results={results} />
 
           </div>
         )}

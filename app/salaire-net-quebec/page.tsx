@@ -6,31 +6,34 @@ import RelatedTools from '@/components/RelatedTools'
 import Breadcrumb from '@/components/Breadcrumb'
 
 export const metadata: Metadata = {
-  title: "Salaire Net Québec 2026 | Calculateur Impôt Gratuit",
-  description: "Calculez votre salaire net après impôts au Québec. Taux 2026, RRQ, RQAP inclus. Résultat instantané et gratuit.",
+  title: "Calcul Impôt Québec 2026 | Salaire Net après Impôts - Gratuit",
+  description: "Calculateur d'impôt Québec 2026 : Calculez votre salaire net après impôts fédéral et provincial. Taux officiels 2026, RRQ, RQAP, AE inclus. Résultat instantané et précis.",
   keywords: [
+    'calcul impôt québec',
+    'calcul impôt québec 2026',
     'salaire net québec',
-    'calculateur impôt québec 2026',
+    'calculateur impôt québec',
     'revenu net après impôt',
-    'calculateur salaire',
-    'impôt québec',
-    'RRQ RQAP',
-    'déductions salariales',
+    'taux imposition québec',
+    'impôt fédéral provincial',
+    'RRQ RQAP AE',
+    'déductions salariales québec',
+    'taux marginal effectif',
   ],
   alternates: {
     canonical: '/salaire-net-quebec',
   },
   openGraph: {
-    title: "Calculateur Salaire Net Québec 2026 - Précis & Gratuit",
-    description: "Estimez votre revenu net après impôts en 2 secondes. Intègre les taux 2026, RRQ, RQAP et déductions fédérales.",
+    title: "Calcul Impôt Québec 2026 - Calculateur Salaire Net Gratuit",
+    description: "Calculez votre salaire net après impôts au Québec. Taux officiels 2026, impôts fédéral et provincial, RRQ, RQAP, AE. Résultat instantané.",
     url: '/salaire-net-quebec',
     type: 'website',
     locale: 'fr_CA',
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Calculateur Salaire Net Québec 2026",
-    description: "Estimez votre revenu net après impôts en 2 secondes",
+    title: "Calcul Impôt Québec 2026 - Salaire Net",
+    description: "Calculez votre salaire net après impôts au Québec avec les taux officiels 2026",
   },
 }
 
