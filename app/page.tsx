@@ -129,14 +129,14 @@ export default function Home() {
               {/* Main Hero Image */}
               <div className="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-gray-900/10 transform hover:scale-[1.02] transition-transform duration-500">
                 <Image
-                  src="/images/orta.jpeg"
+                  src="/images/orta.jpg"
                   alt="Financial Dashboard - Modern Finance Technology"
                   width={800}
                   height={600}
-                  className="w-full h-auto object-cover"
+                  className="w-full h-auto object-cover mix-blend-multiply"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-emerald-900/40 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-emerald-900/30 via-transparent to-transparent" />
                 
                 {/* Floating Stats Cards */}
                 <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl p-4 transform hover:scale-105 transition-transform">
