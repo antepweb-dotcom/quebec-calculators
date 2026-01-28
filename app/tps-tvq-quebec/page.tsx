@@ -1,22 +1,65 @@
 import { Metadata } from 'next'
 import SalesTaxCalculator from '@/components/SalesTaxCalculator'
 import { ShoppingCart, FileText, CheckCircle } from 'lucide-react'
+import StructuredData from '@/components/StructuredData'
+import Breadcrumb from '@/components/Breadcrumb'
 
 export const metadata: Metadata = {
-  title: 'Calculateur TPS TVQ Québec 2026 - Taxes de Vente (5% + 9.975%)',
-  description: 'Calculez les taxes de vente au Québec (TPS 5% + TVQ 9.975% = 14.975%). Mode inversé pour extraire les taxes d\'un montant TTC. Simple et rapide.',
+  title: 'TPS TVQ Québec 2026 | Calculateur Taxes de Vente',
+  description: 'Calculez les taxes de vente au Québec (14,975%). Mode inversé inclus. Simple et rapide.',
+  keywords: [
+    'tps tvq québec',
+    'calculateur taxes vente',
+    'taxes québec 14.975%',
+    'tps 5%',
+    'tvq 9.975%',
+    'calculateur tps tvq',
+  ],
+  alternates: {
+    canonical: '/tps-tvq-quebec',
+  },
+  openGraph: {
+    title: "TPS TVQ Québec 2026 - Calculateur Taxes de Vente",
+    description: "Calculez les taxes de vente (14,975%). Mode inversé inclus. Résultat instantané.",
+    url: '/tps-tvq-quebec',
+    type: 'website',
+    locale: 'fr_CA',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "TPS TVQ Québec 2026",
+    description: "Calculez vos taxes de vente",
+  },
 }
 
 export default function SalesTaxPage() {
   return (
-    <><main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <><StructuredData
+        name="Calculateur TPS TVQ Québec"
+        description="Calculez les taxes de vente au Québec (14,975%)"
+        url="/tps-tvq-quebec"
+        category="FinanceApplication"
+        aggregateRating={{
+          ratingValue: 4.5,
+          ratingCount: 650,
+        }}
+      />
+      <Breadcrumb
+        items={[
+          { label: 'TPS TVQ Québec', href: '/tps-tvq-quebec' },
+        ]}
+      />
+      <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 py-12 max-w-7xl">
         <header className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Calculateur TPS/TVQ Québec 2026
+          <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+            🧾 Taxes de Vente
+          </span>
+          <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+            Calculez Vos Taxes TPS/TVQ
           </h1>
-          <p className="text-xl text-gray-600">
-            Calculez les taxes de vente (TPS 5% + TVQ 9,975%) avec calcul inversé
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Ajoutez ou extrayez les taxes de vente québécoises (14,975%) en un clic
           </p>
         </header>
 

@@ -3,8 +3,11 @@ import EVSavingsCalculator from '@/components/EVSavingsCalculator'
 import { Zap, Leaf, DollarSign, TrendingDown } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: "Auto Électrique vs Essence - Calculateur d'Économies Québec 2026",
-  description: "Combien économiserez-vous en passant à l'électrique? Calculez vos économies annuelles, l'impact environnemental et découvrez les subventions disponibles au Québec.",
+  title: "Auto Électrique vs Essence Québec 2026 | Calculateur",
+  description: "Calculez vos économies en passant à l'électrique. Subventions, coûts et impact environnemental. Gratuit.",
+  alternates: {
+    canonical: '/auto-electrique-vs-essence',
+  },
 }
 
 export default function EVSavingsPage() {
@@ -13,16 +16,14 @@ export default function EVSavingsPage() {
         <div className="container mx-auto px-4 py-12 max-w-7xl">
           {/* Header */}
           <header className="text-center mb-12">
-            <div className="flex justify-center mb-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-emerald-600 rounded-2xl flex items-center justify-center">
-                <Zap className="w-10 h-10 text-white" />
-              </div>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Auto Électrique vs Essence
+            <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+              ⚡ Transition Verte
+            </span>
+            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+              Électrique vs Essence : Vos Vraies Économies
             </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Découvrez combien vous économiserez en passant à l'électrique au Québec
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Découvrez combien vous économiserez chaque année en passant à l'électrique au Québec
             </p>
           </header>
 

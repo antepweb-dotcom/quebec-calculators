@@ -152,16 +152,14 @@ export default function DeclarationSimplifieeClient() {
     <><main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-12">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-full mb-4">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Assistant Déclaration Simplifiée
+            <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+              💰 Saison des Impôts
+            </span>
+            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+              Estimez Votre Remboursement d'Impôt
             </h1>
-            <p className="text-xl text-gray-600">
-              Estimez votre remboursement d'impôt 2026 et générez un rapport PDF
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Anticipez combien le gouvernement vous doit cette année avec notre simulateur rapide
             </p>
           </div>
 

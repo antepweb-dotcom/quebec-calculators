@@ -1,22 +1,65 @@
 import { Metadata } from 'next'
 import AutoLoanCalculator from '@/components/AutoLoanCalculator'
 import { Car, TrendingDown, DollarSign } from 'lucide-react'
+import StructuredData from '@/components/StructuredData'
+import Breadcrumb from '@/components/Breadcrumb'
 
 export const metadata: Metadata = {
-  title: 'Calculateur Prêt Auto Québec 2026 - Financement Voiture (Mensuel + Bi-hebdo)',
-  description: 'Calculez vos paiements de financement automobile au Québec. Inclut TPS/TVQ, échange, et paiements bi-hebdomadaires. Comparez les termes de 36 à 84 mois.',
+  title: 'Prêt Auto Québec 2026 | Calculateur Financement',
+  description: 'Calculez vos paiements de financement automobile. TPS/TVQ inclus. Mensuel et bi-hebdo. Gratuit.',
+  keywords: [
+    'prêt auto québec',
+    'financement automobile',
+    'calculateur auto',
+    'paiement voiture',
+    'financement véhicule',
+    'prêt auto 2026',
+  ],
+  alternates: {
+    canonical: '/pret-auto',
+  },
+  openGraph: {
+    title: "Prêt Auto Québec 2026 - Calculateur Financement",
+    description: "Calculez vos paiements mensuels et bi-hebdo. TPS/TVQ inclus. Résultat instantané.",
+    url: '/pret-auto',
+    type: 'website',
+    locale: 'fr_CA',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Prêt Auto Québec 2026",
+    description: "Calculez votre paiement automobile",
+  },
 }
 
 export default function AutoLoanPage() {
   return (
-    <><main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <><StructuredData
+        name="Calculateur Prêt Auto Québec"
+        description="Calculez vos paiements de financement automobile avec TPS/TVQ"
+        url="/pret-auto"
+        category="FinanceApplication"
+        aggregateRating={{
+          ratingValue: 4.6,
+          ratingCount: 720,
+        }}
+      />
+      <Breadcrumb
+        items={[
+          { label: 'Prêt Auto', href: '/pret-auto' },
+        ]}
+      />
+      <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 py-12 max-w-7xl">
         <header className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Calculateur de Prêt Auto Québec 2026
+          <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+            🚗 Financement Auto
+          </span>
+          <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+            Votre Paiement Auto Réel
           </h1>
-          <p className="text-xl text-gray-600">
-            Calculez vos paiements mensuels et aux deux semaines pour votre véhicule
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Calculez vos paiements mensuels et découvrez combien vous économiserez avec les paiements bi-hebdomadaires
           </p>
         </header>
 

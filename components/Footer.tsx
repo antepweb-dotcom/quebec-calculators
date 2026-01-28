@@ -23,8 +23,10 @@ export default function Footer() {
             <p className="text-slate-400 text-sm leading-relaxed">
               Simplifiez vos finances au Québec.
             </p>
-            <p className="text-slate-500 text-sm flex items-center gap-1">
-              Made with <Heart className="w-4 h-4 text-red-500 fill-red-500" /> in Montreal
+            <p className="text-slate-500 text-sm flex items-center gap-1 flex-wrap">
+              <span>Développé avec</span>
+              <Heart className="w-4 h-4 text-red-500 fill-red-500" />
+              <span>à Montréal pour les Québécois</span>
             </p>
           </div>
 

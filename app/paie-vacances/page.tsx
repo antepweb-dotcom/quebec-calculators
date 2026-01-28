@@ -1,10 +1,34 @@
 import { Metadata } from 'next'
 import VacationPayCalculator from '@/components/VacationPayCalculator'
 import { Calendar, Percent, CheckCircle } from 'lucide-react'
+import RelatedTools from '@/components/RelatedTools'
 
 export const metadata: Metadata = {
   title: "Calculateur Paie de Vacances Québec - 4% ou 6% Indemnité",
   description: "Calculez votre indemnité de vacances selon la loi québécoise. 4% pour moins de 3 ans, 6% pour 3 ans et plus. Planifiez vos vacances dès maintenant.",
+  keywords: [
+    'paie de vacances québec',
+    'indemnité vacances',
+    'calculateur vacances 4%',
+    'vacances 6%',
+    'loi normes travail',
+    'calcul vacances québec',
+  ],
+  alternates: {
+    canonical: '/paie-vacances',
+  },
+  openGraph: {
+    title: "Calculateur Paie de Vacances Québec - 4% ou 6%",
+    description: "Calculez votre indemnité de vacances selon la loi. 4% ou 6% selon votre ancienneté. Gratuit.",
+    url: '/paie-vacances',
+    type: 'website',
+    locale: 'fr_CA',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Calculateur Paie de Vacances Québec",
+    description: "Calculez votre indemnité de vacances",
+  },
 }
 
 export default function VacationPayPage() {
@@ -12,11 +36,14 @@ export default function VacationPayPage() {
     <><main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="container mx-auto px-4 py-12 max-w-7xl">
           <header className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Calculateur de Paie de Vacances
+            <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+              🏖️ Temps de Repos
+            </span>
+            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+              Calculez Votre Paie de Vacances
             </h1>
-            <p className="text-xl text-gray-600">
-              Découvrez le montant de votre indemnité de vacances au Québec
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Découvrez combien vous recevrez pour vos vacances selon la loi québécoise (4% ou 6%)
             </p>
           </header>
 
@@ -116,6 +143,9 @@ export default function VacationPayPage() {
               </div>
             </div>
           </section>
+
+          {/* Related Tools */}
+          <RelatedTools currentTool="/paie-vacances" currentCategory="tax" />
         </div>
       </main>
     </>

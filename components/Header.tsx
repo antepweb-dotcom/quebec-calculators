@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   ChevronDown, 
@@ -29,14 +30,13 @@ interface NavCategory {
 
 const NAV_ITEMS: NavCategory[] = [
   {
-    title: 'Impôts & Revenus',
+    title: 'Impôts & Salaire',
     icon: <Calculator className="w-5 h-5" />,
     items: [
       { name: 'Salaire Net Québec', href: '/salaire-net-quebec' },
-      { name: 'Déclaration Simplifiée', href: '/declaration-simplifiee', badge: 'NOUVEAU' },
+      { name: 'Déclaration Simplifiée', href: '/declaration-simplifiee' },
       { name: 'Assurance-Emploi', href: '/assurance-emploi' },
       { name: 'Taux Horaire', href: '/taux-horaire' },
-      { name: 'Paie de Vacances', href: '/paie-vacances' },
       { name: 'TPS/TVQ', href: '/tps-tvq-quebec' },
     ]
   },
@@ -44,37 +44,22 @@ const NAV_ITEMS: NavCategory[] = [
     title: 'Immobilier',
     icon: <Home className="w-5 h-5" />,
     items: [
-      { name: 'Louer ou Acheter?', href: '/louer-ou-acheter', badge: 'NOUVEAU' },
       { name: 'Calcul Hypothécaire', href: '/calcul-hypotheque' },
+      { name: 'Louer ou Acheter?', href: '/louer-ou-acheter' },
       { name: 'Capacité d\'Emprunt', href: '/capacite-emprunt' },
       { name: 'Taxe de Bienvenue', href: '/taxe-de-bienvenue' },
       { name: 'Augmentation de Loyer', href: '/augmentation-loyer-2026' },
     ]
   },
   {
-    title: 'Famille & Quotidien',
+    title: 'Famille & Finances',
     icon: <Users className="w-5 h-5" />,
     items: [
-      { name: 'Allocations Familiales', href: '/allocations-familiales', badge: 'NOUVEAU' },
+      { name: 'Allocations Familiales', href: '/allocations-familiales' },
       { name: 'Frais de Garde', href: '/frais-de-garde' },
-      { name: 'Prêt Auto', href: '/pret-auto' },
-      { name: 'Prêt Étudiant', href: '/pret-etudiant' },
-      { name: 'Auto Électrique vs Essence', href: '/auto-electrique-vs-essence', badge: 'NOUVEAU' },
-    ]
-  },
-  {
-    title: 'Dettes & Planification',
-    icon: <TrendingDown className="w-5 h-5" />,
-    items: [
-      { name: 'Remboursement de Dettes', href: '/dettes-credit' },
       { name: 'Épargne-Retraite', href: '/epargne-retraite' },
-    ]
-  },
-  {
-    title: 'Investissement & Retraite',
-    icon: <TrendingUp className="w-5 h-5" />,
-    items: [
-      { name: 'Intérêts Composés', href: '/interets-composes', badge: 'NOUVEAU' },
+      { name: 'Remboursement Dettes', href: '/dettes-credit' },
+      { name: 'Prêt Auto', href: '/pret-auto' },
     ]
   },
 ]
@@ -110,17 +95,29 @@ export default function Header() {
 
   return (
     <>
-      <header className="w-full sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-gray-100 shadow-sm">
+      <header className="w-full sticky top-0 z-50 backdrop-blur-md bg-white/90 border-b border-gray-200 shadow-sm">
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-14 relative">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 to-teal-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Calculator className="w-6 h-6 text-white" />
-              </div>
-              <span className="font-bold text-xl text-gray-900 hidden sm:block">
-                Quebec<span className="text-emerald-600">Calculators</span>
-              </span>
+            <Link href="/" className="flex items-center gap-2">
+              {/* Desktop Logo */}
+              <Image
+                src="/images/logo.png"
+                alt="QuebecCalc Logo"
+                width={220}
+                height={65}
+                className="h-[52px] w-auto hidden sm:block"
+                priority
+              />
+              {/* Mobile Logo - Centered & Bigger */}
+              <Image
+                src="/images/logo.png"
+                alt="QuebecCalc Logo"
+                width={200}
+                height={60}
+                className="h-[50px] w-auto sm:hidden absolute left-1/2 -translate-x-1/2"
+                priority
+              />
             </Link>
 
             {/* Desktop Navigation */}
@@ -132,7 +129,7 @@ export default function Header() {
                   onMouseEnter={() => setActiveDropdown(index)}
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
-                  <button className="flex items-center gap-2 px-4 py-2 rounded-lg text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 transition-all font-medium">
+                  <button className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 transition-all">
                     {category.icon}
                     <span>{category.title}</span>
                     <ChevronDown className={`w-4 h-4 transition-transform ${activeDropdown === index ? 'rotate-180' : ''}`} />
@@ -146,23 +143,16 @@ export default function Header() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 mt-2 w-72 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-50"
+                        className="absolute top-full left-0 mt-1 w-64 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50"
                       >
-                        <div className="p-2">
+                        <div className="p-1.5">
                           {category.items.map((item, itemIndex) => (
                             <Link
                               key={itemIndex}
                               href={item.href}
-                              className="flex items-center justify-between px-4 py-3 rounded-lg hover:bg-emerald-50 transition-colors group"
+                              className="block px-3 py-2.5 rounded-lg hover:bg-emerald-50 text-gray-700 hover:text-emerald-600 font-medium text-sm transition-colors"
                             >
-                              <span className="text-gray-700 group-hover:text-emerald-600 font-medium">
-                                {item.name}
-                              </span>
-                              {item.badge && (
-                                <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                                  {item.badge}
-                                </span>
-                              )}
+                              {item.name}
                             </Link>
                           ))}
                         </div>
@@ -174,16 +164,28 @@ export default function Header() {
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-3">
-              {/* Search Button (Desktop) */}
-              <button className="hidden lg:flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition-colors">
-                <Search className="w-5 h-5 text-gray-600" />
-              </button>
+            <div className="flex items-center gap-2">
+              {/* Tous les outils link */}
+              <Link 
+                href="/#outils" 
+                className="hidden lg:block px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all"
+              >
+                Tous les outils
+              </Link>
+
+              {/* CTA Button (Desktop) */}
+              <Link 
+                href="/salaire-net-quebec" 
+                className="hidden lg:flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-sm font-semibold rounded-lg hover:from-emerald-700 hover:to-teal-700 transition-all shadow-sm hover:shadow-md"
+              >
+                <Calculator className="w-4 h-4" />
+                Calculer
+              </Link>
 
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(true)}
-                className="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition-colors"
+                className="lg:hidden flex items-center justify-center w-9 h-9 rounded-lg hover:bg-gray-100 transition-colors"
                 aria-label="Open menu"
               >
                 <Menu className="w-6 h-6 text-gray-700" />
@@ -204,90 +206,71 @@ export default function Header() {
             className="fixed inset-0 z-[100] bg-white lg:hidden overflow-y-auto"
           >
             {/* Header with Close Button */}
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-4 py-4 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 to-teal-600 rounded-lg flex items-center justify-center">
-                  <Calculator className="w-6 h-6 text-white" />
-                </div>
-                <span className="font-bold text-xl text-gray-900">
-                  Quebec<span className="text-emerald-600">Calculators</span>
-                </span>
-              </div>
+            <div className="sticky top-0 bg-white border-b border-gray-200 px-4 py-4 flex items-center justify-center relative">
+              <Image
+                src="/images/logo.png"
+                alt="QuebecCalc Logo"
+                width={220}
+                height={65}
+                className="h-[54px] w-auto"
+              />
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors"
+                className="absolute right-4 w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors"
                 aria-label="Close menu"
               >
                 <X className="w-6 h-6 text-gray-700" />
               </button>
             </div>
 
-            {/* Menu Content */}
-            <div className="p-6 space-y-4">
-              {/* Search Bar */}
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Rechercher un outil..."
-                  className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 transition-all"
-                />
+            {/* Popular Tools (Pinned) */}
+            <div className="p-4 bg-emerald-50 border-b border-emerald-100">
+              <h3 className="text-xs font-bold text-emerald-900 uppercase tracking-wider mb-3">Outils Populaires</h3>
+              <div className="space-y-1">
+                <Link 
+                  href="/salaire-net-quebec" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-2 px-3 py-2.5 bg-white rounded-lg text-gray-900 font-semibold text-sm hover:bg-emerald-100 transition-colors"
+                >
+                  💰 Salaire Net Québec
+                </Link>
+                <Link 
+                  href="/calcul-hypotheque" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-2 px-3 py-2.5 bg-white rounded-lg text-gray-900 font-semibold text-sm hover:bg-emerald-100 transition-colors"
+                >
+                  🏠 Calcul Hypothécaire
+                </Link>
+                <Link 
+                  href="/declaration-simplifiee" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-2 px-3 py-2.5 bg-white rounded-lg text-gray-900 font-semibold text-sm hover:bg-emerald-100 transition-colors"
+                >
+                  📋 Retour d&apos;Impôt
+                </Link>
               </div>
+            </div>
 
-              {/* Accordion Categories */}
-              <div className="space-y-2">
-                {NAV_ITEMS.map((category, index) => (
-                  <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
-                    <button
-                      onClick={() => setMobileAccordion(mobileAccordion === index ? null : index)}
-                      className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="text-emerald-600">
-                          {category.icon}
-                        </div>
-                        <span className="font-semibold text-gray-900">{category.title}</span>
-                      </div>
-                      <ChevronDown 
-                        className={`w-5 h-5 text-gray-600 transition-transform ${
-                          mobileAccordion === index ? 'rotate-180' : ''
-                        }`} 
-                      />
-                    </button>
-
-                    <AnimatePresence>
-                      {mobileAccordion === index && (
-                        <motion.div
-                          initial={{ height: 0 }}
-                          animate={{ height: 'auto' }}
-                          exit={{ height: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="overflow-hidden"
-                        >
-                          <div className="p-2 space-y-1 bg-white">
-                            {category.items.map((item, itemIndex) => (
-                              <Link
-                                key={itemIndex}
-                                href={item.href}
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                className="flex items-center justify-between px-4 py-3 rounded-lg hover:bg-emerald-50 transition-colors group"
-                              >
-                                <span className="text-gray-700 group-hover:text-emerald-600">
-                                  {item.name}
-                                </span>
-                                {item.badge && (
-                                  <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                                    {item.badge}
-                                  </span>
-                                )}
-                              </Link>
-                            ))}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                ))}
+            {/* All Tools (Flat List) */}
+            <div className="flex-1 p-4 overflow-y-auto">
+              <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Tous les Outils</h3>
+              <div className="space-y-0.5">
+                <Link href="/allocations-familiales" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 text-sm transition-colors">Allocations Familiales</Link>
+                <Link href="/assurance-emploi" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 text-sm transition-colors">Assurance-Emploi</Link>
+                <Link href="/augmentation-loyer-2026" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 text-sm transition-colors">Augmentation de Loyer</Link>
+                <Link href="/auto-electrique-vs-essence" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 text-sm transition-colors">Auto Électrique vs Essence</Link>
+                <Link href="/capacite-emprunt" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 text-sm transition-colors">Capacité d&apos;Emprunt</Link>
+                <Link href="/dettes-credit" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 text-sm transition-colors">Dettes-Crédit</Link>
+                <Link href="/epargne-retraite" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 text-sm transition-colors">Épargne-Retraite</Link>
+                <Link href="/frais-de-garde" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 text-sm transition-colors">Frais de Garde</Link>
+                <Link href="/interets-composes" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 text-sm transition-colors">Intérêts Composés</Link>
+                <Link href="/louer-ou-acheter" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 text-sm transition-colors">Louer ou Acheter</Link>
+                <Link href="/paie-vacances" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 text-sm transition-colors">Paie de Vacances</Link>
+                <Link href="/pret-auto" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 text-sm transition-colors">Prêt Auto</Link>
+                <Link href="/pret-etudiant" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 text-sm transition-colors">Prêt Étudiant</Link>
+                <Link href="/taxe-de-bienvenue" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 text-sm transition-colors">Taxe de Bienvenue</Link>
+                <Link href="/taux-horaire" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 text-sm transition-colors">Taux Horaire</Link>
+                <Link href="/tps-tvq-quebec" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 text-sm transition-colors">TPS/TVQ</Link>
               </div>
             </div>
           </motion.div>

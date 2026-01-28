@@ -6,6 +6,7 @@ import Footer from '@/components/Footer'
 import ScrollToTop from '@/components/ScrollToTop'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import GlobalWrapper from '@/components/GlobalWrapper'
+import OrganizationSchema from '@/components/OrganizationSchema'
 
 const plusJakartaSans = Plus_Jakarta_Sans({ 
   subsets: ['latin'],
@@ -17,9 +18,9 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://quebec-calculators.vercel.app'),
   title: {
     template: '%s | Quebec Calculators',
-    default: 'Outils Financiers Québec 2026 - Impôt, Immobilier, Auto & Famille',
+    default: 'Calculateurs Financiers Québec 2026 | 19 Outils Gratuits',
   },
-  description: 'Le site référence pour vos finances au Québec. 19 calculateurs gratuits pour impôts, hypothèque, salaire net, allocations familiales et plus. Mis à jour 2026.',
+  description: 'Calculez impôts, salaire net, hypothèque et plus. 19 outils financiers gratuits pour le Québec. Résultats instantanés.',
   keywords: [
     'calculateur impôt québec',
     'salaire net québec',
@@ -73,6 +74,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
+      <head>
+        <OrganizationSchema />
+      </head>
       <body className={`${plusJakartaSans.className} bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-50 via-white to-white text-slate-900`}>
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
           <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />

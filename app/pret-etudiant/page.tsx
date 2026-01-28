@@ -1,9 +1,33 @@
 import { Metadata } from 'next'
 import StudentLoanCalculator from '@/components/StudentLoanCalculator'
+import RelatedTools from '@/components/RelatedTools'
 
 export const metadata: Metadata = {
   title: "Calculateur Prêt Étudiant Québec - Remboursement AFE",
   description: "Calculez vos paiements de prêt étudiant avec crédit d'impôt. Découvrez combien vous économisez grâce au crédit d'impôt québécois sur les intérêts (20%).",
+  keywords: [
+    'prêt étudiant québec',
+    'remboursement afe',
+    'calculateur prêt étudiant',
+    'crédit impôt étudiant',
+    'aide financière études',
+    'prêt étudiant 2026',
+  ],
+  alternates: {
+    canonical: '/pret-etudiant',
+  },
+  openGraph: {
+    title: "Calculateur Prêt Étudiant Québec - Remboursement AFE",
+    description: "Calculez vos paiements mensuels et économies d'impôt. Crédit d'impôt 20% sur les intérêts.",
+    url: '/pret-etudiant',
+    type: 'website',
+    locale: 'fr_CA',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Calculateur Prêt Étudiant Québec",
+    description: "Planifiez votre remboursement étudiant",
+  },
 }
 
 export default function StudentLoanPage() {
@@ -12,12 +36,14 @@ export default function StudentLoanPage() {
         <div className="container mx-auto px-4 py-12 max-w-7xl">
           {/* Header */}
           <header className="text-center mb-12">
-            <div className="text-6xl mb-4">🎓</div>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Calculateur de Prêt Étudiant
+            <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+              🎓 Avenir Étudiant
+            </span>
+            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+              Planifiez Votre Remboursement Étudiant
             </h1>
-            <p className="text-xl text-gray-600">
-              Calculez vos paiements et découvrez vos économies d'impôt
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Calculez vos paiements mensuels et découvrez vos économies d'impôt sur les intérêts
             </p>
           </header>
 

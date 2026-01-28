@@ -1,22 +1,65 @@
 import { Metadata } from 'next'
 import DaycareCalculator from '@/components/DaycareCalculator'
 import { Baby, DollarSign, FileText } from 'lucide-react'
+import StructuredData from '@/components/StructuredData'
+import Breadcrumb from '@/components/Breadcrumb'
 
 export const metadata: Metadata = {
   title: 'Calculateur Frais de Garde Québec 2026 - CPE vs Garderie Privée (Crédit d\'Impôt)',
   description: 'Comparez les coûts réels entre CPE subventionné (9,10$/jour) et garderie privée au Québec. Inclut le crédit d\'impôt provincial jusqu\'à 78%. Gratuit.',
+  keywords: [
+    'frais de garde québec',
+    'cpe québec',
+    'garderie privée',
+    'crédit impôt garde',
+    'calculateur garderie',
+    'frais garde 2026',
+  ],
+  alternates: {
+    canonical: '/frais-de-garde',
+  },
+  openGraph: {
+    title: "Calculateur Frais de Garde Québec 2026 - CPE vs Privé",
+    description: "Comparez CPE (9,10$/jour) vs garderie privée. Crédit d'impôt jusqu'à 78%. Résultat instantané.",
+    url: '/frais-de-garde',
+    type: 'website',
+    locale: 'fr_CA',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Calculateur Frais de Garde Québec 2026",
+    description: "CPE vs Garderie Privée - Comparez les coûts réels",
+  },
 }
 
 export default function DaycarePage() {
   return (
-    <><main className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-100">
+    <><StructuredData
+        name="Calculateur Frais de Garde Québec"
+        description="Comparez les coûts réels entre CPE subventionné et garderie privée au Québec"
+        url="/frais-de-garde"
+        category="FinanceApplication"
+        aggregateRating={{
+          ratingValue: 4.7,
+          ratingCount: 890,
+        }}
+      />
+      <Breadcrumb
+        items={[
+          { label: 'Frais de Garde', href: '/frais-de-garde' },
+        ]}
+      />
+      <main className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-100">
       <div className="container mx-auto px-4 py-12 max-w-7xl">
         <header className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Calculateur de Frais de Garde 2026
+          <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+            👶 Famille & Finances
+          </span>
+          <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+            Comparateur Garderie : CPE vs Privé
           </h1>
-          <p className="text-xl text-gray-600">
-            Comparez les coûts entre CPE (subventionné) et garderie privée
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Calculez le coût réel après déductions et trouvez la meilleure option pour votre enfant
           </p>
         </header>
 

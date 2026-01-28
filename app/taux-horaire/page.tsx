@@ -1,9 +1,33 @@
 import { Metadata } from 'next'
 import WageConverter from '@/components/WageConverter'
+import RelatedTools from '@/components/RelatedTools'
 
 export const metadata: Metadata = {
   title: "Convertisseur Taux Horaire Québec - Salaire Annuel, Hebdo",
   description: "Convertissez instantanément votre salaire horaire en hebdomadaire, bimensuel et annuel. Calculateur gratuit pour comparer les offres d'emploi au Québec.",
+  keywords: [
+    'taux horaire québec',
+    'convertisseur salaire',
+    'salaire annuel horaire',
+    'calculateur salaire hebdomadaire',
+    'conversion taux horaire',
+    'salaire bimensuel',
+  ],
+  alternates: {
+    canonical: '/taux-horaire',
+  },
+  openGraph: {
+    title: "Convertisseur Taux Horaire Québec - Salaire Annuel",
+    description: "Convertissez votre salaire horaire en annuel, hebdo, bimensuel. Comparez les offres d'emploi facilement.",
+    url: '/taux-horaire',
+    type: 'website',
+    locale: 'fr_CA',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Convertisseur Taux Horaire Québec",
+    description: "Convertissez votre salaire instantanément",
+  },
 }
 
 export default function WageConverterPage() {
@@ -11,11 +35,14 @@ export default function WageConverterPage() {
     <><main className="min-h-screen bg-gradient-to-br from-cyan-50 to-blue-100">
         <div className="container mx-auto px-4 py-12 max-w-7xl">
           <header className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Convertisseur de Taux Horaire
+            <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+              ⏰ Comparaison Salariale
+            </span>
+            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+              Convertissez Votre Salaire Instantanément
             </h1>
-            <p className="text-xl text-gray-600">
-              Convertissez votre salaire entre taux horaire, hebdomadaire et annuel
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Comparez facilement les offres d'emploi en convertissant entre taux horaire, hebdomadaire et annuel
             </p>
           </header>
 
@@ -114,6 +141,9 @@ export default function WageConverterPage() {
               </div>
             </div>
           </section>
+
+          {/* Related Tools */}
+          <RelatedTools currentTool="/taux-horaire" currentCategory="tax" />
         </div>
       </main>
     </>

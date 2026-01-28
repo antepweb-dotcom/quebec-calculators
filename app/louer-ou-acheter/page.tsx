@@ -2,10 +2,11 @@ import { Metadata } from 'next'
 import RentVsBuyCalculator from '@/components/RentVsBuyCalculator'
 import StructuredData from '@/components/StructuredData'
 import SEOContent from '@/components/SEOContent'
+import Breadcrumb from '@/components/Breadcrumb'
 
 export const metadata: Metadata = {
-  title: "Louer ou Acheter au Québec? Calculateur et Comparatif 2026",
-  description: "Est-il mieux d'acheter une maison ou de rester locataire? Faites le calcul mathématique précis avec notre comparateur. Analyse sur 5 ans incluant tous les coûts.",
+  title: "Louer ou Acheter Québec 2026 | Comparateur Gratuit",
+  description: "Comparez achat vs location sur 5 ans. Analyse financière complète incluant tous les coûts. Gratuit.",
   keywords: [
     'louer ou acheter québec',
     'calculateur achat maison',
@@ -47,13 +48,22 @@ export default function RentVsBuyPage() {
       />
       <main className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-100">
         <div className="container mx-auto px-4 py-12 max-w-7xl">
+          <Breadcrumb 
+            items={[
+              { label: 'Immobilier', href: '/#immobilier' },
+              { label: 'Louer ou Acheter' }
+            ]} 
+          />
           {/* Header */}
           <header className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Louer ou Acheter?
+            <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+              🏘️ Décision Immobilière
+            </span>
+            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+              Louer ou Acheter : Faites le Bon Choix
             </h1>
-            <p className="text-xl text-gray-600">
-              La question éternelle. Comparez financièrement l'achat vs la location sur 5 ans.
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Comparez mathématiquement l'achat vs la location et découvrez quelle option maximise votre richesse
             </p>
           </header>
 

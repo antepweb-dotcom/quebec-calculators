@@ -1,519 +1,702 @@
-import Link from 'next/link'
-import { Metadata } from 'next'
-import ContactSection from '@/components/ContactSection'
-import { 
-  Calculator, FileText, TrendingUp, Home as HomeIcon, Scale, Receipt, 
-  Baby, Car, CreditCard, PiggyBank, Users, Clock, 
-  DollarSign, Building2, HeartHandshake, Briefcase, Shield
-} from 'lucide-react'
+'use client'
 
-export const metadata: Metadata = {
-  title: 'Outils Financiers Québec 2026 - Calculatrices Gratuites (Impôt, Hypothèque, Auto)',
-  description: 'Le site référence pour vos finances au Québec. Calculez votre salaire net, hypothèque, taxe de bienvenue, augmentation de loyer et plus. Simple et gratuit.',
-}
+import Link from 'next/link';
+import Image from 'next/image';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { useEffect } from 'react';
+
+// Data Source for the Bento Grid
+const tools = [
+  {
+    href: "/salaire-net-quebec",
+    title: "Salaire Net Après Impôts",
+    description: "Découvrez votre véritable revenu net. Précision au dollar près pour 2026.",
+    imageSrc: "/images/3d-salary.jpg", // Ensure this file exists in public/images/
+    gradient: "from-emerald-50 to-teal-100/60",
+    border: "border-emerald-100",
+    text: "text-emerald-900",
+    colSpan: "col-span-1 sm:col-span-2 lg:col-span-3", // Big Card
+  },
+  {
+    href: "/calcul-hypotheque",
+    title: "Calculateur Hypothécaire",
+    description: "Simulez vos versements mensuels et testez votre capacité d'emprunt.",
+    imageSrc: "/images/3d-mortgage.jpg",
+    gradient: "from-blue-50 to-indigo-100/60",
+    border: "border-blue-100",
+    text: "text-blue-900",
+    colSpan: "col-span-1 sm:col-span-2 lg:col-span-3", // Big Card
+  },
+  {
+    href: "/declaration-simplifiee",
+    title: "Retour d'Impôt",
+    description: "Estimez rapidement votre remboursement provincial.",
+    imageSrc: "/images/3d-tax-form.jpg",
+    gradient: "from-orange-50 to-amber-100/60",
+    border: "border-orange-100",
+    text: "text-orange-900",
+    colSpan: "col-span-1 lg:col-span-2",
+  },
+  {
+    href: "/assurance-emploi",
+    title: "Chômage & AE",
+    description: "Vos prestations hebdomadaires en cas de perte d'emploi.",
+    imageSrc: "/images/3d-insurance.jpg",
+    gradient: "from-sky-50 to-cyan-100/60",
+    border: "border-sky-100",
+    text: "text-sky-900",
+    colSpan: "col-span-1 lg:col-span-2",
+  },
+  {
+    href: "/frais-de-garde",
+    title: "Frais de Garde",
+    description: "Comparateur CPE vs Privé : Optimisez vos allocations.",
+    imageSrc: "/images/3d-childcare.jpg",
+    gradient: "from-pink-50 to-rose-100/60",
+    border: "border-pink-100",
+    text: "text-pink-900",
+    colSpan: "col-span-1 lg:col-span-2",
+  },
+  {
+    href: "/capacite-emprunt",
+    title: "Capacité d'Emprunt",
+    description: "Combien la banque peut-elle vous prêter ?",
+    imageSrc: "/images/3d-credit.jpg",
+    gradient: "from-violet-50 to-purple-100/60",
+    border: "border-violet-100",
+    text: "text-violet-900",
+    colSpan: "col-span-1 sm:col-span-2 lg:col-span-3",
+  },
+  {
+    href: "/augmentation-loyer-2026",
+    title: "Hausse de Loyer (TAL)",
+    description: "Vérifiez si l'augmentation demandée est légale.",
+    imageSrc: "/images/3d-rent.jpg",
+    gradient: "from-gray-50 to-slate-200/60",
+    border: "border-gray-200",
+    text: "text-gray-900",
+    colSpan: "col-span-1 sm:col-span-2 lg:col-span-3",
+  },
+];
 
 export default function Home() {
+  useEffect(() => {
+    // All tools data
+    const tools = [
+      { name: 'Salaire Net Québec', href: '/salaire-net-quebec', emoji: '💰', keywords: ['salaire', 'net', 'impot', 'revenu', 'paie'] },
+      { name: 'Calcul Hypothécaire', href: '/calcul-hypotheque', emoji: '🏠', keywords: ['hypotheque', 'maison', 'pret', 'immobilier'] },
+      { name: 'Déclaration Simplifiée', href: '/declaration-simplifiee', emoji: '📋', keywords: ['impot', 'declaration', 'retour', 'remboursement'] },
+      { name: 'Assurance-Emploi', href: '/assurance-emploi', emoji: '💼', keywords: ['chomage', 'ae', 'emploi', 'prestation'] },
+      { name: 'Allocations Familiales', href: '/allocations-familiales', emoji: '👨‍👩‍👧‍👦', keywords: ['famille', 'enfant', 'allocation', 'aide'] },
+      { name: 'Frais de Garde', href: '/frais-de-garde', emoji: '🧸', keywords: ['garde', 'cpe', 'enfant', 'garderie'] },
+      { name: 'Louer ou Acheter', href: '/louer-ou-acheter', emoji: '⚖️', keywords: ['louer', 'acheter', 'maison', 'appartement'] },
+      { name: 'Capacité d\'Emprunt', href: '/capacite-emprunt', emoji: '💳', keywords: ['emprunt', 'pret', 'banque', 'credit'] },
+      { name: 'Taxe de Bienvenue', href: '/taxe-de-bienvenue', emoji: '🏡', keywords: ['taxe', 'bienvenue', 'mutation', 'maison'] },
+      { name: 'Augmentation de Loyer', href: '/augmentation-loyer-2026', emoji: '📈', keywords: ['loyer', 'augmentation', 'tal', 'locataire'] },
+      { name: 'Taux Horaire', href: '/taux-horaire', emoji: '⏰', keywords: ['taux', 'horaire', 'salaire', 'heure'] },
+      { name: 'TPS/TVQ', href: '/tps-tvq-quebec', emoji: '🧾', keywords: ['tps', 'tvq', 'taxe', 'vente'] },
+      { name: 'Épargne-Retraite', href: '/epargne-retraite', emoji: '🏦', keywords: ['retraite', 'epargne', 'reer', 'investissement'] },
+      { name: 'Remboursement Dettes', href: '/dettes-credit', emoji: '💳', keywords: ['dette', 'credit', 'remboursement', 'pret'] },
+      { name: 'Prêt Auto', href: '/pret-auto', emoji: '🚗', keywords: ['auto', 'voiture', 'pret', 'financement'] },
+      { name: 'Prêt Étudiant', href: '/pret-etudiant', emoji: '🎓', keywords: ['etudiant', 'pret', 'afr', 'ecole'] },
+      { name: 'Intérêts Composés', href: '/interets-composes', emoji: '📈', keywords: ['interet', 'compose', 'investissement', 'epargne'] },
+      { name: 'Auto Électrique vs Essence', href: '/auto-electrique-vs-essence', emoji: '⚡', keywords: ['auto', 'electrique', 'essence', 'voiture'] },
+    ];
+
+    const searchInput = document.getElementById('hero-search') as HTMLInputElement;
+    const searchResults = document.getElementById('hero-search-results');
+    const resultsContainer = document.getElementById('hero-results-container');
+
+    if (!searchInput || !searchResults || !resultsContainer) return;
+
+    const handleInput = (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      const query = target.value.toLowerCase().trim();
+      
+      if (query.length === 0) {
+        searchResults.classList.add('hidden');
+        return;
+      }
+
+      // Filter tools
+      const filtered = tools.filter(tool => {
+        const nameMatch = tool.name.toLowerCase().includes(query);
+        const keywordMatch = tool.keywords.some(keyword => keyword.includes(query));
+        return nameMatch || keywordMatch;
+      });
+
+      // Display results
+      if (filtered.length > 0) {
+        resultsContainer.innerHTML = filtered.map(tool => `
+          <a href="${tool.href}" class="block px-5 py-3 hover:bg-emerald-50 text-gray-700 hover:text-emerald-600 transition-colors border-b border-gray-100 last:border-b-0">
+            <span class="font-semibold text-base">${tool.name}</span>
+          </a>
+        `).join('');
+        searchResults.classList.remove('hidden');
+        searchResults.style.opacity = '0';
+        searchResults.style.transform = 'translateY(-10px)';
+        setTimeout(() => {
+          searchResults.style.transition = 'all 0.2s ease-out';
+          searchResults.style.opacity = '1';
+          searchResults.style.transform = 'translateY(0)';
+        }, 10);
+      } else {
+        resultsContainer.innerHTML = `
+          <div class="px-5 py-8 text-center">
+            <div class="text-sm text-gray-500">Aucun outil trouvé pour "<strong>${query}</strong>"</div>
+          </div>
+        `;
+        searchResults.classList.remove('hidden');
+        searchResults.style.opacity = '0';
+        searchResults.style.transform = 'translateY(-10px)';
+        setTimeout(() => {
+          searchResults.style.transition = 'all 0.2s ease-out';
+          searchResults.style.opacity = '1';
+          searchResults.style.transform = 'translateY(0)';
+        }, 10);
+      }
+    };
+
+    searchInput.addEventListener('input', handleInput);
+
+    // Close on click outside
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as Node;
+      if (!searchInput.contains(target) && !searchResults.contains(target)) {
+        searchResults.classList.add('hidden');
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+
+    // Close on Escape
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        searchResults.classList.add('hidden');
+        searchInput.blur();
+      }
+    };
+    document.addEventListener('keydown', handleEscape);
+
+    // Focus on Cmd+K or Ctrl+K
+    const handleShortcut = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        searchInput.focus();
+      }
+    };
+    document.addEventListener('keydown', handleShortcut);
+
+    return () => {
+      searchInput.removeEventListener('input', handleInput);
+      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+      document.removeEventListener('keydown', handleShortcut);
+    };
+  }, []);
+
   return (
-    <div className="w-full bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
-      {/* Hero Section */}
-      <section className="w-full bg-gradient-to-r from-emerald-600 to-teal-700 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
-                <Shield className="w-12 h-12 text-white" />
+    <div className="bg-white">
+      {/* 1. HERO SECTION */}
+      <div className="relative isolate overflow-hidden bg-gradient-to-b from-emerald-50/50">
+        <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8 lg:py-16">
+          <div className="lg:grid lg:grid-cols-12 lg:gap-16 items-center">
+            {/* Text Content */}
+            <div className="lg:col-span-7 text-center lg:text-left">
+              <div className="inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold text-emerald-600 ring-1 ring-inset ring-emerald-600/20 bg-emerald-50 mb-6">
+                <span className="flex h-2 w-2 rounded-full bg-emerald-600 mr-2"></span>
+                Mis à jour pour 2026
+              </div>
+
+              <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-6xl mb-6">
+                Maitrisez vos finances <br className="hidden lg:block"/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">
+                  au Québec
+                </span>
+              </h1>
+
+              <p className="text-lg leading-8 text-gray-600 mb-8 max-w-2xl mx-auto lg:mx-0">
+                Des calculateurs précis et gratuits pour vos impôts, votre hypothèque et vos allocations familiales. 
+                Conçu spécifiquement pour la fiscalité québécoise.
+              </p>
+
+              {/* Search Box - Hero - FIXED Z-INDEX */}
+              <div className="mb-8 max-w-2xl mx-auto lg:mx-0">
+                <div className="relative z-[9999]">
+                  <svg className="absolute left-5 top-1/2 -translate-y-1/2 w-6 h-6 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  <input 
+                    type="text" 
+                    id="hero-search"
+                    placeholder="Rechercher un outil (ex: salaire, hypothèque, impôt)..." 
+                    className="w-full pl-14 pr-20 py-4 text-base border-2 border-gray-300 rounded-full focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 focus:outline-none transition-all shadow-lg hover:shadow-xl bg-white relative z-[9999]"
+                  />
+                  <div className="absolute right-5 top-1/2 -translate-y-1/2 text-xs text-gray-400 font-medium hidden sm:block pointer-events-none">
+                    ⌘K
+                  </div>
+
+                  {/* Search Results Dropdown - ABSOLUTE POSITIONING */}
+                  <div id="hero-search-results" className="hidden absolute left-0 right-0 top-full mt-3 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden max-h-[400px] overflow-y-auto z-[9999]">
+                    <div id="hero-results-container">
+                      {/* Results will be inserted here */}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Trust Bar */}
+              <div className="mt-10 flex items-center justify-center lg:justify-start gap-6 text-sm text-gray-500">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500" /> 100% Gratuit
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Données Sécurisées
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Anonyme
+                </div>
               </div>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Prenez le contrôle de vos finances au Québec
-            </h1>
-            <p className="text-xl md:text-2xl text-emerald-100 mb-8 max-w-3xl mx-auto">
-              Des outils précis pour vos impôts, votre immobilier et votre famille. 100% Gratuit & Sécurisé.
-            </p>
-            <div className="flex flex-wrap justify-center gap-8 text-sm md:text-base">
-              <div className="flex items-center gap-2">
-                <Calculator className="w-5 h-5" />
-                <span className="font-semibold">19 Outils Disponibles</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <TrendingUp className="w-5 h-5" />
-                <span className="font-semibold">Mis à jour pour 2026</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Shield className="w-5 h-5" />
-                <span className="font-semibold">100% Confidentiel</span>
+
+            {/* Hero Visual */}
+            <div className="hidden lg:block lg:col-span-5 relative">
+              {/* Background Gradient Blob */}
+              <div className="absolute top-0 -right-20 -z-10 w-[40rem] h-[40rem] bg-gradient-to-tr from-emerald-200 to-teal-200 opacity-30 rounded-full blur-3xl animate-pulse" />
+              
+              {/* Main Hero Image */}
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-gray-900/10 transform hover:scale-[1.02] transition-transform duration-500">
+                <Image
+                  src="/images/orta.jpeg"
+                  alt="Financial Dashboard - Modern Finance Technology"
+                  width={800}
+                  height={600}
+                  className="w-full h-auto object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-emerald-900/40 via-transparent to-transparent" />
+                
+                {/* Floating Stats Cards */}
+                <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl p-4 transform hover:scale-105 transition-transform">
+                  <div className="text-3xl font-extrabold text-emerald-600">19</div>
+                  <div className="text-xs font-semibold text-gray-600">Outils Gratuits</div>
+                </div>
+                <div className="absolute top-6 right-6 bg-white/95 backdrop-blur-sm rounded-xl shadow-xl p-4 transform hover:scale-105 transition-transform">
+                  <div className="text-3xl font-extrabold text-teal-600">2026</div>
+                  <div className="text-xs font-semibold text-gray-600">Mis à jour</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Main Content Container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-
-          {/* Category A: Impôts & Revenus */}
-          <section className="mb-16">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                <Calculator className="w-7 h-7 text-blue-600" />
+      {/* Stats Bar - Below Hero - Balanced Professional */}
+      <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white border-b-2 border-emerald-700/20 relative z-0">
+        <div className="mx-auto max-w-7xl px-6 py-6">
+          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16 text-center">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl shadow-lg">
+                <span className="text-2xl">👥</span>
               </div>
-              <div>
-                <h2 className="text-3xl font-bold text-gray-900">Impôts & Revenus</h2>
-                <p className="text-gray-600">Calculez vos impôts et optimisez votre revenu</p>
+              <div className="text-left">
+                <div className="text-2xl md:text-3xl font-extrabold tracking-tight">10,000+</div>
+                <div className="text-sm text-emerald-50 font-semibold">Utilisateurs actifs</div>
               </div>
             </div>
             
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {/* Salaire Net - Flagship */}
-              <Link href="/salaire-net-quebec" className="group">
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-blue-500 h-full relative">
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full">POPULAIRE</span>
+            <div className="hidden sm:block w-px h-14 bg-white/30" />
+            
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl shadow-lg">
+                <span className="text-2xl">🧮</span>
+              </div>
+              <div className="text-left">
+                <div className="text-2xl md:text-3xl font-extrabold tracking-tight">500,000+</div>
+                <div className="text-sm text-emerald-50 font-semibold">Calculs effectués</div>
+              </div>
+            </div>
+            
+            <div className="hidden sm:block w-px h-14 bg-white/30" />
+            
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl shadow-lg">
+                <span className="text-2xl">⚜️</span>
+              </div>
+              <div className="text-left">
+                <div className="text-2xl md:text-3xl font-extrabold tracking-tight">100%</div>
+                <div className="text-sm text-emerald-50 font-semibold">Québécois</div>
+              </div>
+            </div>
+            
+            <div className="hidden sm:block w-px h-14 bg-white/30" />
+            
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl shadow-lg">
+                <span className="text-2xl">🔄</span>
+              </div>
+              <div className="text-left">
+                <div className="text-2xl md:text-3xl font-extrabold tracking-tight">2026</div>
+                <div className="text-sm text-emerald-50 font-semibold">Mis à jour</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* How It Works Section - With Connecting Lines */}
+      <div className="bg-white py-10">
+        <div className="mx-auto max-w-6xl px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">
+              Comment ça marche?
+            </h2>
+            <p className="text-base text-gray-600">
+              Obtenez vos résultats en 3 étapes simples
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* Step 1 */}
+            <div className="relative text-center group">
+              <div className="flex justify-center mb-4">
+                <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                  <span className="text-2xl font-extrabold text-white">1</span>
+                </div>
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">
+                Choisissez votre outil
+              </h3>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Sélectionnez le calculateur qui correspond à vos besoins
+              </p>
+              {/* Connecting Line */}
+              <div className="hidden md:block absolute top-7 left-[65%] w-[70%]">
+                <svg className="w-full h-2 text-indigo-300" viewBox="0 0 100 10" preserveAspectRatio="none">
+                  <path d="M0,5 Q50,0 100,5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+              </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="relative text-center group">
+              <div className="flex justify-center mb-4">
+                <div className="w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                  <span className="text-2xl font-extrabold text-white">2</span>
+                </div>
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">
+                Entrez vos données
+              </h3>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Remplissez les champs. Vos données restent privées
+              </p>
+              {/* Connecting Line */}
+              <div className="hidden md:block absolute top-7 left-[65%] w-[70%]">
+                <svg className="w-full h-2 text-emerald-300" viewBox="0 0 100 10" preserveAspectRatio="none">
+                  <path d="M0,5 Q50,0 100,5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+              </div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="text-center group">
+              <div className="flex justify-center mb-4">
+                <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                  <span className="text-2xl font-extrabold text-white">3</span>
+                </div>
+              </div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">
+                Obtenez vos résultats
+              </h3>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Résultats instantanés avec explications détaillées
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. TOOLS GRID SECTION (Bento Box) */}
+      <div id="outils" className="py-16 bg-gray-50">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center mb-10">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              Nos Outils Populaires
+            </h2>
+            <p className="mt-2 text-base text-gray-600">
+              Sélectionnez un outil pour obtenir une estimation précise en quelques secondes.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-6 auto-rows-[200px]">
+            {tools.map((tool) => (
+              <Link
+                key={tool.href}
+                href={tool.href}
+                className={`group relative overflow-hidden rounded-3xl bg-white p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between border ${tool.border} bg-gradient-to-br ${tool.gradient} ${tool.colSpan}`}
+              >
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className="flex justify-between items-start mb-4">
+                    {/* 3D Image Container */}
+                    <div className="relative w-16 h-16 sm:w-20 sm:h-20 filter drop-shadow-md group-hover:scale-110 transition-transform duration-300">
+                      <Image
+                        src={tool.imageSrc}
+                        alt={tool.title}
+                        fill
+                        className="object-contain"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                    </div>
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 rounded-full p-2">
+                      <ArrowRight className={`w-5 h-5 ${tool.text}`} />
+                    </div>
                   </div>
-                  <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <DollarSign className="w-7 h-7" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                    Salaire Net Québec
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Calculez votre revenu net après impôts 2026
-                  </p>
-                  <div className="flex items-center text-blue-600 font-semibold text-sm">
-                    <span>Calculer →</span>
+
+                  <div className="mt-auto">
+                    <h3 className={`text-xl font-bold ${tool.text} mb-2`}>
+                      {tool.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 font-medium leading-snug line-clamp-2">
+                      {tool.description}
+                    </p>
                   </div>
                 </div>
               </Link>
+            ))}
+          </div>
 
-              {/* Déclaration Simplifiée */}
-              <Link href="/declaration-simplifiee" className="group">
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-indigo-500 h-full relative">
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full">NOUVEAU</span>
-                  </div>
-                  <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <FileText className="w-7 h-7" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">
-                    Déclaration Simplifiée
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Estimez votre remboursement et générez un PDF
-                  </p>
-                  <div className="flex items-center text-indigo-600 font-semibold text-sm">
-                    <span>Calculer →</span>
-                  </div>
-                </div>
-              </Link>
+          {/* Compact Grid for Remaining Tools */}
+          <div className="mt-20">
+            <div className="text-center mb-12">
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                Tous nos outils financiers
+              </h3>
+              <p className="text-gray-600">
+                Explorez notre collection complète de calculateurs
+              </p>
+            </div>
 
-              {/* Assurance-Emploi */}
-              <Link href="/assurance-emploi" className="group">
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-cyan-500 h-full">
-                  <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Shield className="w-7 h-7" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-cyan-600 transition-colors">
-                    Assurance-Emploi
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Calculez vos prestations d'assurance-emploi
-                  </p>
-                  <div className="flex items-center text-cyan-600 font-semibold text-sm">
-                    <span>Calculer →</span>
-                  </div>
-                </div>
-              </Link>
-
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
               {/* Taux Horaire */}
               <Link href="/taux-horaire" className="group">
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-sky-500 h-full">
-                  <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Clock className="w-7 h-7" />
+                <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-emerald-200 h-full flex flex-col">
+                  <div className="w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <span className="text-2xl">⏰</span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-sky-600 transition-colors">
+                  <h4 className="font-bold text-gray-900 text-sm mb-1 group-hover:text-emerald-600 transition-colors">
                     Taux Horaire
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Convertissez horaire, hebdo et annuel
+                  </h4>
+                  <p className="text-xs text-gray-500 line-clamp-2">
+                    Convertissez salaire annuel en taux horaire
                   </p>
-                  <div className="flex items-center text-sky-600 font-semibold text-sm">
-                    <span>Calculer →</span>
-                  </div>
                 </div>
               </Link>
 
               {/* Paie de Vacances */}
               <Link href="/paie-vacances" className="group">
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-yellow-500 h-full">
-                  <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Briefcase className="w-7 h-7" />
+                <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-emerald-200 h-full flex flex-col">
+                  <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <span className="text-2xl">🏖️</span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-yellow-600 transition-colors">
+                  <h4 className="font-bold text-gray-900 text-sm mb-1 group-hover:text-emerald-600 transition-colors">
                     Paie de Vacances
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Calculez votre indemnité de vacances (4% ou 6%)
+                  </h4>
+                  <p className="text-xs text-gray-500 line-clamp-2">
+                    Calculez votre indemnité de vacances
                   </p>
-                  <div className="flex items-center text-yellow-600 font-semibold text-sm">
-                    <span>Calculer →</span>
-                  </div>
                 </div>
               </Link>
 
               {/* TPS/TVQ */}
               <Link href="/tps-tvq-quebec" className="group">
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-orange-500 h-full">
-                  <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Receipt className="w-7 h-7" />
+                <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-emerald-200 h-full flex flex-col">
+                  <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <span className="text-2xl">🧾</span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">
+                  <h4 className="font-bold text-gray-900 text-sm mb-1 group-hover:text-emerald-600 transition-colors">
                     TPS/TVQ
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Calculateur de taxes de vente avec calcul inversé
+                  </h4>
+                  <p className="text-xs text-gray-500 line-clamp-2">
+                    Calculateur de taxes de vente
                   </p>
-                  <div className="flex items-center text-orange-600 font-semibold text-sm">
-                    <span>Calculer →</span>
-                  </div>
                 </div>
               </Link>
-            </div>
-          </section>
 
-          {/* Category B: Immobilier */}
-          <section className="mb-16">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                <HomeIcon className="w-7 h-7 text-green-600" />
-              </div>
-              <div>
-                <h2 className="text-3xl font-bold text-gray-900">Immobilier</h2>
-                <p className="text-gray-600">Achat, location et gestion de propriété</p>
-              </div>
-            </div>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {/* Allocations Familiales */}
+              <Link href="/allocations-familiales" className="group">
+                <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-emerald-200 h-full flex flex-col">
+                  <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <span className="text-2xl">👨‍👩‍👧‍👦</span>
+                  </div>
+                  <h4 className="font-bold text-gray-900 text-sm mb-1 group-hover:text-emerald-600 transition-colors">
+                    Allocations Familiales
+                  </h4>
+                  <p className="text-xs text-gray-500 line-clamp-2">
+                    Estimez vos allocations pour enfants
+                  </p>
+                </div>
+              </Link>
+
               {/* Louer ou Acheter */}
               <Link href="/louer-ou-acheter" className="group">
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-amber-500 h-full relative">
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full">NOUVEAU</span>
+                <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-emerald-200 h-full flex flex-col">
+                  <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <span className="text-2xl">⚖️</span>
                   </div>
-                  <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Scale className="w-7 h-7" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-amber-600 transition-colors">
-                    Louer ou Acheter?
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
+                  <h4 className="font-bold text-gray-900 text-sm mb-1 group-hover:text-emerald-600 transition-colors">
+                    Louer ou Acheter
+                  </h4>
+                  <p className="text-xs text-gray-500 line-clamp-2">
                     Comparez financièrement sur 5 ans
                   </p>
-                  <div className="flex items-center text-amber-600 font-semibold text-sm">
-                    <span>Calculer →</span>
-                  </div>
-                </div>
-              </Link>
-
-              {/* Calcul Hypothécaire */}
-              <Link href="/calcul-hypotheque" className="group">
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-teal-500 h-full">
-                  <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <HomeIcon className="w-7 h-7" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-teal-600 transition-colors">
-                    Calcul Hypothécaire
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Calculez vos paiements avec test de résistance
-                  </p>
-                  <div className="flex items-center text-teal-600 font-semibold text-sm">
-                    <span>Calculer →</span>
-                  </div>
-                </div>
-              </Link>
-
-              {/* Capacité d'Emprunt */}
-              <Link href="/capacite-emprunt" className="group">
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-violet-500 h-full">
-                  <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <DollarSign className="w-7 h-7" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-violet-600 transition-colors">
-                    Capacité d'Emprunt
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Découvrez le prix maximum que vous pouvez payer
-                  </p>
-                  <div className="flex items-center text-violet-600 font-semibold text-sm">
-                    <span>Calculer →</span>
-                  </div>
                 </div>
               </Link>
 
               {/* Taxe de Bienvenue */}
               <Link href="/taxe-de-bienvenue" className="group">
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-purple-500 h-full">
-                  <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Receipt className="w-7 h-7" />
+                <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-emerald-200 h-full flex flex-col">
+                  <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <span className="text-2xl">🏠</span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
+                  <h4 className="font-bold text-gray-900 text-sm mb-1 group-hover:text-emerald-600 transition-colors">
                     Taxe de Bienvenue
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Droits de mutation pour votre achat immobilier
+                  </h4>
+                  <p className="text-xs text-gray-500 line-clamp-2">
+                    Droits de mutation immobilière
                   </p>
-                  <div className="flex items-center text-purple-600 font-semibold text-sm">
-                    <span>Calculer →</span>
-                  </div>
-                </div>
-              </Link>
-
-              {/* Augmentation de Loyer */}
-              <Link href="/augmentation-loyer-2026" className="group">
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-green-500 h-full">
-                  <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <TrendingUp className="w-7 h-7" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">
-                    Augmentation de Loyer
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Calculateur TAL 2026 pour propriétaires et locataires
-                  </p>
-                  <div className="flex items-center text-green-600 font-semibold text-sm">
-                    <span>Calculer →</span>
-                  </div>
-                </div>
-              </Link>
-            </div>
-          </section>
-
-          {/* Category C: Famille & Quotidien */}
-          <section className="mb-16">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center">
-                <Users className="w-7 h-7 text-pink-600" />
-              </div>
-              <div>
-                <h2 className="text-3xl font-bold text-gray-900">Famille & Quotidien</h2>
-                <p className="text-gray-600">Allocations, garde d'enfants et véhicules</p>
-              </div>
-            </div>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {/* Allocations Familiales */}
-              <Link href="/allocations-familiales" className="group">
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-pink-500 h-full relative">
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full">NOUVEAU</span>
-                  </div>
-                  <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <HeartHandshake className="w-7 h-7" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-pink-600 transition-colors">
-                    Allocations Familiales
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Estimez vos allocations pour enfants (ACE + Soutien)
-                  </p>
-                  <div className="flex items-center text-pink-600 font-semibold text-sm">
-                    <span>Calculer →</span>
-                  </div>
-                </div>
-              </Link>
-
-              {/* Frais de Garde */}
-              <Link href="/frais-de-garde" className="group">
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-rose-500 h-full">
-                  <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Baby className="w-7 h-7" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-rose-600 transition-colors">
-                    Frais de Garde
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Comparez CPE vs garderie privée avec crédit d'impôt
-                  </p>
-                  <div className="flex items-center text-rose-600 font-semibold text-sm">
-                    <span>Calculer →</span>
-                  </div>
                 </div>
               </Link>
 
               {/* Prêt Auto */}
               <Link href="/pret-auto" className="group">
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-indigo-500 h-full">
-                  <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Car className="w-7 h-7" />
+                <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-emerald-200 h-full flex flex-col">
+                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <span className="text-2xl">🚗</span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">
+                  <h4 className="font-bold text-gray-900 text-sm mb-1 group-hover:text-emerald-600 transition-colors">
                     Prêt Auto
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Calculez vos paiements de financement automobile
+                  </h4>
+                  <p className="text-xs text-gray-500 line-clamp-2">
+                    Calculez vos paiements mensuels
                   </p>
-                  <div className="flex items-center text-indigo-600 font-semibold text-sm">
-                    <span>Calculer →</span>
-                  </div>
                 </div>
               </Link>
 
               {/* Prêt Étudiant */}
               <Link href="/pret-etudiant" className="group">
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-purple-500 h-full">
-                  <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <FileText className="w-7 h-7" />
+                <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-emerald-200 h-full flex flex-col">
+                  <div className="w-10 h-10 bg-cyan-100 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <span className="text-2xl">🎓</span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
+                  <h4 className="font-bold text-gray-900 text-sm mb-1 group-hover:text-emerald-600 transition-colors">
                     Prêt Étudiant
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Calculez vos paiements avec crédit d'impôt
+                  </h4>
+                  <p className="text-xs text-gray-500 line-clamp-2">
+                    Remboursement avec crédit d'impôt
                   </p>
-                  <div className="flex items-center text-purple-600 font-semibold text-sm">
-                    <span>Calculer →</span>
-                  </div>
                 </div>
               </Link>
-            </div>
-          </section>
 
-          {/* Category D: Dettes & Planification */}
-          <section className="mb-16">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center">
-                <PiggyBank className="w-7 h-7 text-emerald-600" />
-              </div>
-              <div>
-                <h2 className="text-3xl font-bold text-gray-900">Dettes & Planification</h2>
-                <p className="text-gray-600">Remboursement et épargne à long terme</p>
-              </div>
-            </div>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Remboursement de Dettes */}
+              {/* Dettes-Crédit */}
               <Link href="/dettes-credit" className="group">
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-red-500 h-full">
-                  <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <CreditCard className="w-7 h-7" />
+                <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-emerald-200 h-full flex flex-col">
+                  <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <span className="text-2xl">💳</span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600 transition-colors">
-                    Remboursement de Dettes
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
+                  <h4 className="font-bold text-gray-900 text-sm mb-1 group-hover:text-emerald-600 transition-colors">
+                    Remboursement Dettes
+                  </h4>
+                  <p className="text-xs text-gray-500 line-clamp-2">
                     Planifiez votre liberté financière
                   </p>
-                  <div className="flex items-center text-red-600 font-semibold text-sm">
-                    <span>Calculer →</span>
-                  </div>
                 </div>
               </Link>
 
               {/* Épargne-Retraite */}
               <Link href="/epargne-retraite" className="group">
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-emerald-500 h-full">
-                  <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <PiggyBank className="w-7 h-7" />
+                <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-emerald-200 h-full flex flex-col">
+                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <span className="text-2xl">🏦</span>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-emerald-600 transition-colors">
+                  <h4 className="font-bold text-gray-900 text-sm mb-1 group-hover:text-emerald-600 transition-colors">
                     Épargne-Retraite
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Planifiez votre retraite avec les intérêts composés
+                  </h4>
+                  <p className="text-xs text-gray-500 line-clamp-2">
+                    Planifiez avec intérêts composés
                   </p>
-                  <div className="flex items-center text-emerald-600 font-semibold text-sm">
-                    <span>Calculer →</span>
-                  </div>
                 </div>
               </Link>
-            </div>
-          </section>
 
-          {/* Category E: Investissement & Retraite */}
-          <section className="mb-16">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
-                <TrendingUp className="w-7 h-7 text-indigo-600" />
-              </div>
-              <div>
-                <h2 className="text-3xl font-bold text-gray-900">Investissement & Retraite</h2>
-                <p className="text-gray-600">Faites fructifier votre argent</p>
-              </div>
-            </div>
-            
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* Intérêts Composés */}
               <Link href="/interets-composes" className="group">
-                <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-indigo-500 h-full relative">
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full">NOUVEAU</span>
+                <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-emerald-200 h-full flex flex-col">
+                  <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <span className="text-2xl">📈</span>
                   </div>
-                  <div className="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <TrendingUp className="w-7 h-7" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">
+                  <h4 className="font-bold text-gray-900 text-sm mb-1 group-hover:text-emerald-600 transition-colors">
                     Intérêts Composés
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Découvrez la puissance des intérêts composés
+                  </h4>
+                  <p className="text-xs text-gray-500 line-clamp-2">
+                    Découvrez la puissance de l'investissement
                   </p>
-                  <div className="flex items-center text-indigo-600 font-semibold text-sm">
-                    <span>Calculer →</span>
+                </div>
+              </Link>
+
+              {/* Auto Électrique vs Essence */}
+              <Link href="/auto-electrique-vs-essence" className="group">
+                <div className="bg-white rounded-xl p-5 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-emerald-200 h-full flex flex-col">
+                  <div className="w-10 h-10 bg-lime-100 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <span className="text-2xl">⚡</span>
                   </div>
+                  <h4 className="font-bold text-gray-900 text-sm mb-1 group-hover:text-emerald-600 transition-colors">
+                    Électrique vs Essence
+                  </h4>
+                  <p className="text-xs text-gray-500 line-clamp-2">
+                    Comparez les coûts réels
+                  </p>
                 </div>
               </Link>
             </div>
-          </section>
-
-          {/* Trust & Features Section */}
-          <section className="bg-white rounded-2xl shadow-xl p-12 mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-              Pourquoi choisir nos outils?
-            </h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Shield className="w-8 h-8 text-blue-600" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">100% Confidentiel</h3>
-                <p className="text-gray-600">
-                  Vos données restent privées. Aucune information n'est sauvegardée ou partagée.
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <TrendingUp className="w-8 h-8 text-green-600" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Précis et à jour</h3>
-                <p className="text-gray-600">
-                  Basé sur les taux officiels 2026 du gouvernement du Québec et du Canada.
-                </p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Calculator className="w-8 h-8 text-purple-600" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Rapide et gratuit</h3>
-                <p className="text-gray-600">
-                  Obtenez vos résultats en quelques secondes, sans inscription requise.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          {/* SEO Content */}
-          <section className="prose prose-lg max-w-4xl mx-auto text-gray-700 mb-16">
-            <p className="text-center text-lg">
-              Nos outils financiers sont conçus spécifiquement pour les résidents du Québec. 
-              Que vous soyez employé, travailleur autonome, propriétaire ou locataire, 
-              nos calculateurs vous aident à prendre des décisions financières éclairées 
-              en vous fournissant des estimations précises basées sur la législation québécoise actuelle.
-            </p>
-          </section>
-
-          {/* Contact Form Section */}
-          <ContactSection accessKey={process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || 'YOUR_ACCESS_KEY_HERE'} />
+          </div>
         </div>
       </div>
-  )
+
+      {/* SEO Content Section - Rich & Link-Heavy */}
+      <div className="bg-white py-16 border-t border-gray-100">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-4xl">
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">
+              Vos finances québécoises, simplifiées
+            </h2>
+            
+            <div className="space-y-4 text-gray-700 leading-relaxed">
+              <p>
+                Que vous cherchiez à calculer votre <Link href="/salaire-net-quebec" className="text-emerald-600 hover:text-emerald-700 font-semibold underline decoration-emerald-200 hover:decoration-emerald-400 transition-colors">salaire net après impôts au Québec</Link>, à estimer vos <Link href="/allocations-familiales" className="text-emerald-600 hover:text-emerald-700 font-semibold underline decoration-emerald-200 hover:decoration-emerald-400 transition-colors">allocations familiales</Link>, ou à planifier l'achat d'une propriété avec notre <Link href="/calcul-hypotheque" className="text-emerald-600 hover:text-emerald-700 font-semibold underline decoration-emerald-200 hover:decoration-emerald-400 transition-colors">calculateur hypothécaire</Link>, nos outils sont conçus spécifiquement pour la réalité fiscale québécoise de 2026.
+              </p>
+
+              <p>
+                La fiscalité au Québec est unique au Canada. Entre les <Link href="/declaration-simplifiee" className="text-emerald-600 hover:text-emerald-700 font-semibold underline decoration-emerald-200 hover:decoration-emerald-400 transition-colors">déclarations d'impôts provinciales</Link>, les <Link href="/frais-de-garde" className="text-emerald-600 hover:text-emerald-700 font-semibold underline decoration-emerald-200 hover:decoration-emerald-400 transition-colors">crédits pour frais de garde</Link>, et les programmes comme l'<Link href="/assurance-emploi" className="text-emerald-600 hover:text-emerald-700 font-semibold underline decoration-emerald-200 hover:decoration-emerald-400 transition-colors">assurance-emploi</Link>, il est facile de se perdre. Nos calculateurs utilisent les taux d'imposition fédéraux et provinciaux les plus récents pour vous donner des résultats précis au dollar près.
+              </p>
+
+              <p>
+                Propriétaires ou futurs acheteurs? Explorez notre <Link href="/augmentation-loyer-2026" className="text-emerald-600 hover:text-emerald-700 font-semibold underline decoration-emerald-200 hover:decoration-emerald-400 transition-colors">calculateur d'augmentation de loyer 2026</Link> conforme au TAL, notre outil <Link href="/louer-ou-acheter" className="text-emerald-600 hover:text-emerald-700 font-semibold underline decoration-emerald-200 hover:decoration-emerald-400 transition-colors">louer ou acheter</Link> pour comparer les coûts réels, ou estimez la <Link href="/taxe-de-bienvenue" className="text-emerald-600 hover:text-emerald-700 font-semibold underline decoration-emerald-200 hover:decoration-emerald-400 transition-colors">taxe de bienvenue</Link> (droits de mutation) pour votre future maison.
+              </p>
+
+              <p>
+                Employés et travailleurs autonomes peuvent également bénéficier de nos outils comme le <Link href="/taux-horaire" className="text-emerald-600 hover:text-emerald-700 font-semibold underline decoration-emerald-200 hover:decoration-emerald-400 transition-colors">convertisseur de taux horaire</Link>, le calculateur de <Link href="/paie-vacances" className="text-emerald-600 hover:text-emerald-700 font-semibold underline decoration-emerald-200 hover:decoration-emerald-400 transition-colors">paie de vacances</Link>, et notre outil <Link href="/tps-tvq-quebec" className="text-emerald-600 hover:text-emerald-700 font-semibold underline decoration-emerald-200 hover:decoration-emerald-400 transition-colors">TPS/TVQ</Link> pour les taxes de vente.
+              </p>
+
+              <p>
+                Planifiez votre avenir financier avec nos calculateurs d'<Link href="/epargne-retraite" className="text-emerald-600 hover:text-emerald-700 font-semibold underline decoration-emerald-200 hover:decoration-emerald-400 transition-colors">épargne-retraite</Link>, d'<Link href="/interets-composes" className="text-emerald-600 hover:text-emerald-700 font-semibold underline decoration-emerald-200 hover:decoration-emerald-400 transition-colors">intérêts composés</Link>, et de <Link href="/capacite-emprunt" className="text-emerald-600 hover:text-emerald-700 font-semibold underline decoration-emerald-200 hover:decoration-emerald-400 transition-colors">capacité d'emprunt</Link>. Comparez même les coûts réels entre une <Link href="/auto-electrique-vs-essence" className="text-emerald-600 hover:text-emerald-700 font-semibold underline decoration-emerald-200 hover:decoration-emerald-400 transition-colors">auto électrique vs essence</Link> avec les rabais québécois inclus.
+              </p>
+
+              <p className="text-sm text-gray-600 pt-4 border-t border-gray-100">
+                Tous nos calculateurs sont gratuits, anonymes, et mis à jour régulièrement pour refléter les changements fiscaux et législatifs du Québec. Aucune inscription requise, aucune donnée personnelle collectée.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

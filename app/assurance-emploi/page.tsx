@@ -1,9 +1,34 @@
 import { Metadata } from 'next'
 import EICalculator from '@/components/EICalculator'
+import RelatedTools from '@/components/RelatedTools'
 
 export const metadata: Metadata = {
   title: 'Calculateur Assurance-Emploi Québec 2026 - Prestations AE (Chômage)',
   description: 'Calculez vos prestations d\'assurance-emploi (AE) au Québec. Estimation basée sur 55% de votre salaire (max 668$/semaine). Taux fédéraux 2026. Gratuit.',
+  keywords: [
+    'assurance-emploi québec',
+    'prestations ae 2026',
+    'calculateur chômage',
+    'ae québec',
+    'prestations chômage',
+    'service canada',
+    'assurance emploi calcul',
+  ],
+  alternates: {
+    canonical: '/assurance-emploi',
+  },
+  openGraph: {
+    title: "Calculateur Assurance-Emploi Québec 2026 - Prestations AE",
+    description: "Calculez vos prestations d'assurance-emploi. 55% de votre salaire, max 668$/semaine. Résultat instantané.",
+    url: '/assurance-emploi',
+    type: 'website',
+    locale: 'fr_CA',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Calculateur Assurance-Emploi Québec 2026",
+    description: "Calculez vos prestations AE instantanément",
+  },
 }
 
 export default function EIPage() {
@@ -11,11 +36,14 @@ export default function EIPage() {
     <><main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 py-12 max-w-7xl">
         <header className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Calculateur Assurance-Emploi 2026
+          <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+            🛡️ Protection Revenu
+          </span>
+          <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+            Vos Prestations d'Assurance-Emploi
           </h1>
-          <p className="text-xl text-gray-600">
-            Estimez vos prestations d'assurance-emploi au Québec
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Calculez rapidement vos versements hebdomadaires et sécurisez votre budget pendant votre recherche d'emploi
           </p>
         </header>
 
@@ -114,6 +142,9 @@ export default function EIPage() {
             </div>
           </div>
         </section>
+
+        {/* Related Tools */}
+        <RelatedTools currentTool="/assurance-emploi" currentCategory="tax" />
       </div>
     </main>
     </>

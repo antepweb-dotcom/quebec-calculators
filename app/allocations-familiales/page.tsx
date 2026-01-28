@@ -2,10 +2,11 @@ import { Metadata } from 'next'
 import FamilyBenefitsCalculator from '@/components/FamilyBenefitsCalculator'
 import StructuredData from '@/components/StructuredData'
 import SEOContent from '@/components/SEOContent'
+import Breadcrumb from '@/components/Breadcrumb'
 
 export const metadata: Metadata = {
-  title: "Calculateur Allocations Familiales Québec 2026 (ACE + Soutien)",
-  description: "Combien allez-vous recevoir pour vos enfants? Estimez l'Allocation canadienne pour enfants (ACE) et le Soutien aux enfants du Québec en 2026. Argent non-imposable. Calcul instantané.",
+  title: "Allocations Familiales Québec 2026 | Calculateur ACE",
+  description: "Calculez vos allocations familiales (ACE + Soutien Québec). Estimation gratuite et instantanée. Non-imposable.",
   keywords: [
     'allocations familiales québec',
     'ACE allocation canadienne enfants',
@@ -46,13 +47,22 @@ export default function FamilyBenefitsPage() {
       />
       <main className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100">
         <div className="container mx-auto px-4 py-12 max-w-7xl">
+          <Breadcrumb 
+            items={[
+              { label: 'Famille & Quotidien', href: '/#famille' },
+              { label: 'Allocations Familiales' }
+            ]} 
+          />
           {/* Header */}
           <header className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Allocations Familiales Québec 2026
+            <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+              👶 Aide Familiale
+            </span>
+            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+              Calculez Vos Allocations Familiales
             </h1>
-            <p className="text-xl text-gray-600">
-              Estimez vos allocations pour enfants (ACE + Soutien Québec)
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Découvrez combien vous recevrez chaque mois pour vos enfants avec l'ACE et le Soutien Québec
             </p>
           </header>
 

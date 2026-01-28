@@ -3,8 +3,11 @@ import CompoundInterestCalculator from '@/components/CompoundInterestCalculator'
 import { TrendingUp, Sparkles, DollarSign, Clock } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: "Calculateur d'Intérêts Composés - Investissement Québec 2026",
-  description: "Découvrez la puissance des intérêts composés! Calculez combien votre investissement pourrait valoir dans 10, 20 ou 30 ans avec des contributions régulières.",
+  title: "Intérêts Composés Québec 2026 | Calculateur Investissement",
+  description: "Calculez la croissance de vos investissements avec les intérêts composés. REER, CELI et plus. Gratuit.",
+  alternates: {
+    canonical: '/interets-composes',
+  },
 }
 
 export default function CompoundInterestPage() {
@@ -13,16 +16,14 @@ export default function CompoundInterestPage() {
         <div className="container mx-auto px-4 py-12 max-w-7xl">
           {/* Header */}
           <header className="text-center mb-12">
-            <div className="flex justify-center mb-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center">
-                <TrendingUp className="w-10 h-10 text-white" />
-              </div>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Calculateur d'Intérêts Composés
+            <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+              ✨ Croissance Exponentielle
+            </span>
+            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+              Voyez Votre Argent Se Multiplier
             </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Découvrez comment votre argent peut croître de façon exponentielle grâce à la magie des intérêts composés
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Découvrez la puissance des intérêts composés et combien votre épargne vaudra dans 10, 20 ou 30 ans
             </p>
           </header>
 

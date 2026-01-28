@@ -5,6 +5,30 @@ import { Scale, FileText, TrendingUp } from 'lucide-react'
 export const metadata: Metadata = {
   title: 'Calculateur Augmentation de Loyer Québec 2026 - TAL (Tribunal Logement)',
   description: 'Calculez l\'augmentation de loyer permise selon le TAL. Outil officiel basé sur les règles du Tribunal administratif du logement du Québec. Gratuit et précis.',
+  keywords: [
+    'augmentation loyer québec 2026',
+    'tal québec',
+    'tribunal logement',
+    'calculateur loyer',
+    'régie logement',
+    'droits locataires',
+    'augmentation loyer permise',
+  ],
+  alternates: {
+    canonical: '/augmentation-loyer-2026',
+  },
+  openGraph: {
+    title: "Calculateur Augmentation Loyer Québec 2026 - TAL",
+    description: "Calculez l'augmentation permise selon le TAL. Vérifiez si votre augmentation est juste.",
+    url: '/augmentation-loyer-2026',
+    type: 'website',
+    locale: 'fr_CA',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Calculateur Augmentation Loyer Québec 2026",
+    description: "Vérifiez si votre augmentation est juste",
+  },
 }
 
 export default function RentIncreasePage() {
@@ -12,11 +36,14 @@ export default function RentIncreasePage() {
     <><main className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
       <div className="container mx-auto px-4 py-12 max-w-7xl">
         <header className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Calculateur d'Augmentation de Loyer 2026
+          <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+            🏘️ Droits des Locataires
+          </span>
+          <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+            Votre Augmentation de Loyer Est-Elle Juste?
           </h1>
-          <p className="text-xl text-gray-600">
-            Basé sur les règles du Tribunal administratif du logement (TAL)
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Calculez l'augmentation permise selon le TAL et découvrez si vous payez trop cher
           </p>
         </header>
 

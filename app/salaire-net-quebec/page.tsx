@@ -3,10 +3,11 @@ import SalaryLandingClient from './SalaryLandingClient'
 import StructuredData from '@/components/StructuredData'
 import SEOContent from '@/components/SEOContent'
 import RelatedTools from '@/components/RelatedTools'
+import Breadcrumb from '@/components/Breadcrumb'
 
 export const metadata: Metadata = {
-  title: "Calculateur Salaire Net Québec 2026 - Précis & Gratuit",
-  description: "Estimez votre revenu net après impôts en 2 secondes. Intègre les taux 2026, RRQ, RQAP et déductions fédérales. Calcul précis pour tous les salaires au Québec.",
+  title: "Salaire Net Québec 2026 | Calculateur Impôt Gratuit",
+  description: "Calculez votre salaire net après impôts au Québec. Taux 2026, RRQ, RQAP inclus. Résultat instantané et gratuit.",
   keywords: [
     'salaire net québec',
     'calculateur impôt québec 2026',
@@ -46,6 +47,14 @@ export default function SalaryLandingPage() {
           ratingCount: 2450,
         }}
       />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+        <Breadcrumb 
+          items={[
+            { label: 'Impôts & Revenus', href: '/#impots' },
+            { label: 'Salaire Net Québec' }
+          ]} 
+        />
+      </div>
       <SalaryLandingClient />
       
       {/* SEO Content and Related Tools */}

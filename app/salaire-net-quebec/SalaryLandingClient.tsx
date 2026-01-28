@@ -30,11 +30,14 @@ export default function SalaryLandingClient() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero Title Area */}
         <div className="mb-10 text-center lg:text-left">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight">
-            Calculateur Salaire Net Québec 2026
+          <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+            ✨ Mis à jour pour 2026
+          </span>
+          <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">
+            Estimez Votre Revenu Net Réel
           </h1>
-          <p className="mt-3 text-xl text-gray-600">
-            Estimez votre revenu net réel après impôts en quelques secondes
+          <p className="mt-3 text-lg text-gray-600 max-w-2xl">
+            Découvrez exactement ce qui reste dans vos poches après impôts et déductions
           </p>
         </div>
 

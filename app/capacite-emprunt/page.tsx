@@ -2,8 +2,31 @@ import { Metadata } from 'next'
 import AffordabilityCalculator from '@/components/AffordabilityCalculator'
 
 export const metadata: Metadata = {
-  title: "Calculateur de Capacité d'Emprunt Hypothécaire Québec",
-  description: "Découvrez combien vous pouvez emprunter pour votre maison. Calculez votre capacité d'achat selon les ratios GDS et TDS. Outil gratuit et précis.",
+  title: "Capacité d'Emprunt Hypothécaire Québec 2026 | Calculateur",
+  description: "Calculez combien vous pouvez emprunter pour votre maison. Ratios GDS et TDS. Gratuit.",
+  keywords: [
+    'capacité emprunt québec',
+    'calculateur hypothèque',
+    'ratio gds tds',
+    'combien emprunter',
+    'achat maison québec',
+    'capacité achat 2026',
+  ],
+  alternates: {
+    canonical: '/capacite-emprunt',
+  },
+  openGraph: {
+    title: "Capacité d'Emprunt Hypothécaire Québec 2026",
+    description: "Calculez combien vous pouvez emprunter. Ratios GDS et TDS. Résultat instantané.",
+    url: '/capacite-emprunt',
+    type: 'website',
+    locale: 'fr_CA',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Capacité d'Emprunt Hypothécaire Québec",
+    description: "Découvrez votre budget maison réel",
+  },
 }
 
 export default function AffordabilityPage() {
@@ -12,11 +35,14 @@ export default function AffordabilityPage() {
         <div className="container mx-auto px-4 py-12 max-w-7xl">
           {/* Header */}
           <header className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Calculateur de Capacité d'Emprunt
+            <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+              💰 Pouvoir d'Achat
+            </span>
+            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+              Découvrez Votre Budget Maison Réel
             </h1>
-            <p className="text-xl text-gray-600">
-              Découvrez le prix maximum de la maison que vous pouvez acheter
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Calculez le prix maximum que vous pouvez vous permettre selon les critères bancaires GDS et TDS
             </p>
           </header>
 

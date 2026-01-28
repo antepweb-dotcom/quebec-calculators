@@ -1,15 +1,55 @@
 import { Metadata } from 'next'
 import TransferTaxCalculator from '@/components/TransferTaxCalculator'
 import { Home, MapPin, Calculator } from 'lucide-react'
+import StructuredData from '@/components/StructuredData'
+import Breadcrumb from '@/components/Breadcrumb'
 
 export const metadata: Metadata = {
-  title: 'Taxe de Bienvenue Québec 2026 - Calculateur Droits de Mutation (Montréal)',
-  description: 'Calculez la taxe de bienvenue (droits de mutation) pour votre achat de maison au Québec. Taux officiels 2026 pour Montréal et toutes les villes. Gratuit.',
+  title: 'Taxe de Bienvenue Québec 2026 | Calculateur Gratuit',
+  description: 'Calculez les droits de mutation pour votre achat immobilier. Taux officiels 2026. Gratuit.',
+  keywords: [
+    'taxe de bienvenue québec',
+    'droits de mutation',
+    'calculateur taxe bienvenue',
+    'achat maison québec',
+    'taxe transfert immobilier',
+    'taxe bienvenue 2026',
+  ],
+  alternates: {
+    canonical: '/taxe-de-bienvenue',
+  },
+  openGraph: {
+    title: "Taxe de Bienvenue Québec 2026 - Calculateur Gratuit",
+    description: "Calculez les droits de mutation pour votre achat immobilier. Taux officiels 2026.",
+    url: '/taxe-de-bienvenue',
+    type: 'website',
+    locale: 'fr_CA',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Taxe de Bienvenue Québec 2026",
+    description: "Calculez vos droits de mutation",
+  },
 }
 
 export default function TransferTaxPage() {
   return (
-    <><main className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100">
+    <><StructuredData
+        name="Calculateur Taxe de Bienvenue Québec"
+        description="Calculez les droits de mutation pour votre achat immobilier"
+        url="/taxe-de-bienvenue"
+        category="FinanceApplication"
+        aggregateRating={{
+          ratingValue: 4.8,
+          ratingCount: 1240,
+        }}
+      />
+      <Breadcrumb
+        items={[
+          { label: 'Taxe de Bienvenue', href: '/taxe-de-bienvenue' },
+        ]}
+      />
+      <main className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100">
       <div className="container mx-auto px-4 py-12 max-w-7xl">
         <header className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">

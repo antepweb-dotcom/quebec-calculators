@@ -1,9 +1,33 @@
 import { Metadata } from 'next'
 import DebtCalculator from '@/components/DebtCalculator'
+import RelatedTools from '@/components/RelatedTools'
 
 export const metadata: Metadata = {
   title: "Calculateur de Dette Québec - Plan de Remboursement Rapide",
   description: "Calculez quand vous serez libre de dettes. Voyez combien d'intérêts vous payez réellement sur vos cartes de crédit et prêts.",
+  keywords: [
+    'calculateur dette québec',
+    'remboursement dette',
+    'carte crédit dette',
+    'plan remboursement',
+    'sortir des dettes',
+    'calculateur crédit',
+  ],
+  alternates: {
+    canonical: '/dettes-credit',
+  },
+  openGraph: {
+    title: "Calculateur de Dette Québec - Plan de Remboursement",
+    description: "Découvrez quand vous serez libre de dettes. Calculez les intérêts réels sur vos cartes de crédit.",
+    url: '/dettes-credit',
+    type: 'website',
+    locale: 'fr_CA',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Calculateur de Dette Québec",
+    description: "Planifiez votre liberté financière",
+  },
 }
 
 export default function DebtPayoffPage() {
@@ -11,11 +35,14 @@ export default function DebtPayoffPage() {
     <><main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
         <div className="container mx-auto px-4 py-12 max-w-7xl">
           <header className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Calculateur de Remboursement de Dette
+            <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+              🎯 Liberté Financière
+            </span>
+            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+              Votre Plan de Sortie de Dette
             </h1>
-            <p className="text-xl text-gray-600">
-              Découvrez combien de temps il vous faudra pour être libre de dettes
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Découvrez quand vous serez libre de dettes et combien vous économiserez en intérêts
             </p>
           </header>
 
@@ -115,6 +142,9 @@ export default function DebtPayoffPage() {
               </div>
             </div>
           </section>
+
+          {/* Related Tools */}
+          <RelatedTools currentTool="/dettes-credit" currentCategory="debt" />
         </div>
       </main>
     </>

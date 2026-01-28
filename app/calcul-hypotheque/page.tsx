@@ -1,22 +1,35 @@
 import { Metadata } from 'next'
 import MortgageCalculator from '@/components/MortgageCalculator'
 import { Home, TrendingUp, DollarSign } from 'lucide-react'
+import Breadcrumb from '@/components/Breadcrumb'
 
 export const metadata: Metadata = {
-  title: 'Calculateur Hypothèque Québec 2026 - Paiement Mensuel + Test de Résistance',
-  description: 'Calculez vos paiements hypothécaires mensuels au Québec. Inclut le test de résistance (+2%), graphique d\'amortissement et simulation complète. Gratuit.',
+  title: 'Calculateur Hypothèque Québec 2026 | Paiement Mensuel',
+  description: 'Calculez vos paiements hypothécaires au Québec. Test de résistance, amortissement et simulation. Gratuit.',
+  alternates: {
+    canonical: '/calcul-hypotheque',
+  },
 }
 
 export default function MortgagePage() {
   return (
     <><main className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100">
       <div className="container mx-auto px-4 py-12 max-w-7xl">
+        <Breadcrumb 
+          items={[
+            { label: 'Immobilier', href: '/#immobilier' },
+            { label: 'Calcul Hypothécaire' }
+          ]} 
+        />
         <header className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Calculateur Hypothécaire Québec 2026
+          <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+            🏠 Achat Immobilier
+          </span>
+          <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
+            Planifiez Votre Hypothèque Intelligemment
           </h1>
-          <p className="text-xl text-gray-600">
-            Calculez vos paiements mensuels et testez votre capacité d'emprunt
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Calculez vos paiements mensuels réels et découvrez combien vous économiserez avec différentes stratégies
           </p>
         </header>
 
