@@ -296,30 +296,31 @@ export default function Home() {
               <Link
                 key={tool.href}
                 href={tool.href}
-                className={`group relative overflow-hidden rounded-3xl bg-white p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between border ${tool.border} bg-gradient-to-br ${tool.gradient} ${tool.colSpan}`}
+                className={`group relative overflow-hidden rounded-3xl bg-white p-6 sm:p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border ${tool.border} bg-gradient-to-br ${tool.gradient} ${tool.colSpan}`}
               >
-                <div className="relative z-10 flex flex-col h-full">
-                  <div className="flex justify-between items-start mb-4">
-                    {/* 3D Image Container */}
-                    <div className="relative w-16 h-16 sm:w-20 sm:h-20 filter drop-shadow-md group-hover:scale-110 transition-transform duration-300">
-                      <Image
-                        src={tool.imageSrc}
-                        alt={tool.title}
-                        fill
-                        className="object-contain"
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                      />
-                    </div>
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/80 rounded-full p-2">
-                      <ArrowRight className={`w-5 h-5 ${tool.text}`} />
-                    </div>
+                {/* Horizontal Flex Container (Always Row) */}
+                <div className="relative z-10 flex flex-row items-start sm:items-center gap-6 h-full">
+                  {/* LEFT: 3D Image (Fixed Size) */}
+                  <div className="relative w-16 h-16 sm:w-24 sm:h-24 shrink-0 filter drop-shadow-md group-hover:scale-110 transition-transform duration-300">
+                    <Image
+                      src={tool.imageSrc}
+                      alt={tool.title}
+                      fill
+                      className="object-contain"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
                   </div>
 
-                  <div className="mt-auto">
-                    <h3 className={`text-xl font-bold ${tool.text} mb-2`}>
-                      {tool.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 font-medium leading-snug line-clamp-2">
+                  {/* RIGHT: Text Content */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between items-start">
+                      <h3 className={`text-xl font-bold ${tool.text} mb-2 pr-4`}>
+                        {tool.title}
+                      </h3>
+                      {/* Arrow on top right of the text area */}
+                      <ArrowRight className={`w-5 h-5 ${tool.text} opacity-0 group-hover:opacity-100 transition-opacity shrink-0`} />
+                    </div>
+                    <p className="text-sm text-gray-600 font-medium leading-relaxed">
                       {tool.description}
                     </p>
                   </div>
