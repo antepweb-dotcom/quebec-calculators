@@ -4,6 +4,7 @@ import { useState, useRef } from 'react'
 import { calculateMortgage, MortgageInputs, MortgageResult, PaymentFrequency, AmortizationYears, formatCurrency, getFrequencyLabel } from '@/utils/mortgageLogic'
 import { generateMortgagePDF } from '@/utils/pdfGenerator'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts'
+import AffiliateCard from '@/components/AffiliateCard'
 
 export default function MortgageCalculator() {
   const [loanAmount, setLoanAmount] = useState<string>('400000')
@@ -68,10 +69,10 @@ export default function MortgageCalculator() {
   }
 
   return (
-    <div className="grid lg:grid-cols-3 gap-6">
-      {/* Left Column - Input Form */}
-      <div className="lg:col-span-1 space-y-6">
-        <div className="bg-white rounded-xl shadow-lg p-6">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      {/* Left Column - Input Form (Span 4) */}
+      <div className="lg:col-span-4 space-y-6">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Paramètres du prêt</h2>
           
           <div className="space-y-5">
@@ -184,19 +185,16 @@ export default function MortgageCalculator() {
           </div>
         </div>
 
-        {/* Ad Space */}
-        <div className="bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 p-8 text-center">
-          <p className="text-gray-500 font-medium">Espace Publicitaire</p>
-          <p className="text-sm text-gray-400 mt-2">300x250</p>
-        </div>
+
       </div>
 
-      {/* Right Column - Results */}
-      <div className="lg:col-span-2">
-        {result ? (
-          <div ref={resultsRef} className="space-y-6">
-            {/* HERO RESULT - V2 Gold Standard */}
-            <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl shadow-2xl p-8 text-white text-center">
+      {/* Right Column - Results (Span 8, Sticky) */}
+      <div className="lg:col-span-8">
+        <div className="lg:sticky lg:top-24 lg:h-fit">
+          {result ? (
+            <div className="space-y-6">
+              {/* HERO RESULT */}
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-lg p-8 text-white text-center">
               <h2 className="text-2xl font-medium mb-4 opacity-90">Votre Paiement Hypothécaire</h2>
               <p className="text-6xl md:text-7xl font-bold mb-6">
                 {formatCurrency(result.paymentAmount)}
@@ -223,7 +221,7 @@ export default function MortgageCalculator() {
             </div>
 
             {/* Summary Details */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
               <h3 className="text-xl font-bold text-gray-900 mb-4">Résumé du prêt</h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
@@ -241,8 +239,8 @@ export default function MortgageCalculator() {
               </div>
             </div>
 
-            {/* Principal vs Interest Chart - Improved */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
+            {/* Principal vs Interest Chart */}
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
               <h3 className="text-xl font-bold text-gray-900 mb-4">Principal vs Intérêts au fil du temps</h3>
               <ResponsiveContainer width="100%" height={350}>
                 <AreaChart data={result.balanceOverTime}>
@@ -288,34 +286,20 @@ export default function MortgageCalculator() {
               </p>
             </div>
 
-            {/* Mortgage Rate Comparison CTA */}
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl shadow-lg p-8 border-2 border-green-200">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-3">
-                    <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                    <h3 className="text-2xl font-bold text-gray-900">Comparez les taux hypothécaires du jour</h3>
-                  </div>
-                  <p className="text-gray-700 text-lg mb-2">
-                    Trouvez le meilleur taux pour économiser des milliers de dollars
-                  </p>
-                  <p className="text-gray-600">
-                    Comparez gratuitement les offres de plusieurs prêteurs en quelques minutes
-                  </p>
-                </div>
-                <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-lg transition-colors duration-200 whitespace-nowrap text-lg shadow-lg hover:shadow-xl">
-                  Voir les taux (Gratuit)
-                </button>
-              </div>
-            </div>
+            {/* Affiliate Card - Mortgage Broker (Only shown after calculation) */}
+            <AffiliateCard
+              title="Trouvez le meilleur taux hypothécaire au Québec"
+              description="Comparez gratuitement les taux de 30+ prêteurs en 3 minutes. Nos courtiers hypothécaires négocient pour vous et peuvent vous faire économiser des milliers de dollars sur votre prêt."
+              buttonText="Comparer les taux gratuitement"
+              link="https://www.nesto.ca/fr/"
+              theme="purple"
+            />
 
             {/* PDF Download Button */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
               <button
                 onClick={handleDownloadPDF}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
+                className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -323,9 +307,9 @@ export default function MortgageCalculator() {
                 Télécharger le rapport en PDF
               </button>
             </div>
-          </div>
-        ) : (
-          <div className="bg-white rounded-xl shadow-lg p-12 text-center">
+            </div>
+          ) : (
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-12 text-center">
             <div className="text-gray-400 mb-4">
               <svg className="w-24 h-24 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -337,8 +321,9 @@ export default function MortgageCalculator() {
             <p className="text-gray-500">
               Les résultats apparaîtront ici après le calcul
             </p>
-          </div>
-        )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

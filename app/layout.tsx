@@ -79,7 +79,7 @@ export default function RootLayout({
         )}
         <GlobalWrapper>
           <Header />
-          <main className="min-h-screen pt-4 pb-12">
+          <main className="min-h-screen">
             {children}
           </main>
           <Footer />

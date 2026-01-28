@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { calculateAutoLoan, AutoLoanInputs, AutoLoanResult, LoanTermMonths, formatCurrency, formatPercentage } from '@/utils/autoLoanLogic'
+import AffiliateCard from '@/components/AffiliateCard'
 
 const LOAN_TERMS: LoanTermMonths[] = [36, 48, 60, 72, 84];
 
@@ -170,11 +171,7 @@ export default function AutoLoanCalculator() {
           </div>
         </div>
 
-        {/* Ad Space */}
-        <div className="bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 p-8 text-center">
-          <p className="text-gray-500 font-medium">Espace Publicitaire</p>
-          <p className="text-sm text-gray-400 mt-2">300x250</p>
-        </div>
+
       </div>
 
       {/* Right Column - Results */}
@@ -254,28 +251,14 @@ export default function AutoLoanCalculator() {
               </div>
             </div>
 
-            {/* Auto Insurance CTA */}
-            <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl shadow-lg p-8 border-2 border-indigo-200">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-3">
-                    <svg className="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                    </svg>
-                    <h3 className="text-2xl font-bold text-gray-900">Économisez sur votre assurance auto</h3>
-                  </div>
-                  <p className="text-gray-700 text-lg mb-2">
-                    Comparez les soumissions de <strong>15 assureurs</strong> en quelques minutes
-                  </p>
-                  <p className="text-gray-600">
-                    Trouvez la meilleure protection au meilleur prix pour votre nouveau véhicule
-                  </p>
-                </div>
-                <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-8 rounded-lg transition-colors duration-200 whitespace-nowrap text-lg shadow-lg hover:shadow-xl">
-                  Comparer les assurances (Gratuit)
-                </button>
-              </div>
-            </div>
+            {/* Affiliate Card - Auto Loan (Only shown after calculation) */}
+            <AffiliateCard
+              title="Obtenez un meilleur taux de financement"
+              description="Comparez les taux de financement auto de plusieurs institutions financières. Économisez des centaines de dollars par mois en trouvant le meilleur taux pour votre véhicule."
+              buttonText="Comparer les taux auto"
+              link="https://www.ratehub.ca/auto-loans"
+              theme="blue"
+            />
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-lg p-12 text-center">

@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react'
 import { calculateRentVsBuy, RentVsBuyInput } from '@/utils/rentVsBuyLogic'
 import { Home, Building2, TrendingUp, TrendingDown } from 'lucide-react'
+import AffiliateCard from '@/components/AffiliateCard'
 
 export default function RentVsBuyCalculator() {
   const [input, setInput] = useState<RentVsBuyInput>({
@@ -348,6 +349,15 @@ export default function RentVsBuyCalculator() {
           </div>
         </div>
       </div>
+
+      {/* Affiliate Card - Investment */}
+      <AffiliateCard
+        title="Si vous louez, investissez la différence"
+        description="Ouvrez un compte CELI avec Wealthsimple et investissez automatiquement votre épargne mensuelle. Obtenez 25$ de bonus et faites fructifier votre argent sans payer d'impôt sur les gains."
+        buttonText="Commencer à investir (25$ bonus)"
+        link="https://wealthsimple.com/fr-ca"
+        theme="green"
+      />
 
       {/* Important Note */}
       <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">

@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import AutoLoanCalculator from '@/components/AutoLoanCalculator'
-import AdSlot from '@/components/AdSlot'
 import { Car, TrendingDown, DollarSign } from 'lucide-react'
 
 export const metadata: Metadata = {
@@ -21,26 +20,9 @@ export default function AutoLoanPage() {
           </p>
         </header>
 
-        <div className="mb-8 flex justify-center">
-          <AdSlot position="header" />
-        </div>
-
-        <div className="grid lg:grid-cols-4 gap-6 mb-12">
-          <div className="lg:col-span-3">
-            <AutoLoanCalculator />
-            <div className="lg:hidden mt-8 flex justify-center">
-              <AdSlot position="inArticle" />
-            </div>
-          </div>
-          <div className="hidden lg:block lg:col-span-1">
-            <div className="sticky top-6">
-              <AdSlot position="sidebar" />
-            </div>
-          </div>
-        </div>
-
-        <div className="hidden lg:flex mb-12 justify-center">
-          <AdSlot position="inArticle" />
+        {/* Calculator */}
+        <div className="mb-12">
+          <AutoLoanCalculator />
         </div>
 
         {/* Educational Section - V2 Gold Standard */}
@@ -137,11 +119,6 @@ export default function AutoLoanPage() {
             </div>
           </div>
         </section>
-
-        <footer className="mt-12 text-center text-sm text-gray-500">
-          <p>© 2026 Calculateur Prêt Auto. Les calculs sont fournis à titre indicatif seulement.</p>
-          <p className="mt-2">Les taux d'intérêt varient selon votre cote de crédit et le prêteur.</p>
-        </footer>
       </div>
     </main>
     </>

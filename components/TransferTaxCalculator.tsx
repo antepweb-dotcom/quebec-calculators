@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { calculateTransferTax, Location, TransferTaxResult, formatCurrency, formatPercentage, getLocationName } from '@/utils/transferTaxLogic'
+import AffiliateCard from '@/components/AffiliateCard'
 
 export default function TransferTaxCalculator() {
   const [propertyPrice, setPropertyPrice] = useState<string>('')
@@ -92,11 +93,7 @@ export default function TransferTaxCalculator() {
           </div>
         </div>
 
-        {/* Ad Space */}
-        <div className="bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 p-8 text-center">
-          <p className="text-gray-500 font-medium">Espace Publicitaire</p>
-          <p className="text-sm text-gray-400 mt-2">300x250</p>
-        </div>
+
       </div>
 
       {/* Right Column - Results */}
@@ -168,28 +165,14 @@ export default function TransferTaxCalculator() {
               </div>
             </div>
 
-            {/* Mortgage CTA - High Value */}
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl shadow-lg p-8 border-2 border-green-200">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-3">
-                    <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                    </svg>
-                    <h3 className="text-2xl font-bold text-gray-900">Besoin d'une pré-approbation hypothécaire?</h3>
-                  </div>
-                  <p className="text-gray-700 text-lg mb-2">
-                    Obtenez le meilleur taux pour votre achat à <strong>{getLocationName(result.location)}</strong>
-                  </p>
-                  <p className="text-gray-600">
-                    Comparez les offres de plusieurs institutions financières en quelques minutes
-                  </p>
-                </div>
-                <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-lg transition-colors duration-200 whitespace-nowrap text-lg shadow-lg hover:shadow-xl">
-                  Comparer les taux hypothécaires
-                </button>
-              </div>
-            </div>
+            {/* Affiliate Card - Mortgage Broker (Only shown after calculation) */}
+            <AffiliateCard
+              title="Trouvez le meilleur taux hypothécaire"
+              description="Vous achetez une propriété? Comparez gratuitement les taux de 30+ prêteurs en 3 minutes. Nos courtiers hypothécaires négocient pour vous et peuvent vous faire économiser des milliers de dollars."
+              buttonText="Comparer les taux gratuitement"
+              link="https://www.nesto.ca/fr/"
+              theme="purple"
+            />
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-lg p-12 text-center">

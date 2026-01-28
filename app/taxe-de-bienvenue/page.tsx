@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import TransferTaxCalculator from '@/components/TransferTaxCalculator'
-import AdSlot from '@/components/AdSlot'
 import { Home, MapPin, Calculator } from 'lucide-react'
 
 export const metadata: Metadata = {
@@ -21,15 +20,9 @@ export default function TransferTaxPage() {
           </p>
         </header>
 
-        <div className="mb-8 flex justify-center"><AdSlot position="header" /></div>
-        <div className="grid lg:grid-cols-4 gap-6 mb-12">
-          <div className="lg:col-span-3">
-            <TransferTaxCalculator />
-            <div className="lg:hidden mt-8 flex justify-center"><AdSlot position="inArticle" /></div>
-          </div>
-          <div className="hidden lg:block lg:col-span-1"><div className="sticky top-6"><AdSlot position="sidebar" /></div></div>
+        <div className="mb-12">
+          <TransferTaxCalculator />
         </div>
-        <div className="hidden lg:flex mb-12 justify-center"><AdSlot position="inArticle" /></div>
 
         {/* Educational Section - V2 Gold Standard */}
         <section className="mt-12 bg-white rounded-xl shadow-lg p-8">
@@ -125,11 +118,6 @@ export default function TransferTaxPage() {
             </div>
           </div>
         </section>
-
-        <footer className="mt-12 text-center text-sm text-gray-500">
-          <p>© 2026 Calculateur de Taxe de Bienvenue. Les calculs sont fournis à titre indicatif seulement.</p>
-          <p className="mt-2">Consultez votre municipalité pour les taux exacts et les exemptions possibles.</p>
-        </footer>
       </div>
     </main>
     </>

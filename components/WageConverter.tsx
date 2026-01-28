@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { convertWage, formatCurrency, formatCurrencyRounded, WageConversionResult } from '@/utils/wageLogic'
+import AffiliateCard from '@/components/AffiliateCard'
 
 export default function WageConverter() {
   const [amount, setAmount] = useState<string>('25')
@@ -147,18 +148,15 @@ export default function WageConverter() {
           </div>
         </div>
 
-        {/* Affiliate Card */}
-        <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl shadow-lg p-6 border-2 border-purple-200">
-          <div className="text-4xl mb-3 text-center">💼</div>
+        {/* Simple Info Card */}
+        <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl shadow-lg p-6 border-2 border-blue-200">
+          <div className="text-4xl mb-3 text-center">💰</div>
           <h3 className="text-lg font-bold text-gray-900 mb-2 text-center">
-            Vous valez plus que ça ?
+            Calculez votre salaire net
           </h3>
           <p className="text-sm text-gray-700 mb-4 text-center">
-            Découvrez les offres d'emploi mieux payées
+            Découvrez combien vous recevrez après impôts
           </p>
-          <button className="w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200">
-            Voir les offres d'emploi
-          </button>
         </div>
       </div>
 
@@ -320,6 +318,15 @@ export default function WageConverter() {
                 </p>
               </div>
             </div>
+
+            {/* Affiliate Card */}
+            <AffiliateCard
+              title="Comparez les offres d'emploi facilement"
+              description="Utilisez Wealthsimple pour gérer votre budget et épargner automatiquement une partie de votre salaire. Obtenez 25$ de bonus."
+              buttonText="Obtenir 25$ de bonus"
+              link="https://wealthsimple.com/fr-ca"
+              theme="cyan"
+            />
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-lg p-12 text-center">

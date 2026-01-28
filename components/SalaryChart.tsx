@@ -1,6 +1,6 @@
 'use client'
 
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts'
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 
 interface SalaryChartProps {
   net: number
@@ -24,135 +24,111 @@ export default function SalaryChart({
       name: 'Revenu Net',
       value: net,
       color: '#10b981',
-      description: 'Ce qui reste dans vos poches',
     },
     {
       name: 'Impôt Fédéral',
       value: impotFederal,
       color: '#ef4444',
-      description: 'Impôt fédéral',
     },
     {
       name: 'Impôt Québec',
       value: impotQuebec,
       color: '#f97316',
-      description: 'Impôt provincial',
     },
     {
       name: 'RRQ',
       value: rrq,
       color: '#64748b',
-      description: 'Régime de rentes du Québec',
     },
     {
       name: 'RQAP',
       value: rqap,
       color: '#94a3b8',
-      description: 'Régime québécois d\'assurance parentale',
     },
     ...(ae > 0 ? [{
       name: 'AE',
       value: ae,
       color: '#cbd5e1',
-      description: 'Assurance-emploi',
     }] : []),
   ]
 
-  // Custom tooltip
+  const total = data.reduce((sum, item) => sum + item.value, 0)
+
+  // Custom tooltip for hover interactivity
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
-      const data = payload[0].payload
+      const item = payload[0].payload
+      const percentage = ((item.value / total) * 100).toFixed(1)
       return (
         <div className="bg-white px-4 py-3 rounded-lg shadow-xl border-2 border-gray-200">
-          <p className="font-bold text-gray-900 mb-1">{data.name}</p>
-          <p className="text-2xl font-bold mb-1" style={{ color: data.color }}>
-            {data.value.toLocaleString('fr-CA', {
+          <p className="font-bold text-gray-900 mb-1">{item.name}</p>
+          <p className="text-2xl font-bold" style={{ color: item.color }}>
+            {item.value.toLocaleString('fr-CA', {
               style: 'currency',
               currency: 'CAD',
               minimumFractionDigits: 0,
               maximumFractionDigits: 0,
             })}
           </p>
-          <p className="text-sm text-gray-600">{data.description}</p>
+          <p className="text-sm text-gray-600 mt-1">{percentage}%</p>
         </div>
       )
     }
     return null
   }
 
-  // Custom legend
-  const CustomLegend = ({ payload }: any) => {
-    return (
-      <div className="flex flex-wrap justify-center gap-4 mt-6">
-        {payload.map((entry: any, index: number) => (
-          <div key={`legend-${index}`} className="flex items-center gap-2">
-            <div
-              className="w-4 h-4 rounded-full"
-              style={{ backgroundColor: entry.color }}
-            />
-            <span className="text-sm font-medium text-gray-700">
-              {entry.value}
-            </span>
-          </div>
-        ))}
-      </div>
-    )
-  }
-
-  // Calculate total for percentage
-  const total = data.reduce((sum, item) => sum + item.value, 0)
-
-  // Custom label to show percentage
-  const renderLabel = (entry: any) => {
-    const percent = ((entry.value / total) * 100).toFixed(1)
-    // Only show label if segment is large enough (>5%)
-    if (parseFloat(percent) > 5) {
-      return `${percent}%`
-    }
-    return ''
-  }
-
   return (
-    <div className="w-full">
-      <ResponsiveContainer width="100%" height={350}>
-        <PieChart>
-          <Pie
-            data={data}
-            cx="50%"
-            cy="50%"
-            innerRadius={80}
-            outerRadius={120}
-            paddingAngle={2}
-            dataKey="value"
-            label={renderLabel}
-            labelLine={false}
+    <ResponsiveContainer width="100%" height={300}>
+      <PieChart>
+        <Pie
+          data={data}
+          cx="50%"
+          cy="50%"
+          innerRadius={70}
+          outerRadius={110}
+          paddingAngle={2}
+          dataKey="value"
+          label={false}
+          labelLine={false}
+          isAnimationActive={true}
+        >
+          {data.map((entry, index) => (
+            <Cell 
+              key={`cell-${index}`} 
+              fill={entry.color}
+              stroke="white"
+              strokeWidth={2}
+            />
+          ))}
+          {/* Center text using SVG */}
+          <text
+            x="50%"
+            y="50%"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            className="fill-gray-600 text-sm font-medium"
+            dy="-10"
           >
-            {data.map((entry, index) => (
-              <Cell 
-                key={`cell-${index}`} 
-                fill={entry.color}
-                stroke="white"
-                strokeWidth={2}
-              />
-            ))}
-          </Pie>
-          <Tooltip content={<CustomTooltip />} />
-          <Legend content={<CustomLegend />} />
-        </PieChart>
-      </ResponsiveContainer>
-
-      {/* Center text showing net income */}
-      <div className="text-center -mt-64 pointer-events-none">
-        <p className="text-sm text-gray-600 font-medium">Revenu Net</p>
-        <p className="text-3xl font-bold text-green-600">
-          {net.toLocaleString('fr-CA', {
-            style: 'currency',
-            currency: 'CAD',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-          })}
-        </p>
-      </div>
-    </div>
+            Revenu Net
+          </text>
+          <text
+            x="50%"
+            y="50%"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            className="fill-green-600 text-2xl font-bold"
+            dy="15"
+          >
+            {net.toLocaleString('fr-CA', {
+              style: 'currency',
+              currency: 'CAD',
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })}
+          </text>
+        </Pie>
+        <Tooltip content={<CustomTooltip />} />
+      </PieChart>
+    </ResponsiveContainer>
   )
 }

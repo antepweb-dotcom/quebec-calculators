@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import EICalculator from '@/components/EICalculator'
-import AdSlot from '@/components/AdSlot'
 
 export const metadata: Metadata = {
   title: 'Calculateur Assurance-Emploi Québec 2026 - Prestations AE (Chômage)',
@@ -20,15 +19,9 @@ export default function EIPage() {
           </p>
         </header>
 
-        <div className="mb-8 flex justify-center"><AdSlot position="header" /></div>
-        <div className="grid lg:grid-cols-4 gap-6 mb-12">
-          <div className="lg:col-span-3">
-            <EICalculator />
-            <div className="lg:hidden mt-8 flex justify-center"><AdSlot position="inArticle" /></div>
-          </div>
-          <div className="hidden lg:block lg:col-span-1"><div className="sticky top-6"><AdSlot position="sidebar" /></div></div>
+        <div className="mb-12">
+          <EICalculator />
         </div>
-        <div className="hidden lg:flex mb-12 justify-center"><AdSlot position="inArticle" /></div>
 
         {/* Educational Section - V2 Gold Standard */}
         <section className="mt-12 bg-white rounded-xl shadow-lg p-8">
@@ -121,11 +114,6 @@ export default function EIPage() {
             </div>
           </div>
         </section>
-
-        <footer className="mt-12 text-center text-sm text-gray-500">
-          <p>© 2026 Calculateur Assurance-Emploi. Les calculs sont fournis à titre indicatif seulement.</p>
-          <p className="mt-2">Pour une évaluation précise, consultez Service Canada ou votre dossier Mon dossier Service Canada.</p>
-        </footer>
       </div>
     </main>
     </>

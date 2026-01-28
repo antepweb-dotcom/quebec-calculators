@@ -7,7 +7,7 @@ interface AffiliateCardProps {
   buttonText: string;
   link: string;
   image?: string;
-  theme?: 'blue' | 'green' | 'dark';
+  theme?: 'blue' | 'green' | 'dark' | 'purple';
 }
 
 const themeStyles = {
@@ -25,6 +25,11 @@ const themeStyles = {
     gradient: 'from-slate-800 to-slate-900',
     button: 'bg-green-400 hover:bg-green-500 text-gray-900',
     badge: 'bg-slate-700/50 text-slate-200',
+  },
+  purple: {
+    gradient: 'from-purple-600 to-indigo-700',
+    button: 'bg-white hover:bg-gray-100 text-purple-900',
+    badge: 'bg-purple-500/30 text-purple-100',
   },
 };
 

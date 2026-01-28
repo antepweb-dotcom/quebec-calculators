@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { calculateDaycareCosts, DaycareInputs, DaycareResult, formatCurrency, formatPercentage, DEFAULT_DAYS_PER_YEAR } from '@/utils/daycareLogic'
+import AffiliateCard from '@/components/AffiliateCard'
 
 export default function DaycareCalculator() {
   const [familyIncome, setFamilyIncome] = useState<string>('100000')
@@ -118,11 +119,7 @@ export default function DaycareCalculator() {
           </div>
         </div>
 
-        {/* Ad Space */}
-        <div className="bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 p-8 text-center">
-          <p className="text-gray-500 font-medium">Espace Publicitaire</p>
-          <p className="text-sm text-gray-400 mt-2">300x250</p>
-        </div>
+
       </div>
 
       {/* Right Column - Results */}
@@ -234,28 +231,14 @@ export default function DaycareCalculator() {
               </div>
             </div>
 
-            {/* RESP CTA */}
-            <div className="bg-gradient-to-r from-amber-50 to-yellow-50 rounded-xl shadow-lg p-8 border-2 border-amber-200">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-3">
-                    <svg className="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                    </svg>
-                    <h3 className="text-2xl font-bold text-gray-900">Investissez pour l'avenir de votre enfant</h3>
-                  </div>
-                  <p className="text-gray-700 text-lg mb-2">
-                    Utilisez vos économies pour ouvrir un <strong>REEE (Régime enregistré d'épargne-études)</strong>
-                  </p>
-                  <p className="text-gray-600">
-                    Profitez des subventions gouvernementales et faites fructifier votre épargne pour les études
-                  </p>
-                </div>
-                <button className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-4 px-8 rounded-lg transition-colors duration-200 whitespace-nowrap text-lg shadow-lg hover:shadow-xl">
-                  Ouvrir un REEE
-                </button>
-              </div>
-            </div>
+            {/* Affiliate Card - REEE (Only shown after calculation) */}
+            <AffiliateCard
+              title="Préparez l'avenir de votre enfant avec un REEE"
+              description="Investissez vos économies de frais de garde dans un REEE et obtenez jusqu'à 30% de subventions gouvernementales gratuites (SCEE + IQEE). Wealthsimple offre des frais réduits et une gestion automatisée."
+              buttonText="Ouvrir un REEE gratuit"
+              link="https://www.wealthsimple.com/fr-ca/product/resp"
+              theme="green"
+            />
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-lg p-12 text-center">

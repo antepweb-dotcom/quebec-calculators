@@ -120,11 +120,7 @@ export default function InflationCalculator() {
           </div>
         </div>
 
-        {/* Ad Space */}
-        <div className="bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 p-8 text-center">
-          <p className="text-gray-500 font-medium">Espace Publicitaire</p>
-          <p className="text-sm text-gray-400 mt-2">300x250</p>
-        </div>
+
       </div>
 
       {/* Right Column - Results */}
@@ -232,28 +228,6 @@ export default function InflationCalculator() {
               </div>
             </div>
 
-            {/* Investment CTA */}
-            <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl shadow-lg p-8 border-2 border-emerald-200">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-3">
-                    <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                    </svg>
-                    <h3 className="text-2xl font-bold text-gray-900">L'inflation mange votre argent</h3>
-                  </div>
-                  <p className="text-gray-700 text-lg mb-2">
-                    Protégez votre patrimoine en <strong>commençant à investir</strong> dès aujourd'hui
-                  </p>
-                  <p className="text-gray-600">
-                    Comparez les plateformes de courtage et trouvez celle qui vous convient
-                  </p>
-                </div>
-                <button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-8 rounded-lg transition-colors duration-200 whitespace-nowrap text-lg shadow-lg hover:shadow-xl">
-                  Voir les offres de courtage
-                </button>
-              </div>
-            </div>
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-lg p-12 text-center">

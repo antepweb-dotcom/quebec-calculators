@@ -161,7 +161,7 @@ export default function Footer() {
           {/* Bottom Copyright Row */}
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-slate-500 text-sm text-center md:text-left">
-              © {currentYear} QuebecCalculators. Tous droits réservés. Les calculs sont fournis à titre indicatif seulement.
+              © {currentYear} QuebecCalculators. Tous droits réservés.
             </p>
             <div className="flex gap-6 text-sm">
               <Link 

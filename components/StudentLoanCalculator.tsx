@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { calculateStudentLoan, formatCurrency, formatCurrencyDetailed, formatYearsMonths, StudentLoanResult } from '@/utils/studentLoanLogic'
 import { generateStudentLoanPDF } from '@/utils/pdfGenerator'
+import AffiliateCard from '@/components/AffiliateCard'
 
 export default function StudentLoanCalculator() {
   const [loanAmount, setLoanAmount] = useState<string>('15000')
@@ -144,20 +145,6 @@ export default function StudentLoanCalculator() {
               Calculer mes paiements
             </button>
           </div>
-        </div>
-
-        {/* Affiliate Card */}
-        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl shadow-lg p-6 border-2 border-green-200">
-          <div className="text-4xl mb-3 text-center">🏦</div>
-          <h3 className="text-lg font-bold text-gray-900 mb-2 text-center">
-            Économisez sur vos frais bancaires
-          </h3>
-          <p className="text-sm text-gray-700 mb-4 text-center">
-            Découvrez les offres bancaires pour étudiants
-          </p>
-          <button className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200">
-            Voir les offres étudiantes
-          </button>
         </div>
       </div>
 
@@ -340,11 +327,20 @@ export default function StudentLoanCalculator() {
               </div>
             </div>
 
+            {/* Affiliate Card - Student Savings (Only shown after calculation) */}
+            <AffiliateCard
+              title="Étudiants : Investissez dès maintenant"
+              description="Même avec un prêt étudiant, commencez à investir petit à petit. Ouvrez un CELI avec Wealthsimple (25$ bonus) et investissez automatiquement 25-50$ par mois. Votre futur vous remerciera."
+              buttonText="Commencer à investir (25$ bonus)"
+              link="https://wealthsimple.com/fr-ca"
+              theme="blue"
+            />
+
             {/* PDF Download Button */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <button
                 onClick={handleDownloadPDF}
-                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
+                className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />

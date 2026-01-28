@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { calculateFamilyBenefits, FamilyBenefitsInput } from '@/utils/familyBenefitsLogic'
 import { Baby, Users, Minus, Plus } from 'lucide-react'
+import AffiliateCard from '@/components/AffiliateCard'
 
 export default function FamilyBenefitsCalculator() {
   const [input, setInput] = useState<FamilyBenefitsInput>({
@@ -43,11 +44,11 @@ export default function FamilyBenefitsCalculator() {
   }, [input.familyIncome, input.custody, hasCalculated])
 
   return (
-    <div className="space-y-8">
-      {/* Input Section */}
-      <div className="grid md:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      {/* Left Column - Input Form (Span 5) */}
+      <div className="lg:col-span-5 space-y-6">
         {/* Situation Card */}
-        <div className="bg-white rounded-xl shadow-lg p-6">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
           <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
             <Users className="w-6 h-6 text-blue-600" />
             Votre Situation
@@ -102,7 +103,7 @@ export default function FamilyBenefitsCalculator() {
         </div>
 
         {/* Children Card */}
-        <div className="bg-white rounded-xl shadow-lg p-6">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
           <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
             <Baby className="w-6 h-6 text-pink-600" />
             Vos Enfants
@@ -162,61 +163,77 @@ export default function FamilyBenefitsCalculator() {
         </div>
       </div>
 
-      {/* Results Section - "The Paycheque" */}
-      <div ref={resultsRef} className="bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl shadow-2xl p-8">
-        <div className="text-center mb-6">
-          <p className="text-lg text-gray-600 mb-2">Vos allocations familiales estimées</p>
-          <div className="text-6xl font-bold text-green-600 mb-2">
-            {result.totalMonthly.toLocaleString('fr-CA', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} $
+      {/* Right Column - Results (Span 7, Sticky) */}
+      <div className="lg:col-span-7">
+        <div className="lg:sticky lg:top-24 lg:h-fit" ref={resultsRef}>
+          {/* Results Section - "The Paycheque" */}
+          <div className="bg-gradient-to-br from-green-50 to-emerald-100 rounded-2xl shadow-lg border border-gray-100 p-8">
+            <div className="text-center mb-6">
+              <p className="text-lg text-gray-600 mb-2">Vos allocations familiales estimées</p>
+              <div className="text-6xl font-bold text-green-600 mb-2">
+                {result.totalMonthly.toLocaleString('fr-CA', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} $
+              </div>
+              <p className="text-2xl text-gray-700">par mois</p>
+              <p className="text-sm text-gray-500 mt-2">
+                ({result.totalYearly.toLocaleString('fr-CA', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} $ par année)
+              </p>
+            </div>
+
+            {/* Breakdown Table */}
+            <div className="bg-white rounded-lg p-6 shadow-lg">
+              <h4 className="font-bold text-gray-900 mb-4 text-center">Détails des allocations</h4>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                  <span className="text-gray-700">Canada (ACE)</span>
+                  <span className="font-bold text-blue-600">
+                    {result.federalMonthly.toLocaleString('fr-CA', { minimumFractionDigits: 2 })} $
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                  <span className="text-gray-700">Québec (Soutien aux enfants)</span>
+                  <span className="font-bold text-blue-600">
+                    {result.quebecMonthly.toLocaleString('fr-CA', { minimumFractionDigits: 2 })} $
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-3 bg-green-50 rounded-lg px-3">
+                  <span className="font-bold text-gray-900">Total mensuel</span>
+                  <span className="font-bold text-green-600 text-xl">
+                    {result.totalMonthly.toLocaleString('fr-CA', { minimumFractionDigits: 2 })} $
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Call to Action */}
+            <div className="mt-6 bg-blue-50 border-2 border-blue-200 rounded-lg p-6 text-center">
+              <p className="text-lg font-bold text-blue-900 mb-2">
+                💡 Cet argent est non-imposable!
+              </p>
+              <p className="text-gray-700">
+                Ouvrez un REEE (Régime enregistré d'épargne-études) pour vos enfants et profitez des subventions gouvernementales supplémentaires.
+              </p>
+            </div>
           </div>
-          <p className="text-2xl text-gray-700">par mois</p>
-          <p className="text-sm text-gray-500 mt-2">
-            ({result.totalYearly.toLocaleString('fr-CA', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} $ par année)
-          </p>
-        </div>
 
-        {/* Breakdown Table */}
-        <div className="bg-white rounded-lg p-6 shadow-lg">
-          <h4 className="font-bold text-gray-900 mb-4 text-center">Détails des allocations</h4>
-          <div className="space-y-3">
-            <div className="flex justify-between items-center py-2 border-b border-gray-200">
-              <span className="text-gray-700">Canada (ACE)</span>
-              <span className="font-bold text-blue-600">
-                {result.federalMonthly.toLocaleString('fr-CA', { minimumFractionDigits: 2 })} $
-              </span>
-            </div>
-            <div className="flex justify-between items-center py-2 border-b border-gray-200">
-              <span className="text-gray-700">Québec (Soutien aux enfants)</span>
-              <span className="font-bold text-blue-600">
-                {result.quebecMonthly.toLocaleString('fr-CA', { minimumFractionDigits: 2 })} $
-              </span>
-            </div>
-            <div className="flex justify-between items-center py-3 bg-green-50 rounded-lg px-3">
-              <span className="font-bold text-gray-900">Total mensuel</span>
-              <span className="font-bold text-green-600 text-xl">
-                {result.totalMonthly.toLocaleString('fr-CA', { minimumFractionDigits: 2 })} $
-              </span>
-            </div>
+          {/* Affiliate Card - REEE */}
+          <div className="mt-6">
+            <AffiliateCard
+              title="Investissez vos allocations pour l'avenir de vos enfants"
+              description="Ouvrez un REEE avec Wealthsimple et obtenez jusqu'à 30% de subventions gouvernementales gratuites (SCEE + IQEE). Investissement automatique, frais réduits, et croissance à l'abri de l'impôt."
+              buttonText="Ouvrir un REEE gratuit"
+              link="https://www.wealthsimple.com/fr-ca/product/resp"
+              theme="green"
+            />
+          </div>
+
+          {/* Info Note */}
+          <div className="mt-6 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+            <p className="text-sm text-gray-700">
+              <strong>Note:</strong> Ces montants sont des estimations basées sur les taux 2026. Les montants réels peuvent varier selon votre situation familiale complète. 
+              Consultez les sites officiels de l'Agence du revenu du Canada et de Retraite Québec pour plus de détails.
+            </p>
           </div>
         </div>
-
-        {/* Call to Action */}
-        <div className="mt-6 bg-blue-50 border-2 border-blue-200 rounded-lg p-6 text-center">
-          <p className="text-lg font-bold text-blue-900 mb-2">
-            💡 Cet argent est non-imposable!
-          </p>
-          <p className="text-gray-700">
-            Ouvrez un REEE (Régime enregistré d'épargne-études) pour vos enfants et profitez des subventions gouvernementales supplémentaires.
-          </p>
-        </div>
-      </div>
-
-      {/* Info Note */}
-      <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
-        <p className="text-sm text-gray-700">
-          <strong>Note:</strong> Ces montants sont des estimations basées sur les taux 2026. Les montants réels peuvent varier selon votre situation familiale complète. 
-          Consultez les sites officiels de l'Agence du revenu du Canada et de Retraite Québec pour plus de détails.
-        </p>
       </div>
     </div>
   )

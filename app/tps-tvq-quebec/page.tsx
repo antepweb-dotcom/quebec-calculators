@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import SalesTaxCalculator from '@/components/SalesTaxCalculator'
-import AdSlot from '@/components/AdSlot'
 import { ShoppingCart, FileText, CheckCircle } from 'lucide-react'
 
 export const metadata: Metadata = {
@@ -21,33 +20,8 @@ export default function SalesTaxPage() {
           </p>
         </header>
 
-        {/* Header Ad */}
-        <div className="mb-8 flex justify-center">
-          <AdSlot position="header" />
-        </div>
-
-        {/* 2 Column Layout */}
-        <div className="grid lg:grid-cols-4 gap-6 mb-12">
-          <div className="lg:col-span-3">
-            <SalesTaxCalculator />
-            
-            {/* Mobile Ad */}
-            <div className="lg:hidden mt-8 flex justify-center">
-              <AdSlot position="inArticle" />
-            </div>
-          </div>
-          
-          {/* Sidebar Ad - Desktop only */}
-          <div className="hidden lg:block lg:col-span-1">
-            <div className="sticky top-6">
-              <AdSlot position="sidebar" />
-            </div>
-          </div>
-        </div>
-
-        {/* In-Article Ad - Desktop only */}
-        <div className="hidden lg:flex mb-12 justify-center">
-          <AdSlot position="inArticle" />
+        <div className="mb-12">
+          <SalesTaxCalculator />
         </div>
 
         {/* Educational Section - V2 Gold Standard */}
@@ -142,10 +116,6 @@ export default function SalesTaxPage() {
             </div>
           </div>
         </section>
-
-        <footer className="mt-12 text-center text-sm text-gray-500">
-          <p>© 2026 Calculateur TPS/TVQ Québec. Les calculs sont fournis à titre indicatif seulement.</p>
-        </footer>
       </div>
     </main>
     </>

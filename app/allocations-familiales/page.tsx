@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import AdSlot from '@/components/AdSlot'
 import FamilyBenefitsCalculator from '@/components/FamilyBenefitsCalculator'
 import StructuredData from '@/components/StructuredData'
 import SEOContent from '@/components/SEOContent'
@@ -58,32 +57,8 @@ export default function FamilyBenefitsPage() {
           </header>
 
           {/* Header Ad */}
-          <div className="mb-8 flex justify-center">
-            <AdSlot position="header" />
-          </div>
-
-          {/* 2 Column Layout */}
-          <div className="grid lg:grid-cols-4 gap-6 mb-12">
-            <div className="lg:col-span-3">
-              <FamilyBenefitsCalculator />
-              
-              {/* Mobile Ad */}
-              <div className="lg:hidden mt-8 flex justify-center">
-                <AdSlot position="inArticle" />
-              </div>
-            </div>
-            
-            {/* Sidebar Ad - Desktop only */}
-            <div className="hidden lg:block lg:col-span-1">
-              <div className="sticky top-6">
-                <AdSlot position="sidebar" />
-              </div>
-            </div>
-          </div>
-
-          {/* In-Article Ad - Desktop only */}
-          <div className="hidden lg:flex mb-12 justify-center">
-            <AdSlot position="inArticle" />
+          <div className="mb-8">
+            <FamilyBenefitsCalculator />
           </div>
 
           {/* Info Section */}
@@ -271,10 +246,6 @@ export default function FamilyBenefitsPage() {
               }
             ]}
           />
-
-          <footer className="mt-12 text-center text-sm text-gray-500">
-            <p>© 2026 Allocations Familiales Québec. Les calculs sont fournis à titre indicatif seulement.</p>
-          </footer>
         </div>
       </main>
     </>

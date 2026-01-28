@@ -2,8 +2,9 @@
 
 import { useState, useRef } from 'react'
 import { calculateInvestment, InvestmentInput } from '@/utils/investmentLogic'
-import { TrendingUp, DollarSign, Calendar, Percent, Sparkles, ExternalLink } from 'lucide-react'
+import { TrendingUp, DollarSign, Calendar, Percent, Sparkles } from 'lucide-react'
 import { motion } from 'framer-motion'
+import AffiliateCard from '@/components/AffiliateCard'
 import {
   AreaChart,
   Area,
@@ -292,36 +293,14 @@ export default function CompoundInterestCalculator() {
             </p>
           </div>
 
-          {/* Call to Action */}
-          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl shadow-lg p-8 text-white text-center">
-            <h4 className="text-2xl font-bold mb-4">Commencez à investir dès aujourd'hui</h4>
-            <p className="text-lg mb-6 text-indigo-100">
-              Plus tôt vous commencez, plus les intérêts composés travaillent pour vous.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="https://www.wealthsimple.com/fr-ca"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-white text-indigo-600 px-8 py-4 rounded-xl font-bold text-lg hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-2"
-              >
-                Ouvrir un CELI (Wealthsimple)
-                <ExternalLink className="w-5 h-5" />
-              </a>
-              <a
-                href="https://www.questrade.com/self-directed-investing"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-indigo-700 text-white px-8 py-4 rounded-xl font-bold text-lg hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-2 border-2 border-white"
-              >
-                Ouvrir un compte (Questrade)
-                <ExternalLink className="w-5 h-5" />
-              </a>
-            </div>
-            <p className="text-xs text-indigo-200 mt-4">
-              Ces liens sont fournis à titre informatif. Faites vos propres recherches avant d'investir.
-            </p>
-          </div>
+          {/* Affiliate Card - Investment (Only shown after calculation) */}
+          <AffiliateCard
+            title="Mettez les intérêts composés à votre service"
+            description="Ouvrez un CELI avec Wealthsimple et investissez automatiquement chaque mois. Obtenez 25$ de bonus à l'inscription. Portefeuilles diversifiés, frais réduits, et croissance à l'abri de l'impôt."
+            buttonText="Commencer à investir (25$ bonus)"
+            link="https://wealthsimple.com/fr-ca"
+            theme="green"
+          />
 
           {/* Additional Info */}
           <div className="bg-amber-50 border-l-4 border-amber-500 p-6 rounded-lg">

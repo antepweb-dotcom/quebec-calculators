@@ -14,41 +14,42 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
+    <div className="w-full bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white py-20">
-          <div className="container mx-auto px-4 max-w-6xl">
-            <div className="text-center">
-              <div className="flex justify-center mb-6">
-                <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
-                  <Shield className="w-12 h-12 text-white" />
-                </div>
+      <section className="w-full bg-gradient-to-r from-emerald-600 to-teal-700 text-white py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="flex justify-center mb-6">
+              <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+                <Shield className="w-12 h-12 text-white" />
               </div>
-              <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                Prenez le contrôle de vos finances au Québec
-              </h1>
-              <p className="text-xl md:text-2xl text-emerald-100 mb-8 max-w-3xl mx-auto">
-                Des outils précis pour vos impôts, votre immobilier et votre famille. 100% Gratuit & Sécurisé.
-              </p>
-              <div className="flex flex-wrap justify-center gap-8 text-sm md:text-base">
-                <div className="flex items-center gap-2">
-                  <Calculator className="w-5 h-5" />
-                  <span className="font-semibold">19 Outils Disponibles</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <TrendingUp className="w-5 h-5" />
-                  <span className="font-semibold">Mis à jour pour 2026</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Shield className="w-5 h-5" />
-                  <span className="font-semibold">100% Confidentiel</span>
-                </div>
+            </div>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              Prenez le contrôle de vos finances au Québec
+            </h1>
+            <p className="text-xl md:text-2xl text-emerald-100 mb-8 max-w-3xl mx-auto">
+              Des outils précis pour vos impôts, votre immobilier et votre famille. 100% Gratuit & Sécurisé.
+            </p>
+            <div className="flex flex-wrap justify-center gap-8 text-sm md:text-base">
+              <div className="flex items-center gap-2">
+                <Calculator className="w-5 h-5" />
+                <span className="font-semibold">19 Outils Disponibles</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <TrendingUp className="w-5 h-5" />
+                <span className="font-semibold">Mis à jour pour 2026</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Shield className="w-5 h-5" />
+                <span className="font-semibold">100% Confidentiel</span>
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <div className="container mx-auto px-4 py-16 max-w-7xl">
+      {/* Main Content Container */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
 
           {/* Category A: Impôts & Revenus */}
           <section className="mb-16">

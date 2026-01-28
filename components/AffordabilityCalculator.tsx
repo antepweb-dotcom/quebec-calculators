@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { calculateAffordability, formatCurrency, formatPercent, AffordabilityResult } from '@/utils/affordabilityLogic'
+import AffiliateCard from '@/components/AffiliateCard'
 
 export default function AffordabilityCalculator() {
   const [annualIncome, setAnnualIncome] = useState<string>('80000')
@@ -138,20 +139,6 @@ export default function AffordabilityCalculator() {
               Calculer ma capacité
             </button>
           </div>
-        </div>
-
-        {/* Affiliate Card */}
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl shadow-lg p-6 border-2 border-blue-200">
-          <div className="text-4xl mb-3 text-center">🏡</div>
-          <h3 className="text-lg font-bold text-gray-900 mb-2 text-center">
-            Trouvez une maison dans votre budget
-          </h3>
-          <p className="text-sm text-gray-700 mb-4 text-center">
-            Explorez les propriétés à vendre dans votre gamme de prix
-          </p>
-          <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200">
-            Voir les propriétés à vendre
-          </button>
         </div>
       </div>
 
@@ -304,6 +291,15 @@ export default function AffordabilityCalculator() {
                 </div>
               </div>
             </div>
+
+            {/* Affiliate Card - Mortgage Broker (Only shown after calculation) */}
+            <AffiliateCard
+              title="Obtenez une pré-approbation hypothécaire"
+              description="Maintenant que vous connaissez votre capacité, obtenez une pré-approbation officielle et verrouillez le meilleur taux. Comparez 30+ prêteurs en 3 minutes."
+              buttonText="Obtenir ma pré-approbation"
+              link="https://www.nesto.ca/fr/"
+              theme="purple"
+            />
 
             {/* Info Card */}
             <div className="bg-gradient-to-br from-purple-50 to-indigo-50 border-2 border-purple-200 rounded-xl shadow-lg p-6">

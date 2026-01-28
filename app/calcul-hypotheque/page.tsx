@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import MortgageCalculator from '@/components/MortgageCalculator'
-import AdSlot from '@/components/AdSlot'
 import { Home, TrendingUp, DollarSign } from 'lucide-react'
 
 export const metadata: Metadata = {
@@ -21,33 +20,9 @@ export default function MortgagePage() {
           </p>
         </header>
 
-        {/* Header Ad */}
-        <div className="mb-8 flex justify-center">
-          <AdSlot position="header" />
-        </div>
-
-        {/* 2 Column Layout: Calculator + Sidebar Ad */}
-        <div className="grid lg:grid-cols-4 gap-6 mb-12">
-          <div className="lg:col-span-3">
-            <MortgageCalculator />
-            
-            {/* Mobile Ad - Only visible on mobile, replaces sidebar */}
-            <div className="lg:hidden mt-8 flex justify-center">
-              <AdSlot position="inArticle" />
-            </div>
-          </div>
-          
-          {/* Sidebar Ad - Hidden on mobile */}
-          <div className="hidden lg:block lg:col-span-1">
-            <div className="sticky top-6">
-              <AdSlot position="sidebar" />
-            </div>
-          </div>
-        </div>
-
-        {/* In-Article Ad - Desktop only (mobile has one above) */}
-        <div className="hidden lg:flex mb-12 justify-center">
-          <AdSlot position="inArticle" />
+        {/* Calculator */}
+        <div className="mb-12">
+          <MortgageCalculator />
         </div>
 
         {/* Educational Section - V2 Gold Standard */}
@@ -143,11 +118,6 @@ export default function MortgagePage() {
             </div>
           </div>
         </section>
-
-        <footer className="mt-12 text-center text-sm text-gray-500">
-          <p>© 2026 Calculateur Hypothécaire. Les calculs sont fournis à titre indicatif seulement.</p>
-          <p className="mt-2">Consultez un conseiller financier pour des conseils personnalisés.</p>
-        </footer>
       </div>
     </main>
     </>

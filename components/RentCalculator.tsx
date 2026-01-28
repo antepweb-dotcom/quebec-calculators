@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { calculateRentIncrease, RentIncreaseInputs, RentIncreaseResult, HeatingType, formatCurrency, formatPercentage } from '@/utils/rentLogic'
+import AffiliateCard from '@/components/AffiliateCard'
 
 export default function RentCalculator() {
   const [currentRent, setCurrentRent] = useState<string>('')
@@ -176,12 +177,6 @@ export default function RentCalculator() {
             </button>
           </div>
         </div>
-
-        {/* Ad Space */}
-        <div className="bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 p-8 text-center">
-          <p className="text-gray-500 font-medium">Espace Publicitaire</p>
-          <p className="text-sm text-gray-400 mt-2">300x250</p>
-        </div>
       </div>
 
       {/* Right Column - Results */}
@@ -251,20 +246,14 @@ export default function RentCalculator() {
               </div>
             </div>
 
-            {/* Affiliate CTA */}
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl shadow-lg p-6 border border-blue-200">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Besoin d'une assurance locataire?</h3>
-                  <p className="text-gray-600">
-                    Protégez vos biens avec une assurance locataire abordable
-                  </p>
-                </div>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 whitespace-nowrap">
-                  Comparer les prix
-                </button>
-              </div>
-            </div>
+            {/* Affiliate Card */}
+            <AffiliateCard
+              title="Économisez pour votre mise de fonds"
+              description="Utilisez un CELIAPP avec Wealthsimple pour épargner jusqu'à 40 000$ libre d'impôt pour l'achat de votre première maison."
+              buttonText="Ouvrir un CELIAPP"
+              link="https://wealthsimple.com/fr-ca"
+              theme="green"
+            />
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-lg p-12 text-center">

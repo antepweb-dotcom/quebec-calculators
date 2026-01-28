@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import AdSlot from '@/components/AdSlot'
 import WageConverter from '@/components/WageConverter'
 
 export const metadata: Metadata = {
@@ -20,15 +19,9 @@ export default function WageConverterPage() {
             </p>
           </header>
 
-          <div className="mb-8 flex justify-center"><AdSlot position="header" /></div>
-          <div className="grid lg:grid-cols-4 gap-6 mb-12">
-            <div className="lg:col-span-3">
-              <WageConverter />
-              <div className="lg:hidden mt-8 flex justify-center"><AdSlot position="inArticle" /></div>
-            </div>
-            <div className="hidden lg:block lg:col-span-1"><div className="sticky top-6"><AdSlot position="sidebar" /></div></div>
+          <div className="mb-12">
+            <WageConverter />
           </div>
-          <div className="hidden lg:flex mb-12 justify-center"><AdSlot position="inArticle" /></div>
 
           {/* Info Section */}
           <section className="mt-12 bg-white rounded-xl shadow-lg p-8">
@@ -121,10 +114,6 @@ export default function WageConverterPage() {
               </div>
             </div>
           </section>
-
-          <footer className="mt-12 text-center text-sm text-gray-500">
-            <p>© 2026 Convertisseur de Taux Horaire. Les calculs sont fournis à titre indicatif seulement.</p>
-          </footer>
         </div>
       </main>
     </>

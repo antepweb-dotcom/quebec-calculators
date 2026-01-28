@@ -21,6 +21,11 @@ export default function AdSlot({
   html: manualHtml,
   size: manualSize
 }: AdSlotProps) {
+  // 🚫 ADSENSE DISABLED - All ads are now disabled
+  // Affiliate cards will be added manually to specific pages
+  return null;
+
+  /* ORIGINAL CODE - DISABLED
   const [adConfig, setAdConfig] = useState<AdSlotConfig | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -74,21 +79,12 @@ export default function AdSlot({
         <div 
           className={`bg-gray-100 border border-gray-200 rounded-lg flex items-center justify-center ${responsiveClass}`}
         >
-          {/* AdSense placeholder - replace with actual AdSense code */}
           <div className="text-center p-4">
             <p className="text-sm text-gray-500 font-medium">AdSense Slot</p>
             <p className="text-xs text-gray-400 mt-1">{adConfig.adId}</p>
             <p className="text-xs text-gray-400 hidden md:block">{adConfig.size}</p>
             <p className="text-xs text-gray-400 md:hidden">Responsive</p>
           </div>
-          {/* Real implementation:
-          <ins className="adsbygoogle"
-               style={{ display: 'block' }}
-               data-ad-client={adConfig.adId}
-               data-ad-slot="..."
-               data-ad-format="auto"
-               data-full-width-responsive="true"></ins>
-          */}
         </div>
       </div>
     );
@@ -108,6 +104,7 @@ export default function AdSlot({
   }
 
   return null;
+  */
 }
 
 // Boyut helper

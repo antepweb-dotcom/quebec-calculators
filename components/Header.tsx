@@ -110,8 +110,8 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-gray-100 shadow-sm">
-        <nav className="container mx-auto px-4">
+      <header className="w-full sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-gray-100 shadow-sm">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group">
@@ -180,14 +180,6 @@ export default function Header() {
                 <Search className="w-5 h-5 text-gray-600" />
               </button>
 
-              {/* All Tools Button (Desktop) */}
-              <Link
-                href="/"
-                className="hidden lg:flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:shadow-lg hover:scale-105 transition-all"
-              >
-                Tous les outils
-              </Link>
-
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setIsMobileMenuOpen(true)}
@@ -241,15 +233,6 @@ export default function Header() {
                   className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 transition-all"
                 />
               </div>
-
-              {/* All Tools Button */}
-              <Link
-                href="/"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg transition-all w-full"
-              >
-                Tous les outils
-              </Link>
 
               {/* Accordion Categories */}
               <div className="space-y-2">

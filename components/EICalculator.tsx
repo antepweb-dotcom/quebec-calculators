@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { calculateEI, EIInputs, EIResult, Region, formatCurrency, getRegionName } from '@/utils/eiLogic'
+import AffiliateCard from '@/components/AffiliateCard'
 
 export default function EICalculator() {
   const [annualSalary, setAnnualSalary] = useState<string>('50000')
@@ -28,11 +29,11 @@ export default function EICalculator() {
   }
 
   return (
-    <div className="grid lg:grid-cols-3 gap-6">
-      {/* Left Column - Input Form */}
-      <div className="lg:col-span-1 space-y-6">
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Vos informations</h2>
+    <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
+      {/* Left Column - Input Form (40%) */}
+      <div className="lg:col-span-2 space-y-6">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+          <h2 className="text-xl font-bold text-gray-900 mb-6">Vos informations</h2>
           
           <div className="space-y-5">
             {/* Annual Salary */}
@@ -41,9 +42,7 @@ export default function EICalculator() {
                 Salaire annuel brut
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <span className="text-gray-500 text-lg">$</span>
-                </div>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-lg">$</span>
                 <input
                   id="annualSalary"
                   type="number"
@@ -76,8 +75,8 @@ export default function EICalculator() {
             <div className="pt-4 border-t border-gray-200">
               <label className="flex items-center justify-between cursor-pointer">
                 <div>
-                  <span className="text-sm font-semibold text-gray-700">Avez-vous des personnes à charge?</span>
-                  <p className="text-xs text-gray-500 mt-1">Enfants ou autres dépendants</p>
+                  <span className="text-sm font-semibold text-gray-700">Personnes à charge</span>
+                  <p className="text-xs text-gray-500 mt-1">Enfants ou dépendants</p>
                 </div>
                 <div className="relative">
                   <input
@@ -104,166 +103,143 @@ export default function EICalculator() {
 
             <button
               onClick={handleCalculate}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-lg shadow-sm"
             >
               Calculer ma prestation
             </button>
           </div>
         </div>
-
-        {/* Ad Space */}
-        <div className="bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 p-8 text-center">
-          <p className="text-gray-500 font-medium">Espace Publicitaire</p>
-          <p className="text-sm text-gray-400 mt-2">300x250</p>
-        </div>
       </div>
 
-      {/* Right Column - Results */}
-      <div className="lg:col-span-2">
-        {result ? (
-          <div className="space-y-6">
-            {/* HERO RESULT - V2 Gold Standard */}
-            <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl shadow-2xl p-12 text-white text-center">
-              <h2 className="text-2xl font-medium mb-4 opacity-90">Votre Prestation Hebdomadaire</h2>
-              <p className="text-6xl md:text-7xl font-bold mb-6">
-                {formatCurrency(result.weeklyBenefitBeforeTax)}
-              </p>
-              <p className="text-3xl text-blue-100 mb-6">
-                ≈ {formatCurrency(result.monthlyBenefitBeforeTax)} / mois
-              </p>
-              {result.isAtMaximum && (
-                <div className="bg-white/20 rounded-lg p-4 mt-4 inline-block">
-                  <p className="text-lg font-semibold">
-                    ✓ Vous recevez le montant maximum d'assurance-emploi
+      {/* Right Column - Results (60%, Sticky) */}
+      <div className="lg:col-span-3">
+        <div className="lg:sticky lg:top-24">
+          {result ? (
+            <div className="space-y-6">
+              {/* Hero Result Card */}
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-lg p-8 text-white">
+                <h2 className="text-lg font-medium mb-2 opacity-90 text-center">Votre Prestation</h2>
+                <div className="text-center mb-4">
+                  <div className="text-6xl md:text-7xl font-bold mb-2">
+                    {formatCurrency(result.weeklyBenefitBeforeTax)}
+                  </div>
+                  <p className="text-xl opacity-90">par semaine</p>
+                  <p className="text-2xl text-blue-100 mt-2">
+                    ≈ {formatCurrency(result.monthlyBenefitBeforeTax)} / mois
                   </p>
                 </div>
-              )}
-            </div>
+                {result.isAtMaximum && (
+                  <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 mt-4 text-center">
+                    <p className="text-sm font-semibold">
+                      ✓ Montant maximum d'assurance-emploi
+                    </p>
+                  </div>
+                )}
+              </div>
 
-            {/* Tax Warning */}
-            <div className="bg-gradient-to-r from-red-50 to-orange-50 border-2 border-red-300 rounded-xl p-6">
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {/* Compact Alert Banners */}
+              <div className="bg-red-50 border-l-4 border-red-500 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                   </svg>
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold text-red-900 mb-2">Attention : Ce montant est imposable</h3>
-                  <p className="text-red-800 mb-3">
-                    Les prestations d'assurance-emploi sont considérées comme un revenu imposable. 
-                    Des retenues d'impôt d'environ <strong>10%</strong> seront effectuées.
-                  </p>
-                  <div className="bg-white rounded-lg p-4 border border-red-300">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-gray-700">Prestation brute (hebdomadaire)</span>
-                      <span className="font-semibold text-gray-900">{formatCurrency(result.weeklyBenefitBeforeTax)}</span>
-                    </div>
-                    <div className="flex justify-between items-center mb-2 pb-2 border-b border-red-200">
-                      <span className="text-gray-700">Retenue d'impôt estimée (~10%)</span>
-                      <span className="font-semibold text-red-600">-{formatCurrency(result.estimatedTaxWithholding)}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-900 font-bold">Montant net estimé</span>
-                      <span className="font-bold text-green-600 text-lg">{formatCurrency(result.weeklyBenefitAfterTax)}</span>
+                  <div className="flex-1">
+                    <h3 className="text-sm font-bold text-red-900 mb-1">Attention : Montant imposable</h3>
+                    <p className="text-sm text-red-800 mb-2">
+                      Retenue d'impôt d'environ <strong>10%</strong> sera effectuée.
+                    </p>
+                    <div className="bg-white rounded-lg p-3 text-sm space-y-1">
+                      <div className="flex justify-between">
+                        <span className="text-gray-700">Prestation brute</span>
+                        <span className="font-semibold">{formatCurrency(result.weeklyBenefitBeforeTax)}</span>
+                      </div>
+                      <div className="flex justify-between text-red-600">
+                        <span>Retenue (~10%)</span>
+                        <span className="font-semibold">-{formatCurrency(result.estimatedTaxWithholding)}</span>
+                      </div>
+                      <div className="flex justify-between pt-2 border-t border-gray-200">
+                        <span className="font-bold text-gray-900">Net estimé</span>
+                        <span className="font-bold text-emerald-600">{formatCurrency(result.weeklyBenefitAfterTax)}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Disclaimer */}
-            <div className="bg-gradient-to-r from-yellow-50 to-amber-50 border-2 border-yellow-400 rounded-xl p-6">
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center">
-                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="bg-yellow-50 border-l-4 border-yellow-500 rounded-lg p-4">
+                <div className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-bold text-yellow-900 mb-2">Ceci est une estimation</h3>
-                  <p className="text-yellow-800 text-sm leading-relaxed">
-                    Le montant réel de vos prestations dépend de vos <strong>meilleures semaines de travail</strong> au cours 
-                    des 52 dernières semaines. Service Canada calculera votre prestation exacte en fonction de votre 
-                    historique d'emploi et de vos gains assurables.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Detailed Breakdown */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Détails du calcul</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="text-gray-700">Salaire annuel brut</span>
-                  <span className="font-semibold text-gray-900">{formatCurrency(result.annualGrossSalary)}</span>
-                </div>
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="text-gray-700">Gains assurables (max 63 200 $)</span>
-                  <span className="font-semibold text-gray-900">{formatCurrency(result.insurableEarnings)}</span>
-                </div>
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="text-gray-700">Taux de prestation</span>
-                  <span className="font-semibold text-gray-900">55%</span>
-                </div>
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="text-gray-700">Région</span>
-                  <span className="font-semibold text-gray-900">{getRegionName(result.region)}</span>
-                </div>
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="text-gray-700">Personnes à charge</span>
-                  <span className="font-semibold text-gray-900">{result.hasDependents ? 'Oui' : 'Non'}</span>
-                </div>
-                <div className="flex justify-between items-center py-3 bg-blue-50 -mx-6 px-6 mt-2">
-                  <span className="text-gray-900 font-bold">Prestation hebdomadaire</span>
-                  <span className="font-bold text-blue-600 text-lg">{formatCurrency(result.weeklyBenefitBeforeTax)}</span>
-                </div>
-                <div className="flex justify-between items-center py-3 bg-green-50 -mx-6 px-6">
-                  <span className="text-gray-900 font-bold">Prestation mensuelle (approx.)</span>
-                  <span className="font-bold text-green-600 text-lg">{formatCurrency(result.monthlyBenefitBeforeTax)}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Debt Consolidation CTA */}
-            <div className="bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl shadow-lg p-8 border-2 border-purple-200">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-3">
-                    <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                    </svg>
-                    <h3 className="text-2xl font-bold text-gray-900">Réduisez vos paiements mensuels</h3>
+                  <div className="flex-1">
+                    <h3 className="text-sm font-bold text-yellow-900 mb-1">Estimation basée sur vos meilleures semaines</h3>
+                    <p className="text-sm text-yellow-800">
+                      Le montant réel dépend de vos gains des 52 dernières semaines. Service Canada calculera votre prestation exacte.
+                    </p>
                   </div>
-                  <p className="text-gray-700 text-lg mb-2">
-                    Regroupez vos dettes et <strong>économisez sur les intérêts</strong>
-                  </p>
-                  <p className="text-gray-600">
-                    Comparez les options de consolidation de dettes et cartes de crédit à faible taux
-                  </p>
                 </div>
-                <button className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-8 rounded-lg transition-colors duration-200 whitespace-nowrap text-lg shadow-lg hover:shadow-xl">
-                  Voir les options
-                </button>
               </div>
+
+              {/* Detailed Breakdown */}
+              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">Détails du calcul</h3>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-sm text-gray-700">Salaire annuel brut</span>
+                    <span className="text-sm font-semibold text-gray-900">{formatCurrency(result.annualGrossSalary)}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-sm text-gray-700">Gains assurables (max 63 200 $)</span>
+                    <span className="text-sm font-semibold text-gray-900">{formatCurrency(result.insurableEarnings)}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-sm text-gray-700">Taux de prestation</span>
+                    <span className="text-sm font-semibold text-gray-900">55%</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-sm text-gray-700">Région</span>
+                    <span className="text-sm font-semibold text-gray-900">{getRegionName(result.region)}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="text-sm text-gray-700">Personnes à charge</span>
+                    <span className="text-sm font-semibold text-gray-900">{result.hasDependents ? 'Oui' : 'Non'}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-3 bg-blue-50 -mx-6 px-6 mt-2 rounded-lg">
+                    <span className="text-sm font-bold text-gray-900">Prestation hebdomadaire</span>
+                    <span className="font-bold text-blue-600 text-lg">{formatCurrency(result.weeklyBenefitBeforeTax)}</span>
+                  </div>
+                  <div className="flex justify-between items-center py-3 bg-emerald-50 -mx-6 px-6 rounded-lg">
+                    <span className="text-sm font-bold text-gray-900">Prestation mensuelle</span>
+                    <span className="font-bold text-emerald-600 text-lg">{formatCurrency(result.monthlyBenefitBeforeTax)}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Affiliate Card */}
+              <AffiliateCard
+                title="Besoin d'aide avec vos finances?"
+                description="Wealthsimple offre des conseils financiers gratuits et des outils d'épargne automatique. Obtenez 25$ de bonus à l'inscription."
+                buttonText="Obtenir 25$ de bonus"
+                link="https://wealthsimple.com/fr-ca"
+                theme="blue"
+              />
             </div>
-          </div>
-        ) : (
-          <div className="bg-white rounded-xl shadow-lg p-12 text-center">
-            <div className="text-gray-400 mb-4">
-              <svg className="w-24 h-24 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
+          ) : (
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-12 text-center">
+              <div className="text-gray-300 mb-4">
+                <svg className="w-20 h-20 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                Calculez votre prestation
+              </h3>
+              <p className="text-gray-500 text-sm">
+                Entrez vos informations pour estimer votre prestation hebdomadaire
+              </p>
             </div>
-            <h3 className="text-xl font-semibold text-gray-700 mb-2">
-              Calculez votre prestation d'assurance-emploi
-            </h3>
-            <p className="text-gray-500">
-              Entrez vos informations pour estimer votre prestation hebdomadaire
-            </p>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   )

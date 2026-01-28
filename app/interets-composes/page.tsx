@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import AdSlot from '@/components/AdSlot'
 import CompoundInterestCalculator from '@/components/CompoundInterestCalculator'
 import { TrendingUp, Sparkles, DollarSign, Clock } from 'lucide-react'
 
@@ -27,33 +26,8 @@ export default function CompoundInterestPage() {
             </p>
           </header>
 
-          {/* Header Ad */}
-          <div className="mb-8 flex justify-center">
-            <AdSlot position="header" />
-          </div>
-
-          {/* 2 Column Layout */}
-          <div className="grid lg:grid-cols-4 gap-6 mb-12">
-            <div className="lg:col-span-3">
-              <CompoundInterestCalculator />
-              
-              {/* Mobile Ad */}
-              <div className="lg:hidden mt-8 flex justify-center">
-                <AdSlot position="inArticle" />
-              </div>
-            </div>
-            
-            {/* Sidebar Ad - Desktop only */}
-            <div className="hidden lg:block lg:col-span-1">
-              <div className="sticky top-6">
-                <AdSlot position="sidebar" />
-              </div>
-            </div>
-          </div>
-
-          {/* In-Article Ad - Desktop only */}
-          <div className="hidden lg:flex mb-12 justify-center">
-            <AdSlot position="inArticle" />
+          <div className="mb-12">
+            <CompoundInterestCalculator />
           </div>
 
           {/* Educational Section */}
@@ -209,10 +183,6 @@ export default function CompoundInterestPage() {
               </div>
             </div>
           </section>
-
-          <footer className="mt-12 text-center text-sm text-gray-500">
-            <p>© 2026 Calculateur d'Intérêts Composés. Les calculs sont fournis à titre éducatif seulement.</p>
-          </footer>
         </div>
       </main>
     </>

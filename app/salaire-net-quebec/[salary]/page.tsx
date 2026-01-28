@@ -43,10 +43,10 @@ export default function Page({ params }: PageProps) {
   }
 
   return (
-    <><main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-        <div className="container mx-auto px-4 py-12 max-w-7xl">
-          {/* Header */}
-          <header className="text-center mb-12">
+    <div className="w-full bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Header */}
+        <header className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
               Calculateur d'Impôt Québec 2026
             </h1>
@@ -55,18 +55,8 @@ export default function Page({ params }: PageProps) {
             </p>
           </header>
 
-          {/* 3 Column Layout */}
-          <div className="grid lg:grid-cols-3 gap-6">
-            {/* Left Column - Ad Space */}
-            <div className="lg:col-span-1 space-y-6">
-              <div className="bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 p-8 text-center sticky top-6">
-                <p className="text-gray-500 font-medium">Espace Publicitaire</p>
-                <p className="text-sm text-gray-400 mt-2">300x600</p>
-              </div>
-            </div>
-
-            {/* Middle Column - Results */}
-            <div className="lg:col-span-2">
+          {/* Main Content - Full Width */}
+          <div className="max-w-4xl mx-auto">
               {/* Salary Adjuster */}
               <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
                 <label className="block text-lg font-semibold text-gray-700 mb-3">
@@ -241,7 +231,6 @@ export default function Page({ params }: PageProps) {
 
                 </>
               )}
-            </div>
           </div>
 
           {/* Full Width Sections Below */}
@@ -342,12 +331,7 @@ export default function Page({ params }: PageProps) {
               </section>
             </>
           )}
-
-          <footer className="mt-12 text-center text-sm text-gray-500">
-            <p>© 2026 Calculateur d'Impôt Québec. Les calculs sont fournis à titre indicatif seulement.</p>
-          </footer>
-        </div>
-      </main>
-    </>
+      </div>
+    </div>
   )
 }

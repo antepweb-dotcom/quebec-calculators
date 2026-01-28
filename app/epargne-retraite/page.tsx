@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import RetirementCalculator from '@/components/RetirementCalculator'
-import AdSlot from '@/components/AdSlot'
 
 export const metadata: Metadata = {
   title: 'Calculateur Épargne Retraite Québec 2026 - REER et Intérêts Composés',
@@ -20,20 +19,9 @@ export default function RetirementPage() {
           </p>
         </header>
 
-        <div className="mb-8 flex justify-center"><AdSlot position="header" /></div>
-        <div className="grid lg:grid-cols-4 gap-6 mb-12">
-          <div className="lg:col-span-3">
-            <RetirementCalculator />
-            <div className="lg:hidden mt-8 flex justify-center"><AdSlot position="inArticle" /></div>
-          </div>
-          <div className="hidden lg:block lg:col-span-1"><div className="sticky top-6"><AdSlot position="sidebar" /></div></div>
+        <div className="mb-12">
+          <RetirementCalculator />
         </div>
-        <div className="hidden lg:flex mb-12 justify-center"><AdSlot position="inArticle" /></div>
-
-        <footer className="mt-12 text-center text-sm text-gray-500">
-          <p>© 2026 Calculateur Épargne-Retraite. Les calculs sont fournis à titre indicatif seulement.</p>
-          <p className="mt-2">Les rendements passés ne garantissent pas les rendements futurs. Consultez un conseiller financier.</p>
-        </footer>
       </div>
     </main>
     </>

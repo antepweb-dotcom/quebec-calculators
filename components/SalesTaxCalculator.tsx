@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { calculateSalesTax, CalculationMode, SalesTaxResult, formatCurrency, TPS_RATE, TVQ_RATE, TOTAL_TAX_RATE } from '@/utils/salesTaxLogic'
+import AffiliateCard from '@/components/AffiliateCard'
 
 export default function SalesTaxCalculator() {
   const [amount, setAmount] = useState<string>('')
@@ -109,12 +110,6 @@ export default function SalesTaxCalculator() {
             </button>
           </div>
         </div>
-
-        {/* Ad Space */}
-        <div className="bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 p-8 text-center">
-          <p className="text-gray-500 font-medium">Espace Publicitaire</p>
-          <p className="text-sm text-gray-400 mt-2">300x250</p>
-        </div>
       </div>
 
       {/* Right Column - Results */}
@@ -208,28 +203,14 @@ export default function SalesTaxCalculator() {
               </div>
             </div>
 
-            {/* Credit Card Cashback CTA */}
-            <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl shadow-lg p-8 border-2 border-purple-200">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-3">
-                    <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                    </svg>
-                    <h3 className="text-2xl font-bold text-gray-900">Obtenez des remises en argent</h3>
-                  </div>
-                  <p className="text-gray-700 text-lg mb-2">
-                    Récupérez jusqu'à <strong>5% de cashback</strong> sur tous vos achats
-                  </p>
-                  <p className="text-gray-600">
-                    Comparez les meilleures cartes de crédit avec remises en argent au Québec
-                  </p>
-                </div>
-                <button className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-8 rounded-lg transition-colors duration-200 whitespace-nowrap text-lg shadow-lg hover:shadow-xl">
-                  Voir les meilleures cartes
-                </button>
-              </div>
-            </div>
+            {/* Affiliate Card */}
+            <AffiliateCard
+              title="Gérez vos finances d'entreprise"
+              description="Wealthsimple offre des solutions pour entrepreneurs et travailleurs autonomes. Simplifiez votre comptabilité et vos taxes."
+              buttonText="En savoir plus"
+              link="https://wealthsimple.com/fr-ca"
+              theme="blue"
+            />
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-lg p-12 text-center">

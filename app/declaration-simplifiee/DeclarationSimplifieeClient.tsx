@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react'
 import AdSlot from '@/components/AdSlot'
+import AffiliateCard from '@/components/AffiliateCard'
 import { calculateTaxForm, TaxFormInputs, TaxFormResult } from '@/utils/taxFormLogic'
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
@@ -23,7 +24,6 @@ export default function DeclarationSimplifieeClient() {
     const calculatedResult = calculateTaxForm(inputs)
     setResult(calculatedResult)
     
-    // Auto-scroll to results after state update
     setTimeout(() => {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }, 100)
@@ -169,100 +169,110 @@ export default function DeclarationSimplifieeClient() {
             <AdSlot position="header" />
           </div>
 
-          <div className="grid lg:grid-cols-4 gap-6 mb-8">
-            <div className="lg:col-span-3 space-y-8">
-              <div className="bg-white rounded-xl shadow-lg p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+          <div className="grid lg:grid-cols-5 gap-8 lg:gap-12 mb-8">
+            {/* Left Column - Inputs (40%) */}
+            <div className="lg:col-span-2 space-y-6">
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                   <span className="text-blue-600">📋</span>
                   Saisie des données
                 </h2>
                 
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="border-2 border-blue-200 rounded-lg p-4 bg-blue-50">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <div className="space-y-4">
+                  {/* Revenus Section */}
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <h3 className="text-sm font-bold text-gray-900 mb-3">Revenus</h3>
+                    <label className="block text-xs font-semibold text-gray-700 mb-2">
                       Revenu d'emploi - Case 14 (T4)
                     </label>
                     <input
                       type="number"
                       value={inputs.employmentIncome || ''}
                       onChange={(e) => setInputs({ ...inputs, employmentIncome: Number(e.target.value) })}
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="50000"
                     />
                   </div>
 
-                  <div className="border-2 border-red-200 rounded-lg p-4 bg-red-50">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Impôt fédéral retenu - Case 22 (T4)
-                    </label>
-                    <input
-                      type="number"
-                      value={inputs.federalTaxPaid || ''}
-                      onChange={(e) => setInputs({ ...inputs, federalTaxPaid: Number(e.target.value) })}
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
-                      placeholder="5000"
-                    />
+                  {/* Déductions Section */}
+                  <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                    <h3 className="text-sm font-bold text-gray-900 mb-3">Déductions</h3>
+                    <div className="space-y-3">
+                      <div>
+                        <label className="block text-xs font-semibold text-gray-700 mb-2">
+                          Impôt fédéral retenu - Case 22 (T4)
+                        </label>
+                        <input
+                          type="number"
+                          value={inputs.federalTaxPaid || ''}
+                          onChange={(e) => setInputs({ ...inputs, federalTaxPaid: Number(e.target.value) })}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                          placeholder="5000"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-semibold text-gray-700 mb-2">
+                          Impôt Québec retenu - Case E (RL-1)
+                        </label>
+                        <input
+                          type="number"
+                          value={inputs.quebecTaxPaid || ''}
+                          onChange={(e) => setInputs({ ...inputs, quebecTaxPaid: Number(e.target.value) })}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                          placeholder="7000"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-semibold text-gray-700 mb-2">
+                          Cotisations REER
+                        </label>
+                        <input
+                          type="number"
+                          value={inputs.rrspContributions || ''}
+                          onChange={(e) => setInputs({ ...inputs, rrspContributions: Number(e.target.value) })}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                          placeholder="5000"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-semibold text-gray-700 mb-2">
+                          Cotisations syndicales
+                        </label>
+                        <input
+                          type="number"
+                          value={inputs.unionDues || ''}
+                          onChange={(e) => setInputs({ ...inputs, unionDues: Number(e.target.value) })}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                          placeholder="500"
+                        />
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="border-2 border-purple-200 rounded-lg p-4 bg-purple-50">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Impôt Québec retenu - Case E (RL-1)
-                    </label>
-                    <input
-                      type="number"
-                      value={inputs.quebecTaxPaid || ''}
-                      onChange={(e) => setInputs({ ...inputs, quebecTaxPaid: Number(e.target.value) })}
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
-                      placeholder="7000"
-                    />
-                  </div>
-
-                  <div className="border-2 border-green-200 rounded-lg p-4 bg-green-50">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Cotisations REER
-                    </label>
-                    <input
-                      type="number"
-                      value={inputs.rrspContributions || ''}
-                      onChange={(e) => setInputs({ ...inputs, rrspContributions: Number(e.target.value) })}
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
-                      placeholder="5000"
-                    />
-                  </div>
-
-                  <div className="border-2 border-yellow-200 rounded-lg p-4 bg-yellow-50 md:col-span-2">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Cotisations syndicales
-                    </label>
-                    <input
-                      type="number"
-                      value={inputs.unionDues || ''}
-                      onChange={(e) => setInputs({ ...inputs, unionDues: Number(e.target.value) })}
-                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg"
-                      placeholder="500"
-                    />
-                  </div>
+                  <button
+                    onClick={handleCalculate}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors text-lg shadow-sm"
+                  >
+                    Calculer mon remboursement
+                  </button>
                 </div>
-
-                <button
-                  onClick={handleCalculate}
-                  className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-lg transition-colors text-lg shadow-lg"
-                >
-                  Calculer mon remboursement
-                </button>
               </div>
 
-              <div className="bg-white rounded-xl shadow-lg p-8">
+              {/* Collapsible Guide */}
+              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                 <button
                   onClick={() => setShowGuide(!showGuide)}
                   className="w-full flex items-center justify-between text-left"
                 >
-                  <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+                  <h2 className="text-base font-bold text-gray-900 flex items-center gap-2">
                     <span className="text-blue-600">📚</span>
-                    Comment remplir ma déclaration ?
+                    Guide de remplissage
                   </h2>
                   <svg 
-                    className={`w-6 h-6 text-gray-600 transition-transform ${showGuide ? 'rotate-180' : ''}`}
+                    className={`w-5 h-5 text-gray-600 transition-transform ${showGuide ? 'rotate-180' : ''}`}
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
@@ -272,108 +282,120 @@ export default function DeclarationSimplifieeClient() {
                 </button>
 
                 {showGuide && (
-                  <div className="mt-6 space-y-6">
-                    <div className="border-l-4 border-blue-600 pl-4">
-                      <h3 className="font-bold text-lg text-gray-900 mb-2">Étape 1 : Rassemblez vos feuillets</h3>
-                      <p className="text-gray-700">
-                        Vous aurez besoin de votre feuillet T4 (fédéral) et RL-1 (Québec) fournis par votre employeur. 
-                        Ces documents contiennent toutes les informations nécessaires sur votre revenu et les impôts déjà payés.
+                  <div className="mt-4 space-y-3 text-sm">
+                    <div className="border-l-4 border-blue-600 pl-3">
+                      <h3 className="font-bold text-gray-900 mb-1">Étape 1 : Feuillets</h3>
+                      <p className="text-gray-700 text-xs">
+                        Rassemblez vos T4 (fédéral) et RL-1 (Québec) fournis par votre employeur.
                       </p>
                     </div>
 
-                    <div className="border-l-4 border-green-600 pl-4">
-                      <h3 className="font-bold text-lg text-gray-900 mb-2">Étape 2 : Identifiez vos déductions</h3>
-                      <p className="text-gray-700">
-                        Les cotisations REER et les cotisations syndicales sont déductibles d'impôt. 
-                        Assurez-vous d'avoir vos reçus de cotisations REER et vos relevés syndicaux.
+                    <div className="border-l-4 border-green-600 pl-3">
+                      <h3 className="font-bold text-gray-900 mb-1">Étape 2 : Déductions</h3>
+                      <p className="text-gray-700 text-xs">
+                        Les REER et cotisations syndicales sont déductibles. Ayez vos reçus.
                       </p>
                     </div>
 
-                    <div className="border-l-4 border-purple-600 pl-4">
-                      <h3 className="font-bold text-lg text-gray-900 mb-2">Étape 3 : Date limite importante</h3>
-                      <p className="text-gray-700">
-                        La date limite pour produire votre déclaration de revenus est le <strong>30 avril 2026</strong>. 
-                        Si vous ou votre conjoint êtes travailleur autonome, la date limite est le 15 juin 2026.
-                      </p>
-                    </div>
-
-                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                      <p className="text-sm text-gray-700">
-                        <strong>Note :</strong> Cet outil fournit une estimation. Pour une déclaration officielle, 
-                        utilisez les services de Revenu Québec et de l'Agence du revenu du Canada, ou consultez un fiscaliste.
+                    <div className="border-l-4 border-purple-600 pl-3">
+                      <h3 className="font-bold text-gray-900 mb-1">Étape 3 : Date limite</h3>
+                      <p className="text-gray-700 text-xs">
+                        <strong>30 avril 2026</strong> (15 juin si travailleur autonome).
                       </p>
                     </div>
                   </div>
                 )}
               </div>
+            </div>
 
-              {result && (
-                <div ref={resultsRef} className="bg-white rounded-xl shadow-lg p-8">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                    <span className="text-blue-600">📊</span>
-                    Résultat de votre déclaration
-                  </h2>
-
-                  <div className={`${result.isRefund ? 'bg-green-50 border-green-500' : 'bg-red-50 border-red-500'} border-4 rounded-xl p-8 mb-6 text-center`}>
-                    <p className="text-lg font-semibold text-gray-700 mb-2">
-                      {result.isRefund ? 'Remboursement estimé' : 'Solde à payer'}
-                    </p>
-                    <p className={`text-5xl font-bold ${result.isRefund ? 'text-green-600' : 'text-red-600'}`}>
-                      {formatCurrency(result.refundOrOwing)}
-                    </p>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-6 mb-6">
-                    <div className="bg-gray-50 rounded-lg p-4">
-                      <h3 className="font-bold text-gray-900 mb-3">Impôt Fédéral</h3>
-                      <div className="space-y-2 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Impôt dû :</span>
-                          <span className="font-semibold">{formatCurrency(result.federalTaxOwed)}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Impôt payé :</span>
-                          <span className="font-semibold">{formatCurrency(result.federalTaxPaid)}</span>
+            {/* Right Column - Results (60%, Sticky) */}
+            <div className="lg:col-span-3">
+              <div className="lg:sticky lg:top-24" ref={resultsRef}>
+                {result ? (
+                  <div className="space-y-6">
+                    {/* Hero Result Card with Gradient */}
+                    <div className={`${result.isRefund ? 'bg-gradient-to-br from-emerald-500 to-emerald-600' : 'bg-gradient-to-br from-red-500 to-orange-600'} rounded-2xl shadow-lg p-8 text-white`}>
+                      <h2 className="text-lg font-medium mb-2 opacity-90 text-center">
+                        {result.isRefund ? 'Remboursement estimé' : 'Solde à payer'}
+                      </h2>
+                      <div className="text-center">
+                        <div className="text-6xl md:text-7xl font-bold mb-2">
+                          {formatCurrency(result.refundOrOwing)}
                         </div>
                       </div>
                     </div>
 
-                    <div className="bg-gray-50 rounded-lg p-4">
-                      <h3 className="font-bold text-gray-900 mb-3">Impôt Québec</h3>
-                      <div className="space-y-2 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Impôt dû :</span>
-                          <span className="font-semibold">{formatCurrency(result.quebecTaxOwed)}</span>
+                    {/* Breakdown Cards */}
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <h3 className="text-sm font-bold text-gray-900 mb-3">Impôt Fédéral</h3>
+                        <div className="space-y-2 text-xs">
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">Dû</span>
+                            <span className="font-semibold">{formatCurrency(result.federalTaxOwed)}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">Payé</span>
+                            <span className="font-semibold">{formatCurrency(result.federalTaxPaid)}</span>
+                          </div>
                         </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-600">Impôt payé :</span>
-                          <span className="font-semibold">{formatCurrency(result.quebecTaxPaid)}</span>
+                      </div>
+
+                      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                        <h3 className="text-sm font-bold text-gray-900 mb-3">Impôt Québec</h3>
+                        <div className="space-y-2 text-xs">
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">Dû</span>
+                            <span className="font-semibold">{formatCurrency(result.quebecTaxOwed)}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">Payé</span>
+                            <span className="font-semibold">{formatCurrency(result.quebecTaxPaid)}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
+
+                    {/* Affiliate Card */}
+                    <AffiliateCard
+                      title="Maximisez votre remboursement avec TurboImpôt"
+                      description="Produisez votre déclaration en ligne avec TurboImpôt et obtenez votre remboursement jusqu'à 8 jours plus vite. Interface simple, support expert inclus."
+                      buttonText="Commencer ma déclaration"
+                      link="https://turbotax.intuit.ca/personal-tax-software"
+                      theme="blue"
+                    />
+
+                    {/* PDF Download Button */}
+                    <button
+                      onClick={downloadPDF}
+                      className="w-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold py-5 px-8 rounded-xl transition-all text-xl shadow-lg flex items-center justify-center gap-3"
+                    >
+                      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                      Télécharger mon Rapport Fiscal (PDF)
+                    </button>
                   </div>
-
-                  <button
-                    onClick={downloadPDF}
-                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 px-6 rounded-lg transition-all text-lg shadow-lg flex items-center justify-center gap-2"
-                  >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    Télécharger mon Rapport Fiscal (PDF)
-                  </button>
-                </div>
-              )}
-
-              <div className="lg:hidden flex justify-center">
-                <AdSlot position="inArticle" />
+                ) : (
+                  <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-12 text-center">
+                    <div className="text-gray-300 mb-4">
+                      <svg className="w-20 h-20 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                      Entrez vos données pour commencer
+                    </h3>
+                    <p className="text-gray-500 text-sm">
+                      Les résultats apparaîtront ici
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
 
-            <div className="hidden lg:block lg:col-span-1">
-              <div className="sticky top-6">
-                <AdSlot position="sidebar" />
-              </div>
+            <div className="lg:hidden lg:col-span-5 flex justify-center">
+              <AdSlot position="inArticle" />
             </div>
           </div>
 
@@ -394,8 +416,7 @@ export default function DeclarationSimplifieeClient() {
                 </div>
                 <h3 className="font-bold text-gray-900 mb-2">Estimation rapide</h3>
                 <p className="text-sm text-gray-600">
-                  Obtenez une estimation de votre remboursement d'impôt en quelques secondes, 
-                  sans attendre la fin de votre déclaration complète.
+                  Obtenez une estimation de votre remboursement d'impôt en quelques secondes.
                 </p>
               </div>
 
@@ -407,8 +428,7 @@ export default function DeclarationSimplifieeClient() {
                 </div>
                 <h3 className="font-bold text-gray-900 mb-2">Rapport PDF professionnel</h3>
                 <p className="text-sm text-gray-600">
-                  Téléchargez un rapport détaillé avec tous les calculs pour vos dossiers personnels 
-                  ou pour consultation avec un fiscaliste.
+                  Téléchargez un rapport détaillé pour vos dossiers personnels.
                 </p>
               </div>
 
@@ -420,17 +440,11 @@ export default function DeclarationSimplifieeClient() {
                 </div>
                 <h3 className="font-bold text-gray-900 mb-2">100% confidentiel</h3>
                 <p className="text-sm text-gray-600">
-                  Tous les calculs sont effectués localement dans votre navigateur. 
-                  Aucune donnée n'est envoyée ou sauvegardée sur nos serveurs.
+                  Calculs locaux. Aucune donnée envoyée ou sauvegardée.
                 </p>
               </div>
             </div>
           </section>
-
-          <footer className="text-center text-sm text-gray-500">
-            <p>© 2026 Assistant Déclaration Simplifiée. Les calculs sont fournis à titre indicatif seulement.</p>
-            <p className="mt-2">Consultez un fiscaliste pour des conseils personnalisés.</p>
-          </footer>
         </div>
       </main>
     </>
