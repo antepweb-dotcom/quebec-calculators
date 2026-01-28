@@ -15,6 +15,7 @@ const tools = [
     border: "border-emerald-100",
     text: "text-emerald-900",
     colSpan: "col-span-1 sm:col-span-2 lg:col-span-3",
+    priority: true, // Above fold
   },
   {
     href: "/calcul-hypotheque",
@@ -25,6 +26,7 @@ const tools = [
     border: "border-blue-100",
     text: "text-blue-900",
     colSpan: "col-span-1 sm:col-span-2 lg:col-span-3",
+    priority: true, // Above fold
   },
   {
     href: "/declaration-simplifiee",
@@ -35,6 +37,7 @@ const tools = [
     border: "border-orange-100",
     text: "text-orange-900",
     colSpan: "col-span-1 lg:col-span-2",
+    priority: false,
   },
   {
     href: "/assurance-emploi",
@@ -45,6 +48,7 @@ const tools = [
     border: "border-sky-100",
     text: "text-sky-900",
     colSpan: "col-span-1 lg:col-span-2",
+    priority: false,
   },
   {
     href: "/frais-de-garde",
@@ -55,6 +59,7 @@ const tools = [
     border: "border-pink-100",
     text: "text-pink-900",
     colSpan: "col-span-1 lg:col-span-2",
+    priority: false,
   },
   {
     href: "/capacite-emprunt",
@@ -65,6 +70,7 @@ const tools = [
     border: "border-violet-100",
     text: "text-violet-900",
     colSpan: "col-span-1 sm:col-span-2 lg:col-span-3",
+    priority: false,
   },
   {
     href: "/augmentation-loyer-2026",
@@ -75,6 +81,7 @@ const tools = [
     border: "border-gray-200",
     text: "text-gray-900",
     colSpan: "col-span-1 sm:col-span-2 lg:col-span-3",
+    priority: false,
   },
 ];
 
@@ -124,17 +131,21 @@ export default function Home() {
             {/* Hero Visual */}
             <div className="hidden lg:block lg:col-span-5 relative">
               {/* Background Gradient Blob */}
-              <div className="absolute top-0 -right-20 -z-10 w-[40rem] h-[40rem] bg-gradient-to-tr from-emerald-200 to-teal-200 opacity-30 rounded-full blur-3xl animate-pulse" />
+              <div className="absolute top-0 -right-20 -z-10 w-[40rem] h-[40rem] bg-gradient-to-tr from-emerald-200 to-teal-200 opacity-20 rounded-full blur-3xl" />
               
               {/* Main Hero Image */}
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-gray-900/10 transform hover:scale-[1.02] transition-transform duration-500">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-gray-900/10">
                 <Image
                   src="/images/orta.jpg"
                   alt="Financial Dashboard - Modern Finance Technology"
                   width={800}
                   height={600}
-                  className="w-full h-auto object-cover mix-blend-multiply"
+                  className="w-full h-auto object-cover"
                   priority
+                  quality={75}
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCwAB//2Q=="
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-emerald-900/30 via-transparent to-transparent" />
                 
@@ -296,18 +307,22 @@ export default function Home() {
               <Link
                 key={tool.href}
                 href={tool.href}
-                className={`group relative overflow-hidden rounded-3xl bg-white p-6 sm:p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border ${tool.border} bg-gradient-to-br ${tool.gradient} ${tool.colSpan}`}
+                className={`group relative overflow-hidden rounded-3xl bg-white p-6 sm:p-8 shadow-sm hover:shadow-xl transition-shadow duration-200 border ${tool.border} bg-gradient-to-br ${tool.gradient} ${tool.colSpan}`}
               >
                 {/* Horizontal Flex Container (Always Row) */}
                 <div className="relative z-10 flex flex-row items-start sm:items-center gap-6 h-full">
                   {/* LEFT: 3D Image (Fixed Size) */}
-                  <div className="relative w-16 h-16 sm:w-24 sm:h-24 shrink-0 filter drop-shadow-md group-hover:scale-110 transition-transform duration-300">
+                  <div className="relative w-16 h-16 sm:w-24 sm:h-24 shrink-0">
                     <Image
                       src={tool.imageSrc}
                       alt={tool.title}
-                      fill
+                      width={96}
+                      height={96}
                       className="object-contain"
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      sizes="(max-width: 640px) 64px, 96px"
+                      loading={tool.priority ? "eager" : "lazy"}
+                      priority={tool.priority}
+                      quality={70}
                     />
                   </div>
 

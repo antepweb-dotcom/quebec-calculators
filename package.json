@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lighthouse": "node scripts/test-lighthouse.js",
+    "lighthouse:prod": "SITE_URL=https://qcfinance.ca node scripts/test-lighthouse.js",
+    "analyze": "ANALYZE=true npm run build"
   },
   "dependencies": {
     "@google-analytics/data": "^5.2.1",

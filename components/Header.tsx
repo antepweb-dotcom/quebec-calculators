@@ -108,6 +108,8 @@ export default function Header() {
                 height={65}
                 className="h-[52px] w-auto hidden sm:block"
                 priority
+                quality={90}
+                sizes="220px"
               />
               {/* Mobile Logo - Centered & Bigger */}
               <Image
@@ -117,6 +119,8 @@ export default function Header() {
                 height={60}
                 className="h-[50px] w-auto sm:hidden absolute left-1/2 -translate-x-1/2"
                 priority
+                quality={90}
+                sizes="200px"
               />
             </Link>
 
@@ -213,6 +217,8 @@ export default function Header() {
                 width={220}
                 height={65}
                 className="h-[54px] w-auto"
+                quality={90}
+                sizes="220px"
               />
               <button
                 onClick={() => setIsMobileMenuOpen(false)}

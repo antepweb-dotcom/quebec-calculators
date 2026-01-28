@@ -12,6 +12,8 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
   variable: '--font-jakarta',
+  display: 'swap',
+  preload: true,
 })
 
 export const metadata: Metadata = {
@@ -67,7 +69,10 @@ export const metadata: Metadata = {
     description: 'Le site référence pour vos finances au Québec. 19 calculateurs gratuits.',
   },
   verification: {
-    google: 'your-google-verification-code', // Add your actual verification code
+    google: 'your-google-verification-code',
+  },
+  other: {
+    'theme-color': '#10b981',
   },
 }
 
@@ -79,6 +84,15 @@ export default function RootLayout({
   return (
     <html lang="fr-CA">
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+        <meta name="theme-color" content="#10b981" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <style dangerouslySetInnerHTML={{__html: `
+          body{margin:0;padding:0;font-family:system-ui,-apple-system,sans-serif}
+          .hero-gradient{background:linear-gradient(to bottom,rgb(236 253 245 / 0.5),transparent)}
+        `}} />
         <OrganizationSchema />
       </head>
       <body className={`${plusJakartaSans.className} bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-50 via-white to-white text-slate-900`}>
