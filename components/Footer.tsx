@@ -34,16 +34,14 @@ export default function Footer() {
           
           {/* Column 1: Brand & Mission (Span 4 cols) */}
           <div className="lg:col-span-4 space-y-6">
-            <Link href="/" className="inline-block">
-              {/* Use the Logo Image if available, fallback to styled text */}
-              <div className="flex items-center gap-2">
-                <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-900/20">
-                  <Calculator className="w-6 h-6 text-white" />
-                </div>
-                <span className="font-bold text-2xl text-white tracking-tight">
-                  QC<span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">Finance</span>
-                </span>
-              </div>
+            <Link href="/" className="inline-block group">
+              <Image
+                src="/images/logo2.png"
+                alt="QCFinance Logo"
+                width={180}
+                height={50}
+                className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              />
             </Link>
             
             <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
