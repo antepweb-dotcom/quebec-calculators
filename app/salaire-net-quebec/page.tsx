@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     'taux marginal effectif',
   ],
   alternates: {
-    canonical: '/salaire-net-quebec',
+    canonical: 'https://qcfinance.ca/salaire-net-quebec',
   },
   openGraph: {
     title: "Calcul Impôt Québec 2026 - Calculateur Salaire Net Gratuit",

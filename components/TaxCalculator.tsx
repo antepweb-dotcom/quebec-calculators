@@ -34,10 +34,17 @@ export default function TaxCalculator({ initialSalary }: TaxCalculatorProps) {
 
   useEffect(() => {
     if (initialSalary && initialSalary > 0) {
+      setIncome(initialSalary.toString())
+      setFrequency('annual')
       const calculatedResults = calculateTaxes(initialSalary)
       setResults(calculatedResults)
+      
+      // Track initial calculation from URL
+      trackButtonClick('initial_calculation_from_url', {
+        salary: initialSalary,
+      })
     }
-  }, [initialSalary])
+  }, [initialSalary, trackButtonClick])
 
   const handleCalculate = () => {
     const numericIncome = parseFloat(income)

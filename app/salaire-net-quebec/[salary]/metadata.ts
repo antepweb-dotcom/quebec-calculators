@@ -1,46 +1,25 @@
-import { Metadata } from 'next'
-import { calculateTaxes } from '@/utils/taxLogic'
-
-const formatCurrency = (amount: number) => {
-  return new Intl.NumberFormat('fr-CA', {
-    style: 'currency',
-    currency: 'CAD',
-    maximumFractionDigits: 0
-  }).format(amount)
-}
-
-export function generateSalaryMetadata(salary: number): Metadata {
-  const results = calculateTaxes(salary)
-  const netIncome = formatCurrency(results.netIncome)
-  const monthlyNet = formatCurrency(results.netIncome / 12)
-  const effectiveRate = ((results.totalDeductions / results.grossIncome) * 100).toFixed(1)
-
+// Metadata helper for dynamic salary pages
+export function getSalaryMetadata(salary: number) {
+  const formattedSalary = salary.toLocaleString('fr-CA')
+  
   return {
-    title: `Salaire Net ${formatCurrency(salary)} au Québec 2026 | Calcul Impôt`,
-    description: `Salaire net pour ${formatCurrency(salary)} au Québec : ${netIncome}/an (${monthlyNet}/mois). Taux effectif ${effectiveRate}%. Calcul détaillé impôts fédéral, provincial, RRQ, RQAP, AE 2026.`,
-    keywords: [
-      `salaire net ${salary} québec`,
-      `impôt ${salary} québec`,
-      `revenu net ${salary}`,
-      `calcul impôt ${salary}`,
-      'taux imposition québec 2026',
-      'déductions salariales',
-      'RRQ RQAP AE',
-    ],
-    alternates: {
-      canonical: `/salaire-net-quebec/${salary}`,
-    },
-    openGraph: {
-      title: `Salaire Net ${formatCurrency(salary)} au Québec (2026)`,
-      description: `Avec ${formatCurrency(salary)} brut, votre salaire net est ${netIncome} (${monthlyNet}/mois). Taux effectif: ${effectiveRate}%. Calcul détaillé avec taux 2026.`,
-      url: `/salaire-net-quebec/${salary}`,
-      type: 'article',
-      locale: 'fr_CA',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: `Salaire Net ${formatCurrency(salary)} Québec`,
-      description: `Net: ${netIncome}/an | ${monthlyNet}/mois | Taux: ${effectiveRate}%`,
-    },
+    title: `Salaire Net ${formattedSalary} $ Québec 2026 - Calcul Après Impôts`,
+    description: `Combien reste-t-il sur un salaire de ${formattedSalary} $ au Québec? Calcul détaillé des impôts, RRQ et RQAP pour 2026. Résultat précis.`,
+    canonical: `https://qcfinance.ca/salaire-net-quebec/${salary}`,
   }
 }
+
+// Pre-calculated salary ranges for quick reference
+export const SALARY_RANGES = {
+  entry: { min: 30000, max: 45000, label: 'Débutant' },
+  intermediate: { min: 45000, max: 70000, label: 'Intermédiaire' },
+  senior: { min: 70000, max: 100000, label: 'Expérimenté' },
+  executive: { min: 100000, max: 200000, label: 'Cadre' },
+}
+
+// Common salary increments for programmatic SEO
+export const COMMON_SALARIES = [
+  30000, 35000, 40000, 45000, 50000, 55000, 60000, 65000, 70000, 75000,
+  80000, 85000, 90000, 95000, 100000, 110000, 120000, 130000, 140000, 150000,
+  160000, 170000, 180000, 190000, 200000
+]

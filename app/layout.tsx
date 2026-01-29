@@ -7,6 +7,7 @@ import ScrollToTop from '@/components/ScrollToTop'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import GlobalWrapper from '@/components/GlobalWrapper'
 import OrganizationSchema from '@/components/OrganizationSchema'
+import AnnouncementBar from '@/components/ui/AnnouncementBar'
 
 const plusJakartaSans = Plus_Jakarta_Sans({ 
   subsets: ['latin'],
@@ -103,6 +104,7 @@ export default function RootLayout({
           <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
         )}
         <GlobalWrapper>
+          <AnnouncementBar />
           <Header />
           <main className="min-h-screen">
             {children}

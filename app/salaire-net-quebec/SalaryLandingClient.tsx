@@ -15,8 +15,11 @@ export default function SalaryLandingClient() {
       return
     }
 
+    // Round to nearest thousand for cleaner URLs
+    const roundedSalary = Math.round(numericSalary / 1000) * 1000
+    
     // Redirect to dynamic route
-    router.push(`/salaire-net-quebec/${Math.round(numericSalary)}`)
+    router.push(`/salaire-net-quebec/${roundedSalary}`)
   }
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

@@ -47,11 +47,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority,
   }))
 
-  // 2. DYNAMIC SALARY PAGES (Strategic range for SEO)
-  // Generate pages for common salary ranges (20k to 150k)
+  // 2. DYNAMIC SALARY PAGES (Programmatic SEO - 170+ pages)
+  // Generate pages for salary range 30k to 200k in 1k increments
   const salaryRoutes = []
-  const salaryLastModified = new Date('2026-01-27')
-  for (let salary = 20000; salary <= 150000; salary += 2000) {
+  const salaryLastModified = new Date('2026-01-29')
+  for (let salary = 30000; salary <= 200000; salary += 1000) {
     salaryRoutes.push({
       url: `${baseUrl}/salaire-net-quebec/${salary}`,
       lastModified: salaryLastModified,
