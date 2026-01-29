@@ -87,7 +87,7 @@ export default function Header() {
                 <Image
                   src="/images/logo.png"
                   alt="QCFinance Logo"
-                  width={180}
+                  width={620}
                   height={50}
                   className="h-10 w-auto object-contain"
                   priority

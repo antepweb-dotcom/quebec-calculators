@@ -18,6 +18,9 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://qcfinance.ca'),
+  icons: {
+    icon: '/images/favicon.png',
+  },
   title: {
     template: '%s | QCFinance - Outils Financiers Québec',
     default: 'QCFinance | Calculatrices d\'Impôt, Hypothèque et Salaire Net Québec (2026)',
