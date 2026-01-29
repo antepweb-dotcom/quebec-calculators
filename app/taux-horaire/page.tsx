@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import WageConverter from '@/components/WageConverter'
 import RelatedTools from '@/components/RelatedTools'
+import { ToolCrossLink } from '@/components/ToolCrossLink'
 
 export const metadata: Metadata = {
   title: "Convertisseur Taux Horaire Québec - Salaire Annuel, Hebdo",
@@ -49,6 +50,9 @@ export default function WageConverterPage() {
           <div className="mb-12">
             <WageConverter />
           </div>
+
+          {/* Smart Cross-Link */}
+          <ToolCrossLink variant="to-salary" />
 
           {/* Info Section */}
           <section className="mt-12 bg-white rounded-xl shadow-lg p-8">

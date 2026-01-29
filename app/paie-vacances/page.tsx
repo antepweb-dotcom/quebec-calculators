@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import VacationPayCalculator from '@/components/VacationPayCalculator'
 import { Calendar, Percent, CheckCircle } from 'lucide-react'
 import RelatedTools from '@/components/RelatedTools'
+import { ToolCrossLink } from '@/components/ToolCrossLink'
 
 export const metadata: Metadata = {
   title: "Calculateur Paie de Vacances Québec - 4% ou 6% Indemnité",
@@ -50,6 +51,9 @@ export default function VacationPayPage() {
           <div className="mb-12">
             <VacationPayCalculator />
           </div>
+
+          {/* Smart Cross-Link */}
+          <ToolCrossLink variant="to-salary" />
 
           {/* Educational Section - V2 Gold Standard */}
           <section className="mt-12 bg-white rounded-xl shadow-lg p-8">

@@ -11,7 +11,11 @@ interface ToolCrossLinkProps {
     | 'to-daycare'
     | 'to-auto-loan'
     | 'mortgage-to-affordability'
-    | 'debt-to-salary';
+    | 'debt-to-salary'
+    | 'to-compound-interest'
+    | 'to-student-loan'
+    | 'to-transfer-tax'
+    | 'to-ev-savings';
 }
 
 export function ToolCrossLink({ variant }: ToolCrossLinkProps) {
@@ -87,6 +91,38 @@ export function ToolCrossLink({ variant }: ToolCrossLinkProps) {
       button: "Calculer mon salaire net",
       href: "/salaire-net-quebec",
       color: "bg-emerald-50 text-emerald-900 hover:bg-emerald-100 border-emerald-200"
+    },
+    'to-compound-interest': {
+      icon: TrendingUp,
+      title: "Voyez la magie des intérêts composés",
+      text: "Découvrez comment vos investissements peuvent croître exponentiellement avec le temps.",
+      button: "Calculer mes intérêts",
+      href: "/interets-composes",
+      color: "bg-blue-50 text-blue-900 hover:bg-blue-100 border-blue-200"
+    },
+    'to-student-loan': {
+      icon: CreditCard,
+      title: "Planifiez votre prêt étudiant",
+      text: "Calculez vos paiements mensuels et découvrez quand vous serez libre de dettes.",
+      button: "Calculer mon prêt étudiant",
+      href: "/pret-etudiant",
+      color: "bg-indigo-50 text-indigo-900 hover:bg-indigo-100 border-indigo-200"
+    },
+    'to-transfer-tax': {
+      icon: Home,
+      title: "Calculez votre taxe de bienvenue",
+      text: "Découvrez combien vous devrez payer en droits de mutation lors de votre achat.",
+      button: "Calculer ma taxe",
+      href: "/taxe-de-bienvenue",
+      color: "bg-orange-50 text-orange-900 hover:bg-orange-100 border-orange-200"
+    },
+    'to-ev-savings': {
+      icon: Car,
+      title: "Électrique vs Essence : Faites le calcul",
+      text: "Comparez les coûts réels sur 5 ans et découvrez si l'électrique est rentable pour vous.",
+      button: "Comparer les options",
+      href: "/auto-electrique-vs-essence",
+      color: "bg-green-50 text-green-900 hover:bg-green-100 border-green-200"
     }
   };
 

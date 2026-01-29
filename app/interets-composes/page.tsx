@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import CompoundInterestCalculator from '@/components/CompoundInterestCalculator'
 import { TrendingUp, Sparkles, DollarSign, Clock } from 'lucide-react'
+import { ToolCrossLink } from '@/components/ToolCrossLink'
 
 export const metadata: Metadata = {
   title: "Intérêts Composés Québec 2026 | Calculateur Investissement",
@@ -30,6 +31,9 @@ export default function CompoundInterestPage() {
           <div className="mb-12">
             <CompoundInterestCalculator />
           </div>
+
+          {/* Smart Cross-Link */}
+          <ToolCrossLink variant="to-retirement" />
 
           {/* Educational Section */}
           <section className="mt-12 bg-white rounded-xl shadow-lg p-8">

@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import EVSavingsCalculator from '@/components/EVSavingsCalculator'
 import { Zap, Leaf, DollarSign, TrendingDown } from 'lucide-react'
+import { ToolCrossLink } from '@/components/ToolCrossLink'
 
 export const metadata: Metadata = {
   title: "Auto Électrique vs Essence Québec 2026 | Calculateur",
@@ -32,6 +33,9 @@ export default function EVSavingsPage() {
           <div className="mb-12">
             <EVSavingsCalculator />
           </div>
+
+          {/* Smart Cross-Link */}
+          <ToolCrossLink variant="to-auto-loan" />
 
           {/* Info Section */}
           <section className="mt-12 bg-white rounded-xl shadow-lg p-8">

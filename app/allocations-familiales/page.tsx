@@ -3,6 +3,7 @@ import FamilyBenefitsCalculator from '@/components/FamilyBenefitsCalculator'
 import StructuredData from '@/components/StructuredData'
 import SEOContent from '@/components/SEOContent'
 import Breadcrumb from '@/components/Breadcrumb'
+import { ToolCrossLink } from '@/components/ToolCrossLink'
 
 export const metadata: Metadata = {
   title: "Allocations Familiales Québec 2026 | Calculateur ACE",
@@ -70,6 +71,9 @@ export default function FamilyBenefitsPage() {
           <div className="mb-8">
             <FamilyBenefitsCalculator />
           </div>
+
+          {/* Smart Cross-Link */}
+          <ToolCrossLink variant="to-salary" />
 
           {/* Info Section */}
           <section className="mt-12 bg-white rounded-xl shadow-lg p-8">

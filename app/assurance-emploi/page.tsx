@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import EICalculator from '@/components/EICalculator'
 import RelatedTools from '@/components/RelatedTools'
+import { ToolCrossLink } from '@/components/ToolCrossLink'
 
 export const metadata: Metadata = {
   title: 'Calculateur Assurance-Emploi Québec 2026 - Prestations AE (Chômage)',
@@ -50,6 +51,9 @@ export default function EIPage() {
         <div className="mb-12">
           <EICalculator />
         </div>
+
+        {/* Smart Cross-Link */}
+        <ToolCrossLink variant="to-salary" />
 
         {/* Educational Section - V2 Gold Standard */}
         <section className="mt-12 bg-white rounded-xl shadow-lg p-8">

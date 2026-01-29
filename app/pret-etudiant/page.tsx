@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import StudentLoanCalculator from '@/components/StudentLoanCalculator'
 import RelatedTools from '@/components/RelatedTools'
+import { ToolCrossLink } from '@/components/ToolCrossLink'
 
 export const metadata: Metadata = {
   title: "Calculateur Prêt Étudiant Québec - Remboursement AFE",
@@ -51,6 +52,9 @@ export default function StudentLoanPage() {
           <div className="mb-12">
             <StudentLoanCalculator />
           </div>
+
+          {/* Smart Cross-Link */}
+          <ToolCrossLink variant="to-debt" />
 
           {/* Info Section */}
           <section className="mt-12 bg-white rounded-xl shadow-lg p-8">

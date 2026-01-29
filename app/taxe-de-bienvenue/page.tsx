@@ -3,6 +3,7 @@ import TransferTaxCalculator from '@/components/TransferTaxCalculator'
 import { Home, MapPin, Calculator } from 'lucide-react'
 import StructuredData from '@/components/StructuredData'
 import Breadcrumb from '@/components/Breadcrumb'
+import { ToolCrossLink } from '@/components/ToolCrossLink'
 
 export const metadata: Metadata = {
   title: 'Taxe de Bienvenue Québec 2026 | Calculateur Gratuit',
@@ -64,6 +65,9 @@ export default function TransferTaxPage() {
         <div className="mb-12">
           <TransferTaxCalculator />
         </div>
+
+        {/* Smart Cross-Link */}
+        <ToolCrossLink variant="to-mortgage" />
 
         {/* Educational Section - V2 Gold Standard */}
         <section className="mt-12 bg-white rounded-xl shadow-lg p-8">

@@ -3,6 +3,7 @@ import SalesTaxCalculator from '@/components/SalesTaxCalculator'
 import { ShoppingCart, FileText, CheckCircle } from 'lucide-react'
 import StructuredData from '@/components/StructuredData'
 import Breadcrumb from '@/components/Breadcrumb'
+import { ToolCrossLink } from '@/components/ToolCrossLink'
 
 export const metadata: Metadata = {
   title: 'TPS TVQ Québec 2026 | Calculateur Taxes de Vente',
@@ -67,6 +68,9 @@ export default function SalesTaxPage() {
         <div className="mb-12">
           <SalesTaxCalculator />
         </div>
+
+        {/* Smart Cross-Link */}
+        <ToolCrossLink variant="to-salary" />
 
         {/* Educational Section - V2 Gold Standard */}
         <section className="mt-12 bg-white rounded-xl shadow-lg p-8">
