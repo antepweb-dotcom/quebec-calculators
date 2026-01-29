@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import RetirementCalculator from '@/components/RetirementCalculator'
 import RelatedTools from '@/components/RelatedTools'
+import { ToolCrossLink } from '@/components/ToolCrossLink'
 
 export const metadata: Metadata = {
   title: 'Calculateur Épargne Retraite Québec 2026 - REER et Intérêts Composés',
@@ -49,6 +50,9 @@ export default function RetirementPage() {
         <div className="mb-12">
           <RetirementCalculator />
         </div>
+
+        {/* Smart Cross-Link */}
+        <ToolCrossLink variant="to-salary" />
 
         {/* Related Tools */}
         <RelatedTools currentTool="/epargne-retraite" currentCategory="investment" />

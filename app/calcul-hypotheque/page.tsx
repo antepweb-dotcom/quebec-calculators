@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import MortgageCalculator from '@/components/MortgageCalculator'
 import { Home, TrendingUp, DollarSign } from 'lucide-react'
 import Breadcrumb from '@/components/Breadcrumb'
+import { ToolCrossLink } from '@/components/ToolCrossLink'
 
 export const metadata: Metadata = {
   title: 'Calculateur Hypothèque Québec 2026 | Paiement Mensuel',
@@ -37,6 +38,9 @@ export default function MortgagePage() {
         <div className="mb-12">
           <MortgageCalculator />
         </div>
+
+        {/* Smart Cross-Link */}
+        <ToolCrossLink variant="to-salary" />
 
         {/* Educational Section - V2 Gold Standard */}
         <section className="mt-12 bg-white rounded-xl shadow-lg p-8">

@@ -3,6 +3,7 @@ import AutoLoanCalculator from '@/components/AutoLoanCalculator'
 import { Car, TrendingDown, DollarSign } from 'lucide-react'
 import StructuredData from '@/components/StructuredData'
 import Breadcrumb from '@/components/Breadcrumb'
+import { ToolCrossLink } from '@/components/ToolCrossLink'
 
 export const metadata: Metadata = {
   title: 'Prêt Auto Québec 2026 | Calculateur Financement',
@@ -68,6 +69,9 @@ export default function AutoLoanPage() {
         <div className="mb-12">
           <AutoLoanCalculator />
         </div>
+
+        {/* Smart Cross-Link */}
+        <ToolCrossLink variant="to-salary" />
 
         {/* Educational Section - V2 Gold Standard */}
         <section className="mt-12 bg-white rounded-xl shadow-lg p-8">

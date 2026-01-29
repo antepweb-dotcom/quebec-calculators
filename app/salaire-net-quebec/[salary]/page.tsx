@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from 'react'
 import { calculateTaxes, TaxCalculationResult } from '@/utils/taxLogic'
+import { generateSalaryPDF } from '@/utils/pdfGenerator'
 import { Calculator, PiggyBank, FileText, Lock, CheckCircle2, TrendingDown } from 'lucide-react'
 import SalaryChart from '@/components/SalaryChart'
 import Breadcrumb from '@/components/Breadcrumb'
 import { AffiliateCard } from '@/components/AffiliateCard'
 import SalarySEOContent from '@/components/SalarySEOContent'
+import { ToolCrossLink } from '@/components/ToolCrossLink'
 
 interface PageProps {
   params: { salary: string }
@@ -48,6 +50,12 @@ export default function SalaryDetailPage({ params }: PageProps) {
     }, 150)
   }
 
+  const handleDownloadPDF = () => {
+    if (results) {
+      generateSalaryPDF(results, 'annuel')
+    }
+  }
+
   if (isNaN(initialSalary) || initialSalary <= 0) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -83,6 +91,22 @@ export default function SalaryDetailPage({ params }: PageProps) {
             Calcul détaillé de votre revenu net après impôts et déductions
           </p>
         </header>
+
+        {/* PDF Download Button */}
+        {results && (
+          <div className="flex justify-end mb-6">
+            <button
+              onClick={handleDownloadPDF}
+              className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-all shadow-sm hover:shadow-md group"
+            >
+              <svg className="w-4 h-4 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              <span className="hidden sm:inline">Télécharger PDF</span>
+              <span className="sm:hidden">PDF</span>
+            </button>
+          </div>
+        )}
 
         {/* Main Content - Mobile: Custom Order, Desktop: 2 Columns (5+7) */}
         <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-8">
@@ -580,6 +604,9 @@ export default function SalaryDetailPage({ params }: PageProps) {
                 </details>
               </div>
             </section>
+
+            {/* Smart Cross-Link */}
+            <ToolCrossLink variant="to-mortgage" />
 
             {/* SEO Content Section - Programmatic Content + Structured Data */}
             <SalarySEOContent salary={salary} results={results} />

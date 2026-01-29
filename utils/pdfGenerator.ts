@@ -82,7 +82,7 @@ export function generateSalaryPDF(results: TaxCalculationResult, frequency: stri
   // Footer
   doc.setFontSize(9);
   doc.setTextColor(150, 150, 150);
-  doc.text('Calculé avec CalculQuebec.ca - Calculateurs financiers pour le Québec', 105, 280, { align: 'center' });
+  doc.text('Calculé avec QCFinance.ca - Calculateurs financiers pour le Québec', 105, 280, { align: 'center' });
   doc.text('Ces calculs sont fournis à titre indicatif seulement.', 105, 285, { align: 'center' });
   
   // Save PDF
@@ -221,7 +221,7 @@ export function generateMortgagePDF(results: MortgageResult) {
   // Footer
   doc.setFontSize(9);
   doc.setTextColor(150, 150, 150);
-  doc.text('Calculé avec CalculQuebec.ca - Calculateurs financiers pour le Québec', 105, 280, { align: 'center' });
+  doc.text('Calculé avec QCFinance.ca - Calculateurs financiers pour le Québec', 105, 280, { align: 'center' });
   doc.text('Ces calculs sont fournis à titre indicatif seulement.', 105, 285, { align: 'center' });
   
   // Save PDF
@@ -348,7 +348,7 @@ export function generateRetirementPDF(results: any) {
   // Footer
   doc.setFontSize(9);
   doc.setTextColor(150, 150, 150);
-  doc.text('Calculé avec CalculQuebec.ca - Calculateurs financiers pour le Québec', 105, 280, { align: 'center' });
+  doc.text('Calculé avec QCFinance.ca - Calculateurs financiers pour le Québec', 105, 280, { align: 'center' });
   doc.text('Ces projections sont basées sur des hypothèses et ne garantissent pas les résultats futurs.', 105, 285, { align: 'center' });
   
   // Save PDF
@@ -488,7 +488,7 @@ export function generateStudentLoanPDF(results: any) {
   // Footer
   doc.setFontSize(9);
   doc.setTextColor(150, 150, 150);
-  doc.text('Calculé avec CalculQuebec.ca - Calculateurs financiers pour le Québec', 105, 280, { align: 'center' });
+  doc.text('Calculé avec QCFinance.ca - Calculateurs financiers pour le Québec', 105, 280, { align: 'center' });
   doc.text('Ces calculs sont fournis à titre indicatif seulement.', 105, 285, { align: 'center' });
   
   // Save PDF
@@ -565,7 +565,7 @@ export function generateAutoLoanPDF(results: any) {
   
   doc.setFontSize(9);
   doc.setTextColor(150, 150, 150);
-  doc.text('Calculé avec CalculQuebec.ca', 105, 280, { align: 'center' });
+  doc.text('Calculé avec QCFinance.ca', 105, 280, { align: 'center' });
   
   doc.save(`financement-auto-${results.vehiclePrice}-quebec.pdf`);
 }
@@ -628,7 +628,7 @@ export function generateDebtPDF(results: any) {
   
   doc.setFontSize(9);
   doc.setTextColor(150, 150, 150);
-  doc.text('Calculé avec CalculQuebec.ca', 105, 280, { align: 'center' });
+  doc.text('Calculé avec QCFinance.ca', 105, 280, { align: 'center' });
   
   doc.save(`remboursement-dette-${results.balance}-quebec.pdf`);
 }
@@ -703,7 +703,7 @@ export function generateAffordabilityPDF(results: any) {
   
   doc.setFontSize(9);
   doc.setTextColor(150, 150, 150);
-  doc.text('Calculé avec CalculQuebec.ca', 105, 280, { align: 'center' });
+  doc.text('Calculé avec QCFinance.ca', 105, 280, { align: 'center' });
   
   doc.save(`capacite-emprunt-${results.maxHomePrice}-quebec.pdf`);
 }
@@ -755,7 +755,7 @@ export function generateEIPDF(results: any) {
   
   doc.setFontSize(9);
   doc.setTextColor(150, 150, 150);
-  doc.text('Calculé avec CalculQuebec.ca', 105, 280, { align: 'center' });
+  doc.text('Calculé avec QCFinance.ca', 105, 280, { align: 'center' });
   
   doc.save(`assurance-emploi-${results.annualSalary}-quebec.pdf`);
 }
@@ -806,7 +806,7 @@ export function generateTransferTaxPDF(results: any) {
   
   doc.setFontSize(9);
   doc.setTextColor(150, 150, 150);
-  doc.text('Calculé avec CalculQuebec.ca', 105, 280, { align: 'center' });
+  doc.text('Calculé avec QCFinance.ca', 105, 280, { align: 'center' });
   
   doc.save(`taxe-bienvenue-${results.propertyPrice}-quebec.pdf`);
 }
@@ -862,7 +862,7 @@ export function generateRentPDF(results: any) {
   
   doc.setFontSize(9);
   doc.setTextColor(150, 150, 150);
-  doc.text('Calculé avec CalculQuebec.ca', 105, 280, { align: 'center' });
+  doc.text('Calculé avec QCFinance.ca', 105, 280, { align: 'center' });
   
   doc.save(`augmentation-loyer-${results.currentRent}-quebec.pdf`);
 }
@@ -926,7 +926,7 @@ export function generateDaycarePDF(results: any) {
   
   doc.setFontSize(9);
   doc.setTextColor(150, 150, 150);
-  doc.text('Calculé avec CalculQuebec.ca', 105, 280, { align: 'center' });
+  doc.text('Calculé avec QCFinance.ca', 105, 280, { align: 'center' });
   
   doc.save(`frais-garde-${results.familyIncome}-quebec.pdf`);
 }
@@ -1001,7 +1001,7 @@ export function generateCompoundInterestPDF(results: any) {
   
   doc.setFontSize(9);
   doc.setTextColor(150, 150, 150);
-  doc.text('Calculé avec CalculQuebec.ca', 105, 280, { align: 'center' });
+  doc.text('Calculé avec QCFinance.ca', 105, 280, { align: 'center' });
   
   doc.save(`interets-composes-${results.years}ans-quebec.pdf`);
 }
@@ -1077,7 +1077,7 @@ export function generateRentVsBuyPDF(results: any) {
   
   doc.setFontSize(9);
   doc.setTextColor(150, 150, 150);
-  doc.text('Calculé avec CalculQuebec.ca', 105, 280, { align: 'center' });
+  doc.text('Calculé avec QCFinance.ca', 105, 280, { align: 'center' });
   
   doc.save(`louer-vs-acheter-${results.homePrice}-quebec.pdf`);
 }

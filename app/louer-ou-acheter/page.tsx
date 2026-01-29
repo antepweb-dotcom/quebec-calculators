@@ -3,6 +3,7 @@ import RentVsBuyCalculator from '@/components/RentVsBuyCalculator'
 import StructuredData from '@/components/StructuredData'
 import SEOContent from '@/components/SEOContent'
 import Breadcrumb from '@/components/Breadcrumb'
+import { ToolCrossLink } from '@/components/ToolCrossLink'
 
 export const metadata: Metadata = {
   title: "Louer ou Acheter Québec 2026 | Comparateur Gratuit",
@@ -71,6 +72,9 @@ export default function RentVsBuyPage() {
           <div className="mb-12">
             <RentVsBuyCalculator />
           </div>
+
+          {/* Smart Cross-Link */}
+          <ToolCrossLink variant="mortgage-to-affordability" />
 
           {/* Info Section */}
           <section className="mt-12 bg-white rounded-xl shadow-lg p-8">

@@ -4,6 +4,7 @@ import StructuredData from '@/components/StructuredData'
 import SEOContent from '@/components/SEOContent'
 import RelatedTools from '@/components/RelatedTools'
 import Breadcrumb from '@/components/Breadcrumb'
+import { ToolCrossLink } from '@/components/ToolCrossLink'
 
 export const metadata: Metadata = {
   title: "Calcul Impôt Québec 2026 | Salaire Net après Impôts - Gratuit",
@@ -59,6 +60,11 @@ export default function SalaryLandingPage() {
         />
       </div>
       <SalaryLandingClient />
+      
+      {/* Smart Cross-Link */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <ToolCrossLink variant="to-mortgage" />
+      </div>
       
       {/* SEO Content and Related Tools */}
       <div className="w-full bg-white">

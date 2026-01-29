@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { calculateEI, EIInputs, EIResult, Region, formatCurrency, getRegionName } from '@/utils/eiLogic'
 import { AffiliateCard } from '@/components/AffiliateCard'
+import { generateEIPDF } from '@/utils/pdfGenerator'
 
 export default function EICalculator() {
   const [annualSalary, setAnnualSalary] = useState<string>('50000')
@@ -28,7 +29,43 @@ export default function EICalculator() {
     setResult(calculatedResult)
   }
 
+  const handleDownloadPDF = () => {
+    if (!result) return
+    
+    const pdfData = {
+      annualSalary: result.annualGrossSalary,
+      insurableEarnings: result.insurableEarnings,
+      weeklyBenefit: result.weeklyBenefitBeforeTax,
+      monthlyBenefit: result.monthlyBenefitBeforeTax,
+      maxWeeks: 45, // Standard maximum
+      totalMaxBenefit: result.weeklyBenefitBeforeTax * 45,
+    }
+    
+    generateEIPDF(pdfData)
+  }
+
   return (
+    <div className="space-y-6">
+      {/* Header with PDF Download Button */}
+      <div className="flex items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-1">Calculateur Assurance-Emploi</h2>
+          <p className="text-sm text-gray-600">Estimez vos prestations hebdomadaires et mensuelles</p>
+        </div>
+        <button
+          onClick={handleDownloadPDF}
+          disabled={!result}
+          className="flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-60 text-white rounded-lg font-medium transition-all shadow-sm hover:shadow-md disabled:hover:shadow-sm group"
+          title={!result ? "Calculez d'abord pour télécharger" : "Télécharger le rapport en PDF"}
+        >
+          <svg className="w-5 h-5 group-disabled:animate-none group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span className="hidden sm:inline">Télécharger PDF</span>
+          <span className="sm:hidden">PDF</span>
+        </button>
+      </div>
+
     <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
       {/* Left Column - Input Form (40%) */}
       <div className="lg:col-span-2 space-y-6">
@@ -235,6 +272,7 @@ export default function EICalculator() {
           )}
         </div>
       </div>
+    </div>
     </div>
   )
 }

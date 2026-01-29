@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import AffordabilityCalculator from '@/components/AffordabilityCalculator'
+import { ToolCrossLink } from '@/components/ToolCrossLink'
 
 export const metadata: Metadata = {
   title: "Capacité d'Emprunt Hypothécaire Québec 2026 | Calculateur",
@@ -50,6 +51,9 @@ export default function AffordabilityPage() {
           <div className="mb-12">
             <AffordabilityCalculator />
           </div>
+
+          {/* Smart Cross-Link */}
+          <ToolCrossLink variant="to-salary" />
 
           {/* Info Section */}
           <section className="mt-12 bg-white rounded-xl shadow-lg p-8">

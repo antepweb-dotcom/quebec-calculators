@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import RentCalculator from '@/components/RentCalculator'
 import { Scale, FileText, TrendingUp } from 'lucide-react'
+import { ToolCrossLink } from '@/components/ToolCrossLink'
 
 export const metadata: Metadata = {
   title: 'Calculateur Augmentation de Loyer Québec 2026 - TAL (Tribunal Logement)',
@@ -50,6 +51,9 @@ export default function RentIncreasePage() {
         <div className="mb-12">
           <RentCalculator />
         </div>
+
+        {/* Smart Cross-Link */}
+        <ToolCrossLink variant="to-affordability" />
 
         {/* Educational Section - V2 Gold Standard */}
         <section className="mt-12 bg-white rounded-xl shadow-lg p-8">

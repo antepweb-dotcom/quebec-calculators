@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import DebtCalculator from '@/components/DebtCalculator'
 import RelatedTools from '@/components/RelatedTools'
+import { ToolCrossLink } from '@/components/ToolCrossLink'
 
 export const metadata: Metadata = {
   title: "Calculateur de Dette Québec - Plan de Remboursement Rapide",
@@ -50,6 +51,9 @@ export default function DebtPayoffPage() {
           <div className="mb-12">
             <DebtCalculator />
           </div>
+
+          {/* Smart Cross-Link */}
+          <ToolCrossLink variant="debt-to-salary" />
 
           {/* Info Section */}
           <section className="mt-12 bg-white rounded-xl shadow-lg p-8">
