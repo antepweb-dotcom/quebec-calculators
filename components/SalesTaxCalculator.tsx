@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { calculateSalesTax, CalculationMode, SalesTaxResult, formatCurrency, TPS_RATE, TVQ_RATE, TOTAL_TAX_RATE } from '@/utils/salesTaxLogic'
 import { AffiliateCard } from '@/components/AffiliateCard'
 
@@ -8,6 +8,7 @@ export default function SalesTaxCalculator() {
   const [amount, setAmount] = useState<string>('')
   const [mode, setMode] = useState<CalculationMode>('add')
   const [result, setResult] = useState<SalesTaxResult | null>(null)
+  const resultsRef = useRef<HTMLDivElement>(null)
 
   const handleCalculate = () => {
     const numericAmount = parseFloat(amount)
@@ -18,12 +19,19 @@ export default function SalesTaxCalculator() {
 
     const calculatedResult = calculateSalesTax(numericAmount, mode)
     setResult(calculatedResult)
+
+    // Auto-scroll to results on mobile
+    if (window.innerWidth < 1024 && resultsRef.current) {
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+    }
   }
 
   return (
     <div className="grid lg:grid-cols-3 gap-6">
       {/* Left Column - Input Form */}
-      <div className="lg:col-span-1 space-y-6">
+      <div className="lg:col-span-1 space-y-6 order-2 lg:order-none">
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Calculateur TPS/TVQ</h2>
           
@@ -113,7 +121,7 @@ export default function SalesTaxCalculator() {
       </div>
 
       {/* Right Column - Results */}
-      <div className="lg:col-span-2">
+      <div className="lg:col-span-2 order-1 lg:order-none" ref={resultsRef}>
         {result ? (
           <div className="space-y-6">
             {/* Receipt-Style Result Card */}

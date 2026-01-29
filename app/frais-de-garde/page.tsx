@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import DaycareCalculator from '@/components/DaycareCalculator'
+import DaycareClient from './DaycareClient'
 import { Baby, DollarSign, FileText } from 'lucide-react'
 import StructuredData from '@/components/StructuredData'
 import Breadcrumb from '@/components/Breadcrumb'
@@ -66,7 +66,7 @@ export default function DaycarePage() {
         </header>
 
         <div className="mb-12">
-          <DaycareCalculator />
+          <DaycareClient />
         </div>
 
         {/* Smart Cross-Link */}

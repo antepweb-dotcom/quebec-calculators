@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { calculateRentIncrease, RentIncreaseInputs, RentIncreaseResult, HeatingType, formatCurrency, formatPercentage } from '@/utils/rentLogic'
 import { AffiliateCard } from '@/components/AffiliateCard'
 
@@ -14,6 +14,7 @@ export default function RentCalculator() {
   const [majorRenovations, setMajorRenovations] = useState<string>('0')
   const [maintenanceIncrease, setMaintenanceIncrease] = useState<string>('0')
   const [result, setResult] = useState<RentIncreaseResult | null>(null)
+  const resultsRef = useRef<HTMLDivElement>(null)
 
   const handleCalculate = () => {
     const rent = parseFloat(currentRent)
@@ -35,12 +36,19 @@ export default function RentCalculator() {
 
     const calculatedResult = calculateRentIncrease(inputs)
     setResult(calculatedResult)
+
+    // Auto-scroll to results on mobile
+    if (window.innerWidth < 1024 && resultsRef.current) {
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+    }
   }
 
   return (
     <div className="grid lg:grid-cols-3 gap-6">
       {/* Left Column - Input Form */}
-      <div className="lg:col-span-1 space-y-6">
+      <div className="lg:col-span-1 space-y-6 order-2 lg:order-none">
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Informations du logement</h2>
           
@@ -180,7 +188,7 @@ export default function RentCalculator() {
       </div>
 
       {/* Right Column - Results */}
-      <div className="lg:col-span-2">
+      <div className="lg:col-span-2 order-1 lg:order-none" ref={resultsRef}>
         {result ? (
           <div className="space-y-6">
             {/* HERO RESULT - V2 Gold Standard */}

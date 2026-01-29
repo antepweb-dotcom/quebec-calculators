@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import RentVsBuyCalculator from '@/components/RentVsBuyCalculator'
+import RentVsBuyClient from './RentVsBuyClient'
 import StructuredData from '@/components/StructuredData'
 import SEOContent from '@/components/SEOContent'
 import Breadcrumb from '@/components/Breadcrumb'
@@ -70,7 +70,7 @@ export default function RentVsBuyPage() {
 
           {/* Calculator */}
           <div className="mb-12">
-            <RentVsBuyCalculator />
+            <RentVsBuyClient />
           </div>
 
           {/* Smart Cross-Link */}

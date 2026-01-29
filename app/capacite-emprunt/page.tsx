@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
-import AffordabilityCalculator from '@/components/AffordabilityCalculator'
+import AffordabilityClient from './AffordabilityClient'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
+import Breadcrumb from '@/components/Breadcrumb'
 
 export const metadata: Metadata = {
   title: "Capacité d'Emprunt Hypothécaire Québec 2026 | Calculateur",
@@ -32,11 +33,17 @@ export const metadata: Metadata = {
 
 export default function AffordabilityPage() {
   return (
-    <><main className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100">
+    <><main className="min-h-screen bg-gradient-to-br from-violet-50 via-indigo-50 to-purple-50">
         <div className="container mx-auto px-4 py-12 max-w-7xl">
+          <Breadcrumb 
+            items={[
+              { label: 'Immobilier', href: '/#immobilier' },
+              { label: 'Capacité d\'Emprunt' }
+            ]} 
+          />
           {/* Header */}
           <header className="text-center mb-12">
-            <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+            <span className="bg-violet-100 text-violet-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
               💰 Pouvoir d'Achat
             </span>
             <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
@@ -47,10 +54,8 @@ export default function AffordabilityPage() {
             </p>
           </header>
 
-          {/* Calculator */}
-          <div className="mb-12">
-            <AffordabilityCalculator />
-          </div>
+          {/* GOLD STANDARD SPLIT-SCREEN CALCULATOR */}
+          <AffordabilityClient />
 
           {/* Smart Cross-Link */}
           <ToolCrossLink variant="to-salary" />

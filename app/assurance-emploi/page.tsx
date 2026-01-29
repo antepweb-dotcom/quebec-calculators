@@ -1,7 +1,8 @@
 import { Metadata } from 'next'
-import EICalculator from '@/components/EICalculator'
+import EICalculatorClient from './EICalculatorClient'
 import RelatedTools from '@/components/RelatedTools'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
+import Breadcrumb from '@/components/Breadcrumb'
 
 export const metadata: Metadata = {
   title: 'Calculateur Assurance-Emploi Québec 2026 - Prestations AE (Chômage)',
@@ -34,10 +35,16 @@ export const metadata: Metadata = {
 
 export default function EIPage() {
   return (
-    <><main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <><main className="min-h-screen bg-gradient-to-br from-blue-50 via-slate-50 to-blue-100">
       <div className="container mx-auto px-4 py-12 max-w-7xl">
+        <Breadcrumb 
+          items={[
+            { label: 'Impôts & Revenus', href: '/#impots' },
+            { label: 'Assurance-Emploi' }
+          ]} 
+        />
         <header className="text-center mb-12">
-          <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+          <span className="bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
             🛡️ Protection Revenu
           </span>
           <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
@@ -48,9 +55,8 @@ export default function EIPage() {
           </p>
         </header>
 
-        <div className="mb-12">
-          <EICalculator />
-        </div>
+        {/* GOLD STANDARD SPLIT-SCREEN CALCULATOR */}
+        <EICalculatorClient />
 
         {/* Smart Cross-Link */}
         <ToolCrossLink variant="to-salary" />

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { calculateDaycareCosts, DaycareInputs, DaycareResult, formatCurrency, formatPercentage, DEFAULT_DAYS_PER_YEAR } from '@/utils/daycareLogic'
 import { generateDaycarePDF } from '@/utils/pdfGenerator'
 import { AffiliateCard } from '@/components/AffiliateCard'
@@ -10,6 +10,7 @@ export default function DaycareCalculator() {
   const [privateDailyRate, setPrivateDailyRate] = useState<string>('50')
   const [daysPerYear, setDaysPerYear] = useState<string>(DEFAULT_DAYS_PER_YEAR.toString())
   const [result, setResult] = useState<DaycareResult | null>(null)
+  const resultsRef = useRef<HTMLDivElement>(null)
 
   const handleCalculate = () => {
     const income = parseFloat(familyIncome)
@@ -39,6 +40,13 @@ export default function DaycareCalculator() {
 
     const calculatedResult = calculateDaycareCosts(inputs)
     setResult(calculatedResult)
+
+    // Auto-scroll to results on mobile
+    if (window.innerWidth < 1024 && resultsRef.current) {
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+    }
   }
 
   const handleDownloadPDF = () => {
@@ -71,7 +79,7 @@ export default function DaycareCalculator() {
 
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Left Column - Input Form */}
-        <div className="lg:col-span-1 space-y-6">
+        <div className="lg:col-span-1 space-y-6 order-2 lg:order-none">
           <div className="bg-white rounded-xl shadow-lg p-6">
             <h3 className="text-xl font-bold text-gray-900 mb-6">Vos informations</h3>
           
@@ -151,7 +159,7 @@ export default function DaycareCalculator() {
       </div>
 
       {/* Right Column - Results */}
-      <div className="lg:col-span-2">
+      <div className="lg:col-span-2 order-1 lg:order-none" ref={resultsRef}>
         {result ? (
           <div className="space-y-6">
             {/* Comparison Cards */}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { calculateAutoLoan, AutoLoanInputs, AutoLoanResult, LoanTermMonths, formatCurrency, formatPercentage } from '@/utils/autoLoanLogic'
 import { generateAutoLoanPDF } from '@/utils/pdfGenerator'
 import { AffiliateCard } from '@/components/AffiliateCard'
@@ -14,6 +14,7 @@ export default function AutoLoanCalculator() {
   const [loanTermMonths, setLoanTermMonths] = useState<LoanTermMonths>(60)
   const [interestRate, setInterestRate] = useState<string>('6.99')
   const [result, setResult] = useState<AutoLoanResult | null>(null)
+  const resultsRef = useRef<HTMLDivElement>(null)
 
   const handleCalculate = () => {
     const price = parseFloat(vehiclePrice)
@@ -45,6 +46,13 @@ export default function AutoLoanCalculator() {
 
     const calculatedResult = calculateAutoLoan(inputs)
     setResult(calculatedResult)
+
+    // Auto-scroll to results on mobile
+    if (window.innerWidth < 1024 && resultsRef.current) {
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+    }
   }
 
   const handleDownloadPDF = () => {
@@ -77,7 +85,7 @@ export default function AutoLoanCalculator() {
 
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Left Column - Input Form */}
-        <div className="lg:col-span-1 space-y-6">
+        <div className="lg:col-span-1 space-y-6 order-2 lg:order-none">
           <div className="bg-white rounded-xl shadow-lg p-6">
             <h3 className="text-xl font-bold text-gray-900 mb-6">Détails du prêt</h3>
           
@@ -203,7 +211,7 @@ export default function AutoLoanCalculator() {
       </div>
 
       {/* Right Column - Results */}
-      <div className="lg:col-span-2">
+      <div className="lg:col-span-2 order-1 lg:order-none" ref={resultsRef}>
         {result ? (
           <div className="space-y-6">
             {/* Primary Result - Bi-weekly Payment */}

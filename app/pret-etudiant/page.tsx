@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
-import StudentLoanCalculator from '@/components/StudentLoanCalculator'
-import RelatedTools from '@/components/RelatedTools'
+import StudentLoanClient from './StudentLoanClient'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
 
 export const metadata: Metadata = {
@@ -50,7 +49,7 @@ export default function StudentLoanPage() {
 
           {/* Calculator */}
           <div className="mb-12">
-            <StudentLoanCalculator />
+            <StudentLoanClient />
           </div>
 
           {/* Smart Cross-Link */}

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { calculateTaxes, TaxCalculationResult } from '@/utils/taxLogic'
 import { generateSalaryPDF } from '@/utils/pdfGenerator'
-import { Calculator, PiggyBank, FileText, Lock, CheckCircle2, TrendingDown } from 'lucide-react'
+import { Calculator, PiggyBank, FileText, Lock, CheckCircle2, TrendingDown, AlertTriangle } from 'lucide-react'
 import SalaryChart from '@/components/SalaryChart'
 import Breadcrumb from '@/components/Breadcrumb'
 import { AffiliateCard } from '@/components/AffiliateCard'
@@ -22,10 +22,23 @@ const formatCurrency = (amount: number) => {
   }).format(amount)
 }
 
+// Helper function to estimate marginal tax rate
+const getMarginalTaxRate = (salary: number): number => {
+  if (salary < 50000) return 27
+  if (salary < 98000) return 37
+  if (salary < 110000) return 41
+  if (salary < 120000) return 47
+  if (salary < 175000) return 50
+  return 53
+}
+
 export default function SalaryDetailPage({ params }: PageProps) {
   const initialSalary = parseInt(params.salary)
   const [salary, setSalary] = useState(initialSalary)
   const [results, setResults] = useState<TaxCalculationResult | null>(null)
+  const marginalRate = getMarginalTaxRate(salary)
+  const isHighEarner = salary > 90000
+  const showAffiliateInCard = salary > 80000
 
   useEffect(() => {
     if (!isNaN(salary) && salary > 0) {
@@ -34,20 +47,17 @@ export default function SalaryDetailPage({ params }: PageProps) {
     }
   }, [salary])
 
+  useEffect(() => {
+    if (results && window.innerWidth < 1024) {
+      setTimeout(() => {
+        document.getElementById('results-card')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 300)
+    }
+  }, [results])
+
   const handleSalaryChange = (newSalary: number) => {
     setSalary(newSalary)
     window.history.replaceState(null, '', `/salaire-net-quebec/${newSalary}`)
-  }
-
-  const handleCalculateClick = () => {
-    handleSalaryChange(salary)
-    // Auto-scroll to results on mobile
-    setTimeout(() => {
-      const resultsElement = document.getElementById('results-card')
-      if (resultsElement && window.innerWidth < 1024) {
-        resultsElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }
-    }, 150)
   }
 
   const handleDownloadPDF = () => {
@@ -112,10 +122,10 @@ export default function SalaryDetailPage({ params }: PageProps) {
         <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-8">
           
           {/* LEFT COLUMN - Desktop: 5 cols */}
-          <div className="lg:col-span-5 flex flex-col gap-6">
+          <div className="lg:col-span-5 flex flex-col gap-6 order-2 lg:order-none">
 
-            {/* 1. Ajustez votre salaire - Mobile: Order 1 */}
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 lg:p-8 order-1 lg:order-none">
+            {/* Ajustez votre salaire */}
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 lg:p-8">
               <h2 className="text-sm uppercase tracking-wider text-gray-500 font-semibold mb-5">
                 Ajustez votre salaire
               </h2>
@@ -156,7 +166,7 @@ export default function SalaryDetailPage({ params }: PageProps) {
                 </div>
 
                 <button
-                  onClick={handleCalculateClick}
+                  onClick={() => handleSalaryChange(salary)}
                   className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl active:scale-95 min-h-[48px]"
                 >
                   Recalculer
@@ -169,9 +179,9 @@ export default function SalaryDetailPage({ params }: PageProps) {
               </div>
             </div>
 
-            {/* 3. Répartition visuelle - Mobile: Order 3 */}
+            {/* Répartition visuelle */}
             {results && (
-              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 order-4 lg:order-none">
+              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
                 <h3 className="text-sm uppercase tracking-wider text-gray-500 font-semibold mb-4">
                   Répartition visuelle
                 </h3>
@@ -236,8 +246,8 @@ export default function SalaryDetailPage({ params }: PageProps) {
               </div>
             )}
 
-            {/* 4. Salaires populaires - Mobile: Order 4 */}
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 order-5 lg:order-none">
+            {/* Salaires populaires */}
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
               <h3 className="text-sm uppercase tracking-wider text-gray-500 font-semibold mb-4">
                 Salaires populaires
               </h3>
@@ -245,15 +255,7 @@ export default function SalaryDetailPage({ params }: PageProps) {
                 {[40000, 50000, 60000, 70000, 80000, 90000, 100000, 120000].map((amount) => (
                   <button
                     key={amount}
-                    onClick={() => {
-                      handleSalaryChange(amount)
-                      setTimeout(() => {
-                        const resultsElement = document.getElementById('results-card')
-                        if (resultsElement && window.innerWidth < 1024) {
-                          resultsElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                        }
-                      }, 150)
-                    }}
+                    onClick={() => handleSalaryChange(amount)}
                     className="px-3 py-2.5 bg-gray-50 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-200 border border-gray-200 text-gray-700 rounded-lg text-sm font-semibold transition-all active:scale-95 min-h-[48px]"
                   >
                     {amount.toLocaleString('fr-CA')} $
@@ -262,7 +264,7 @@ export default function SalaryDetailPage({ params }: PageProps) {
               </div>
             </div>
 
-            {/* Informations clés - Desktop only, hidden on mobile */}
+            {/* Informations clés */}
             <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 hidden lg:block">
               <h3 className="text-sm uppercase tracking-wider text-gray-500 font-semibold mb-4 flex items-center gap-2">
                 <Calculator className="w-4 h-4" />
@@ -289,12 +291,12 @@ export default function SalaryDetailPage({ params }: PageProps) {
           </div>
 
           {/* RIGHT COLUMN - Desktop: 7 cols, STICKY */}
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7 order-1 lg:order-none">
             <div className="lg:sticky lg:top-24 lg:h-fit space-y-6">
 
-              {/* 2. Résultat du calcul - Mobile: Order 2, Desktop: Sticky Right */}
+              {/* Résultat du calcul */}
               {results && (
-                <div id="results-card" className="bg-white rounded-2xl shadow-2xl border border-gray-100 order-2 scroll-mt-20">
+                <div id="results-card" className="bg-white rounded-2xl shadow-2xl border border-gray-100 scroll-mt-20">
                   
                   <div className="bg-gradient-to-r from-emerald-50/80 to-green-50/80 border-b border-emerald-100 px-6 lg:px-8 py-4">
                     <div className="flex items-center justify-between flex-wrap gap-2">
@@ -312,9 +314,44 @@ export default function SalaryDetailPage({ params }: PageProps) {
                     <p className="text-sm uppercase tracking-wider text-gray-500 font-semibold mb-3">
                       Revenu Net Annuel
                     </p>
-                    <p className="text-5xl lg:text-6xl font-extrabold text-emerald-600 mb-8 tracking-tight">
+                    <p className="text-5xl lg:text-6xl font-extrabold text-emerald-600 mb-4 tracking-tight">
                       {formatCurrency(results.netIncome)}
                     </p>
+
+                    {/* High-Income Shock Badge */}
+                    {isHighEarner && (
+                      <div className="mb-6 bg-gradient-to-r from-orange-50 to-red-50 border-2 border-orange-200 rounded-xl p-4">
+                        <div className="flex items-center justify-center gap-2 mb-2">
+                          <AlertTriangle className="w-5 h-5 text-orange-600" />
+                          <span className="text-lg font-bold text-orange-900">Taux marginal : {marginalRate}%</span>
+                        </div>
+                        <p className="text-sm text-orange-800 font-medium">
+                          Sur chaque 100$ supplémentaire, l'État prend {marginalRate}$
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Visual Tax Bar */}
+                    <div className="mb-6">
+                      <div className="flex h-8 rounded-lg overflow-hidden shadow-inner">
+                        <div 
+                          className="bg-gradient-to-r from-emerald-500 to-emerald-600 flex items-center justify-center text-white text-xs font-bold"
+                          style={{ width: `${(results.netIncome / results.grossIncome) * 100}%` }}
+                        >
+                          {((results.netIncome / results.grossIncome) * 100).toFixed(0)}%
+                        </div>
+                        <div 
+                          className="bg-gradient-to-r from-red-500 to-red-600 flex items-center justify-center text-white text-xs font-bold"
+                          style={{ width: `${(results.totalDeductions / results.grossIncome) * 100}%` }}
+                        >
+                          {((results.totalDeductions / results.grossIncome) * 100).toFixed(0)}%
+                        </div>
+                      </div>
+                      <div className="flex justify-between mt-2 text-xs text-gray-600">
+                        <span>💚 Vous gardez</span>
+                        <span>🔴 Impôts & cotisations</span>
+                      </div>
+                    </div>
 
                     <div className="grid grid-cols-3 gap-3 mb-6">
                       <div className="bg-gradient-to-br from-emerald-50 to-green-50 rounded-xl p-4 border border-emerald-100">
@@ -346,24 +383,31 @@ export default function SalaryDetailPage({ params }: PageProps) {
                         </p>
                       </div>
                     </div>
+
+                    {/* High-Income Affiliate Card */}
+                    {showAffiliateInCard && (
+                      <div className="mt-6 pt-6 border-t border-gray-100">
+                        <AffiliateCard variant="tax" />
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
 
-              {/* Affiliate Card - Below Results */}
-              <AffiliateCard variant="tax" />
+              {/* Affiliate Card (lower earners only) */}
+              {!showAffiliateInCard && <AffiliateCard variant="tax" />}
 
             </div>
           </div>
 
         </div>
 
-        {/* Educational Content Below - Full Width */}
+        {/* Educational Content */}
         {results && (
           <div className="max-w-7xl mx-auto mt-12 space-y-8">
             
-            {/* 6. Comment fonctionne le calcul - Mobile: Order 6 */}
-            <section className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 order-7 lg:order-none">
+            {/* Comment fonctionne le calcul */}
+            <section className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
                 Comment fonctionne le calcul ?
               </h2>
@@ -402,8 +446,8 @@ export default function SalaryDetailPage({ params }: PageProps) {
               </div>
             </section>
 
-            {/* 7. Conseils pour optimiser - Mobile: Order 7 */}
-            <section className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl shadow-lg border border-gray-100 p-8 order-8 lg:order-none">
+            {/* Conseils pour optimiser */}
+            <section className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl shadow-lg border border-gray-100 p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
                 Conseils pour optimiser votre situation fiscale
               </h2>
@@ -450,8 +494,8 @@ export default function SalaryDetailPage({ params }: PageProps) {
               </div>
             </section>
 
-            {/* 8. FAQ Accordion - NEW */}
-            <section className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 order-9 lg:order-none">
+            {/* FAQ */}
+            <section className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
               <div className="text-center mb-8">
                 <h2 className="text-3xl font-bold text-gray-900 mb-4">
                   Questions fréquentes
@@ -605,10 +649,10 @@ export default function SalaryDetailPage({ params }: PageProps) {
               </div>
             </section>
 
-            {/* Smart Cross-Link */}
+            {/* Cross-Link */}
             <ToolCrossLink variant="to-mortgage" />
 
-            {/* SEO Content Section - Programmatic Content + Structured Data */}
+            {/* SEO Content */}
             <SalarySEOContent salary={salary} results={results} />
 
           </div>

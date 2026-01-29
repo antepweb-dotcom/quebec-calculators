@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { calculateTransferTax, Location, TransferTaxResult, formatCurrency, formatPercentage, getLocationName } from '@/utils/transferTaxLogic'
 import { AffiliateCard } from '@/components/AffiliateCard'
 
@@ -8,6 +8,7 @@ export default function TransferTaxCalculator() {
   const [propertyPrice, setPropertyPrice] = useState<string>('')
   const [location, setLocation] = useState<Location>('quebec')
   const [result, setResult] = useState<TransferTaxResult | null>(null)
+  const resultsRef = useRef<HTMLDivElement>(null)
 
   const handleCalculate = () => {
     const price = parseFloat(propertyPrice)
@@ -18,12 +19,19 @@ export default function TransferTaxCalculator() {
 
     const calculatedResult = calculateTransferTax(price, location)
     setResult(calculatedResult)
+
+    // Auto-scroll to results on mobile
+    if (window.innerWidth < 1024 && resultsRef.current) {
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+    }
   }
 
   return (
     <div className="grid lg:grid-cols-3 gap-6">
       {/* Left Column - Input Form */}
-      <div className="lg:col-span-1 space-y-6">
+      <div className="lg:col-span-1 space-y-6 order-2 lg:order-none">
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Informations de la propriété</h2>
           
@@ -97,7 +105,7 @@ export default function TransferTaxCalculator() {
       </div>
 
       {/* Right Column - Results */}
-      <div className="lg:col-span-2">
+      <div className="lg:col-span-2 order-1 lg:order-none" ref={resultsRef}>
         {result ? (
           <div className="space-y-6">
             {/* HERO RESULT - V2 Gold Standard */}

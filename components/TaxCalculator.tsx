@@ -101,7 +101,7 @@ export default function TaxCalculator({ initialSalary }: TaxCalculatorProps) {
 
       <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
         {/* Left Column - Inputs (40% width) */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2 space-y-6 order-2 lg:order-none">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
             <h3 className="text-xl font-bold text-gray-900 mb-6">Vos informations</h3>
           
@@ -167,7 +167,7 @@ export default function TaxCalculator({ initialSalary }: TaxCalculatorProps) {
       </div>
 
       {/* Right Column - Results (60% width, Sticky) */}
-      <div className="lg:col-span-3">
+      <div className="lg:col-span-3 order-1 lg:order-none">
         <div className="lg:sticky lg:top-24" ref={resultsRef}>
           {results ? (
             <div className="space-y-6">

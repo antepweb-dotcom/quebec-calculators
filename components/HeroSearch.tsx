@@ -48,14 +48,14 @@ export default function HeroSearch() {
 
       if (filtered.length > 0) {
         resultsContainer.innerHTML = filtered.map(tool => `
-          <a href="${tool.href}" class="block px-5 py-3 hover:bg-emerald-50 text-gray-700 hover:text-emerald-600 transition-colors border-b border-gray-100 last:border-b-0">
+          <a href="${tool.href}" class="block px-5 py-3 hover:bg-slate-800/50 text-slate-200 hover:text-emerald-400 transition-colors border-b border-slate-700/50 last:border-b-0">
             <span class="font-semibold text-base">${tool.name}</span>
           </a>
         `).join('');
       } else {
         resultsContainer.innerHTML = `
           <div class="px-5 py-8 text-center">
-            <div class="text-sm text-gray-500">Aucun outil trouvé pour "<strong>${query}</strong>"</div>
+            <div class="text-sm text-slate-400">Aucun outil trouvé pour "<strong class="text-white">${query}</strong>"</div>
           </div>
         `;
       }
@@ -106,21 +106,21 @@ export default function HeroSearch() {
 
   return (
     <div className="mb-8 max-w-2xl mx-auto lg:mx-0">
-      <div className="relative z-[9999]">
-        <svg className="absolute left-5 top-1/2 -translate-y-1/2 w-6 h-6 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="relative z-[99999]">
+        <svg className="absolute left-5 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
         <input 
           type="text" 
           id="hero-search"
           placeholder="Rechercher un outil (ex: salaire, hypothèque, impôt)..." 
-          className="w-full pl-14 pr-20 py-4 text-base border-2 border-gray-300 rounded-full focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100 focus:outline-none transition-all shadow-lg hover:shadow-xl bg-white relative z-[9999]"
+          className="w-full pl-14 pr-20 py-4 text-base bg-slate-900/80 backdrop-blur-sm border-2 border-slate-700/50 rounded-full focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/20 focus:outline-none transition-all shadow-lg hover:shadow-xl hover:border-slate-600 text-white placeholder:text-slate-400 relative z-[99999]"
         />
-        <div className="absolute right-5 top-1/2 -translate-y-1/2 text-xs text-gray-400 font-medium hidden sm:block pointer-events-none">
+        <div className="absolute right-5 top-1/2 -translate-y-1/2 text-xs text-slate-500 font-medium hidden sm:block pointer-events-none">
           ⌘K
         </div>
 
-        <div id="hero-search-results" className="hidden absolute left-0 right-0 top-full mt-3 bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden max-h-[400px] overflow-y-auto z-[9999]">
+        <div id="hero-search-results" className="hidden absolute left-0 right-0 top-full mt-3 bg-slate-900/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-slate-700/50 overflow-hidden max-h-[400px] overflow-y-auto z-[99999]">
           <div id="hero-results-container"></div>
         </div>
       </div>

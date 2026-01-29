@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { calculateAffordability, formatCurrency, formatPercent, AffordabilityResult } from '@/utils/affordabilityLogic'
 import { generateAffordabilityPDF } from '@/utils/pdfGenerator'
 import { AffiliateCard } from '@/components/AffiliateCard'
@@ -11,6 +11,7 @@ export default function AffordabilityCalculator() {
   const [downPayment, setDownPayment] = useState<string>('50000')
   const [interestRate, setInterestRate] = useState<string>('5.5')
   const [results, setResults] = useState<AffordabilityResult | null>(null)
+  const resultsRef = useRef<HTMLDivElement>(null)
 
   const handleCalculate = () => {
     const numericIncome = parseFloat(annualIncome)
@@ -40,6 +41,13 @@ export default function AffordabilityCalculator() {
 
     const calculatedResults = calculateAffordability(numericIncome, numericDebts, numericDown, numericRate)
     setResults(calculatedResults)
+
+    // Auto-scroll to results on mobile
+    if (window.innerWidth < 1024 && resultsRef.current) {
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+    }
   }
 
   const handleDownloadPDF = () => {
@@ -86,7 +94,7 @@ export default function AffordabilityCalculator() {
 
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Left Column - Input Section */}
-      <div className="lg:col-span-1 space-y-6">
+      <div className="lg:col-span-1 space-y-6 order-2 lg:order-none">
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Vos informations</h2>
           
@@ -171,7 +179,7 @@ export default function AffordabilityCalculator() {
       </div>
 
       {/* Right Column - Results Section */}
-      <div className="lg:col-span-2">
+      <div className="lg:col-span-2 order-1 lg:order-none" ref={resultsRef}>
         {results ? (
           <div className="space-y-6">
             {/* Main Result Card */}

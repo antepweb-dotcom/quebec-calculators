@@ -1,7 +1,8 @@
 import { Metadata } from 'next'
-import EVSavingsCalculator from '@/components/EVSavingsCalculator'
-import { Zap, Leaf, DollarSign, TrendingDown } from 'lucide-react'
+import EVComparisonClient from './EVComparisonClient'
+import { Leaf, DollarSign, TrendingDown } from 'lucide-react'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
+import Breadcrumb from '@/components/Breadcrumb'
 
 export const metadata: Metadata = {
   title: "Auto Électrique vs Essence Québec 2026 | Calculateur",
@@ -13,11 +14,17 @@ export const metadata: Metadata = {
 
 export default function EVSavingsPage() {
   return (
-    <><main className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50">
+    <><main className="min-h-screen bg-gradient-to-br from-lime-50 via-green-50 to-sky-50">
         <div className="container mx-auto px-4 py-12 max-w-7xl">
+          <Breadcrumb 
+            items={[
+              { label: 'Auto & Transport', href: '/#auto' },
+              { label: 'Électrique vs Essence' }
+            ]} 
+          />
           {/* Header */}
           <header className="text-center mb-12">
-            <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+            <span className="bg-lime-100 text-lime-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
               ⚡ Transition Verte
             </span>
             <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
@@ -28,11 +35,8 @@ export default function EVSavingsPage() {
             </p>
           </header>
 
-          {/* Header Ad */}
-          {/* Calculator */}
-          <div className="mb-12">
-            <EVSavingsCalculator />
-          </div>
+          {/* GOLD STANDARD SPLIT-SCREEN CALCULATOR */}
+          <EVComparisonClient />
 
           {/* Smart Cross-Link */}
           <ToolCrossLink variant="to-auto-loan" />

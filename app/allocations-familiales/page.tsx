@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import FamilyBenefitsCalculator from '@/components/FamilyBenefitsCalculator'
+import FamilyBenefitsClient from './FamilyBenefitsClient'
 import StructuredData from '@/components/StructuredData'
 import SEOContent from '@/components/SEOContent'
 import Breadcrumb from '@/components/Breadcrumb'
@@ -46,7 +46,7 @@ export default function FamilyBenefitsPage() {
           ratingCount: 890,
         }}
       />
-      <main className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100">
+      <main className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50">
         <div className="container mx-auto px-4 py-12 max-w-7xl">
           <Breadcrumb 
             items={[
@@ -67,10 +67,8 @@ export default function FamilyBenefitsPage() {
             </p>
           </header>
 
-          {/* Header Ad */}
-          <div className="mb-8">
-            <FamilyBenefitsCalculator />
-          </div>
+          {/* GOLD STANDARD SPLIT-SCREEN CALCULATOR */}
+          <FamilyBenefitsClient />
 
           {/* Smart Cross-Link */}
           <ToolCrossLink variant="to-salary" />

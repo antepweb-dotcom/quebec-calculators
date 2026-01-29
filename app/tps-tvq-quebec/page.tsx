@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import SalesTaxCalculator from '@/components/SalesTaxCalculator'
+import SalesTaxClient from './SalesTaxClient'
 import { ShoppingCart, FileText, CheckCircle } from 'lucide-react'
 import StructuredData from '@/components/StructuredData'
 import Breadcrumb from '@/components/Breadcrumb'
@@ -51,10 +51,10 @@ export default function SalesTaxPage() {
           { label: 'TPS TVQ Québec', href: '/tps-tvq-quebec' },
         ]}
       />
-      <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="container mx-auto px-4 py-12 max-w-7xl">
+      <main className="min-h-screen bg-gradient-to-br from-violet-50 to-purple-100 py-12">
+      <div className="container mx-auto px-4 max-w-7xl">
         <header className="text-center mb-12">
-          <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
+          <span className="bg-violet-100 text-violet-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
             🧾 Taxes de Vente
           </span>
           <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
@@ -66,7 +66,7 @@ export default function SalesTaxPage() {
         </header>
 
         <div className="mb-12">
-          <SalesTaxCalculator />
+          <SalesTaxClient />
         </div>
 
         {/* Smart Cross-Link */}
@@ -114,14 +114,14 @@ export default function SalesTaxPage() {
         </section>
 
         {/* Pro Tips Section - V2 Gold Standard */}
-        <section className="mt-12 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl shadow-lg p-8">
+        <section className="mt-12 bg-gradient-to-r from-violet-50 to-purple-50 rounded-xl shadow-lg p-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
             Conseils pour gérer les taxes de vente
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-white rounded-lg p-6">
               <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                <span className="text-blue-600">💡</span>
+                <span className="text-violet-600">💡</span>
                 Réclamez vos crédits de TPS/TVQ
               </h3>
               <p className="text-sm text-gray-600">
@@ -132,7 +132,7 @@ export default function SalesTaxPage() {
 
             <div className="bg-white rounded-lg p-6">
               <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                <span className="text-blue-600">💡</span>
+                <span className="text-violet-600">💡</span>
                 Achetez des produits de base
               </h3>
               <p className="text-sm text-gray-600">
@@ -143,7 +143,7 @@ export default function SalesTaxPage() {
 
             <div className="bg-white rounded-lg p-6">
               <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                <span className="text-blue-600">💡</span>
+                <span className="text-violet-600">💡</span>
                 Utilisez une carte avec cashback
               </h3>
               <p className="text-sm text-gray-600">
@@ -154,7 +154,7 @@ export default function SalesTaxPage() {
 
             <div className="bg-white rounded-lg p-6">
               <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                <span className="text-blue-600">💡</span>
+                <span className="text-violet-600">💡</span>
                 Gardez vos reçus pour les entreprises
               </h3>
               <p className="text-sm text-gray-600">
@@ -162,6 +162,120 @@ export default function SalesTaxPage() {
                 sur vos achats professionnels. Conservez tous vos reçus!
               </p>
             </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="mt-12 bg-white rounded-xl shadow-lg p-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+            Questions fréquentes sur les taxes de vente
+          </h2>
+          <div className="space-y-4">
+            <details className="group bg-gray-50 rounded-xl overflow-hidden">
+              <summary className="flex justify-between items-center cursor-pointer list-none p-6 hover:bg-gray-100 transition-colors">
+                <h3 className="text-lg font-bold text-gray-900 pr-4">
+                  Pourquoi les taxes au Québec sont-elles si élevées?
+                </h3>
+                <svg 
+                  className="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform flex-shrink-0" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/>
+                </svg>
+              </summary>
+              <div className="px-6 pb-6">
+                <p className="text-gray-700 leading-relaxed">
+                  Le Québec a un taux combiné de <strong>14,975%</strong> (TPS 5% + TVQ 9,975%), ce qui est effectivement plus élevé 
+                  que certaines provinces comme l'Alberta (5% seulement). Ces taxes financent les services publics québécois comme 
+                  les garderies subventionnées à 9,10$/jour, l'assurance médicaments, et les services de santé. Comparé à d'autres 
+                  provinces avec TVH, le Québec est similaire à l'Ontario (13%) et moins élevé que les Maritimes (15%).
+                </p>
+              </div>
+            </details>
+
+            <details className="group bg-gray-50 rounded-xl overflow-hidden">
+              <summary className="flex justify-between items-center cursor-pointer list-none p-6 hover:bg-gray-100 transition-colors">
+                <h3 className="text-lg font-bold text-gray-900 pr-4">
+                  Quels produits sont exempts de taxes au Québec?
+                </h3>
+                <svg 
+                  className="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform flex-shrink-0" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/>
+                </svg>
+              </summary>
+              <div className="px-6 pb-6">
+                <p className="text-gray-700 leading-relaxed mb-3">
+                  Plusieurs produits et services essentiels sont <strong>détaxés (0%)</strong> au Québec :
+                </p>
+                <ul className="list-disc pl-6 space-y-2 text-gray-700">
+                  <li><strong>Aliments de base</strong> : fruits, légumes, viande, poisson, pain, lait, œufs, céréales</li>
+                  <li><strong>Médicaments sur ordonnance</strong> et certains produits de santé</li>
+                  <li><strong>Services médicaux et dentaires</strong></li>
+                  <li><strong>Loyers résidentiels</strong> (mais pas les hôtels)</li>
+                  <li><strong>Services de garde d'enfants</strong> et frais de scolarité</li>
+                  <li><strong>Services financiers</strong> (intérêts, assurances)</li>
+                </ul>
+                <p className="text-gray-700 leading-relaxed mt-3">
+                  Par contre, les aliments préparés, restaurants, alcool, et produits transformés sont taxés.
+                </p>
+              </div>
+            </details>
+
+            <details className="group bg-gray-50 rounded-xl overflow-hidden">
+              <summary className="flex justify-between items-center cursor-pointer list-none p-6 hover:bg-gray-100 transition-colors">
+                <h3 className="text-lg font-bold text-gray-900 pr-4">
+                  Comment récupérer la TPS/TVQ pour mon entreprise?
+                </h3>
+                <svg 
+                  className="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform flex-shrink-0" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/>
+                </svg>
+              </summary>
+              <div className="px-6 pb-6">
+                <p className="text-gray-700 leading-relaxed">
+                  Si vous êtes inscrit aux fichiers de la TPS et de la TVQ (obligatoire si vos revenus dépassent 30 000$/an), 
+                  vous pouvez <strong>récupérer les taxes payées</strong> sur vos achats professionnels via les Crédits de Taxe 
+                  sur les Intrants (CTI). Conservez tous vos reçus et factures, puis déclarez ces montants dans vos rapports 
+                  de taxes (mensuels, trimestriels ou annuels selon votre chiffre d'affaires). Vous recevrez un remboursement 
+                  ou réduirez vos taxes à payer. C'est un avantage majeur d'être travailleur autonome ou propriétaire d'entreprise.
+                </p>
+              </div>
+            </details>
+
+            <details className="group bg-gray-50 rounded-xl overflow-hidden">
+              <summary className="flex justify-between items-center cursor-pointer list-none p-6 hover:bg-gray-100 transition-colors">
+                <h3 className="text-lg font-bold text-gray-900 pr-4">
+                  Qu'est-ce que le crédit de TPS/TVQ pour particuliers?
+                </h3>
+                <svg 
+                  className="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform flex-shrink-0" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/>
+                </svg>
+              </summary>
+              <div className="px-6 pb-6">
+                <p className="text-gray-700 leading-relaxed">
+                  Le crédit de TPS/TVQ est un <strong>remboursement trimestriel</strong> versé aux personnes et familles à revenu 
+                  faible ou modeste pour compenser les taxes payées sur les biens essentiels. En 2026, le montant maximum est 
+                  d'environ <strong>467$ par adulte</strong> et 123$ par enfant par année. Vous n'avez rien à faire - si vous êtes 
+                  admissible, le crédit est calculé automatiquement lorsque vous produisez votre déclaration de revenus et versé 
+                  directement dans votre compte bancaire chaque trimestre (janvier, avril, juillet, octobre).
+                </p>
+              </div>
+            </details>
           </div>
         </section>
       </div>

@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import DebtCalculator from '@/components/DebtCalculator'
+import DebtClient from './DebtClient'
 import RelatedTools from '@/components/RelatedTools'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
 
@@ -49,7 +49,7 @@ export default function DebtPayoffPage() {
 
           {/* Calculator */}
           <div className="mb-12">
-            <DebtCalculator />
+            <DebtClient />
           </div>
 
           {/* Smart Cross-Link */}

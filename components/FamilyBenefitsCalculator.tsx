@@ -46,7 +46,7 @@ export default function FamilyBenefitsCalculator() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
       {/* Left Column - Input Form (Span 5) */}
-      <div className="lg:col-span-5 space-y-6">
+      <div className="lg:col-span-5 space-y-6 order-2 lg:order-none">
         {/* Situation Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
           <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
@@ -164,7 +164,7 @@ export default function FamilyBenefitsCalculator() {
       </div>
 
       {/* Right Column - Results (Span 7, Sticky) */}
-      <div className="lg:col-span-7">
+      <div className="lg:col-span-7 order-1 lg:order-none">
         <div className="lg:sticky lg:top-24 lg:h-fit" ref={resultsRef}>
           {/* Results Section - "The Paycheque" */}
           <div className="bg-gradient-to-br from-green-50 to-emerald-100 rounded-2xl shadow-lg border border-gray-100 p-8">

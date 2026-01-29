@@ -68,7 +68,7 @@ export default function EICalculator() {
 
     <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
       {/* Left Column - Input Form (40%) */}
-      <div className="lg:col-span-2 space-y-6">
+      <div className="lg:col-span-2 space-y-6 order-2 lg:order-none">
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
           <h2 className="text-xl font-bold text-gray-900 mb-6">Vos informations</h2>
           
@@ -149,7 +149,7 @@ export default function EICalculator() {
       </div>
 
       {/* Right Column - Results (60%, Sticky) */}
-      <div className="lg:col-span-3">
+      <div className="lg:col-span-3 order-1 lg:order-none">
         <div className="lg:sticky lg:top-24">
           {result ? (
             <div className="space-y-6">

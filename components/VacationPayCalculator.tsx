@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { calculateVacationPay, formatCurrency, VacationPayResult } from '@/utils/vacationPayLogic'
 import { AffiliateCard } from '@/components/AffiliateCard'
 
@@ -8,6 +8,7 @@ export default function VacationPayCalculator() {
   const [salary, setSalary] = useState<string>('45000')
   const [yearsOfService, setYearsOfService] = useState<number>(1)
   const [results, setResults] = useState<VacationPayResult | null>(null)
+  const resultsRef = useRef<HTMLDivElement>(null)
 
   const handleCalculate = () => {
     const numericSalary = parseFloat(salary)
@@ -19,12 +20,19 @@ export default function VacationPayCalculator() {
 
     const calculatedResults = calculateVacationPay(numericSalary, yearsOfService)
     setResults(calculatedResults)
+
+    // Auto-scroll to results on mobile
+    if (window.innerWidth < 1024 && resultsRef.current) {
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+    }
   }
 
   return (
     <div className="grid lg:grid-cols-3 gap-6">
       {/* Left Column - Input Section */}
-      <div className="lg:col-span-1 space-y-6">
+      <div className="lg:col-span-1 space-y-6 order-2 lg:order-none">
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Vos informations</h2>
           
@@ -98,7 +106,7 @@ export default function VacationPayCalculator() {
       </div>
 
       {/* Right Column - Results Section */}
-      <div className="lg:col-span-2">
+      <div className="lg:col-span-2 order-1 lg:order-none" ref={resultsRef}>
         {results ? (
           <div className="space-y-6">
             {/* HERO RESULT - V2 Gold Standard */}

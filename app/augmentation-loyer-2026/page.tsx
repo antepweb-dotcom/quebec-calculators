@@ -1,7 +1,8 @@
 import { Metadata } from 'next'
-import RentCalculator from '@/components/RentCalculator'
+import RentIncreaseClient from './RentIncreaseClient'
 import { Scale, FileText, TrendingUp } from 'lucide-react'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
+import Breadcrumb from '@/components/Breadcrumb'
 
 export const metadata: Metadata = {
   title: 'Calculateur Augmentation de Loyer Québec 2026 - TAL (Tribunal Logement)',
@@ -34,8 +35,14 @@ export const metadata: Metadata = {
 
 export default function RentIncreasePage() {
   return (
-    <><main className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
+    <><main className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-slate-50">
       <div className="container mx-auto px-4 py-12 max-w-7xl">
+        <Breadcrumb 
+          items={[
+            { label: 'Immobilier', href: '/#immobilier' },
+            { label: 'Augmentation Loyer 2026' }
+          ]} 
+        />
         <header className="text-center mb-12">
           <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
             🏘️ Droits des Locataires
@@ -48,9 +55,8 @@ export default function RentIncreasePage() {
           </p>
         </header>
 
-        <div className="mb-12">
-          <RentCalculator />
-        </div>
+        {/* GOLD STANDARD SPLIT-SCREEN CALCULATOR */}
+        <RentIncreaseClient />
 
         {/* Smart Cross-Link */}
         <ToolCrossLink variant="to-affordability" />

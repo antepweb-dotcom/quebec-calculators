@@ -69,7 +69,7 @@ export default function DebtCalculator() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column - Input Section (Span 4) */}
-        <div className="lg:col-span-4 space-y-6">
+        <div className="lg:col-span-4 space-y-6 order-2 lg:order-none">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
             <h3 className="text-xl font-bold text-gray-900 mb-6">Vos informations</h3>
           
@@ -137,7 +137,7 @@ export default function DebtCalculator() {
       </div>
 
       {/* Right Column - Results Section (Span 8, Sticky) */}
-      <div className="lg:col-span-8">
+      <div className="lg:col-span-8 order-1 lg:order-none">
         <div className="lg:sticky lg:top-24 lg:h-fit">
           {results ? (
             results.isPayoffPossible ? (

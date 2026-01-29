@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import AutoLoanCalculator from '@/components/AutoLoanCalculator'
+import AutoLoanClient from './AutoLoanClient'
 import { Car, TrendingDown, DollarSign } from 'lucide-react'
 import StructuredData from '@/components/StructuredData'
 import Breadcrumb from '@/components/Breadcrumb'
@@ -67,7 +67,7 @@ export default function AutoLoanPage() {
 
         {/* Calculator */}
         <div className="mb-12">
-          <AutoLoanCalculator />
+          <AutoLoanClient />
         </div>
 
         {/* Smart Cross-Link */}

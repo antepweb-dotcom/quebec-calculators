@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { calculateRetirementSavings, RetirementInputs, RetirementResult, formatCurrency, formatPercentage } from '@/utils/retirementLogic'
 import { generateRetirementPDF } from '@/utils/pdfGenerator'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts'
@@ -13,6 +13,7 @@ export default function RetirementCalculator() {
   const [monthlyContribution, setMonthlyContribution] = useState<string>('500')
   const [expectedReturn, setExpectedReturn] = useState<string>('7')
   const [result, setResult] = useState<RetirementResult | null>(null)
+  const resultsRef = useRef<HTMLDivElement>(null)
 
   const handleCalculate = () => {
     const age = parseInt(currentAge)
@@ -56,6 +57,13 @@ export default function RetirementCalculator() {
 
     const calculatedResult = calculateRetirementSavings(inputs)
     setResult(calculatedResult)
+
+    // Auto-scroll to results on mobile
+    if (window.innerWidth < 1024 && resultsRef.current) {
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+    }
   }
 
   const handleDownloadPDF = () => {
@@ -88,7 +96,7 @@ export default function RetirementCalculator() {
 
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Left Column - Input Form */}
-        <div className="lg:col-span-1 space-y-6">
+        <div className="lg:col-span-1 space-y-6 order-2 lg:order-none">
           <div className="bg-white rounded-xl shadow-lg p-6">
             <h3 className="text-xl font-bold text-gray-900 mb-6">Vos paramètres</h3>
           
@@ -195,7 +203,7 @@ export default function RetirementCalculator() {
       </div>
 
       {/* Right Column - Results */}
-      <div className="lg:col-span-2">
+      <div className="lg:col-span-2 order-1 lg:order-none" ref={resultsRef}>
         {result ? (
           <div className="space-y-6">
             {/* Dream Number */}

@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import VacationPayCalculator from '@/components/VacationPayCalculator'
+import VacationPayClient from './VacationPayClient'
 import { Calendar, Percent, CheckCircle } from 'lucide-react'
 import RelatedTools from '@/components/RelatedTools'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
@@ -49,7 +49,7 @@ export default function VacationPayPage() {
           </header>
 
           <div className="mb-12">
-            <VacationPayCalculator />
+            <VacationPayClient />
           </div>
 
           {/* Smart Cross-Link */}

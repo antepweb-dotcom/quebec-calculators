@@ -92,7 +92,7 @@ export default function MortgageCalculator() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column - Input Form (Span 4) */}
-        <div className="lg:col-span-4 space-y-6">
+        <div className="lg:col-span-4 space-y-6 order-2 lg:order-none">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
             <h3 className="text-xl font-bold text-gray-900 mb-6">Paramètres du prêt</h3>
           
@@ -208,7 +208,7 @@ export default function MortgageCalculator() {
       </div>
 
       {/* Right Column - Results (Span 8, Sticky) */}
-      <div className="lg:col-span-8">
+      <div className="lg:col-span-8 order-1 lg:order-none">
         <div className="lg:sticky lg:top-24 lg:h-fit" ref={resultsRef}>
           {result ? (
             <div className="space-y-6">

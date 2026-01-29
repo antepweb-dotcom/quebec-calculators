@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { calculateStudentLoan, formatCurrency, formatCurrencyDetailed, formatYearsMonths, StudentLoanResult } from '@/utils/studentLoanLogic'
 import { generateStudentLoanPDF } from '@/utils/pdfGenerator'
 import { AffiliateCard } from '@/components/AffiliateCard'
@@ -10,6 +10,7 @@ export default function StudentLoanCalculator() {
   const [interestRate, setInterestRate] = useState<string>('7.2')
   const [termMonths, setTermMonths] = useState<string>('114')
   const [results, setResults] = useState<StudentLoanResult | null>(null)
+  const resultsRef = useRef<HTMLDivElement>(null)
 
   const handleCalculate = () => {
     const numericLoan = parseFloat(loanAmount)
@@ -33,6 +34,13 @@ export default function StudentLoanCalculator() {
 
     const calculatedResults = calculateStudentLoan(numericLoan, numericRate, numericTerm)
     setResults(calculatedResults)
+
+    // Auto-scroll to results on mobile
+    if (window.innerWidth < 1024 && resultsRef.current) {
+      setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100)
+    }
   }
 
   const handleDownloadPDF = () => {
@@ -65,7 +73,7 @@ export default function StudentLoanCalculator() {
 
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Left Column - Input Section */}
-        <div className="lg:col-span-1 space-y-6">
+        <div className="lg:col-span-1 space-y-6 order-2 lg:order-none">
           <div className="bg-white rounded-xl shadow-lg p-6">
             <h3 className="text-xl font-bold text-gray-900 mb-6">Vos informations</h3>
           
@@ -170,7 +178,7 @@ export default function StudentLoanCalculator() {
       </div>
 
       {/* Right Column - Results Section */}
-      <div className="lg:col-span-2">
+      <div className="lg:col-span-2 order-1 lg:order-none" ref={resultsRef}>
         {results ? (
           <div className="space-y-6">
             {/* Main Result Card */}

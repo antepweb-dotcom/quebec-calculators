@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import WageConverter from '@/components/WageConverter'
+import WageConverterClient from './WageConverterClient'
 import RelatedTools from '@/components/RelatedTools'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
 
@@ -48,7 +48,7 @@ export default function WageConverterPage() {
           </header>
 
           <div className="mb-12">
-            <WageConverter />
+            <WageConverterClient />
           </div>
 
           {/* Smart Cross-Link */}
