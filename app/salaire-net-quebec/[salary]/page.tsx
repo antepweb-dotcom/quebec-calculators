@@ -9,6 +9,7 @@ import Breadcrumb from '@/components/Breadcrumb'
 import { AffiliateCard } from '@/components/AffiliateCard'
 import SalarySEOContent from '@/components/SalarySEOContent'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
+import DataSource from '@/components/ui/DataSource'
 
 interface PageProps {
   params: { salary: string }
@@ -654,6 +655,13 @@ export default function SalaryDetailPage({ params }: PageProps) {
 
             {/* SEO Content */}
             <SalarySEOContent salary={salary} results={results} />
+
+            {/* Data Source Citation */}
+            <DataSource 
+              label="Revenu Québec - Tables de retenues 2026 (TP-1015.3)"
+              url="https://www.revenuquebec.ca/fr/entreprises/retenues-et-cotisations/calcul-des-retenues-a-la-source/tables-de-retenues/"
+              lastUpdate="Janvier 2026"
+            />
 
           </div>
         )}

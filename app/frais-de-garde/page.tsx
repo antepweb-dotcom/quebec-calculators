@@ -4,6 +4,7 @@ import { Baby, DollarSign, FileText } from 'lucide-react'
 import StructuredData from '@/components/StructuredData'
 import Breadcrumb from '@/components/Breadcrumb'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
+import DataSource from '@/components/ui/DataSource'
 
 export const metadata: Metadata = {
   title: 'Calculateur Frais de Garde Québec 2026 - CPE vs Garderie Privée (Crédit d\'Impôt)',
@@ -166,6 +167,15 @@ export default function DaycarePage() {
             </div>
           </div>
         </section>
+
+        {/* Data Source */}
+        <div className="mt-8">
+          <DataSource 
+            label="Ministère de la Famille - Tarification 2026" 
+            url="https://www.mfa.gouv.qc.ca/fr/services-de-garde/parents/contribution-reduite/Pages/index.aspx" 
+            lastUpdate="Janvier 2026" 
+          />
+        </div>
       </div>
     </main>
     </>

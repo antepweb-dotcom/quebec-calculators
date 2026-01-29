@@ -4,6 +4,7 @@ import { Car, TrendingDown, DollarSign } from 'lucide-react'
 import StructuredData from '@/components/StructuredData'
 import Breadcrumb from '@/components/Breadcrumb'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
+import DataSource from '@/components/ui/DataSource'
 
 export const metadata: Metadata = {
   title: 'Prêt Auto Québec 2026 | Calculateur Financement',
@@ -167,6 +168,15 @@ export default function AutoLoanPage() {
             </div>
           </div>
         </section>
+
+        {/* Data Source */}
+        <div className="mt-8">
+          <DataSource 
+            label="OPC - Office de la protection du consommateur" 
+            url="https://www.opc.gouv.qc.ca/consommateur/bien-service/vehicule/auto-achat/financement/" 
+            lastUpdate="Calculateur" 
+          />
+        </div>
       </div>
     </main>
     </>

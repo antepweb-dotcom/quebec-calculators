@@ -3,6 +3,7 @@ import VacationPayClient from './VacationPayClient'
 import { Calendar, Percent, CheckCircle } from 'lucide-react'
 import RelatedTools from '@/components/RelatedTools'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
+import DataSource from '@/components/ui/DataSource'
 
 export const metadata: Metadata = {
   title: "Calculateur Paie de Vacances Québec - 4% ou 6% Indemnité",
@@ -147,6 +148,15 @@ export default function VacationPayPage() {
               </div>
             </div>
           </section>
+
+          {/* Data Source */}
+          <div className="mt-8">
+            <DataSource 
+              label="CNESST - Normes du travail (Vacances annuelles)" 
+              url="https://www.cnesst.gouv.qc.ca/fr/conditions-travail/conges/vacances-annuelles" 
+              lastUpdate="Viguer 2026" 
+            />
+          </div>
 
           {/* Related Tools */}
           <RelatedTools currentTool="/paie-vacances" currentCategory="tax" />

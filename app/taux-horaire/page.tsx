@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import WageConverterClient from './WageConverterClient'
 import RelatedTools from '@/components/RelatedTools'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
+import DataSource from '@/components/ui/DataSource'
 
 export const metadata: Metadata = {
   title: "Convertisseur Taux Horaire Québec - Salaire Annuel, Hebdo",
@@ -145,6 +146,15 @@ export default function WageConverterPage() {
               </div>
             </div>
           </section>
+
+          {/* Data Source */}
+          <div className="mt-8">
+            <DataSource 
+              label="CNESST - Salaire minimum" 
+              url="https://www.cnesst.gouv.qc.ca/fr/conditions-travail/salaire-paye/salaire" 
+              lastUpdate="Mai 2026" 
+            />
+          </div>
 
           {/* Related Tools */}
           <RelatedTools currentTool="/taux-horaire" currentCategory="tax" />

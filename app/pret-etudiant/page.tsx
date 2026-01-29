@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import StudentLoanClient from './StudentLoanClient'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
+import DataSource from '@/components/ui/DataSource'
 
 export const metadata: Metadata = {
   title: "Calculateur Prêt Étudiant Québec - Remboursement AFE",
@@ -146,6 +147,15 @@ export default function StudentLoanPage() {
               </div>
             </div>
           </section>
+
+          {/* Data Source */}
+          <div className="mt-8">
+            <DataSource 
+              label="Québec - Aide financière aux études (AFE)" 
+              url="https://www.quebec.ca/education/aide-financiere-aux-etudes" 
+              lastUpdate="Barèmes 2025-2026" 
+            />
+          </div>
         </div>
       </main>
     </>

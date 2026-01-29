@@ -3,6 +3,7 @@ import EVComparisonClient from './EVComparisonClient'
 import { Leaf, DollarSign, TrendingDown } from 'lucide-react'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
 import Breadcrumb from '@/components/Breadcrumb'
+import DataSource from '@/components/ui/DataSource'
 
 export const metadata: Metadata = {
   title: "Auto Électrique vs Essence Québec 2026 | Calculateur",
@@ -172,6 +173,15 @@ export default function EVSavingsPage() {
               </div>
             </div>
           </section>
+
+          {/* Data Source */}
+          <div className="mt-8">
+            <DataSource 
+              label="Gouv. Québec - Roulez vert (Subventions)" 
+              url="https://www.quebec.ca/transports/transport-electrique/aide-financiere-vehicule-electrique" 
+              lastUpdate="Montants 2026" 
+            />
+          </div>
         </div>
       </main>
     </>

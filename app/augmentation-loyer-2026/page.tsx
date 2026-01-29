@@ -3,6 +3,7 @@ import RentIncreaseClient from './RentIncreaseClient'
 import { Scale, FileText, TrendingUp } from 'lucide-react'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
 import Breadcrumb from '@/components/Breadcrumb'
+import DataSource from '@/components/ui/DataSource'
 
 export const metadata: Metadata = {
   title: 'Calculateur Augmentation de Loyer Québec 2026 - TAL (Tribunal Logement)',
@@ -153,6 +154,15 @@ export default function RentIncreasePage() {
             </div>
           </div>
         </section>
+
+        {/* Data Source */}
+        <div className="mt-8">
+          <DataSource 
+            label="TAL - Tribunal administratif du logement" 
+            url="https://www.tal.gouv.qc.ca/fr/calcul-pour-l-augmentation-des-loyers/" 
+            lastUpdate="Taux d'ajustement 2026" 
+          />
+        </div>
       </div>
     </main>
     </>

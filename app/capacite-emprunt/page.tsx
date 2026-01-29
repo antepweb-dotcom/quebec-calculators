@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import AffordabilityClient from './AffordabilityClient'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
 import Breadcrumb from '@/components/Breadcrumb'
+import DataSource from '@/components/ui/DataSource'
 
 export const metadata: Metadata = {
   title: "Capacité d'Emprunt Hypothécaire Québec 2026 | Calculateur",
@@ -151,6 +152,15 @@ export default function AffordabilityPage() {
               </div>
             </div>
           </section>
+
+          {/* Data Source */}
+          <div className="mt-8">
+            <DataSource 
+              label="SCHL - Règles hypothécaires" 
+              url="https://www.cmhc-schl.gc.ca/consommateurs" 
+              lastUpdate="Test de stress (B-20)" 
+            />
+          </div>
         </div>
       </main>
     </>

@@ -3,6 +3,7 @@ import EICalculatorClient from './EICalculatorClient'
 import RelatedTools from '@/components/RelatedTools'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
 import Breadcrumb from '@/components/Breadcrumb'
+import DataSource from '@/components/ui/DataSource'
 
 export const metadata: Metadata = {
   title: 'Calculateur Assurance-Emploi Québec 2026 - Prestations AE (Chômage)',
@@ -152,6 +153,15 @@ export default function EIPage() {
             </div>
           </div>
         </section>
+
+        {/* Data Source */}
+        <div className="mt-8">
+          <DataSource 
+            label="Gouvernement du Canada - Assurance-emploi" 
+            url="https://www.canada.ca/fr/services/prestations/ae.html" 
+            lastUpdate="Maximums 2026" 
+          />
+        </div>
 
         {/* Related Tools */}
         <RelatedTools currentTool="/assurance-emploi" currentCategory="tax" />

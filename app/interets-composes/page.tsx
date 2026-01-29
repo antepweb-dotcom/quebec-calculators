@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import CompoundInterestClient from './CompoundInterestClient'
 import { TrendingUp, Sparkles, DollarSign, Clock } from 'lucide-react'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
+import DataSource from '@/components/ui/DataSource'
 
 export const metadata: Metadata = {
   title: "Intérêts Composés Québec 2026 | Calculateur Investissement",
@@ -241,6 +242,15 @@ export default function CompoundInterestPage() {
               </div>
             </div>
           </section>
+
+          {/* Data Source */}
+          <div className="mt-8">
+            <DataSource 
+              label="Commission des valeurs mobilières - Calculatrices" 
+              url="https://www.investor.gov/" 
+              lastUpdate="Formule Universelle" 
+            />
+          </div>
         </div>
       </main>
     </>

@@ -4,6 +4,7 @@ import { ShoppingCart, FileText, CheckCircle } from 'lucide-react'
 import StructuredData from '@/components/StructuredData'
 import Breadcrumb from '@/components/Breadcrumb'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
+import DataSource from '@/components/ui/DataSource'
 
 export const metadata: Metadata = {
   title: 'TPS TVQ Québec 2026 | Calculateur Taxes de Vente',
@@ -278,6 +279,15 @@ export default function SalesTaxPage() {
             </details>
           </div>
         </section>
+
+        {/* Data Source */}
+        <div className="mt-8">
+          <DataSource 
+            label="Revenu Québec - TVQ et TPS/TVH" 
+            url="https://www.revenuquebec.ca/fr/entreprises/taxes/tpstvh-et-tvq/" 
+            lastUpdate="Taux 2026" 
+          />
+        </div>
       </div>
     </main>
     </>

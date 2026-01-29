@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import RetirementClient from './RetirementClient'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
+import DataSource from '@/components/ui/DataSource'
 
 export const metadata: Metadata = {
   title: 'Calculateur Épargne Retraite Québec 2026 - REER et Intérêts Composés',
@@ -211,6 +212,15 @@ export default function RetirementPage() {
             </div>
           </div>
         </section>
+
+        {/* Data Source */}
+        <div className="mt-8">
+          <DataSource 
+            label="Retraite Québec - RRQ et Placements" 
+            url="https://www.retraitequebec.gouv.qc.ca/" 
+            lastUpdate="Taux RRQ 2026" 
+          />
+        </div>
       </div>
     </main>
     </>

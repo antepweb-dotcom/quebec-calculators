@@ -5,6 +5,7 @@ import SEOContent from '@/components/SEOContent'
 import RelatedTools from '@/components/RelatedTools'
 import Breadcrumb from '@/components/Breadcrumb'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
+import DataSource from '@/components/ui/DataSource'
 
 export const metadata: Metadata = {
   title: "Calcul Impôt Québec 2026 | Salaire Net après Impôts - Gratuit",
@@ -105,6 +106,13 @@ export default function SalaryLandingPage() {
           <RelatedTools 
             currentTool="/salaire-net-quebec"
             currentCategory="tax"
+          />
+
+          {/* Data Source Citation */}
+          <DataSource 
+            label="Revenu Québec - Tables de retenues 2026 (TP-1015.3)"
+            url="https://www.revenuquebec.ca/fr/entreprises/retenues-et-cotisations/calcul-des-retenues-a-la-source/tables-de-retenues/"
+            lastUpdate="Janvier 2026"
           />
         </div>
       </div>

@@ -4,6 +4,7 @@ import { Home, MapPin, Calculator } from 'lucide-react'
 import StructuredData from '@/components/StructuredData'
 import Breadcrumb from '@/components/Breadcrumb'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
+import DataSource from '@/components/ui/DataSource'
 
 export const metadata: Metadata = {
   title: 'Taxe de Bienvenue Québec 2026 | Calculateur Gratuit',
@@ -163,6 +164,15 @@ export default function TransferTaxPage() {
             </div>
           </div>
         </section>
+
+        {/* Data Source */}
+        <div className="mt-8">
+          <DataSource 
+            label="Gouv. Québec - Droits de mutation immobilière" 
+            url="https://www.quebec.ca/habitations-et-logement/achat-vente/droits-mutation-immobiliere" 
+            lastUpdate="Seuils 2026" 
+          />
+        </div>
       </div>
     </main>
     </>

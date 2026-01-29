@@ -4,6 +4,7 @@ import StructuredData from '@/components/StructuredData'
 import SEOContent from '@/components/SEOContent'
 import Breadcrumb from '@/components/Breadcrumb'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
+import DataSource from '@/components/ui/DataSource'
 
 export const metadata: Metadata = {
   title: "Louer ou Acheter Québec 2026 | Comparateur Gratuit",
@@ -309,6 +310,15 @@ export default function RentVsBuyPage() {
               </div>
             </div>
           </section>
+        </div>
+
+        {/* Data Source */}
+        <div className="mt-8 container mx-auto px-4 max-w-7xl">
+          <DataSource 
+            label="Autorité des marchés financiers (AMF) - Immobilier" 
+            url="https://lautorite.qc.ca/grand-public/immobilier" 
+            lastUpdate="Simulations" 
+          />
         </div>
 
         {/* SEO Content Section */}

@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import DeclarationSimplifieeClient from './DeclarationSimplifieeClient'
 import { FileText, Receipt, Calendar, DollarSign, AlertTriangle, CheckCircle, Clock, Building2 } from 'lucide-react'
+import DataSource from '@/components/ui/DataSource'
 
 export const metadata: Metadata = {
   title: "Déclaration Impôt Québec 2026 | Estimateur Gratuit PDF",
@@ -462,6 +463,15 @@ export default function DeclarationSimplifiee() {
               QCFinance.ca ne peut être tenu responsable des décisions fiscales prises sur la base de ces estimations.
             </p>
           </section>
+
+          {/* Data Source */}
+          <div className="mt-8">
+            <DataSource 
+              label="Revenu Québec - Déclaration de revenus" 
+              url="https://www.revenuquebec.ca/fr/citoyens/declaration-de-revenus/" 
+              lastUpdate="Période 2025-2026" 
+            />
+          </div>
 
         </div>
       </div>

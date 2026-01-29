@@ -3,6 +3,7 @@ import MortgageCalculatorClient from './MortgageCalculatorClient'
 import Breadcrumb from '@/components/Breadcrumb'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
 import { Home, TrendingUp, DollarSign } from 'lucide-react'
+import DataSource from '@/components/ui/DataSource'
 
 export const metadata: Metadata = {
   title: 'Calculateur Hypothèque Québec 2026 | Paiement Mensuel',
@@ -237,6 +238,15 @@ export default function MortgagePage() {
             </details>
           </div>
         </section>
+
+        {/* Data Source */}
+        <div className="mt-8">
+          <DataSource 
+            label="Banque du Canada - Taux directeurs actuels" 
+            url="https://www.banqueducanada.ca/taux/" 
+            lastUpdate="En temps réel" 
+          />
+        </div>
       </div>
     </main>
   )
