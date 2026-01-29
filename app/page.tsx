@@ -189,12 +189,16 @@ export default function Home() {
             Données officielles 2026
           </div>
 
-          <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6 leading-[1.1]">
+          <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4 leading-[1.1]">
             Vos finances québécoises, <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400">
               enfin claires.
             </span>
           </h1>
+
+          <p className="text-base md:text-lg text-slate-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+            Des outils de précision pour calculer vos impôts, votre hypothèque et vos investissements. <span className="text-emerald-400 font-semibold">Gratuit. Anonyme. Sécurisé.</span>
+          </p>
 
           <div className="max-w-xl mx-auto transform hover:scale-[1.01] transition-transform duration-500">
             <HeroSearch />
