@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { calculateTaxes, convertToAnnual, PayFrequency, TaxCalculationResult, formatCurrency } from '@/utils/taxLogic'
 import { generateSalaryPDF } from '@/utils/pdfGenerator'
 import DonutChart from './DonutChart'
+import { useCalculatorTracking, useButtonTracking } from '@/hooks/useDebouncedAnalytics'
 
 interface TaxCalculatorProps {
   initialSalary?: number
@@ -26,6 +27,10 @@ export default function TaxCalculator({ initialSalary }: TaxCalculatorProps) {
   const [results, setResults] = useState<TaxCalculationResult | null>(null)
   const [showBreakdown, setShowBreakdown] = useState(false)
   const resultsRef = useRef<HTMLDivElement>(null)
+  
+  // Analytics tracking hooks
+  const trackInputChange = useCalculatorTracking('tax_calculator')
+  const trackButtonClick = useButtonTracking('tax_calculator')
 
   useEffect(() => {
     if (initialSalary && initialSalary > 0) {
@@ -45,6 +50,12 @@ export default function TaxCalculator({ initialSalary }: TaxCalculatorProps) {
     const calculatedResults = calculateTaxes(annualIncome)
     setResults(calculatedResults)
     
+    // Track calculation button click (immediate, no debounce)
+    trackButtonClick('calculate_clicked', {
+      income: annualIncome,
+      frequency: frequency,
+    })
+    
     setTimeout(() => {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }, 100)
@@ -55,6 +66,11 @@ export default function TaxCalculator({ initialSalary }: TaxCalculatorProps) {
     setFrequency('annual')
     const calculatedResults = calculateTaxes(salary)
     setResults(calculatedResults)
+    
+    // Track popular salary selection (immediate)
+    trackButtonClick('popular_salary_selected', {
+      salary: salary,
+    })
   }
 
   const handleDownloadPDF = () => {
@@ -116,7 +132,11 @@ export default function TaxCalculator({ initialSalary }: TaxCalculatorProps) {
                   id="income"
                   type="number"
                   value={income}
-                  onChange={(e) => setIncome(e.target.value)}
+                  onChange={(e) => {
+                    setIncome(e.target.value)
+                    // Debounced tracking - only fires after 800ms of inactivity
+                    trackInputChange({ field: 'income', value: e.target.value })
+                  }}
                   placeholder="50000"
                   className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-lg"
                 />
@@ -130,7 +150,11 @@ export default function TaxCalculator({ initialSalary }: TaxCalculatorProps) {
               <select
                 id="frequency"
                 value={frequency}
-                onChange={(e) => setFrequency(e.target.value as PayFrequency)}
+                onChange={(e) => {
+                  setFrequency(e.target.value as PayFrequency)
+                  // Debounced tracking for frequency changes
+                  trackInputChange({ field: 'frequency', value: e.target.value })
+                }}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-lg"
               >
                 <option value="annual">Annuel</option>
