@@ -228,7 +228,7 @@ export default function Home() {
               </div>
 
               <div className="absolute bottom-0 left-0 p-3 md:p-4 w-full z-20">
-                <div className="backdrop-blur-lg bg-white/90 border border-white/70 shadow-2xl rounded-2xl p-3 md:p-4 transform transition-all duration-300 ease-out group-hover:-translate-y-2 group-hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] group-hover:bg-white">
+                <div className="backdrop-blur-lg bg-white/70 border border-white/50 shadow-2xl rounded-2xl p-3 md:p-4 transform transition-all duration-300 ease-out group-hover:-translate-y-2 group-hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] group-hover:bg-white/80">
                   <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-[9px] font-bold uppercase tracking-wider mb-2 ${themeClasses[tool.theme]} shadow-sm`}>
                     <span className="w-1 h-1 rounded-full bg-current animate-pulse"></span>
                     {tool.subtitle}
