@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { calculateTransferTax, Location, TransferTaxResult, formatCurrency, formatPercentage, getLocationName } from '@/utils/transferTaxLogic'
-import AffiliateCard from '@/components/AffiliateCard'
+import { AffiliateCard } from '@/components/AffiliateCard'
 
 export default function TransferTaxCalculator() {
   const [propertyPrice, setPropertyPrice] = useState<string>('')
@@ -165,14 +165,8 @@ export default function TransferTaxCalculator() {
               </div>
             </div>
 
-            {/* Affiliate Card - Mortgage Broker (Only shown after calculation) */}
-            <AffiliateCard
-              title="Trouvez le meilleur taux hypothécaire"
-              description="Vous achetez une propriété? Comparez gratuitement les taux de 30+ prêteurs en 3 minutes. Nos courtiers hypothécaires négocient pour vous et peuvent vous faire économiser des milliers de dollars."
-              buttonText="Comparer les taux gratuitement"
-              link="https://www.nesto.ca/fr/"
-              theme="purple"
-            />
+            {/* Affiliate Card - Mortgage Context */}
+            <AffiliateCard variant="mortgage" />
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-lg p-12 text-center">

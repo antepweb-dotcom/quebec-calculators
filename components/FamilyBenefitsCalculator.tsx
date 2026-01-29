@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { calculateFamilyBenefits, FamilyBenefitsInput } from '@/utils/familyBenefitsLogic'
 import { Baby, Users, Minus, Plus } from 'lucide-react'
-import AffiliateCard from '@/components/AffiliateCard'
+import { AffiliateCard } from '@/components/AffiliateCard'
 
 export default function FamilyBenefitsCalculator() {
   const [input, setInput] = useState<FamilyBenefitsInput>({
@@ -217,13 +217,7 @@ export default function FamilyBenefitsCalculator() {
 
           {/* Affiliate Card - REEE */}
           <div className="mt-6">
-            <AffiliateCard
-              title="Investissez vos allocations pour l'avenir de vos enfants"
-              description="Ouvrez un REEE avec Wealthsimple et obtenez jusqu'à 30% de subventions gouvernementales gratuites (SCEE + IQEE). Investissement automatique, frais réduits, et croissance à l'abri de l'impôt."
-              buttonText="Ouvrir un REEE gratuit"
-              link="https://www.wealthsimple.com/fr-ca/product/resp"
-              theme="green"
-            />
+            <AffiliateCard variant="education" />
           </div>
 
           {/* Info Note */}

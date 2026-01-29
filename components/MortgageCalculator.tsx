@@ -4,7 +4,7 @@ import { useState, useRef } from 'react'
 import { calculateMortgage, MortgageInputs, MortgageResult, PaymentFrequency, AmortizationYears, formatCurrency, getFrequencyLabel } from '@/utils/mortgageLogic'
 import { generateMortgagePDF } from '@/utils/pdfGenerator'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts'
-import AffiliateCard from '@/components/AffiliateCard'
+import { AffiliateCard } from '@/components/AffiliateCard'
 
 export default function MortgageCalculator() {
   const [loanAmount, setLoanAmount] = useState<string>('400000')
@@ -69,11 +69,32 @@ export default function MortgageCalculator() {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-      {/* Left Column - Input Form (Span 4) */}
-      <div className="lg:col-span-4 space-y-6">
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Paramètres du prêt</h2>
+    <div className="space-y-6">
+      {/* Header with PDF Download Button */}
+      <div className="flex items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-1">Calculateur Hypothécaire</h2>
+          <p className="text-sm text-gray-600">Calculez vos paiements mensuels et le coût total de votre prêt</p>
+        </div>
+        <button
+          onClick={handleDownloadPDF}
+          disabled={!result}
+          className="flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-60 text-white rounded-lg font-medium transition-all shadow-sm hover:shadow-md disabled:hover:shadow-sm group"
+          title={!result ? "Calculez d'abord pour télécharger" : "Télécharger le rapport en PDF"}
+        >
+          <svg className="w-5 h-5 group-disabled:animate-none group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span className="hidden sm:inline">Télécharger PDF</span>
+          <span className="sm:hidden">PDF</span>
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Left Column - Input Form (Span 4) */}
+        <div className="lg:col-span-4 space-y-6">
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-6">Paramètres du prêt</h3>
           
           <div className="space-y-5">
             {/* Loan Amount */}
@@ -184,13 +205,11 @@ export default function MortgageCalculator() {
             </button>
           </div>
         </div>
-
-
       </div>
 
       {/* Right Column - Results (Span 8, Sticky) */}
       <div className="lg:col-span-8">
-        <div className="lg:sticky lg:top-24 lg:h-fit">
+        <div className="lg:sticky lg:top-24 lg:h-fit" ref={resultsRef}>
           {result ? (
             <div className="space-y-6">
               {/* HERO RESULT */}
@@ -286,27 +305,8 @@ export default function MortgageCalculator() {
               </p>
             </div>
 
-            {/* Affiliate Card - Mortgage Broker (Only shown after calculation) */}
-            <AffiliateCard
-              title="Trouvez le meilleur taux hypothécaire au Québec"
-              description="Comparez gratuitement les taux de 30+ prêteurs en 3 minutes. Nos courtiers hypothécaires négocient pour vous et peuvent vous faire économiser des milliers de dollars sur votre prêt."
-              buttonText="Comparer les taux gratuitement"
-              link="https://www.nesto.ca/fr/"
-              theme="purple"
-            />
-
-            {/* PDF Download Button */}
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-              <button
-                onClick={handleDownloadPDF}
-                className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                Télécharger le rapport en PDF
-              </button>
-            </div>
+            {/* Affiliate Card - Mortgage Context (Only shown after calculation) */}
+            <AffiliateCard variant="mortgage" />
             </div>
           ) : (
             <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-12 text-center">
@@ -324,6 +324,7 @@ export default function MortgageCalculator() {
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   )

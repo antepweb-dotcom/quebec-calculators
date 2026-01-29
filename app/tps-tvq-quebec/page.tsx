@@ -34,7 +34,8 @@ export const metadata: Metadata = {
 
 export default function SalesTaxPage() {
   return (
-    <><StructuredData
+    <>
+      <StructuredData
         name="Calculateur TPS TVQ Québec"
         description="Calculez les taxes de vente au Québec (14,975%)"
         url="/tps-tvq-quebec"

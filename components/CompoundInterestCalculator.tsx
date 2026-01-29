@@ -2,9 +2,10 @@
 
 import { useState, useRef } from 'react'
 import { calculateInvestment, InvestmentInput } from '@/utils/investmentLogic'
+import { generateCompoundInterestPDF } from '@/utils/pdfGenerator'
 import { TrendingUp, DollarSign, Calendar, Percent, Sparkles } from 'lucide-react'
 import { motion } from 'framer-motion'
-import AffiliateCard from '@/components/AffiliateCard'
+import { AffiliateCard } from '@/components/AffiliateCard'
 import {
   AreaChart,
   Area,
@@ -36,19 +37,46 @@ export default function CompoundInterestCalculator() {
     }, 100)
   }
 
+  const handleDownloadPDF = () => {
+    if (showResults) {
+      generateCompoundInterestPDF(result)
+    }
+  }
+
   // Format currency for tooltips
   const formatCurrency = (value: number) => {
     return `${value.toLocaleString('fr-CA')} $`
   }
 
   return (
-    <div className="space-y-8">
-      {/* Input Section */}
-      <div className="bg-white rounded-xl shadow-lg p-8">
-        <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-          <TrendingUp className="w-7 h-7 text-blue-600" />
-          Vos Paramètres d'Investissement
-        </h3>
+    <div className="space-y-6">
+      {/* Header with PDF Download Button */}
+      <div className="flex items-center justify-between bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6 border border-green-100">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-1">Calculateur d'Intérêts Composés</h2>
+          <p className="text-sm text-gray-600">Découvrez le pouvoir de l'investissement à long terme</p>
+        </div>
+        <button
+          onClick={handleDownloadPDF}
+          disabled={!showResults}
+          className="flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-60 text-white rounded-lg font-medium transition-all shadow-sm hover:shadow-md disabled:hover:shadow-sm group"
+          title={!showResults ? "Calculez d'abord pour télécharger" : "Télécharger le plan en PDF"}
+        >
+          <svg className="w-5 h-5 group-disabled:animate-none group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span className="hidden sm:inline">Télécharger PDF</span>
+          <span className="sm:hidden">PDF</span>
+        </button>
+      </div>
+
+      <div className="space-y-8">
+        {/* Input Section */}
+        <div className="bg-white rounded-xl shadow-lg p-8">
+          <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <TrendingUp className="w-7 h-7 text-blue-600" />
+            Vos Paramètres d'Investissement
+          </h3>
         
         <div className="space-y-6">
           {/* Initial Deposit */}
@@ -294,13 +322,7 @@ export default function CompoundInterestCalculator() {
           </div>
 
           {/* Affiliate Card - Investment (Only shown after calculation) */}
-          <AffiliateCard
-            title="Mettez les intérêts composés à votre service"
-            description="Ouvrez un CELI avec Wealthsimple et investissez automatiquement chaque mois. Obtenez 25$ de bonus à l'inscription. Portefeuilles diversifiés, frais réduits, et croissance à l'abri de l'impôt."
-            buttonText="Commencer à investir (25$ bonus)"
-            link="https://wealthsimple.com/fr-ca"
-            theme="green"
-          />
+          <AffiliateCard variant="investment" />
 
           {/* Additional Info */}
           <div className="bg-amber-50 border-l-4 border-amber-500 p-6 rounded-lg">
@@ -312,6 +334,7 @@ export default function CompoundInterestCalculator() {
           </div>
         </motion.div>
       )}
+      </div>
     </div>
   )
 }

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { calculateRetirementSavings, RetirementInputs, RetirementResult, formatCurrency, formatPercentage } from '@/utils/retirementLogic'
 import { generateRetirementPDF } from '@/utils/pdfGenerator'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts'
-import AffiliateCard from '@/components/AffiliateCard'
+import { AffiliateCard } from '@/components/AffiliateCard'
 
 export default function RetirementCalculator() {
   const [currentAge, setCurrentAge] = useState<string>('30')
@@ -65,11 +65,32 @@ export default function RetirementCalculator() {
   }
 
   return (
-    <div className="grid lg:grid-cols-3 gap-6">
-      {/* Left Column - Input Form */}
-      <div className="lg:col-span-1 space-y-6">
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Vos paramètres</h2>
+    <div className="space-y-6">
+      {/* Header with PDF Download Button */}
+      <div className="flex items-center justify-between bg-gradient-to-r from-green-50 to-teal-50 rounded-2xl p-6 border border-green-100">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-1">Calculateur d'Épargne Retraite</h2>
+          <p className="text-sm text-gray-600">Planifiez votre retraite et voyez votre épargne croître</p>
+        </div>
+        <button
+          onClick={handleDownloadPDF}
+          disabled={!result}
+          className="flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-60 text-white rounded-lg font-medium transition-all shadow-sm hover:shadow-md disabled:hover:shadow-sm group"
+          title={!result ? "Calculez d'abord pour télécharger" : "Télécharger le plan en PDF"}
+        >
+          <svg className="w-5 h-5 group-disabled:animate-none group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span className="hidden sm:inline">Télécharger PDF</span>
+          <span className="sm:hidden">PDF</span>
+        </button>
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-6">
+        {/* Left Column - Input Form */}
+        <div className="lg:col-span-1 space-y-6">
+          <div className="bg-white rounded-xl shadow-lg p-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-6">Vos paramètres</h3>
           
           <div className="space-y-5">
             {/* Current Age */}
@@ -298,27 +319,8 @@ export default function RetirementCalculator() {
               </div>
             </div>
 
-            {/* Affiliate Card - Retirement Investment (Only shown after calculation) */}
-            <AffiliateCard
-              title="Préparez votre retraite avec un REER"
-              description="Ouvrez un REER avec Wealthsimple et réduisez vos impôts dès maintenant. Investissement automatique, portefeuilles diversifiés, et frais parmi les plus bas au Canada. Obtenez 25$ de bonus."
-              buttonText="Ouvrir un REER (25$ bonus)"
-              link="https://wealthsimple.com/fr-ca"
-              theme="green"
-            />
-
-            {/* PDF Download Button */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <button
-                onClick={handleDownloadPDF}
-                className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                Télécharger le plan en PDF
-              </button>
-            </div>
+            {/* Affiliate Card - Tax Context */}
+            <AffiliateCard variant="tax" />
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-lg p-12 text-center">
@@ -335,6 +337,7 @@ export default function RetirementCalculator() {
             </p>
           </div>
         )}
+      </div>
       </div>
     </div>
   )

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { calculateEI, EIInputs, EIResult, Region, formatCurrency, getRegionName } from '@/utils/eiLogic'
-import AffiliateCard from '@/components/AffiliateCard'
+import { AffiliateCard } from '@/components/AffiliateCard'
 
 export default function EICalculator() {
   const [annualSalary, setAnnualSalary] = useState<string>('50000')
@@ -216,13 +216,7 @@ export default function EICalculator() {
               </div>
 
               {/* Affiliate Card */}
-              <AffiliateCard
-                title="Besoin d'aide avec vos finances?"
-                description="Wealthsimple offre des conseils financiers gratuits et des outils d'épargne automatique. Obtenez 25$ de bonus à l'inscription."
-                buttonText="Obtenir 25$ de bonus"
-                link="https://wealthsimple.com/fr-ca"
-                theme="blue"
-              />
+              <AffiliateCard variant="general" />
             </div>
           ) : (
             <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-12 text-center">

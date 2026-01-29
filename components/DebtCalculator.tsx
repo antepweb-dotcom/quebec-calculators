@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import { calculateDebtPayoff, formatCurrency, formatTimeToPayoff, DebtCalculationResult } from '@/utils/debtLogic'
+import { generateDebtPDF } from '@/utils/pdfGenerator'
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts'
-import AffiliateCard from '@/components/AffiliateCard'
+import { AffiliateCard } from '@/components/AffiliateCard'
 
 export default function DebtCalculator() {
   const [balance, setBalance] = useState<string>('5000')
@@ -35,15 +36,42 @@ export default function DebtCalculator() {
     setResults(calculatedResults)
   }
 
+  const handleDownloadPDF = () => {
+    if (results && results.isPayoffPossible) {
+      generateDebtPDF(results)
+    }
+  }
+
   const years = results ? Math.floor(results.monthsToPayoff / 12) : 0
   const months = results ? results.monthsToPayoff % 12 : 0
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-      {/* Left Column - Input Section (Span 4) */}
-      <div className="lg:col-span-4 space-y-6">
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Vos informations</h2>
+    <div className="space-y-6">
+      {/* Header with PDF Download Button */}
+      <div className="flex items-center justify-between bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 border border-blue-100">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-1">Calculateur de Remboursement de Dette</h2>
+          <p className="text-sm text-gray-600">Calculez combien de temps il faudra pour rembourser votre dette</p>
+        </div>
+        <button
+          onClick={handleDownloadPDF}
+          disabled={!results || !results.isPayoffPossible}
+          className="flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-60 text-white rounded-lg font-medium transition-all shadow-sm hover:shadow-md disabled:hover:shadow-sm group"
+          title={!results ? "Calculez d'abord pour télécharger" : !results.isPayoffPossible ? "Augmentez votre paiement mensuel" : "Télécharger le plan en PDF"}
+        >
+          <svg className="w-5 h-5 group-disabled:animate-none group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span className="hidden sm:inline">Télécharger PDF</span>
+          <span className="sm:hidden">PDF</span>
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Left Column - Input Section (Span 4) */}
+        <div className="lg:col-span-4 space-y-6">
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-6">Vos informations</h3>
           
           <div className="space-y-4">
             <div>
@@ -279,16 +307,11 @@ export default function DebtCalculator() {
           {/* Affiliate Card - Balance Transfer (Only shown after calculation) */}
           {results && (
             <div className="mt-6">
-              <AffiliateCard
-                title="Économisez des milliers en intérêts"
-                description="Transférez votre solde vers une carte de crédit à 0% d'intérêt pendant 12-18 mois. Remboursez votre dette plus rapidement sans payer d'intérêts supplémentaires."
-                buttonText="Comparer les cartes 0% APR"
-                link="https://www.ratehub.ca/credit-cards/balance-transfer"
-                theme="blue"
-              />
+              <AffiliateCard variant="debt" />
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   )

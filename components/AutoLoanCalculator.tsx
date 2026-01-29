@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { calculateAutoLoan, AutoLoanInputs, AutoLoanResult, LoanTermMonths, formatCurrency, formatPercentage } from '@/utils/autoLoanLogic'
-import AffiliateCard from '@/components/AffiliateCard'
+import { generateAutoLoanPDF } from '@/utils/pdfGenerator'
+import { AffiliateCard } from '@/components/AffiliateCard'
 
 const LOAN_TERMS: LoanTermMonths[] = [36, 48, 60, 72, 84];
 
@@ -46,12 +47,39 @@ export default function AutoLoanCalculator() {
     setResult(calculatedResult)
   }
 
+  const handleDownloadPDF = () => {
+    if (result) {
+      generateAutoLoanPDF(result)
+    }
+  }
+
   return (
-    <div className="grid lg:grid-cols-3 gap-6">
-      {/* Left Column - Input Form */}
-      <div className="lg:col-span-1 space-y-6">
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Détails du prêt</h2>
+    <div className="space-y-6">
+      {/* Header with PDF Download Button */}
+      <div className="flex items-center justify-between bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 border border-blue-100">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-1">Calculateur de Prêt Auto</h2>
+          <p className="text-sm text-gray-600">Calculez vos paiements mensuels pour votre véhicule</p>
+        </div>
+        <button
+          onClick={handleDownloadPDF}
+          disabled={!result}
+          className="flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-60 text-white rounded-lg font-medium transition-all shadow-sm hover:shadow-md disabled:hover:shadow-sm group"
+          title={!result ? "Calculez d'abord pour télécharger" : "Télécharger le plan en PDF"}
+        >
+          <svg className="w-5 h-5 group-disabled:animate-none group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span className="hidden sm:inline">Télécharger PDF</span>
+          <span className="sm:hidden">PDF</span>
+        </button>
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-6">
+        {/* Left Column - Input Form */}
+        <div className="lg:col-span-1 space-y-6">
+          <div className="bg-white rounded-xl shadow-lg p-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-6">Détails du prêt</h3>
           
           <div className="space-y-5">
             {/* Vehicle Price */}
@@ -252,13 +280,7 @@ export default function AutoLoanCalculator() {
             </div>
 
             {/* Affiliate Card - Auto Loan (Only shown after calculation) */}
-            <AffiliateCard
-              title="Obtenez un meilleur taux de financement"
-              description="Comparez les taux de financement auto de plusieurs institutions financières. Économisez des centaines de dollars par mois en trouvant le meilleur taux pour votre véhicule."
-              buttonText="Comparer les taux auto"
-              link="https://www.ratehub.ca/auto-loans"
-              theme="blue"
-            />
+            <AffiliateCard variant="auto" />
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-lg p-12 text-center">
@@ -275,6 +297,7 @@ export default function AutoLoanCalculator() {
             </p>
           </div>
         )}
+      </div>
       </div>
     </div>
   )

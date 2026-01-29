@@ -34,7 +34,8 @@ export const metadata: Metadata = {
 
 export default function TransferTaxPage() {
   return (
-    <><StructuredData
+    <>
+      <StructuredData
         name="Calculateur Taxe de Bienvenue Québec"
         description="Calculez les droits de mutation pour votre achat immobilier"
         url="/taxe-de-bienvenue"

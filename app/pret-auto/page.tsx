@@ -34,7 +34,8 @@ export const metadata: Metadata = {
 
 export default function AutoLoanPage() {
   return (
-    <><StructuredData
+    <>
+      <StructuredData
         name="Calculateur Prêt Auto Québec"
         description="Calculez vos paiements de financement automobile avec TPS/TVQ"
         url="/pret-auto"

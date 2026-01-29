@@ -78,11 +78,32 @@ export default function TaxCalculator({ initialSalary }: TaxCalculatorProps) {
   ] : []
 
   return (
-    <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
-      {/* Left Column - Inputs (40% width) */}
-      <div className="lg:col-span-2 space-y-6">
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Vos informations</h2>
+    <div className="space-y-6">
+      {/* Header with PDF Download Button */}
+      <div className="flex items-center justify-between bg-gradient-to-r from-emerald-50 to-blue-50 rounded-2xl p-6 border border-emerald-100">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-1">Calculateur de Salaire Net</h2>
+          <p className="text-sm text-gray-600">Calculez votre revenu net après impôts et déductions</p>
+        </div>
+        <button
+          onClick={handleDownloadPDF}
+          disabled={!results}
+          className="flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-60 text-white rounded-lg font-medium transition-all shadow-sm hover:shadow-md disabled:hover:shadow-sm group"
+          title={!results ? "Calculez d'abord pour télécharger" : "Télécharger le rapport en PDF"}
+        >
+          <svg className="w-5 h-5 group-disabled:animate-none group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span className="hidden sm:inline">Télécharger PDF</span>
+          <span className="sm:hidden">PDF</span>
+        </button>
+      </div>
+
+      <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
+        {/* Left Column - Inputs (40% width) */}
+        <div className="lg:col-span-2 space-y-6">
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-6">Vos informations</h3>
           
           <div className="space-y-5">
             <div>
@@ -152,9 +173,9 @@ export default function TaxCalculator({ initialSalary }: TaxCalculatorProps) {
             <div className="space-y-6">
               {/* Hero Result Card */}
               <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
-                <h2 className="text-lg font-medium text-gray-600 mb-2 text-center">
+                <h3 className="text-lg font-medium text-gray-600 mb-2 text-center">
                   Votre revenu net annuel
-                </h2>
+                </h3>
                 <div className="text-center mb-6">
                   <div className="text-6xl md:text-7xl font-bold text-emerald-600 mb-2">
                     {formatCurrency(results.netIncome)}
@@ -231,17 +252,6 @@ export default function TaxCalculator({ initialSalary }: TaxCalculatorProps) {
                     </div>
                   )}
                 </div>
-
-                {/* PDF Download */}
-                <button
-                  onClick={handleDownloadPDF}
-                  className="w-full mt-6 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  Télécharger en PDF
-                </button>
               </div>
             </div>
           ) : (
@@ -260,6 +270,7 @@ export default function TaxCalculator({ initialSalary }: TaxCalculatorProps) {
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   )

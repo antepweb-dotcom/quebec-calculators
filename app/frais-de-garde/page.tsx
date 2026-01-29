@@ -34,7 +34,8 @@ export const metadata: Metadata = {
 
 export default function DaycarePage() {
   return (
-    <><StructuredData
+    <>
+      <StructuredData
         name="Calculateur Frais de Garde Québec"
         description="Comparez les coûts réels entre CPE subventionné et garderie privée au Québec"
         url="/frais-de-garde"

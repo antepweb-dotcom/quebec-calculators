@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { calculateSalesTax, CalculationMode, SalesTaxResult, formatCurrency, TPS_RATE, TVQ_RATE, TOTAL_TAX_RATE } from '@/utils/salesTaxLogic'
-import AffiliateCard from '@/components/AffiliateCard'
+import { AffiliateCard } from '@/components/AffiliateCard'
 
 export default function SalesTaxCalculator() {
   const [amount, setAmount] = useState<string>('')
@@ -204,13 +204,7 @@ export default function SalesTaxCalculator() {
             </div>
 
             {/* Affiliate Card */}
-            <AffiliateCard
-              title="Gérez vos finances d'entreprise"
-              description="Wealthsimple offre des solutions pour entrepreneurs et travailleurs autonomes. Simplifiez votre comptabilité et vos taxes."
-              buttonText="En savoir plus"
-              link="https://wealthsimple.com/fr-ca"
-              theme="blue"
-            />
+            <AffiliateCard variant="general" />
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-lg p-12 text-center">

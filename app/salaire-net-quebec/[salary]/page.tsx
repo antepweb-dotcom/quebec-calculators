@@ -5,7 +5,7 @@ import { calculateTaxes, TaxCalculationResult } from '@/utils/taxLogic'
 import { Calculator, PiggyBank, FileText, Lock, CheckCircle2, TrendingDown } from 'lucide-react'
 import SalaryChart from '@/components/SalaryChart'
 import Breadcrumb from '@/components/Breadcrumb'
-import AffiliateCard from '@/components/AffiliateCard'
+import { AffiliateCard } from '@/components/AffiliateCard'
 import SalarySEOContent from '@/components/SalarySEOContent'
 
 interface PageProps {
@@ -266,7 +266,7 @@ export default function SalaryDetailPage({ params }: PageProps) {
 
           {/* RIGHT COLUMN - Desktop: 7 cols, STICKY */}
           <div className="lg:col-span-7">
-            <div className="lg:sticky lg:top-24 lg:h-fit">
+            <div className="lg:sticky lg:top-24 lg:h-fit space-y-6">
 
               {/* 2. Résultat du calcul - Mobile: Order 2, Desktop: Sticky Right */}
               {results && (
@@ -326,6 +326,9 @@ export default function SalaryDetailPage({ params }: PageProps) {
                 </div>
               )}
 
+              {/* Affiliate Card - Below Results */}
+              <AffiliateCard variant="tax" />
+
             </div>
           </div>
 
@@ -335,17 +338,6 @@ export default function SalaryDetailPage({ params }: PageProps) {
         {results && (
           <div className="max-w-7xl mx-auto mt-12 space-y-8">
             
-            {/* 5. Affiliate Card - Mobile: Order 5 */}
-            <div className="order-6 lg:order-none">
-              <AffiliateCard
-                title="Ouvrez un compte CELI avec Wealthsimple"
-                description="Obtenez 25$ de bonus en vous inscrivant et commencez à investir sans frais de commission. Parfait pour faire fructifier votre salaire net à l'abri de l'impôt."
-                buttonText="Profiter de l'offre"
-                link="https://wealthsimple.com/fr-ca"
-                theme="dark"
-              />
-            </div>
-
             {/* 6. Comment fonctionne le calcul - Mobile: Order 6 */}
             <section className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 order-7 lg:order-none">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { convertWage, formatCurrency, formatCurrencyRounded, WageConversionResult } from '@/utils/wageLogic'
-import AffiliateCard from '@/components/AffiliateCard'
+import { AffiliateCard } from '@/components/AffiliateCard'
 
 export default function WageConverter() {
   const [amount, setAmount] = useState<string>('25')
@@ -320,13 +320,7 @@ export default function WageConverter() {
             </div>
 
             {/* Affiliate Card */}
-            <AffiliateCard
-              title="Comparez les offres d'emploi facilement"
-              description="Utilisez Wealthsimple pour gérer votre budget et épargner automatiquement une partie de votre salaire. Obtenez 25$ de bonus."
-              buttonText="Obtenir 25$ de bonus"
-              link="https://wealthsimple.com/fr-ca"
-              theme="blue"
-            />
+            <AffiliateCard variant="general" />
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-lg p-12 text-center">

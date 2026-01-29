@@ -2,8 +2,9 @@
 
 import { useState, useRef } from 'react'
 import { calculateRentVsBuy, RentVsBuyInput } from '@/utils/rentVsBuyLogic'
+import { generateRentVsBuyPDF } from '@/utils/pdfGenerator'
 import { Home, Building2, TrendingUp, TrendingDown } from 'lucide-react'
-import AffiliateCard from '@/components/AffiliateCard'
+import { AffiliateCard } from '@/components/AffiliateCard'
 
 export default function RentVsBuyCalculator() {
   const [input, setInput] = useState<RentVsBuyInput>({
@@ -30,14 +31,41 @@ export default function RentVsBuyCalculator() {
     }
   }
 
+  const handleDownloadPDF = () => {
+    if (hasCalculated) {
+      generateRentVsBuyPDF(result)
+    }
+  }
+
   return (
-    <div className="space-y-8">
-      {/* Input Section */}
-      <div className="bg-white rounded-xl shadow-lg p-8">
-        <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-          <Home className="w-6 h-6 text-blue-600" />
-          Paramètres de Comparaison
-        </h3>
+    <div className="space-y-6">
+      {/* Header with PDF Download Button */}
+      <div className="flex items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-1">Louer ou Acheter?</h2>
+          <p className="text-sm text-gray-600">Comparez les avantages financiers sur 25 ans</p>
+        </div>
+        <button
+          onClick={handleDownloadPDF}
+          disabled={!hasCalculated}
+          className="flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-60 text-white rounded-lg font-medium transition-all shadow-sm hover:shadow-md disabled:hover:shadow-sm group"
+          title={!hasCalculated ? "Ajustez les paramètres pour télécharger" : "Télécharger l'analyse en PDF"}
+        >
+          <svg className="w-5 h-5 group-disabled:animate-none group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span className="hidden sm:inline">Télécharger PDF</span>
+          <span className="sm:hidden">PDF</span>
+        </button>
+      </div>
+
+      <div className="space-y-8">
+        {/* Input Section */}
+        <div className="bg-white rounded-xl shadow-lg p-8">
+          <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <Home className="w-6 h-6 text-blue-600" />
+            Paramètres de Comparaison
+          </h3>
         
         <div className="space-y-6">
           {/* Home Price Slider */}
@@ -351,13 +379,7 @@ export default function RentVsBuyCalculator() {
       </div>
 
       {/* Affiliate Card - Investment */}
-      <AffiliateCard
-        title="Si vous louez, investissez la différence"
-        description="Ouvrez un compte CELI avec Wealthsimple et investissez automatiquement votre épargne mensuelle. Obtenez 25$ de bonus et faites fructifier votre argent sans payer d'impôt sur les gains."
-        buttonText="Commencer à investir (25$ bonus)"
-        link="https://wealthsimple.com/fr-ca"
-        theme="green"
-      />
+      <AffiliateCard variant="mortgage" />
 
       {/* Important Note */}
       <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
@@ -366,6 +388,7 @@ export default function RentVsBuyCalculator() {
           D'autres facteurs importants incluent: stabilité d'emploi, style de vie, mobilité, et préférences personnelles. 
           Le scénario location suppose que vous investissez la différence dans un portefeuille diversifié.
         </p>
+      </div>
       </div>
     </div>
   )

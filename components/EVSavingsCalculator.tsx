@@ -4,7 +4,7 @@ import { useState, useRef } from 'react'
 import { calculateCarSavings, CarSavingsInput } from '@/utils/carSavingsLogic'
 import { Zap, Fuel, TrendingDown, Leaf, Award } from 'lucide-react'
 import { motion } from 'framer-motion'
-import AffiliateCard from '@/components/AffiliateCard'
+import { AffiliateCard } from '@/components/AffiliateCard'
 
 export default function EVSavingsCalculator() {
   const [input, setInput] = useState<CarSavingsInput>({
@@ -247,13 +247,7 @@ export default function EVSavingsCalculator() {
           </div>
 
           {/* Affiliate Card - EV Savings Investment (Only shown after calculation) */}
-          <AffiliateCard
-            title="Investissez vos économies d'essence"
-            description="Vous économisez des milliers de dollars par année en passant à l'électrique. Investissez automatiquement ces économies dans un CELI avec Wealthsimple et faites fructifier votre argent sans impôt. Obtenez 25$ de bonus."
-            buttonText="Investir mes économies (25$ bonus)"
-            link="https://wealthsimple.com/fr-ca"
-            theme="green"
-          />
+          <AffiliateCard variant="savings" />
 
           {/* Additional Info */}
           <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg">

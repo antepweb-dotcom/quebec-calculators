@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { calculateVacationPay, formatCurrency, VacationPayResult } from '@/utils/vacationPayLogic'
-import AffiliateCard from '@/components/AffiliateCard'
+import { AffiliateCard } from '@/components/AffiliateCard'
 
 export default function VacationPayCalculator() {
   const [salary, setSalary] = useState<string>('45000')
@@ -188,13 +188,7 @@ export default function VacationPayCalculator() {
             </div>
 
             {/* Affiliate Card */}
-            <AffiliateCard
-              title="Planifiez vos vacances intelligemment"
-              description="Investissez votre paie de vacances avec Wealthsimple et faites-la fructifier. Obtenez 25$ de bonus à l'inscription."
-              buttonText="Obtenir 25$ de bonus"
-              link="https://wealthsimple.com/fr-ca"
-              theme="green"
-            />
+            <AffiliateCard variant="general" />
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-lg p-12 text-center">

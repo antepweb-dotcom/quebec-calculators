@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react'
 import AdSlot from '@/components/AdSlot'
-import AffiliateCard from '@/components/AffiliateCard'
+import { AffiliateCard } from '@/components/AffiliateCard'
 import { calculateTaxForm, TaxFormInputs, TaxFormResult } from '@/utils/taxFormLogic'
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
@@ -48,7 +48,7 @@ export default function DeclarationSimplifieeClient() {
     doc.text('Rapport Fiscal Estimatif 2026', 105, 20, { align: 'center' })
     doc.setFontSize(12)
     doc.setTextColor(100, 100, 100)
-    doc.text('QuebecCalculators', 105, 28, { align: 'center' })
+    doc.text('QCFinance.ca', 105, 28, { align: 'center' })
     
     doc.setFontSize(10)
     const today = new Date().toLocaleDateString('fr-CA', { 
@@ -143,7 +143,7 @@ export default function DeclarationSimplifieeClient() {
     doc.text('Il ne remplace pas une déclaration officielle.', 105, disclaimerY + 5, { align: 'center' })
     
     doc.setFontSize(8)
-    doc.text('Généré par QuebecCalculators.ca', 105, 285, { align: 'center' })
+    doc.text('Généré par QCFinance.ca', 105, 285, { align: 'center' })
     
     doc.save('rapport-fiscal-2026.pdf')
   }
@@ -355,13 +355,7 @@ export default function DeclarationSimplifieeClient() {
                     </div>
 
                     {/* Affiliate Card */}
-                    <AffiliateCard
-                      title="Maximisez votre remboursement avec TurboImpôt"
-                      description="Produisez votre déclaration en ligne avec TurboImpôt et obtenez votre remboursement jusqu'à 8 jours plus vite. Interface simple, support expert inclus."
-                      buttonText="Commencer ma déclaration"
-                      link="https://turbotax.intuit.ca/personal-tax-software"
-                      theme="blue"
-                    />
+                    <AffiliateCard variant="tax" />
 
                     {/* PDF Download Button */}
                     <button

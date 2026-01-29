@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { calculateRentIncrease, RentIncreaseInputs, RentIncreaseResult, HeatingType, formatCurrency, formatPercentage } from '@/utils/rentLogic'
-import AffiliateCard from '@/components/AffiliateCard'
+import { AffiliateCard } from '@/components/AffiliateCard'
 
 export default function RentCalculator() {
   const [currentRent, setCurrentRent] = useState<string>('')
@@ -247,13 +247,7 @@ export default function RentCalculator() {
             </div>
 
             {/* Affiliate Card */}
-            <AffiliateCard
-              title="Économisez pour votre mise de fonds"
-              description="Utilisez un CELIAPP avec Wealthsimple pour épargner jusqu'à 40 000$ libre d'impôt pour l'achat de votre première maison."
-              buttonText="Ouvrir un CELIAPP"
-              link="https://wealthsimple.com/fr-ca"
-              theme="green"
-            />
+            <AffiliateCard variant="mortgage" />
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-lg p-12 text-center">

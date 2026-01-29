@@ -930,3 +930,154 @@ export function generateDaycarePDF(results: any) {
   
   doc.save(`frais-garde-${results.familyIncome}-quebec.pdf`);
 }
+
+/**
+ * Generate PDF for Compound Interest Calculator Results
+ */
+export function generateCompoundInterestPDF(results: any) {
+  const doc = new jsPDF();
+  
+  doc.setFontSize(20);
+  doc.setTextColor(16, 185, 129);
+  doc.text('Plan d\'Investissement - Intérêts Composés', 105, 20, { align: 'center' });
+  
+  doc.setFontSize(10);
+  doc.setTextColor(100, 100, 100);
+  const today = new Date().toLocaleDateString('fr-CA', { year: 'numeric', month: 'long', day: 'numeric' });
+  doc.text(`Généré le ${today}`, 105, 28, { align: 'center' });
+  
+  doc.setFillColor(16, 185, 129);
+  doc.rect(20, 35, 170, 30, 'F');
+  doc.setFontSize(14);
+  doc.setTextColor(255, 255, 255);
+  doc.text(`Valeur finale après ${results.years} ans`, 105, 43, { align: 'center' });
+  doc.setFontSize(26);
+  doc.text(formatCurrency(results.finalAmount), 105, 58, { align: 'center' });
+  
+  doc.setFontSize(12);
+  doc.setTextColor(0, 0, 0);
+  doc.text('Paramètres d\'investissement', 20, 78);
+  
+  autoTable(doc, {
+    startY: 82,
+    head: [['Paramètre', 'Valeur']],
+    body: [
+      ['Dépôt initial', formatCurrency(results.initialDeposit)],
+      ['Contribution mensuelle', formatCurrency(results.monthlyContribution)],
+      ['Durée', `${results.years} ans`],
+      ['Taux de rendement', `${results.interestRate.toFixed(1)}%`],
+    ],
+    theme: 'striped',
+    headStyles: { fillColor: [16, 185, 129], textColor: 255 },
+    styles: { fontSize: 11 },
+    columnStyles: { 0: { cellWidth: 100 }, 1: { cellWidth: 70, halign: 'right' } }
+  });
+  
+  const finalY1 = (doc as any).lastAutoTable.finalY + 10;
+  doc.text('Résumé financier', 20, finalY1);
+  
+  autoTable(doc, {
+    startY: finalY1 + 4,
+    body: [
+      ['Total investi', formatCurrency(results.totalContributions)],
+      ['Intérêts gagnés', formatCurrency(results.totalInterest)],
+      ['Valeur finale', formatCurrency(results.finalAmount)],
+      ['Gain en %', `${((results.totalInterest / results.totalContributions) * 100).toFixed(0)}%`],
+    ],
+    theme: 'plain',
+    styles: { fontSize: 11, fillColor: [243, 244, 246] },
+    columnStyles: { 0: { cellWidth: 100 }, 1: { cellWidth: 70, halign: 'right', fontStyle: 'bold' } }
+  });
+  
+  const finalY2 = (doc as any).lastAutoTable.finalY + 10;
+  doc.setFillColor(220, 252, 231);
+  doc.rect(20, finalY2, 170, 20, 'F');
+  doc.setFontSize(11);
+  doc.setTextColor(22, 101, 52);
+  doc.text('💰 Le pouvoir des intérêts composés:', 25, finalY2 + 8);
+  doc.setFontSize(10);
+  const gainPercent = ((results.totalInterest / results.totalContributions) * 100).toFixed(0);
+  doc.text(`Vous gagnerez ${gainPercent}% de plus que ce que vous avez investi!`, 25, finalY2 + 15);
+  
+  doc.setFontSize(9);
+  doc.setTextColor(150, 150, 150);
+  doc.text('Calculé avec CalculQuebec.ca', 105, 280, { align: 'center' });
+  
+  doc.save(`interets-composes-${results.years}ans-quebec.pdf`);
+}
+
+/**
+ * Generate PDF for Rent vs Buy Calculator Results
+ */
+export function generateRentVsBuyPDF(results: any) {
+  const doc = new jsPDF();
+  
+  doc.setFontSize(20);
+  doc.setTextColor(37, 99, 235);
+  doc.text('Louer vs Acheter - Analyse Comparative', 105, 20, { align: 'center' });
+  
+  doc.setFontSize(10);
+  doc.setTextColor(100, 100, 100);
+  const today = new Date().toLocaleDateString('fr-CA', { year: 'numeric', month: 'long', day: 'numeric' });
+  doc.text(`Généré le ${today}`, 105, 28, { align: 'center' });
+  
+  const isBuyingBetter = results.buyingNetWorth > results.rentingNetWorth;
+  const color: [number, number, number] = isBuyingBetter ? [16, 185, 129] : [37, 99, 235];
+  
+  doc.setFillColor(color[0], color[1], color[2]);
+  doc.rect(20, 35, 170, 28, 'F');
+  doc.setFontSize(14);
+  doc.setTextColor(255, 255, 255);
+  doc.text('Meilleure option après 25 ans', 105, 43, { align: 'center' });
+  doc.setFontSize(24);
+  doc.text(isBuyingBetter ? 'ACHETER' : 'LOUER', 105, 56, { align: 'center' });
+  
+  doc.setFontSize(12);
+  doc.setTextColor(0, 0, 0);
+  doc.text('Paramètres de comparaison', 20, 76);
+  
+  autoTable(doc, {
+    startY: 80,
+    head: [['Paramètre', 'Valeur']],
+    body: [
+      ['Prix de la maison', formatCurrency(results.homePrice)],
+      ['Loyer mensuel', formatCurrency(results.monthlyRent)],
+      ['Mise de fonds', `${results.downPaymentPercent}%`],
+      ['Taux de rendement', `${results.investmentReturnRate.toFixed(1)}%`],
+    ],
+    theme: 'striped',
+    headStyles: { fillColor: color, textColor: 255 },
+    styles: { fontSize: 11 },
+    columnStyles: { 0: { cellWidth: 100 }, 1: { cellWidth: 70, halign: 'right' } }
+  });
+  
+  const finalY1 = (doc as any).lastAutoTable.finalY + 10;
+  doc.text('Résultats après 25 ans', 20, finalY1);
+  
+  autoTable(doc, {
+    startY: finalY1 + 4,
+    body: [
+      ['Valeur nette (Acheter)', formatCurrency(results.buyingNetWorth)],
+      ['Valeur nette (Louer)', formatCurrency(results.rentingNetWorth)],
+      ['Différence', formatCurrency(Math.abs(results.buyingNetWorth - results.rentingNetWorth))],
+    ],
+    theme: 'plain',
+    styles: { fontSize: 11, fillColor: [243, 244, 246] },
+    columnStyles: { 0: { cellWidth: 100 }, 1: { cellWidth: 70, halign: 'right', fontStyle: 'bold' } }
+  });
+  
+  const finalY2 = (doc as any).lastAutoTable.finalY + 10;
+  const bgColor: [number, number, number] = isBuyingBetter ? [220, 252, 231] : [219, 234, 254];
+  doc.setFillColor(bgColor[0], bgColor[1], bgColor[2]);
+  doc.rect(20, finalY2, 170, 20, 'F');
+  doc.setFontSize(11);
+  doc.setTextColor(isBuyingBetter ? 22 : 30, isBuyingBetter ? 101 : 64, isBuyingBetter ? 52 : 175);
+  const advantage = formatCurrency(Math.abs(results.buyingNetWorth - results.rentingNetWorth));
+  doc.text(`${isBuyingBetter ? '🏠' : '🏢'} Avantage de ${advantage} en ${isBuyingBetter ? 'achetant' : 'louant'}`, 25, finalY2 + 12);
+  
+  doc.setFontSize(9);
+  doc.setTextColor(150, 150, 150);
+  doc.text('Calculé avec CalculQuebec.ca', 105, 280, { align: 'center' });
+  
+  doc.save(`louer-vs-acheter-${results.homePrice}-quebec.pdf`);
+}
