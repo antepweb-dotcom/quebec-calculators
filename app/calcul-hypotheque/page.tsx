@@ -4,6 +4,7 @@ import Breadcrumb from '@/components/Breadcrumb'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
 import { Home, TrendingUp, DollarSign } from 'lucide-react'
 import DataSource from '@/components/ui/DataSource'
+import LastUpdatedBadge from '@/components/ui/LastUpdatedBadge'
 
 export const metadata: Metadata = {
   title: 'Calculateur Hypothèque Québec 2026 | Paiement Mensuel',
@@ -24,9 +25,12 @@ export default function MortgagePage() {
           ]} 
         />
         <header className="text-center mb-12">
-          <span className="bg-indigo-100 text-indigo-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
-            🏠 Achat Immobilier
-          </span>
+          <div className="flex items-center justify-center gap-3 mb-4 flex-wrap">
+            <span className="bg-indigo-100 text-indigo-800 rounded-full px-3 py-1 text-sm font-semibold inline-block">
+              🏠 Achat Immobilier
+            </span>
+            <LastUpdatedBadge />
+          </div>
           <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
             Planifiez Votre Hypothèque Intelligemment
           </h1>
@@ -241,11 +245,7 @@ export default function MortgagePage() {
 
         {/* Data Source */}
         <div className="mt-8">
-          <DataSource 
-            label="Banque du Canada - Taux directeurs actuels" 
-            url="https://www.banqueducanada.ca/taux/" 
-            lastUpdate="En temps réel" 
-          />
+          <DataSource source="bankOfCanada" />
         </div>
       </div>
     </main>

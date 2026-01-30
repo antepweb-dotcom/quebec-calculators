@@ -5,6 +5,7 @@ import { calculateTaxes, convertToAnnual, PayFrequency, TaxCalculationResult, fo
 import { generateSalaryPDF } from '@/utils/pdfGenerator'
 import DonutChart from './DonutChart'
 import { useCalculatorTracking, useButtonTracking } from '@/hooks/useDebouncedAnalytics'
+import { AffiliateCard } from '@/components/AffiliateCard'
 
 interface TaxCalculatorProps {
   initialSalary?: number
@@ -180,15 +181,15 @@ export default function TaxCalculator({ initialSalary }: TaxCalculatorProps) {
           </div>
         </div>
 
-        {/* Popular Salaries - Horizontal Scrollable Pills */}
+        {/* Popular Salaries */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
           <h3 className="text-sm font-semibold text-gray-700 mb-3">Salaires populaires</h3>
-          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+          <div className="grid grid-cols-2 gap-2">
             {POPULAR_SALARIES.map((salary) => (
               <button
                 key={salary.value}
                 onClick={() => handlePopularSalary(salary.value)}
-                className="flex-shrink-0 px-4 py-2 bg-gray-100 hover:bg-emerald-100 hover:text-emerald-700 text-gray-700 rounded-full text-sm font-medium transition-colors"
+                className="px-3 py-2 bg-gray-100 hover:bg-blue-100 hover:text-blue-700 text-gray-700 rounded-lg text-sm font-medium transition-colors"
               >
                 {salary.label}
               </button>
@@ -238,22 +239,84 @@ export default function TaxCalculator({ initialSalary }: TaxCalculatorProps) {
                   </div>
                 </div>
 
-                {/* Integrated Donut Chart */}
-                <div className="border-t border-gray-100 pt-6 mb-6">
-                  <h3 className="text-base font-semibold text-gray-900 mb-3">Répartition de votre revenu</h3>
-                  <DonutChart 
-                    netIncome={results.netIncome}
-                    totalTax={results.totalDeductions}
-                  />
+                {/* Responsive Layout: Chart + Breakdown */}
+                <div className="border-t border-gray-100 pt-6">
+                  <h3 className="text-base font-semibold text-gray-900 mb-4">Répartition de votre revenu</h3>
+                  
+                  {/* Desktop: Side by Side | Mobile: Stacked */}
+                  <div className="flex flex-col lg:flex-row gap-6 items-start">
+                    {/* Chart - Above on mobile, Right on desktop */}
+                    <div className="w-full lg:w-1/2 order-1 lg:order-2">
+                      <DonutChart 
+                        netIncome={results.netIncome}
+                        federalTax={results.federalTax}
+                        provincialTax={results.provincialTax}
+                        qpp={results.qpp}
+                        qpip={results.qpip}
+                        ei={results.ei}
+                      />
+                    </div>
+
+                    {/* Breakdown Cards - Below on mobile, Left on desktop */}
+                    <div className="w-full lg:w-1/2 space-y-3 order-2 lg:order-1">
+                      <div className="bg-emerald-50 rounded-lg p-4 border-l-4 border-emerald-500">
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm font-medium text-gray-700">Revenu Net</span>
+                          <span className="text-lg font-bold text-emerald-600">
+                            {formatCurrency(results.netIncome)}
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-600 mt-1">
+                          {((results.netIncome / results.grossIncome) * 100).toFixed(1)}% du brut
+                        </p>
+                      </div>
+
+                      <div className="bg-blue-50 rounded-lg p-4 border-l-4 border-blue-500">
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm font-medium text-gray-700">Impôt Provincial</span>
+                          <span className="text-lg font-bold text-blue-600">
+                            {formatCurrency(results.provincialTax)}
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-600 mt-1">
+                          {((results.provincialTax / results.grossIncome) * 100).toFixed(1)}% du brut
+                        </p>
+                      </div>
+
+                      <div className="bg-indigo-50 rounded-lg p-4 border-l-4 border-indigo-500">
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm font-medium text-gray-700">Impôt Fédéral</span>
+                          <span className="text-lg font-bold text-indigo-600">
+                            {formatCurrency(results.federalTax)}
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-600 mt-1">
+                          {((results.federalTax / results.grossIncome) * 100).toFixed(1)}% du brut
+                        </p>
+                      </div>
+
+                      <div className="bg-slate-50 rounded-lg p-4 border-l-4 border-slate-500">
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm font-medium text-gray-700">RRQ/RQAP/AE</span>
+                          <span className="text-lg font-bold text-slate-600">
+                            {formatCurrency(results.qpp + results.qpip + results.ei)}
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-600 mt-1">
+                          {(((results.qpp + results.qpip + results.ei) / results.grossIncome) * 100).toFixed(1)}% du brut
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Collapsible Breakdown Accordion */}
-                <div className="border-t border-gray-100 pt-4">
+                {/* Collapsible Detailed Breakdown Accordion */}
+                <div className="border-t border-gray-100 pt-4 mt-6">
                   <button
                     onClick={() => setShowBreakdown(!showBreakdown)}
                     className="w-full flex items-center justify-between text-left py-2"
                   >
-                    <span className="text-base font-semibold text-gray-900">Détails des déductions</span>
+                    <span className="text-base font-semibold text-gray-900">Détails complets des déductions</span>
                     <svg 
                       className={`w-5 h-5 text-gray-600 transition-transform ${showBreakdown ? 'rotate-180' : ''}`}
                       fill="none" 
@@ -284,6 +347,9 @@ export default function TaxCalculator({ initialSalary }: TaxCalculatorProps) {
                   )}
                 </div>
               </div>
+
+              {/* Affiliate Card - Tax Context */}
+              <AffiliateCard variant="tax" />
             </div>
           ) : (
             <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-12 text-center">

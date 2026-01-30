@@ -452,7 +452,7 @@ export default function SalarySEOContent({ salary, results }: SalarySEOContentPr
               Découvrez comment votre situation fiscale évolue avec différents niveaux de revenu au Québec :
             </p>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 gap-3">
               {[40000, 50000, 60000, 70000, 80000, 90000, 100000, 120000]
                 .filter(s => s !== salary)
                 .slice(0, 8)
@@ -460,12 +460,9 @@ export default function SalarySEOContent({ salary, results }: SalarySEOContentPr
                   <a
                     key={amount}
                     href={`/salaire-net-quebec/${amount}`}
-                    className="block bg-white hover:bg-emerald-50 border border-gray-200 hover:border-emerald-300 rounded-lg p-4 text-center transition-all group"
+                    className="block bg-gray-100 hover:bg-blue-100 hover:text-blue-700 text-gray-700 rounded-lg px-3 py-2 text-sm font-medium transition-colors text-center"
                   >
-                    <p className="text-sm text-gray-600 mb-1">Salaire</p>
-                    <p className="text-lg font-bold text-gray-900 group-hover:text-emerald-700">
-                      {formatCurrency(amount)}
-                    </p>
+                    {formatCurrency(amount)}
                   </a>
                 ))}
             </div>

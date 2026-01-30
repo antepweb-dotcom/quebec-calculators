@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import LastUpdatedBadge from '@/components/ui/LastUpdatedBadge'
 
 export default function SalaryLandingClient() {
   const [salary, setSalary] = useState<string>('')
@@ -33,9 +34,12 @@ export default function SalaryLandingClient() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero Title Area */}
         <div className="mb-10 text-center lg:text-left">
-          <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
-            ✨ Mis à jour pour 2026
-          </span>
+          <div className="flex items-center justify-center lg:justify-start gap-3 mb-4 flex-wrap">
+            <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block">
+              ✨ Mis à jour pour 2026
+            </span>
+            <LastUpdatedBadge />
+          </div>
           <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight">
             Estimez Votre Revenu Net Réel
           </h1>

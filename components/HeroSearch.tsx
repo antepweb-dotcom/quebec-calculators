@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react';
+import { Search, Command } from 'lucide-react';
 
 const tools = [
   { name: 'Salaire Net Québec', href: '/salaire-net-quebec', keywords: ['salaire', 'net', 'impot', 'revenu', 'paie'] },
@@ -107,17 +108,16 @@ export default function HeroSearch() {
   return (
     <div className="mb-8 max-w-2xl mx-auto lg:mx-0">
       <div className="relative z-[99999]">
-        <svg className="absolute left-5 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
+        <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
         <input 
           type="text" 
           id="hero-search"
           placeholder="Rechercher un outil (ex: salaire, hypothèque, impôt)..." 
           className="w-full pl-14 pr-20 py-4 text-base bg-slate-900/80 backdrop-blur-sm border-2 border-slate-700/50 rounded-full focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/20 focus:outline-none transition-all shadow-lg hover:shadow-xl hover:border-slate-600 text-white placeholder:text-slate-400 relative z-[99999]"
         />
-        <div className="absolute right-5 top-1/2 -translate-y-1/2 text-xs text-slate-500 font-medium hidden sm:block pointer-events-none">
-          ⌘K
+        <div className="absolute right-5 top-1/2 -translate-y-1/2 flex items-center gap-1 text-xs text-slate-500 font-medium hidden sm:flex pointer-events-none">
+          <Command className="w-3 h-3" />
+          <span>K</span>
         </div>
 
         <div id="hero-search-results" className="hidden absolute left-0 right-0 top-full mt-3 bg-slate-900/95 backdrop-blur-sm rounded-2xl shadow-2xl border border-slate-700/50 overflow-hidden max-h-[400px] overflow-y-auto z-[99999]">

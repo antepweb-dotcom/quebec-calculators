@@ -1,13 +1,22 @@
 import Link from 'next/link'
 import { Building2, ExternalLink } from 'lucide-react'
+import { siteConfig } from '@/lib/siteConfig'
 
 interface DataSourceProps {
-  label: string; // e.g. "Revenu Québec - Grilles de calcul 2026"
-  url: string;   // e.g. "https://www.revenuquebec.ca/..."
-  lastUpdate?: string; // e.g. "Janvier 2026"
+  source?: 'revenuQuebec' | 'bankOfCanada' | 'statisticsCanada' // Predefined sources
+  label?: string; // Custom label (overrides predefined)
+  url?: string;   // Custom URL (overrides predefined)
+  lastUpdate?: string; // Custom date (overrides predefined)
 }
 
-export default function DataSource({ label, url, lastUpdate }: DataSourceProps) {
+export default function DataSource({ source, label, url, lastUpdate }: DataSourceProps) {
+  // Use predefined source if provided, otherwise use custom values
+  const sourceData = source ? siteConfig.dataSources[source] : null
+  
+  const displayLabel = label || sourceData?.label || 'Source de données'
+  const displayUrl = url || sourceData?.url || '#'
+  const displayUpdate = lastUpdate || sourceData?.lastUpdate
+
   return (
     <div className="mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 py-3 px-4 bg-slate-50 border border-slate-100 rounded-lg text-xs">
       {/* Left: The Source Link */}
@@ -20,22 +29,22 @@ export default function DataSource({ label, url, lastUpdate }: DataSourceProps) 
             Source Officielle
           </span>
           <Link 
-            href={url} 
+            href={displayUrl} 
             target="_blank" 
             rel="noopener noreferrer" 
             className="flex items-center gap-1 font-semibold text-slate-700 hover:text-emerald-600 hover:underline transition-colors"
           >
-            {label}
+            {displayLabel}
             <ExternalLink className="w-3 h-3" />
           </Link>
         </div>
       </div>
 
       {/* Right: Last Update Badge */}
-      {lastUpdate && (
+      {displayUpdate && (
         <div className="flex items-center gap-1.5 px-2 py-1 bg-emerald-50 text-emerald-700 rounded-md border border-emerald-100">
           <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="font-semibold">Données: {lastUpdate}</span>
+          <span className="font-semibold">Données: {displayUpdate}</span>
         </div>
       )}
     </div>
