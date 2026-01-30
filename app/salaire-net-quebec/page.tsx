@@ -1,11 +1,12 @@
 import { Metadata } from 'next'
-import TaxCalculator from '@/components/TaxCalculator'
+import LuxurySalaryCalculator from '@/components/LuxurySalaryCalculator'
+import EmptyStatePreview from '@/components/ui/EmptyStatePreview'
 import DataSource from '@/components/ui/DataSource'
 import SalaryLinkGrid from '@/components/calculators/SalaryLinkGrid'
 
 export const metadata: Metadata = {
-  title: "Calcul Impôt Québec 2026 | Salaire Net après Impôts - Gratuit",
-  description: "Calculateur d'impôt Québec 2026 : Calculez votre salaire net après impôts fédéral et provincial. Taux officiels 2026, RRQ, RQAP, AE inclus. Résultat instantané et précis.",
+  title: "Calculateur Impôt Québec 2026 | Salaire Net Gratuit",
+  description: "💰 Calculez votre salaire net au Québec en 2026. Impôts fédéral et provincial, RRQ, RQAP, AE. Résultat instantané avec répartition détaillée et pouvoir d'achat.",
   keywords: [
     'calcul impôt québec',
     'calcul impôt québec 2026',
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
 
 export default function SalaryLandingPage() {
   return (
-    <>
+    <div className="min-h-screen bg-slate-50 selection:bg-emerald-100">
       {/* JSON-LD Structured Data for SEO */}
       <script
         type="application/ld+json"
@@ -63,87 +64,145 @@ export default function SalaryLandingPage() {
         }}
       />
 
-      {/* Hero Section - Premium Fintech Style */}
-      <div className="relative bg-gradient-to-br from-slate-50 via-white to-emerald-50 border-b border-slate-100">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-          <div className="text-center space-y-3">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-100 text-emerald-800 rounded-full text-sm font-semibold">
-              <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
-              Taux 2026 à jour
-            </div>
-
-            {/* H1 Title */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight">
-              Calculateur Salaire Net<br />
-              <span className="text-emerald-600">Québec 2026</span>
-            </h1>
-
-            {/* Subtitle */}
-            <p className="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto">
-              Calculez instantanément votre revenu net après impôts fédéral et provincial, RRQ, RQAP et assurance-emploi
-            </p>
+      {/* 1. Immersive Header Background */}
+      <div className="bg-slate-900 text-white pb-32 pt-20 px-4 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-emerald-900/20 to-transparent" />
+        <div className="container mx-auto max-w-6xl relative z-10 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-emerald-300 text-sm font-medium mb-6">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+            </svg>
+            Données Fiscales 2026
           </div>
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
+            Calculateur d'Impôt <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">Québec 2026</span>
+          </h1>
+          <p className="text-slate-300 text-lg max-w-2xl mx-auto">
+            Calculez instantanément votre salaire net après impôts, RRQ, RQAP et découvrez votre véritable pouvoir d'achat.
+          </p>
         </div>
       </div>
 
-      {/* Calculator Section */}
-      <div className="bg-white py-6">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <TaxCalculator />
+      {/* 2. Main Content Floating Over Header */}
+      <div className="container mx-auto max-w-6xl px-4 -mt-20 pb-20">
+        <div className="grid lg:grid-cols-12 gap-8">
+          {/* LEFT: Detailed Calculator (8 cols) */}
+          <div className="lg:col-span-8 space-y-6">
+            {/* Luxury Calculator with empty initial state */}
+            <LuxurySalaryCalculator initialIncome={0} />
+
+            {/* SEO Content Block */}
+            <div className="prose prose-slate max-w-none bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+              <h2 className="text-3xl font-bold text-slate-900 mb-4">
+                Comment calculer votre salaire net au Québec?
+              </h2>
+              <p className="text-lg text-slate-700 leading-relaxed">
+                Le calcul du salaire net au Québec implique plusieurs déductions obligatoires qui sont automatiquement retenues par votre employeur. 
+                Notre calculateur intègre tous les taux officiels 2026 pour vous donner une estimation précise et instantanée.
+              </p>
+            </div>
+          </div>
+
+          {/* RIGHT: Sticky Empty State (4 cols) */}
+          <div className="lg:col-span-4">
+            <div className="sticky top-8">
+              <EmptyStatePreview />
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Trust Badge - Data Source */}
       <div className="bg-white py-4 border-t border-slate-100">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4">
           <DataSource source="revenuQuebec" />
+        </div>
+      </div>
+
+      {/* Key Metrics Info Cards */}
+      <div className="bg-slate-50 py-6 border-y border-slate-100">
+        <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-2xl font-bold text-slate-900 mb-4 text-center">
+            Les déductions sur votre paie
+          </h2>
+          
+          <div className="grid md:grid-cols-4 gap-4">
+            {/* Federal Tax Card */}
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow">
+              <div className="flex items-start justify-between mb-3">
+                <div className="p-2 bg-red-50 rounded-lg">
+                  <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="text-sm font-semibold text-slate-700 mb-1">
+                Impôt Fédéral
+              </div>
+              <p className="text-xs text-slate-500">
+                15% à 33% selon revenu
+              </p>
+            </div>
+
+            {/* Provincial Tax Card */}
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow">
+              <div className="flex items-start justify-between mb-3">
+                <div className="p-2 bg-blue-50 rounded-lg">
+                  <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+                  </svg>
+                </div>
+              </div>
+              <div className="text-sm font-semibold text-slate-700 mb-1">
+                Impôt Provincial
+              </div>
+              <p className="text-xs text-slate-500">
+                14% à 25,75% au Québec
+              </p>
+            </div>
+
+            {/* RRQ Card */}
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow">
+              <div className="flex items-start justify-between mb-3">
+                <div className="p-2 bg-amber-50 rounded-lg">
+                  <svg className="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="text-sm font-semibold text-slate-700 mb-1">
+                RRQ
+              </div>
+              <p className="text-xs text-slate-500">
+                6,4% jusqu'à 68 500$
+              </p>
+            </div>
+
+            {/* RQAP + AE Card */}
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow">
+              <div className="flex items-start justify-between mb-3">
+                <div className="p-2 bg-purple-50 rounded-lg">
+                  <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="text-sm font-semibold text-slate-700 mb-1">
+                RQAP + AE
+              </div>
+              <p className="text-xs text-slate-500">
+                0,494% + 1,63%
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* SEO Content Section */}
       <div className="bg-white py-6 border-t border-slate-100">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4">
           <article className="prose prose-slate max-w-none">
-            <h2 className="text-3xl font-bold text-slate-900 mb-3">
-              Comment calculer votre salaire net au Québec?
-            </h2>
-            <p className="text-lg text-slate-700 leading-relaxed mb-6">
-              Le calcul du salaire net au Québec implique plusieurs déductions obligatoires qui sont automatiquement retenues par votre employeur. 
-              Notre calculateur intègre tous les taux officiels 2026 pour vous donner une estimation précise et instantanée.
-            </p>
-
-            <h2 className="text-3xl font-bold text-slate-900 mb-3">
-              Les déductions sur votre paie
-            </h2>
-            <p className="text-slate-700 mb-4">
-              Votre salaire brut est réduit par plusieurs types de déductions avant d'arriver dans votre compte bancaire:
-            </p>
-
-            {/* Deductions Cards */}
-            <div className="grid sm:grid-cols-2 gap-4 my-6 not-prose">
-              <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
-                <h3 className="font-bold text-slate-900 mb-1 text-base">Impôt Fédéral</h3>
-                <p className="text-sm text-slate-700">Taux progressifs de 15% à 33% selon votre revenu</p>
-              </div>
-
-              <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
-                <h3 className="font-bold text-slate-900 mb-1 text-base">Impôt Provincial</h3>
-                <p className="text-sm text-slate-700">Taux progressifs de 14% à 25,75% au Québec</p>
-              </div>
-
-              <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
-                <h3 className="font-bold text-slate-900 mb-1 text-base">RRQ (Régime de rentes)</h3>
-                <p className="text-sm text-slate-700">6,4% jusqu'à 68 500$ en 2026</p>
-              </div>
-
-              <div className="bg-purple-50 border-l-4 border-purple-500 p-4 rounded-r-lg">
-                <h3 className="font-bold text-slate-900 mb-1 text-base">RQAP + AE</h3>
-                <p className="text-sm text-slate-700">0,494% (RQAP) + 1,63% (AE) du salaire brut</p>
-              </div>
-            </div>
-
-            <h2 className="text-3xl font-bold text-slate-900 mb-3 mt-8">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">
               Optimisez votre revenu net
             </h2>
             <p className="text-slate-700 mb-4">
@@ -215,7 +274,7 @@ export default function SalaryLandingPage() {
 
       {/* FAQ Section */}
       <div className="bg-white py-6 border-t border-slate-100">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-slate-900 mb-4">
             Questions fréquentes
           </h2>
@@ -315,25 +374,20 @@ export default function SalaryLandingPage() {
 
       {/* Cross-Sell CTA - Mortgage Calculator */}
       <div className="bg-white py-8 border-t border-slate-100">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-3xl p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-lg border border-indigo-100">
             {/* Left: Icon + Text */}
-            <div className="flex items-center gap-4 sm:gap-6">
-              {/* Icon */}
-              <div className="flex-shrink-0">
-                <div className="w-14 h-14 sm:w-16 sm:h-16 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                  <svg className="w-7 h-7 sm:w-8 sm:h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                  </svg>
-                </div>
+            <div className="flex items-center gap-6">
+              <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-sm">
+                <svg className="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
               </div>
-
-              {/* Text */}
               <div>
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-1">
+                <h3 className="text-2xl font-bold text-slate-900 mb-1">
                   Combien pouvez-vous emprunter ?
                 </h3>
-                <p className="text-slate-600 text-sm sm:text-base">
+                <p className="text-slate-600 text-base">
                   Maintenant que vous connaissez votre salaire net, découvrez votre capacité d'emprunt pour une maison.
                 </p>
               </div>
@@ -346,7 +400,7 @@ export default function SalaryLandingPage() {
                 className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-colors group whitespace-nowrap"
               >
                 <span>Calculer mon hypothèque</span>
-                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </a>
@@ -357,10 +411,10 @@ export default function SalaryLandingPage() {
 
       {/* Internal Links Grid */}
       <div className="bg-slate-50 py-6 border-t border-slate-200">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4">
           <SalaryLinkGrid />
         </div>
       </div>
-    </>
+    </div>
   )
 }
