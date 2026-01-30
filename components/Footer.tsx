@@ -60,9 +60,11 @@ export default function Footer() {
             <ul className="space-y-4">
               <FooterLink href="/salaire-net-quebec" icon={<DollarSign className="w-4 h-4" />} text="Impôt Net" />
               <FooterLink href="/calcul-hypotheque" icon={<Home className="w-4 h-4" />} text="Hypothèque" />
+              <FooterLink href="/frais-de-garde" icon={<Baby className="w-4 h-4" />} text="Frais de Garde" />
               <FooterLink href="/pret-auto" icon={<CreditCard className="w-4 h-4" />} text="Prêt Auto" />
-              <FooterLink href="/allocations-familiales" icon={<Baby className="w-4 h-4" />} text="Allocations" />
+              <FooterLink href="/declaration-simplifiee" icon={<FileText className="w-4 h-4" />} text="Déclaration" />
               <FooterLink href="/louer-ou-acheter" icon={<Building2 className="w-4 h-4" />} text="Louer vs Acheter" />
+              <FooterLink href="/allocations-familiales" icon={<Baby className="w-4 h-4" />} text="Allocations" />
             </ul>
           </div>
 

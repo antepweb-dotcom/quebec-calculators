@@ -18,8 +18,10 @@ import {
 interface NavItem {
   name: string
   href: string
-  badge?: string // New: For "2026" or "New" tags
-  badgeColor?: string // Optional color override
+  badge?: string
+  badgeColor?: string
+  isFlagship?: boolean // Highlight flagship tools
+  groupLabel?: string // For sub-grouping within categories
 }
 
 interface NavCategory {
@@ -28,39 +30,80 @@ interface NavCategory {
   items: NavItem[]
 }
 
-// Data Structure with Badges
+// NEW STRUCTURE: 3 Pillars Based on User Intent
 const NAV_ITEMS: NavCategory[] = [
   {
-    title: 'Impôts & Salaire',
+    title: 'Impôts & Revenus',
     icon: <Calculator className="w-5 h-5 text-emerald-600" />,
     items: [
-      { name: 'Salaire Net Québec', href: '/salaire-net-quebec', badge: '2026', badgeColor: 'bg-emerald-100 text-emerald-700' },
-      { name: 'Déclaration Simplifiée', href: '/declaration-simplifiee', badge: 'Nouveau', badgeColor: 'bg-blue-100 text-blue-700' },
+      { 
+        name: 'Salaire Net Québec', 
+        href: '/salaire-net-quebec', 
+        badge: '2026', 
+        badgeColor: 'bg-emerald-100 text-emerald-700',
+        isFlagship: true
+      },
+      { 
+        name: 'Déclaration Simplifiée', 
+        href: '/declaration-simplifiee', 
+        badge: 'NOUVEAU', 
+        badgeColor: 'bg-blue-100 text-blue-700' 
+      },
       { name: 'Taux Horaire', href: '/taux-horaire' },
-      { name: 'TPS/TVQ', href: '/tps-tvq-quebec' },
+      { name: 'Paie de Vacances', href: '/paie-vacances' },
       { name: 'Assurance-Emploi', href: '/assurance-emploi' },
+      { name: 'TPS/TVQ', href: '/tps-tvq-quebec' },
     ]
   },
   {
     title: 'Immobilier',
     icon: <Home className="w-5 h-5 text-blue-600" />,
     items: [
-      { name: 'Calcul Hypothécaire', href: '/calcul-hypotheque', badge: 'Populaire', badgeColor: 'bg-amber-100 text-amber-700' },
+      { 
+        name: 'Calcul Hypothécaire', 
+        href: '/calcul-hypotheque', 
+        badge: 'POPULAIRE', 
+        badgeColor: 'bg-amber-100 text-amber-700',
+        isFlagship: true
+      },
       { name: 'Capacité d\'Emprunt', href: '/capacite-emprunt' },
-      { name: 'Louer ou Acheter?', href: '/louer-ou-acheter' },
       { name: 'Taxe de Bienvenue', href: '/taxe-de-bienvenue' },
-      { name: 'Augmentation Loyer', href: '/augmentation-loyer-2026', badge: 'TAL 2026', badgeColor: 'bg-red-100 text-red-700' },
+      { 
+        name: 'Augmentation de Loyer', 
+        href: '/augmentation-loyer-2026', 
+        badge: 'TAL 2026', 
+        badgeColor: 'bg-red-100 text-red-700' 
+      },
+      { name: 'Louer ou Acheter?', href: '/louer-ou-acheter' },
     ]
   },
   {
-    title: 'Famille & Finances',
+    title: 'Vie & Finances',
     icon: <Users className="w-5 h-5 text-purple-600" />,
     items: [
-      { name: 'Frais de Garde', href: '/frais-de-garde', badge: 'Subventions', badgeColor: 'bg-pink-100 text-pink-700' },
-      { name: 'Allocations Familiales', href: '/allocations-familiales' },
-      { name: 'Épargne-Retraite', href: '/epargne-retraite' },
-      { name: 'Intérêts Composés', href: '/interets-composes' },
-      { name: 'Prêt Auto', href: '/pret-auto' },
+      // Group: Véhicules (High Priority)
+      { name: 'Prêt Auto', href: '/pret-auto', groupLabel: 'Véhicules' },
+      { 
+        name: 'Auto Électrique vs Essence', 
+        href: '/auto-electrique-vs-essence', 
+        badge: 'ÉCO', 
+        badgeColor: 'bg-green-100 text-green-700',
+        groupLabel: 'Véhicules'
+      },
+      // Group: Famille
+      { 
+        name: 'Frais de Garde', 
+        href: '/frais-de-garde', 
+        badge: 'SUBVENTIONS', 
+        badgeColor: 'bg-pink-100 text-pink-700',
+        groupLabel: 'Famille'
+      },
+      { name: 'Allocations Familiales', href: '/allocations-familiales', groupLabel: 'Famille' },
+      { name: 'Prêt Étudiant', href: '/pret-etudiant', groupLabel: 'Famille' },
+      // Group: Futur & Dettes
+      { name: 'Épargne Retraite', href: '/epargne-retraite', groupLabel: 'Futur & Dettes' },
+      { name: 'Dettes & Crédit', href: '/dettes-credit', groupLabel: 'Futur & Dettes' },
+      { name: 'Intérêts Composés', href: '/interets-composes', groupLabel: 'Futur & Dettes' },
     ]
   },
 ]
@@ -126,7 +169,7 @@ export default function Header() {
                     }`} />
                   </button>
 
-                  {/* Dropdown Animation */}
+                  {/* Dropdown Animation - Mega Menu with Sub-Groups */}
                   <AnimatePresence>
                     {activeDropdown === index && (
                       <motion.div
@@ -141,24 +184,42 @@ export default function Header() {
                             {category.icon}
                             {category.title}
                           </div>
-                          {category.items.map((item, itemIndex) => (
-                            <Link
-                              key={itemIndex}
-                              href={item.href}
-                              className="group flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-gray-50 transition-colors"
-                            >
-                              <span className="text-sm font-medium text-gray-700 group-hover:text-emerald-700">
-                                {item.name}
-                              </span>
-                              {item.badge && (
-                                <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wide ${
-                                  item.badgeColor || 'bg-gray-100 text-gray-600'
-                                }`}>
-                                  {item.badge}
-                                </span>
-                              )}
-                            </Link>
-                          ))}
+                          {(() => {
+                            let lastGroup = ''
+                            return category.items.map((item, itemIndex) => {
+                              const showGroupLabel = item.groupLabel && item.groupLabel !== lastGroup
+                              if (item.groupLabel) lastGroup = item.groupLabel
+                              
+                              return (
+                                <div key={itemIndex}>
+                                  {showGroupLabel && (
+                                    <div className="px-3 pt-3 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                                      {item.groupLabel}
+                                    </div>
+                                  )}
+                                  <Link
+                                    href={item.href}
+                                    className={`group flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-gray-50 transition-colors ${
+                                      item.isFlagship ? 'bg-emerald-50/50 border border-emerald-100' : ''
+                                    }`}
+                                  >
+                                    <span className={`text-sm font-medium group-hover:text-emerald-700 ${
+                                      item.isFlagship ? 'text-emerald-800 font-bold' : 'text-gray-700'
+                                    }`}>
+                                      {item.name}
+                                    </span>
+                                    {item.badge && (
+                                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wide ${
+                                        item.badgeColor || 'bg-gray-100 text-gray-600'
+                                      }`}>
+                                        {item.badge}
+                                      </span>
+                                    )}
+                                  </Link>
+                                </div>
+                              )
+                            })
+                          })()}
                         </div>
                       </motion.div>
                     )}
@@ -210,7 +271,7 @@ export default function Header() {
               </button>
             </div>
 
-            {/* Mobile Content */}
+            {/* Mobile Content - Collapsible Accordion with Sub-Groups */}
             <div className="flex-1 overflow-y-auto p-4 space-y-8 pb-20">
               {NAV_ITEMS.map((category, idx) => (
                 <div key={idx} className="space-y-3">
@@ -219,23 +280,45 @@ export default function Header() {
                     {category.title}
                   </div>
                   <div className="grid grid-cols-1 gap-1">
-                    {category.items.map((item, itemIdx) => (
-                      <Link
-                        key={itemIdx}
-                        href={item.href}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="flex items-center justify-between p-3 rounded-xl bg-gray-50 hover:bg-emerald-50 active:scale-[0.98] transition-all border border-transparent hover:border-emerald-100"
-                      >
-                        <span className="font-semibold text-gray-700">{item.name}</span>
-                        {item.badge && (
-                          <span className={`text-[10px] px-2 py-1 rounded-md font-bold ${
-                            item.badgeColor || 'bg-white shadow-sm'
-                          }`}>
-                            {item.badge}
-                          </span>
-                        )}
-                      </Link>
-                    ))}
+                    {(() => {
+                      let lastGroup = ''
+                      return category.items.map((item, itemIdx) => {
+                        const showGroupLabel = item.groupLabel && item.groupLabel !== lastGroup
+                        if (item.groupLabel) lastGroup = item.groupLabel
+                        
+                        return (
+                          <div key={itemIdx}>
+                            {showGroupLabel && (
+                              <div className="px-2 pt-4 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider border-t border-gray-100 mt-2">
+                                {item.groupLabel}
+                              </div>
+                            )}
+                            <Link
+                              href={item.href}
+                              onClick={() => setIsMobileMenuOpen(false)}
+                              className={`flex items-center justify-between p-3 rounded-xl hover:bg-emerald-50 active:scale-[0.98] transition-all ${
+                                item.isFlagship 
+                                  ? 'bg-emerald-50 border border-emerald-200 shadow-sm' 
+                                  : 'bg-gray-50 border border-transparent hover:border-emerald-100'
+                              }`}
+                            >
+                              <span className={`font-semibold ${
+                                item.isFlagship ? 'text-emerald-800' : 'text-gray-700'
+                              }`}>
+                                {item.name}
+                              </span>
+                              {item.badge && (
+                                <span className={`text-[10px] px-2 py-1 rounded-md font-bold ${
+                                  item.badgeColor || 'bg-white shadow-sm'
+                                }`}>
+                                  {item.badge}
+                                </span>
+                              )}
+                            </Link>
+                          </div>
+                        )
+                      })
+                    })()}
                   </div>
                 </div>
               ))}

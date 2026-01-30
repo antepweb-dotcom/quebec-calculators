@@ -55,9 +55,6 @@ export default function Navbar() {
                     <Link href="/paie-vacances" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
                       ✈️ Paie de Vacances
                     </Link>
-                    <Link href="/pourboire" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
-                      🍽️ Pourboire
-                    </Link>
                     <Link href="/tps-tvq-quebec" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
                       🧾 TPS/TVQ
                     </Link>
@@ -92,6 +89,9 @@ export default function Navbar() {
                     <Link href="/pret-auto" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
                       🚗 Prêt Auto
                     </Link>
+                    <Link href="/auto-electrique-vs-essence" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                      ⚡ Auto Électrique
+                    </Link>
                     <Link href="/pret-etudiant" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
                       🎓 Prêt Étudiant
                     </Link>
@@ -101,8 +101,17 @@ export default function Navbar() {
                     <Link href="/frais-de-garde" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
                       👶 Frais de Garde
                     </Link>
+                    <Link href="/allocations-familiales" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                      👨‍👩‍👧 Allocations Familiales
+                    </Link>
                     <Link href="/epargne-retraite" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
                       📊 Épargne-Retraite
+                    </Link>
+                    <Link href="/interets-composes" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                      📈 Intérêts Composés
+                    </Link>
+                    <Link href="/louer-ou-acheter" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                      🏘️ Louer ou Acheter
                     </Link>
                   </div>
                 </div>
@@ -140,9 +149,6 @@ export default function Navbar() {
               <Link href="/paie-vacances" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
                 ✈️ Paie de Vacances
               </Link>
-              <Link href="/pourboire" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
-                🍽️ Pourboire
-              </Link>
               <Link href="/tps-tvq-quebec" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
                 🧾 TPS/TVQ
               </Link>
@@ -174,6 +180,9 @@ export default function Navbar() {
               <Link href="/pret-auto" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
                 🚗 Prêt Auto
               </Link>
+              <Link href="/auto-electrique-vs-essence" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                ⚡ Auto Électrique
+              </Link>
               <Link href="/pret-etudiant" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
                 🎓 Prêt Étudiant
               </Link>
@@ -183,8 +192,17 @@ export default function Navbar() {
               <Link href="/frais-de-garde" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
                 👶 Frais de Garde
               </Link>
+              <Link href="/allocations-familiales" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                👨‍👩‍👧 Allocations Familiales
+              </Link>
               <Link href="/epargne-retraite" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
                 📊 Épargne-Retraite
+              </Link>
+              <Link href="/interets-composes" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                📈 Intérêts Composés
+              </Link>
+              <Link href="/louer-ou-acheter" className="block px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors">
+                🏘️ Louer ou Acheter
               </Link>
             </div>
           </div>
