@@ -66,8 +66,6 @@ export async function updateSiteConfig(formData: FormData): Promise<{
   }
 
   // Simulate successful save (no actual persistence)
-  console.log('Config update simulated (no database):', Object.fromEntries(formData))
-
   // Revalidate root path
   revalidatePath('/', 'layout')
 
@@ -82,7 +80,6 @@ export async function trackVisit(path: string): Promise<{
   success: boolean
 }> {
   // No-op: tracking disabled without database
-  console.log('Visit tracking disabled (no database):', path)
   return { success: true }
 }
 

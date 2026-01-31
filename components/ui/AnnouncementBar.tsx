@@ -135,20 +135,6 @@ export default function AnnouncementBar() {
         </div>
       </div>
 
-      {/* Progress indicator dots */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex gap-1.5 pb-1">
-        {scenarios.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentIndex(index)}
-            className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-              index === currentIndex ? 'bg-white w-4' : 'bg-white/30 hover:bg-white/50'
-            }`}
-            aria-label={`Aller à l'annonce ${index + 1}`}
-          />
-        ))}
-      </div>
-
       <style jsx>{`
         @keyframes fade-in {
           from {

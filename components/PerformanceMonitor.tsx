@@ -13,14 +13,14 @@ export default function PerformanceMonitor() {
       const lcpObserver = new PerformanceObserver((list) => {
         const entries = list.getEntries()
         const lastEntry = entries[entries.length - 1] as any
-        console.log('LCP:', lastEntry.renderTime || lastEntry.loadTime)
+        // LCP: lastEntry.renderTime || lastEntry.loadTime
       })
       lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true })
 
       // Monitor First Input Delay (FID) / Interaction to Next Paint (INP)
       const fidObserver = new PerformanceObserver((list) => {
         list.getEntries().forEach((entry: any) => {
-          console.log('FID/INP:', entry.processingStart - entry.startTime)
+          // FID/INP: entry.processingStart - entry.startTime
         })
       })
       fidObserver.observe({ type: 'first-input', buffered: true })
@@ -31,7 +31,7 @@ export default function PerformanceMonitor() {
         list.getEntries().forEach((entry: any) => {
           if (!entry.hadRecentInput) {
             clsValue += entry.value
-            console.log('CLS:', clsValue)
+            // CLS: clsValue
           }
         })
       })

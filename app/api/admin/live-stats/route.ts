@@ -23,16 +23,9 @@ if (process.env.GA4_CREDENTIALS) {
  * Falls back to simulated data if GA4 is not configured
  */
 export async function GET() {
-  // Debug: Log environment variables
-  console.log('🔍 GA4 Debug:');
-  console.log('Property ID:', propertyId);
-  console.log('Has Credentials:', !!process.env.GA4_CREDENTIALS);
-  console.log('Client initialized:', !!analyticsDataClient);
-  
   try {
     // If GA4 is configured, fetch real data
     if (analyticsDataClient && propertyId) {
-      console.log('✅ Attempting to fetch real-time data...');
       const [realtimeResponse] = await analyticsDataClient.runRealtimeReport({
         property: `properties/${propertyId}`,
         metrics: [{ name: 'activeUsers' }],
@@ -42,7 +35,6 @@ export async function GET() {
         realtimeResponse.rows?.[0]?.metricValues?.[0]?.value || '0'
       );
 
-      console.log('✅ Real data fetched:', activeUsers);
       return NextResponse.json({
         activeUsers,
         isRealData: true,
@@ -50,7 +42,6 @@ export async function GET() {
       });
     }
 
-    console.log('⚠️ GA4 not configured, using simulated data');
     // Fallback: Simulated live data (random between 0-20)
     const simulatedActiveUsers = Math.floor(Math.random() * 20);
     
@@ -62,8 +53,6 @@ export async function GET() {
     });
 
   } catch (error) {
-    console.error('❌ Error fetching live stats:', error);
-    
     // Return simulated data on error
     return NextResponse.json({
       activeUsers: Math.floor(Math.random() * 15),
