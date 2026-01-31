@@ -29,18 +29,18 @@ export default function ContactPage() {
       <main className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
         <div className="container mx-auto px-4 py-16 max-w-7xl">
         {/* Header */}
-        <div className="mb-16 text-center">
-          <Link href="/" className="inline-flex items-center text-blue-600 font-semibold mb-6 gap-2">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="mb-12 text-center">
+          <Link href="/" className="inline-flex items-center text-blue-600 font-semibold mb-4 gap-2 text-sm">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
             Retour à l&apos;accueil
           </Link>
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-3 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
             Contactez-Nous
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Notre équipe est là pour vous accompagner dans votre expérience QCFinance
+          <p className="text-base text-gray-600 max-w-xl mx-auto">
+            Notre équipe est là pour vous accompagner
           </p>
         </div>
 
