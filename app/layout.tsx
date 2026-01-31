@@ -8,6 +8,7 @@ import GoogleAnalytics from '@/components/GoogleAnalytics'
 import GlobalWrapper from '@/components/GlobalWrapper'
 import OrganizationSchema from '@/components/OrganizationSchema'
 import AnnouncementBar from '@/components/ui/AnnouncementBar'
+import PerformanceMonitor from '@/components/PerformanceMonitor'
 
 const plusJakartaSans = Plus_Jakarta_Sans({ 
   subsets: ['latin'],
@@ -15,6 +16,8 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   variable: '--font-jakarta',
   display: 'swap',
   preload: true,
+  adjustFontFallback: true,
+  fallback: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
 })
 
 export const metadata: Metadata = {
@@ -24,9 +27,9 @@ export const metadata: Metadata = {
   },
   title: {
     template: '%s | QCFinance - Outils Financiers Québec',
-    default: 'QCFinance | Calculatrices d\'Impôt, Hypothèque et Salaire Net Québec (2026)',
+    default: 'QCFinance | Calculateurs Financiers Québec 2026',
   },
-  description: 'Le site de référence pour vos finances au Québec. Calculatrices gratuites et précises pour l\'impôt 2026, le salaire net, l\'assurance-emploi et l\'immobilier.',
+  description: 'Calculateurs financiers gratuits pour le Québec : impôt, salaire net, hypothèque, allocations familiales et plus.',
   keywords: [
     'impôt québec 2026',
     'calcul salaire net québec',
@@ -58,19 +61,23 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: '/',
+    languages: {
+      'fr-CA': '/',
+      'fr': '/',
+    },
   },
   openGraph: {
     type: 'website',
     locale: 'fr_CA',
     url: '/',
     siteName: 'QCFinance',
-    title: 'Outils Financiers Québec 2026 - Impôt, Immobilier, Auto & Famille',
-    description: 'Le site référence pour vos finances au Québec. 19 calculateurs gratuits pour impôts, hypothèque, salaire net, allocations familiales et plus.',
+    title: 'Calculateurs Financiers Québec 2026',
+    description: '19 calculateurs gratuits pour impôts, hypothèque, salaire net et allocations familiales au Québec.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Outils Financiers Québec 2026',
-    description: 'Le site référence pour vos finances au Québec. 19 calculateurs gratuits.',
+    title: 'Calculateurs Financiers Québec 2026',
+    description: '19 calculateurs gratuits pour vos finances au Québec.',
   },
   verification: {
     google: 'your-google-verification-code',
@@ -89,14 +96,21 @@ export default function RootLayout({
     <html lang="fr-CA">
       <head>
         <meta name="google-adsense-account" content="ca-pub-2733523563879283" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
         <meta name="theme-color" content="#10b981" />
+        <link rel="alternate" hrefLang="fr-CA" href="https://qcfinance.ca/" />
+        <link rel="alternate" hrefLang="fr" href="https://qcfinance.ca/" />
+        <link rel="alternate" hrefLang="x-default" href="https://qcfinance.ca/" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
         <style dangerouslySetInnerHTML={{__html: `
-          body{margin:0;padding:0;font-family:system-ui,-apple-system,sans-serif}
+          *,*::before,*::after{box-sizing:border-box}
+          body{margin:0;padding:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
           .hero-gradient{background:linear-gradient(to bottom,rgb(236 253 245 / 0.5),transparent)}
+          img{max-width:100%;height:auto}
+          button,input,select,textarea{font:inherit;min-height:44px;min-width:44px}
         `}} />
         <OrganizationSchema />
       </head>
@@ -104,6 +118,7 @@ export default function RootLayout({
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
           <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
         )}
+        <PerformanceMonitor />
         <GlobalWrapper>
           <AnnouncementBar />
           <Header />

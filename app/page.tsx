@@ -15,7 +15,10 @@ export default async function Home() {
     "areaServed": "QC",
     "sameAs": [
       "https://twitter.com/qcfinance",
-      "https://linkedin.com/company/qcfinance"
+      "https://linkedin.com/company/qcfinance",
+      "https://www.facebook.com/qcfinance",
+      "https://www.youtube.com/@qcfinance",
+      "https://www.instagram.com/qcfinance"
     ]
   };
 

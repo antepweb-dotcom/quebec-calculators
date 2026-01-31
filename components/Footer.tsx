@@ -7,6 +7,9 @@ import {
   Calculator, 
   Twitter, 
   Linkedin, 
+  Facebook,
+  Youtube,
+  Instagram,
   Heart, 
   DollarSign, 
   Home, 
@@ -51,8 +54,31 @@ export default function Footer() {
             </p>
             
             <div className="flex items-center gap-4 pt-2">
-              <SocialLink icon={<Twitter className="w-5 h-5" />} href="#" />
-              <SocialLink icon={<Linkedin className="w-5 h-5" />} href="#" />
+              <SocialLink 
+                icon={<Facebook className="w-5 h-5" />} 
+                href="https://www.facebook.com/qcfinance" 
+                label="Facebook"
+              />
+              <SocialLink 
+                icon={<Twitter className="w-5 h-5" />} 
+                href="https://twitter.com/qcfinance" 
+                label="Twitter/X"
+              />
+              <SocialLink 
+                icon={<Instagram className="w-5 h-5" />} 
+                href="https://www.instagram.com/qcfinance" 
+                label="Instagram"
+              />
+              <SocialLink 
+                icon={<Youtube className="w-5 h-5" />} 
+                href="https://www.youtube.com/@qcfinance" 
+                label="YouTube"
+              />
+              <SocialLink 
+                icon={<Linkedin className="w-5 h-5" />} 
+                href="https://linkedin.com/company/qcfinance" 
+                label="LinkedIn"
+              />
             </div>
           </div>
 
@@ -114,12 +140,13 @@ export default function Footer() {
 }
 
 // Micro-Components for cleaner code
-function SocialLink({ icon, href }: { icon: React.ReactNode, href: string }) {
+function SocialLink({ icon, href, label }: { icon: React.ReactNode, href: string, label?: string }) {
   return (
     <a 
       href={href} 
       target="_blank" 
       rel="noopener noreferrer"
+      aria-label={label}
       className="w-10 h-10 bg-slate-900 hover:bg-emerald-600/20 hover:text-emerald-400 text-slate-400 rounded-lg flex items-center justify-center transition-all duration-300 border border-slate-800 hover:border-emerald-500/50"
     >
       {icon}

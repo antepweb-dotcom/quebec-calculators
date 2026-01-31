@@ -133,7 +133,9 @@ export default function HomeClient({ marketRates }: HomeClientProps) {
                   fill
                   className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
                   priority={idx === 0}
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  loading={idx === 0 ? 'eager' : 'lazy'}
+                  quality={idx === 0 ? 90 : 75}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-50 group-hover:opacity-70 transition-opacity" />
               </div>

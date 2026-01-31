@@ -29,7 +29,7 @@ export default async function GlobalWrapper({ children }: { children: React.Reac
             async
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ads.googleAdSenseId}`}
             crossOrigin="anonymous"
-            strategy="lazyOnload"
+            strategy="afterInteractive"
           />
         </>
       )}

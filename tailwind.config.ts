@@ -22,5 +22,13 @@ const config: Config = {
     },
   },
   plugins: [],
+  // Performance optimizations
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
+  // Reduce CSS file size
+  corePlugins: {
+    preflight: true,
+  },
 }
 export default config

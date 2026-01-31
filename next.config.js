@@ -27,6 +27,47 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['lucide-react', 'recharts', 'framer-motion'],
+    optimizeCss: true,
+  },
+  // Performance optimizations
+  modularizeImports: {
+    'lucide-react': {
+      transform: 'lucide-react/dist/esm/icons/{{kebabCase member}}',
+      skipDefaultConversion: true,
+    },
+  },
+  // Reduce JavaScript bundle size
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Reduce client-side bundle
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            default: false,
+            vendors: false,
+            // Vendor chunk for node_modules
+            vendor: {
+              name: 'vendor',
+              chunks: 'all',
+              test: /node_modules/,
+              priority: 20,
+            },
+            // Common chunk for shared code
+            common: {
+              name: 'common',
+              minChunks: 2,
+              chunks: 'all',
+              priority: 10,
+              reuseExistingChunk: true,
+              enforce: true,
+            },
+          },
+        },
+      };
+    }
+    return config;
   },
 }
 
