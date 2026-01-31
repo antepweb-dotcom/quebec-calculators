@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { useState } from 'react'
 import { 
   Calculator, 
   Twitter, 
@@ -18,7 +19,8 @@ import {
   Info, 
   HelpCircle, 
   MessageSquare,
-  ArrowRight
+  ArrowRight,
+  Check
 } from 'lucide-react'
 
 export default function Footer() {
@@ -81,37 +83,7 @@ export default function Footer() {
 
           {/* Column 4: Newsletter (Span 4 cols) */}
           <div className="lg:col-span-4">
-            <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800">
-              <h3 className="text-white font-bold mb-2">Restez informé</h3>
-              <p className="text-slate-400 text-xs mb-4">Recevez les dernières mises à jour fiscales du Québec.</p>
-              
-              <form 
-                className="flex gap-2" 
-                onSubmit={(e) => {
-                  e.preventDefault()
-                  const formData = new FormData(e.currentTarget)
-                  const email = formData.get('email')
-                  console.log('Newsletter signup:', email)
-                  // TODO: Implement newsletter signup
-                }}
-              >
-                <input 
-                  type="email" 
-                  name="email"
-                  placeholder="votre@email.com" 
-                  required
-                  className="bg-slate-950 border border-slate-700 text-white text-sm rounded-lg px-4 py-2 w-full focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all placeholder:text-slate-600"
-                />
-                <button 
-                  type="submit" 
-                  className="bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg px-3 py-2 transition-colors"
-                >
-                  <ArrowRight className="w-5 h-5" />
-                </button>
-              </form>
-              
-              <p className="text-slate-600 text-[10px] mt-3">Pas de spam. Désabonnement à tout moment.</p>
-            </div>
+            <NewsletterForm />
           </div>
         </div>
 
@@ -168,5 +140,88 @@ function FooterLink({ href, icon, text }: { href: string, icon: React.ReactNode,
         <span>{text}</span>
       </Link>
     </li>
+  )
+}
+
+function NewsletterForm() {
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [message, setMessage] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus('loading')
+
+    try {
+      // Formspree endpoint - replace with your actual Formspree form ID
+      // Get free form at: https://formspree.io/
+      const response = await fetch('https://formspree.io/f/xnjvwyrq', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          email,
+          _subject: 'Nouvelle inscription newsletter QCFinance'
+        }),
+      })
+
+      if (response.ok) {
+        setStatus('success')
+        setMessage('Merci! Vous êtes inscrit.')
+        setEmail('')
+        setTimeout(() => setStatus('idle'), 5000)
+      } else {
+        throw new Error('Erreur lors de l\'inscription')
+      }
+    } catch (error) {
+      setStatus('error')
+      setMessage('Erreur. Réessayez plus tard.')
+      setTimeout(() => setStatus('idle'), 5000)
+    }
+  }
+
+  return (
+    <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800">
+      <h3 className="text-white font-bold mb-2">Restez informé</h3>
+      <p className="text-slate-400 text-xs mb-4">Recevez les dernières mises à jour fiscales du Québec.</p>
+      
+      {status === 'success' ? (
+        <div className="flex items-center gap-2 bg-emerald-900/30 border border-emerald-700/50 rounded-lg px-4 py-3 text-emerald-400 text-sm">
+          <Check className="w-5 h-5" />
+          <span>{message}</span>
+        </div>
+      ) : (
+        <form className="flex gap-2" onSubmit={handleSubmit}>
+          <input 
+            type="email" 
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="votre@email.com" 
+            required
+            disabled={status === 'loading'}
+            className="bg-slate-950 border border-slate-700 text-white text-sm rounded-lg px-4 py-2 w-full focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all placeholder:text-slate-600 disabled:opacity-50"
+          />
+          <button 
+            type="submit" 
+            disabled={status === 'loading'}
+            className="bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg px-3 py-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {status === 'loading' ? (
+              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            ) : (
+              <ArrowRight className="w-5 h-5" />
+            )}
+          </button>
+        </form>
+      )}
+      
+      {status === 'error' && (
+        <p className="text-red-400 text-xs mt-2">{message}</p>
+      )}
+      
+      <p className="text-slate-600 text-[10px] mt-3">Pas de spam. Désabonnement à tout moment.</p>
+    </div>
   )
 }
