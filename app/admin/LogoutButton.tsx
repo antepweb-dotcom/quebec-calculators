@@ -1,15 +1,22 @@
 'use client'
 
 import { LogOut } from 'lucide-react'
-import { logout } from '@/app/actions/auth'
+import { useRouter } from 'next/navigation'
 import { useTransition } from 'react'
 
 export default function LogoutButton() {
   const [isPending, startTransition] = useTransition()
+  const router = useRouter()
 
   function handleLogout() {
     startTransition(async () => {
-      await logout()
+      try {
+        await fetch('/api/auth/logout', { method: 'POST' })
+        router.push('/login')
+        router.refresh()
+      } catch (error) {
+        console.error('Logout error:', error)
+      }
     })
   }
 

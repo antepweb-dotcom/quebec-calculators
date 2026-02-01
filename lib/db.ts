@@ -63,7 +63,7 @@ export async function getPageViewsByPeriod(days: number = 30): Promise<number> {
     const result = await sql`
       SELECT COUNT(*) as count 
       FROM page_views 
-      WHERE timestamp >= NOW() - INTERVAL '${days} days'
+      WHERE timestamp >= NOW() - INTERVAL '1 day' * ${days}
     `;
     return parseInt(result.rows[0].count);
   } catch (error) {
@@ -104,7 +104,7 @@ export async function getDailyPageViews(days: number = 30): Promise<Array<{ date
         DATE(timestamp) as date,
         COUNT(*) as count
       FROM page_views
-      WHERE timestamp >= NOW() - INTERVAL '${days} days'
+      WHERE timestamp >= NOW() - INTERVAL '1 day' * ${days}
       GROUP BY DATE(timestamp)
       ORDER BY date ASC
     `;
@@ -126,7 +126,7 @@ export async function getUniqueVisitors(days: number = 30): Promise<number> {
     const result = await sql`
       SELECT COUNT(DISTINCT user_agent) as count
       FROM page_views
-      WHERE timestamp >= NOW() - INTERVAL '${days} days'
+      WHERE timestamp >= NOW() - INTERVAL '1 day' * ${days}
     `;
     return parseInt(result.rows[0].count);
   } catch (error) {
@@ -168,7 +168,7 @@ export async function getTotalAdClicks(days: number = 30): Promise<number> {
     const result = await sql`
       SELECT COUNT(*) as count 
       FROM ad_clicks 
-      WHERE timestamp >= NOW() - INTERVAL '${days} days'
+      WHERE timestamp >= NOW() - INTERVAL '1 day' * ${days}
     `;
     return parseInt(result.rows[0].count);
   } catch (error) {
@@ -185,7 +185,7 @@ export async function getAdClicksBySlot(days: number = 30): Promise<Array<{ slot
     const result = await sql`
       SELECT ad_slot as slot, COUNT(*) as count
       FROM ad_clicks
-      WHERE timestamp >= NOW() - INTERVAL '${days} days'
+      WHERE timestamp >= NOW() - INTERVAL '1 day' * ${days}
       GROUP BY ad_slot
       ORDER BY count DESC
     `;
@@ -279,11 +279,12 @@ export async function initializeDatabase(): Promise<void> {
         user_agent TEXT,
         referrer TEXT,
         country VARCHAR(2),
-        device VARCHAR(50),
-        INDEX idx_path (path),
-        INDEX idx_timestamp (timestamp)
+        device VARCHAR(50)
       )
     `;
+
+    await sql`CREATE INDEX IF NOT EXISTS idx_page_views_path ON page_views(path)`;
+    await sql`CREATE INDEX IF NOT EXISTS idx_page_views_timestamp ON page_views(timestamp)`;
 
     // Create ad_clicks table
     await sql`
@@ -291,11 +292,12 @@ export async function initializeDatabase(): Promise<void> {
         id SERIAL PRIMARY KEY,
         ad_slot VARCHAR(100) NOT NULL,
         path VARCHAR(500) NOT NULL,
-        timestamp TIMESTAMP DEFAULT NOW(),
-        INDEX idx_ad_slot (ad_slot),
-        INDEX idx_timestamp (timestamp)
+        timestamp TIMESTAMP DEFAULT NOW()
       )
     `;
+
+    await sql`CREATE INDEX IF NOT EXISTS idx_ad_clicks_slot ON ad_clicks(ad_slot)`;
+    await sql`CREATE INDEX IF NOT EXISTS idx_ad_clicks_timestamp ON ad_clicks(timestamp)`;
 
     // Create site_settings table
     await sql`
@@ -307,7 +309,7 @@ export async function initializeDatabase(): Promise<void> {
         alert_message TEXT,
         alert_type VARCHAR(20) DEFAULT 'info',
         updated_at TIMESTAMP DEFAULT NOW(),
-        CHECK (id = 1)
+        CONSTRAINT check_id CHECK (id = 1)
       )
     `;
 

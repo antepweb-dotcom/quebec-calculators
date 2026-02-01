@@ -9,6 +9,7 @@ import GlobalWrapper from '@/components/GlobalWrapper'
 import OrganizationSchema from '@/components/OrganizationSchema'
 import AnnouncementBar from '@/components/ui/AnnouncementBar'
 import PerformanceMonitor from '@/components/PerformanceMonitor'
+import ConditionalLayout from '@/components/ConditionalLayout'
 
 const plusJakartaSans = Plus_Jakarta_Sans({ 
   subsets: ['latin'],
@@ -130,15 +131,9 @@ export default function RootLayout({
           <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
         )}
         <PerformanceMonitor />
-        <GlobalWrapper>
-          <AnnouncementBar />
-          <Header />
-          <main className="min-h-screen">
-            {children}
-          </main>
-          <Footer />
-          <ScrollToTop />
-        </GlobalWrapper>
+        <ConditionalLayout>
+          {children}
+        </ConditionalLayout>
       </body>
     </html>
   )

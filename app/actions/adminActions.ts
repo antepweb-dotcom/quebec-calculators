@@ -1,37 +1,73 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { getAnalyticsData, siteConfig } from '@/app/site-config'
+import { siteConfig } from '@/app/site-config'
+
+/**
+ * Track a page visit for analytics
+ */
+export async function trackVisit(path: string): Promise<{ success: boolean }> {
+  try {
+    // Get user agent and referrer
+    const userAgent = typeof window !== 'undefined' ? navigator.userAgent : 'server';
+    const referrer = typeof window !== 'undefined' ? document.referrer : '';
+    
+    // Send to analytics API
+    await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/admin/analytics`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'pageview',
+        path,
+        userAgent,
+        referrer: referrer || 'direct',
+        timestamp: new Date().toISOString()
+      })
+    }).catch(() => {
+      // Silently fail - don't break the page
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error('Failed to track visit:', error);
+    return { success: false };
+  }
+}
 
 /**
  * Get dashboard statistics
- * Returns data from site-config.ts (stateless architecture)
  */
-export async function getDashboardStats(): Promise<{
-  totalViews: number
-  recentViews: number
-  topPaths: Array<{ path: string; count: number }>
-  dailyViews: Array<{ date: Date; count: number }>
-}> {
-  const analytics = getAnalyticsData()
-
-  // Generate mock daily views for last 30 days
-  const mockDailyViews = Array.from({ length: 30 }, (_, i) => ({
-    date: new Date(Date.now() - (29 - i) * 24 * 60 * 60 * 1000),
-    count: Math.floor(1200 + Math.random() * 1500)
-  }))
-
-  return {
-    totalViews: analytics.totalViews,
-    recentViews: analytics.recentViews,
-    topPaths: analytics.topPaths,
-    dailyViews: mockDailyViews
+export async function getDashboardStats(): Promise<any> {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/admin/analytics`, {
+      cache: 'no-store'
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch analytics');
+    }
+    
+    const result = await response.json();
+    return result.data;
+  } catch (error) {
+    console.error('Failed to get dashboard stats:', error);
+    // Return site-config data as fallback
+    return {
+      totalViews: siteConfig.analytics.totalViews,
+      recentViews: siteConfig.analytics.recentViews,
+      uniqueVisitors: siteConfig.analytics.totalVisitors,
+      topPages: siteConfig.analytics.topPaths,
+      dailyViews: [],
+      totalAdClicks: 0,
+      ctr: 0,
+      estimatedRevenue: siteConfig.analytics.monthlyRevenue,
+      adClicksBySlot: []
+    };
   }
 }
 
 /**
  * Get site configuration
- * Returns config from site-config.ts (stateless architecture)
  */
 export async function getSiteConfig() {
   return {
@@ -42,44 +78,49 @@ export async function getSiteConfig() {
     sidebarSlotId: '',
     alertMessage: siteConfig.alert.message,
     isAlertActive: siteConfig.alert.isActive
-  }
+  };
 }
 
 /**
  * Update site configuration
- * Mock function - changes are not persisted (no database)
  */
 export async function updateSiteConfig(formData: FormData): Promise<{
   success: boolean
   error?: string
 }> {
-  // Extract values from FormData for validation
-  const isAdsEnabled = formData.get('adsEnabled') === 'true'
-  const adSenseId = (formData.get('adSenseId') as string) || ''
+  try {
+    const isAdsEnabled = formData.get('adsEnabled') === 'true';
+    const adSenseId = (formData.get('adSenseId') as string) || '';
 
-  // Validate required fields
-  if (isAdsEnabled && !adSenseId) {
+    if (isAdsEnabled && !adSenseId) {
+      return {
+        success: false,
+        error: 'AdSense ID is required when ads are enabled'
+      };
+    }
+
+    // Update via API
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/admin/settings`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'ads',
+        data: { isEnabled: isAdsEnabled, googleAdSenseId: adSenseId }
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to update settings');
+    }
+
+    revalidatePath('/', 'layout');
+    return { success: true };
+  } catch (error) {
+    console.error('Failed to update site config:', error);
     return {
       success: false,
-      error: 'AdSense ID is required when ads are enabled'
-    }
+      error: 'An error occurred while updating settings'
+    };
   }
-
-  // Simulate successful save (no actual persistence)
-  // Revalidate root path
-  revalidatePath('/', 'layout')
-
-  return { success: true }
-}
-
-/**
- * Track a page visit for analytics
- * Mock function - visits are not tracked (no database)
- */
-export async function trackVisit(path: string): Promise<{
-  success: boolean
-}> {
-  // No-op: tracking disabled without database
-  return { success: true }
 }
 

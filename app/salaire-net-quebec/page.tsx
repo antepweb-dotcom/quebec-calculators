@@ -69,7 +69,7 @@ export default function SalaryLandingPage() {
       {/* Dark Header - Flagship Design */}
       <DarkPageHeader
         badge="Données Fiscales 2026"
-        badgeIcon={TrendingUp}
+        badgeIcon="TrendingUp"
         title="Calculateur d'Impôt"
         titleAccent="Québec 2026"
         description="Calculez instantanément votre salaire net après impôts, RRQ, RQAP et découvrez votre véritable pouvoir d'achat."
