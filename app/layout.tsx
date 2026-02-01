@@ -69,15 +69,26 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'fr_CA',
-    url: '/',
-    siteName: 'QCFinance',
-    title: 'Calculateurs Financiers Québec 2026',
-    description: '19 calculateurs gratuits pour impôts, hypothèque, salaire net et allocations familiales au Québec.',
+    url: 'https://qcfinance.ca',
+    siteName: 'QC Finance',
+    title: 'QC Finance - Votre guide financier au Québec',
+    description: '19 calculateurs gratuits pour impôts, hypothèque, salaire net et allocations familiales au Québec. Outils financiers 2026.',
+    images: [
+      {
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
+        alt: 'QC Finance - Votre guide financier au Québec',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Calculateurs Financiers Québec 2026',
-    description: '19 calculateurs gratuits pour vos finances au Québec.',
+    site: '@qcfinance',
+    creator: '@qcfinance',
+    title: 'QC Finance - Votre guide financier au Québec',
+    description: '19 calculateurs gratuits pour vos finances au Québec. Impôts, hypothèque, salaire net et plus.',
+    images: ['/opengraph-image'],
   },
   verification: {
     google: 'your-google-verification-code',

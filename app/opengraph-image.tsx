@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og'
 
 export const runtime = 'edge'
 
-export const alt = 'Quebec Calculators 2026 - Outils Financiers Gratuits'
+export const alt = 'QC Finance - Votre guide financier au Québec'
 export const size = {
   width: 1200,
   height: 630,
@@ -20,7 +20,7 @@ export default async function Image() {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'linear-gradient(135deg, #0f766e 0%, #0d9488 50%, #14b8a6 100%)',
+          background: 'linear-gradient(135deg, #0f766e 0%, #10b981 50%, #14b8a6 100%)',
           fontFamily: 'system-ui, sans-serif',
         }}
       >
@@ -34,66 +34,68 @@ export default async function Image() {
             padding: '80px',
           }}
         >
-          {/* Logo/Icon */}
+          {/* Logo */}
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: '140px',
-              height: '140px',
-              background: 'rgba(255, 255, 255, 0.2)',
-              borderRadius: '30px',
-              marginBottom: '40px',
+              width: '160px',
+              height: '160px',
+              background: 'rgba(255, 255, 255, 0.25)',
+              borderRadius: '35px',
+              marginBottom: '50px',
               backdropFilter: 'blur(10px)',
+              border: '3px solid rgba(255, 255, 255, 0.3)',
             }}
           >
             <div
               style={{
-                fontSize: '80px',
+                fontSize: '90px',
                 fontWeight: 'bold',
                 color: 'white',
                 display: 'flex',
+                letterSpacing: '-3px',
               }}
             >
               QC
             </div>
           </div>
 
-          {/* Title */}
+          {/* Brand Name */}
           <div
             style={{
-              fontSize: '72px',
+              fontSize: '80px',
               fontWeight: 'bold',
               color: 'white',
               textAlign: 'center',
-              marginBottom: '20px',
+              marginBottom: '24px',
               display: 'flex',
               letterSpacing: '-2px',
             }}
           >
-            Quebec Calculators 2026
+            QC Finance
           </div>
 
-          {/* Subtitle */}
+          {/* Slogan */}
           <div
             style={{
-              fontSize: '36px',
-              color: 'rgba(255, 255, 255, 0.9)',
+              fontSize: '42px',
+              color: 'rgba(255, 255, 255, 0.95)',
               textAlign: 'center',
-              marginBottom: '40px',
+              marginBottom: '50px',
               display: 'flex',
-              maxWidth: '900px',
+              fontWeight: '500',
             }}
           >
-            Impôts, Immobilier, Auto & Famille. Simplifiez vos finances.
+            Votre guide financier au Québec
           </div>
 
           {/* Features */}
           <div
             style={{
               display: 'flex',
-              gap: '40px',
+              gap: '30px',
               marginBottom: '40px',
             }}
           >
@@ -102,15 +104,15 @@ export default async function Image() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
-                background: 'rgba(255, 255, 255, 0.15)',
-                padding: '16px 32px',
+                background: 'rgba(255, 255, 255, 0.2)',
+                padding: '18px 36px',
                 borderRadius: '50px',
                 backdropFilter: 'blur(10px)',
               }}
             >
               <div style={{ fontSize: '32px', display: 'flex' }}>🧮</div>
               <div style={{ fontSize: '28px', color: 'white', display: 'flex', fontWeight: '600' }}>
-                19 Outils
+                19 Calculateurs
               </div>
             </div>
 
@@ -119,13 +121,13 @@ export default async function Image() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
-                background: 'rgba(255, 255, 255, 0.15)',
-                padding: '16px 32px',
+                background: 'rgba(255, 255, 255, 0.2)',
+                padding: '18px 36px',
                 borderRadius: '50px',
                 backdropFilter: 'blur(10px)',
               }}
             >
-              <div style={{ fontSize: '32px', display: 'flex' }}>🔒</div>
+              <div style={{ fontSize: '32px', display: 'flex' }}>✨</div>
               <div style={{ fontSize: '28px', color: 'white', display: 'flex', fontWeight: '600' }}>
                 100% Gratuit
               </div>
@@ -136,15 +138,15 @@ export default async function Image() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
-                background: 'rgba(255, 255, 255, 0.15)',
-                padding: '16px 32px',
+                background: 'rgba(255, 255, 255, 0.2)',
+                padding: '18px 36px',
                 borderRadius: '50px',
                 backdropFilter: 'blur(10px)',
               }}
             >
-              <div style={{ fontSize: '32px', display: 'flex' }}>✅</div>
+              <div style={{ fontSize: '32px', display: 'flex' }}>🇨🇦</div>
               <div style={{ fontSize: '28px', color: 'white', display: 'flex', fontWeight: '600' }}>
-                Sécurisé
+                Québec 2026
               </div>
             </div>
           </div>
@@ -152,9 +154,10 @@ export default async function Image() {
           {/* Footer */}
           <div
             style={{
-              fontSize: '24px',
-              color: 'rgba(255, 255, 255, 0.7)',
+              fontSize: '26px',
+              color: 'rgba(255, 255, 255, 0.8)',
               display: 'flex',
+              fontWeight: '500',
             }}
           >
             qcfinance.ca

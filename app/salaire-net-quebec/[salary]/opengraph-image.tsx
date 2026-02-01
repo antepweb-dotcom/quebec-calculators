@@ -10,20 +10,7 @@ export const contentType = 'image/png'
 
 export default async function Image({ params }: { params: { salary: string } }) {
   const salaryNum = parseInt(params.salary)
-  const formattedSalary = salaryNum.toLocaleString('fr-CA', {
-    style: 'currency',
-    currency: 'CAD',
-    maximumFractionDigits: 0
-  })
-
-  // Rough net calculation for OG image
-  const estimatedNetPercentage = salaryNum < 50000 ? 0.75 : salaryNum < 100000 ? 0.70 : 0.65
-  const estimatedNet = Math.round(salaryNum * estimatedNetPercentage)
-  const formattedNet = estimatedNet.toLocaleString('fr-CA', {
-    style: 'currency',
-    currency: 'CAD',
-    maximumFractionDigits: 0
-  })
+  const formattedSalary = salaryNum.toLocaleString('fr-CA')
 
   return new ImageResponse(
     (
@@ -32,96 +19,244 @@ export default async function Image({ params }: { params: { salary: string } }) 
           height: '100%',
           width: '100%',
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: '#f8fafc',
-          backgroundImage: 'linear-gradient(to bottom right, #e0f2fe, #dbeafe)',
+          background: 'linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%)',
+          fontFamily: 'system-ui, sans-serif',
         }}
       >
-        {/* Logo/Badge */}
+        {/* Left Side - Visual Element */}
         <div
           style={{
+            flex: 1,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: '#10b981',
-            color: 'white',
-            padding: '12px 24px',
-            borderRadius: '9999px',
-            fontSize: '20px',
-            fontWeight: 'bold',
-            marginBottom: '40px',
+            padding: '60px',
           }}
         >
-          QC Finance • 2026
-        </div>
-
-        {/* Main Content */}
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textAlign: 'center',
-            padding: '0 80px',
-          }}
-        >
-          <h1
-            style={{
-              fontSize: '56px',
-              fontWeight: 'bold',
-              color: '#0f172a',
-              marginBottom: '20px',
-              lineHeight: 1.2,
-            }}
-          >
-            Salaire Net sur
-          </h1>
           <div
             style={{
-              fontSize: '96px',
-              fontWeight: 'bold',
-              color: '#10b981',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '380px',
+              height: '380px',
+              background: 'rgba(255, 255, 255, 0.2)',
+              borderRadius: '40px',
+              backdropFilter: 'blur(10px)',
+              border: '3px solid rgba(255, 255, 255, 0.3)',
+            }}
+          >
+            {/* Paycheck Icon */}
+            <div
+              style={{
+                fontSize: '140px',
+                display: 'flex',
+                marginBottom: '20px',
+              }}
+            >
+              💰
+            </div>
+            {/* Simple Bar Chart */}
+            <div
+              style={{
+                display: 'flex',
+                gap: '12px',
+                alignItems: 'flex-end',
+              }}
+            >
+              <div
+                style={{
+                  width: '40px',
+                  height: '80px',
+                  background: 'rgba(255, 255, 255, 0.9)',
+                  borderRadius: '8px',
+                  display: 'flex',
+                }}
+              />
+              <div
+                style={{
+                  width: '40px',
+                  height: '120px',
+                  background: 'rgba(255, 255, 255, 0.9)',
+                  borderRadius: '8px',
+                  display: 'flex',
+                }}
+              />
+              <div
+                style={{
+                  width: '40px',
+                  height: '60px',
+                  background: 'rgba(255, 255, 255, 0.6)',
+                  borderRadius: '8px',
+                  display: 'flex',
+                }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side - Content */}
+        <div
+          style={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            padding: '80px 60px',
+          }}
+        >
+          {/* Badge */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
               marginBottom: '30px',
             }}
           >
-            {formattedSalary}
+            <div
+              style={{
+                background: 'rgba(255, 255, 255, 0.25)',
+                padding: '14px 28px',
+                borderRadius: '50px',
+                fontSize: '24px',
+                color: 'white',
+                fontWeight: '600',
+                display: 'flex',
+                backdropFilter: 'blur(10px)',
+              }}
+            >
+              QC Finance • 2026
+            </div>
           </div>
-          <div
-            style={{
-              fontSize: '40px',
-              color: '#475569',
-              marginBottom: '40px',
-            }}
-          >
-            ≈ {formattedNet} net/an
-          </div>
-          <div
-            style={{
-              fontSize: '28px',
-              color: '#64748b',
-              backgroundColor: 'white',
-              padding: '16px 32px',
-              borderRadius: '12px',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-            }}
-          >
-            Calcul complet • Impôts • RRQ • RQAP • AE
-          </div>
-        </div>
 
-        {/* Footer */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '40px',
-            fontSize: '20px',
-            color: '#94a3b8',
-          }}
-        >
-          qcfinance.ca/salaire-net-quebec
+          {/* Main Question */}
+          <div
+            style={{
+              fontSize: '72px',
+              fontWeight: 'bold',
+              color: 'white',
+              marginBottom: '20px',
+              display: 'flex',
+              lineHeight: 1.1,
+              letterSpacing: '-2px',
+            }}
+          >
+            {formattedSalary}$ Net?
+          </div>
+
+          {/* Subtitle */}
+          <div
+            style={{
+              fontSize: '36px',
+              color: 'rgba(255, 255, 255, 0.95)',
+              marginBottom: '50px',
+              display: 'flex',
+              lineHeight: 1.3,
+            }}
+          >
+            Découvrez votre paie réelle en 2026
+          </div>
+
+          {/* Features */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+              }}
+            >
+              <div
+                style={{
+                  width: '8px',
+                  height: '8px',
+                  background: 'white',
+                  borderRadius: '50%',
+                  display: 'flex',
+                }}
+              />
+              <div
+                style={{
+                  fontSize: '26px',
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  display: 'flex',
+                }}
+              >
+                Impôts fédéral & provincial
+              </div>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+              }}
+            >
+              <div
+                style={{
+                  width: '8px',
+                  height: '8px',
+                  background: 'white',
+                  borderRadius: '50%',
+                  display: 'flex',
+                }}
+              />
+              <div
+                style={{
+                  fontSize: '26px',
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  display: 'flex',
+                }}
+              >
+                RRQ • RQAP • Assurance-emploi
+              </div>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+              }}
+            >
+              <div
+                style={{
+                  width: '8px',
+                  height: '8px',
+                  background: 'white',
+                  borderRadius: '50%',
+                  display: 'flex',
+                }}
+              />
+              <div
+                style={{
+                  fontSize: '26px',
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  display: 'flex',
+                }}
+              >
+                Calcul détaillé par période
+              </div>
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div
+            style={{
+              fontSize: '22px',
+              color: 'rgba(255, 255, 255, 0.7)',
+              marginTop: '50px',
+              display: 'flex',
+            }}
+          >
+            qcfinance.ca/salaire-net-quebec
+          </div>
         </div>
       </div>
     ),
