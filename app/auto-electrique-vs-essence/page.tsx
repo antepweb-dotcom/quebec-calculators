@@ -2,8 +2,8 @@ import { Metadata } from 'next'
 import EVComparisonClient from './EVComparisonClient'
 import { Leaf, DollarSign, TrendingDown } from 'lucide-react'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
-import Breadcrumb from '@/components/Breadcrumb'
 import DataSource from '@/components/ui/DataSource'
+import DarkPageHeader from '@/components/DarkPageHeader'
 
 export const metadata: Metadata = {
   title: "Auto Électrique vs Essence Québec 2026 | Calculateur",
@@ -15,26 +15,20 @@ export const metadata: Metadata = {
 
 export default function EVSavingsPage() {
   return (
-    <><main className="min-h-screen bg-gradient-to-br from-lime-50 via-green-50 to-sky-50">
+    <>
+      <DarkPageHeader
+        badge="Transition Verte"
+        badgeIcon="Leaf"
+        title="Électrique vs Essence :"
+        titleAccent="Vos Vraies Économies"
+        description="Découvrez combien vous économiserez chaque année en passant à l'électrique au Québec"
+        accentColor="lime"
+        breadcrumbLabel="Électrique vs Essence"
+        showLastUpdated={true}
+      />
+
+      <main className="min-h-screen bg-gradient-to-br from-lime-50 via-green-50 to-sky-50">
         <div className="container mx-auto px-4 py-12 max-w-7xl">
-          <Breadcrumb 
-            items={[
-              { label: 'Auto & Transport', href: '/#auto' },
-              { label: 'Électrique vs Essence' }
-            ]} 
-          />
-          {/* Header */}
-          <header className="text-center mb-12">
-            <span className="bg-lime-100 text-lime-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
-              ⚡ Transition Verte
-            </span>
-            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
-              Électrique vs Essence : Vos Vraies Économies
-            </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Découvrez combien vous économiserez chaque année en passant à l'électrique au Québec
-            </p>
-          </header>
 
           {/* GOLD STANDARD SPLIT-SCREEN CALCULATOR */}
           <EVComparisonClient />

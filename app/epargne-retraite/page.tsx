@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import RetirementClient from './RetirementClient'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
 import DataSource from '@/components/ui/DataSource'
+import DarkPageHeader from '@/components/DarkPageHeader'
 
 export const metadata: Metadata = {
   title: 'Calculateur Épargne Retraite Québec 2026 - REER et Intérêts Composés',
@@ -33,19 +34,18 @@ export const metadata: Metadata = {
 
 export default function RetirementPage() {
   return (
-    <><main className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-amber-50 py-12">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <header className="text-center mb-12">
-          <span className="bg-amber-100 text-amber-800 rounded-full px-4 py-1.5 text-sm font-semibold inline-block mb-4">
-            🌴 Liberté Financière
-          </span>
-          <h1 className="text-4xl lg:text-5xl font-extrabold text-slate-900 mb-4">
-            Bâtissez Votre Retraite de Rêve
-          </h1>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Découvrez la puissance des intérêts composés et planifiez une retraite confortable
-          </p>
-        </header>
+    <><main className="min-h-screen bg-white">
+        <DarkPageHeader
+          badge="Liberté Financière"
+          badgeIcon="Palmtree"
+          title="Bâtissez Votre Retraite de"
+          titleAccent="Rêve"
+          description="Découvrez la puissance des intérêts composés et planifiez une retraite confortable"
+          accentColor="amber"
+          breadcrumbLabel="Épargne Retraite"
+          showLastUpdated={true}
+        />
+      <div className="container mx-auto px-4 py-12 max-w-7xl">
 
         <div className="mb-16">
           <RetirementClient />

@@ -1,10 +1,10 @@
 import { Metadata } from 'next'
 import SalesTaxClient from './SalesTaxClient'
-import { ShoppingCart, FileText, CheckCircle } from 'lucide-react'
+import { ShoppingCart, FileText, CheckCircle, Receipt } from 'lucide-react'
 import StructuredData from '@/components/StructuredData'
-import Breadcrumb from '@/components/Breadcrumb'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
 import DataSource from '@/components/ui/DataSource'
+import DarkPageHeader from '@/components/DarkPageHeader'
 
 export const metadata: Metadata = {
   title: 'TPS TVQ Québec 2026 | Calculateur Taxes de Vente',
@@ -47,24 +47,20 @@ export default function SalesTaxPage() {
           ratingCount: 650,
         }}
       />
-      <Breadcrumb
-        items={[
-          { label: 'TPS TVQ Québec', href: '/tps-tvq-quebec' },
-        ]}
+      
+      <DarkPageHeader
+        badge="Taxes de Vente"
+        badgeIcon="Receipt"
+        title="Calculez Vos Taxes"
+        titleAccent="TPS/TVQ"
+        description="Ajoutez ou extrayez les taxes de vente québécoises (14,975%) en un clic"
+        accentColor="violet"
+        breadcrumbLabel="TPS TVQ Québec"
+        showLastUpdated={true}
       />
+
       <main className="min-h-screen bg-gradient-to-br from-violet-50 to-purple-100 py-12">
       <div className="container mx-auto px-4 max-w-7xl">
-        <header className="text-center mb-12">
-          <span className="bg-violet-100 text-violet-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
-            🧾 Taxes de Vente
-          </span>
-          <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
-            Calculez Vos Taxes TPS/TVQ
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Ajoutez ou extrayez les taxes de vente québécoises (14,975%) en un clic
-          </p>
-        </header>
 
         <div className="mb-12">
           <SalesTaxClient />

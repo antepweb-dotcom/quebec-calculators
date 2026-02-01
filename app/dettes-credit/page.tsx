@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import DebtClient from './DebtClient'
 import RelatedTools from '@/components/RelatedTools'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
+import DarkPageHeader from '@/components/DarkPageHeader'
 
 export const metadata: Metadata = {
   title: "Calculateur de Dette Québec - Plan de Remboursement Rapide",
@@ -33,19 +34,18 @@ export const metadata: Metadata = {
 
 export default function DebtPayoffPage() {
   return (
-    <><main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <><main className="min-h-screen bg-white">
+        <DarkPageHeader
+          badge="Liberté Financière"
+          badgeIcon="CreditCard"
+          title="Votre Plan de Sortie de"
+          titleAccent="Dette"
+          description="Découvrez quand vous serez libre de dettes et combien vous économiserez en intérêts"
+          accentColor="slate"
+          breadcrumbLabel="Dettes & Crédit"
+          showLastUpdated={true}
+        />
         <div className="container mx-auto px-4 py-12 max-w-7xl">
-          <header className="text-center mb-12">
-            <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
-              🎯 Liberté Financière
-            </span>
-            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
-              Votre Plan de Sortie de Dette
-            </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Découvrez quand vous serez libre de dettes et combien vous économiserez en intérêts
-            </p>
-          </header>
 
           {/* Calculator */}
           <div className="mb-12">

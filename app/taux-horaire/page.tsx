@@ -3,6 +3,8 @@ import WageConverterClient from './WageConverterClient'
 import RelatedTools from '@/components/RelatedTools'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
 import DataSource from '@/components/ui/DataSource'
+import DarkPageHeader from '@/components/DarkPageHeader'
+import { Clock } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: "Convertisseur Taux Horaire Québec - Salaire Annuel, Hebdo",
@@ -34,19 +36,20 @@ export const metadata: Metadata = {
 
 export default function WageConverterPage() {
   return (
-    <><main className="min-h-screen bg-gradient-to-br from-cyan-50 to-blue-100">
+    <>
+      <DarkPageHeader
+        badge="Comparaison Salariale"
+        badgeIcon="Clock"
+        title="Convertissez Votre Salaire"
+        titleAccent="Instantanément"
+        description="Comparez facilement les offres d'emploi en convertissant entre taux horaire, hebdomadaire et annuel"
+        accentColor="cyan"
+        breadcrumbLabel="Convertisseur Taux Horaire"
+        showLastUpdated={true}
+      />
+
+      <main className="min-h-screen bg-gradient-to-br from-cyan-50 to-blue-100">
         <div className="container mx-auto px-4 py-12 max-w-7xl">
-          <header className="text-center mb-12">
-            <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
-              ⏰ Comparaison Salariale
-            </span>
-            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
-              Convertissez Votre Salaire Instantanément
-            </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Comparez facilement les offres d'emploi en convertissant entre taux horaire, hebdomadaire et annuel
-            </p>
-          </header>
 
           <div className="mb-12">
             <WageConverterClient />

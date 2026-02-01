@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import StudentLoanClient from './StudentLoanClient'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
 import DataSource from '@/components/ui/DataSource'
+import DarkPageHeader from '@/components/DarkPageHeader'
 
 export const metadata: Metadata = {
   title: "Calculateur Prêt Étudiant Québec - Remboursement AFE",
@@ -33,20 +34,18 @@ export const metadata: Metadata = {
 
 export default function StudentLoanPage() {
   return (
-    <><main className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100">
+    <><main className="min-h-screen bg-white">
+        <DarkPageHeader
+          badge="Avenir Étudiant"
+          badgeIcon="GraduationCap"
+          title="Planifiez Votre Remboursement"
+          titleAccent="Étudiant"
+          description="Calculez vos paiements mensuels et découvrez vos économies d'impôt sur les intérêts"
+          accentColor="indigo"
+          breadcrumbLabel="Prêt Étudiant"
+          showLastUpdated={true}
+        />
         <div className="container mx-auto px-4 py-12 max-w-7xl">
-          {/* Header */}
-          <header className="text-center mb-12">
-            <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
-              🎓 Avenir Étudiant
-            </span>
-            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
-              Planifiez Votre Remboursement Étudiant
-            </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Calculez vos paiements mensuels et découvrez vos économies d'impôt sur les intérêts
-            </p>
-          </header>
 
           {/* Calculator */}
           <div className="mb-12">

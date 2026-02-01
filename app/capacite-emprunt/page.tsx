@@ -1,8 +1,9 @@
 import { Metadata } from 'next'
 import AffordabilityClient from './AffordabilityClient'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
-import Breadcrumb from '@/components/Breadcrumb'
 import DataSource from '@/components/ui/DataSource'
+import DarkPageHeader from '@/components/DarkPageHeader'
+import { DollarSign } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: "Capacité d'Emprunt Hypothécaire Québec 2026 | Calculateur",
@@ -34,26 +35,20 @@ export const metadata: Metadata = {
 
 export default function AffordabilityPage() {
   return (
-    <><main className="min-h-screen bg-gradient-to-br from-violet-50 via-indigo-50 to-purple-50">
+    <>
+      <DarkPageHeader
+        badge="Pouvoir d'Achat"
+        badgeIcon="DollarSign"
+        title="Découvrez Votre Budget"
+        titleAccent="Maison Réel"
+        description="Calculez le prix maximum que vous pouvez vous permettre selon les critères bancaires GDS et TDS"
+        accentColor="violet"
+        breadcrumbLabel="Capacité d'Emprunt"
+        showLastUpdated={true}
+      />
+
+      <main className="min-h-screen bg-gradient-to-br from-violet-50 via-indigo-50 to-purple-50">
         <div className="container mx-auto px-4 py-12 max-w-7xl">
-          <Breadcrumb 
-            items={[
-              { label: 'Immobilier', href: '/#immobilier' },
-              { label: 'Capacité d\'Emprunt' }
-            ]} 
-          />
-          {/* Header */}
-          <header className="text-center mb-12">
-            <span className="bg-violet-100 text-violet-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
-              💰 Pouvoir d'Achat
-            </span>
-            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
-              Découvrez Votre Budget Maison Réel
-            </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Calculez le prix maximum que vous pouvez vous permettre selon les critères bancaires GDS et TDS
-            </p>
-          </header>
 
           {/* GOLD STANDARD SPLIT-SCREEN CALCULATOR */}
           <AffordabilityClient />

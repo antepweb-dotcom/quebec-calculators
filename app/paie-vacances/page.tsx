@@ -4,6 +4,7 @@ import { Calendar, Percent, CheckCircle } from 'lucide-react'
 import RelatedTools from '@/components/RelatedTools'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
 import DataSource from '@/components/ui/DataSource'
+import DarkPageHeader from '@/components/DarkPageHeader'
 
 export const metadata: Metadata = {
   title: "Calculateur Paie de Vacances Québec - 4% ou 6% Indemnité",
@@ -35,19 +36,20 @@ export const metadata: Metadata = {
 
 export default function VacationPayPage() {
   return (
-    <><main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <>
+      <DarkPageHeader
+        badge="Temps de Repos"
+        badgeIcon="Calendar"
+        title="Calculez Votre Paie de"
+        titleAccent="Vacances"
+        description="Découvrez combien vous recevrez pour vos vacances selon la loi québécoise (4% ou 6%)"
+        accentColor="blue"
+        breadcrumbLabel="Paie de Vacances"
+        showLastUpdated={true}
+      />
+
+      <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="container mx-auto px-4 py-12 max-w-7xl">
-          <header className="text-center mb-12">
-            <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
-              🏖️ Temps de Repos
-            </span>
-            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
-              Calculez Votre Paie de Vacances
-            </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Découvrez combien vous recevrez pour vos vacances selon la loi québécoise (4% ou 6%)
-            </p>
-          </header>
 
           <div className="mb-12">
             <VacationPayClient />

@@ -1,8 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { calculateTaxes, formatCurrency } from '@/utils/taxLogic'
+import { generateSalaryPDF } from '@/utils/pdfGenerator'
 import InteractiveDonutChart from './ui/InteractiveDonutChart'
+import { AffiliateCard } from '@/components/AffiliateCard'
 
 interface LuxurySalaryCalculatorProps {
   initialIncome: number
@@ -14,6 +16,10 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
   const [income, setIncome] = useState(initialIncome.toString())
   const [payPeriod, setPayPeriod] = useState<PayPeriod>('annual')
   const [useFTQ, setUseFTQ] = useState(false)
+  const [isBreakdownOpen, setIsBreakdownOpen] = useState(true)
+  const [isChartOpen, setIsChartOpen] = useState(false)
+  const [isRRSPOpen, setIsRRSPOpen] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
   
   const numericIncome = parseFloat(income) || 0
   
@@ -71,6 +77,7 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
               </svg>
             </div>
             <input
+              ref={inputRef}
               id="income-input"
               type="number"
               value={income}
@@ -86,10 +93,10 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
           <label className="block text-sm font-semibold text-slate-700 mb-3">
             Fréquence de Paie
           </label>
-          <div className="grid grid-cols-2 gap-2.5 p-1">
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1 md:grid md:grid-cols-2 md:gap-2.5 md:p-1">
             <button
               onClick={() => setPayPeriod('annual')}
-              className={`py-3.5 px-4 rounded-xl font-semibold text-sm transition-all ${
+              className={`flex-shrink-0 px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
                 payPeriod === 'annual'
                   ? 'bg-emerald-600 text-white shadow-sm'
                   : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
@@ -99,7 +106,7 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
             </button>
             <button
               onClick={() => setPayPeriod('monthly')}
-              className={`py-3.5 px-4 rounded-xl font-semibold text-sm transition-all ${
+              className={`flex-shrink-0 px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
                 payPeriod === 'monthly'
                   ? 'bg-emerald-600 text-white shadow-sm'
                   : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
@@ -109,7 +116,7 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
             </button>
             <button
               onClick={() => setPayPeriod('biweekly')}
-              className={`py-3.5 px-4 rounded-xl font-semibold text-sm transition-all ${
+              className={`flex-shrink-0 px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
                 payPeriod === 'biweekly'
                   ? 'bg-emerald-600 text-white shadow-sm'
                   : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
@@ -119,7 +126,7 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
             </button>
             <button
               onClick={() => setPayPeriod('weekly')}
-              className={`py-3.5 px-4 rounded-xl font-semibold text-sm transition-all ${
+              className={`flex-shrink-0 px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
                 payPeriod === 'weekly'
                   ? 'bg-emerald-600 text-white shadow-sm'
                   : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
@@ -139,7 +146,7 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
             <div className="text-sm font-semibold text-emerald-700 mb-2">
               REVENU NET ANNUEL
             </div>
-            <div className="text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 mb-3">
+            <div className="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 mb-3">
               {formatCurrency(results.netIncome)}
             </div>
             <div className="text-slate-600 text-lg">
@@ -149,25 +156,25 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
 
           {/* Quick Stats Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-slate-50 rounded-2xl p-4 text-center border border-slate-100">
+            <div className="bg-slate-50 rounded-2xl p-3 md:p-4 text-center border border-slate-100">
               <div className="text-xs text-slate-500 font-medium mb-1">Mensuel</div>
               <div className="text-xl font-bold text-slate-900">
                 {formatCurrency(results.netIncome / 12)}
               </div>
             </div>
-            <div className="bg-slate-50 rounded-2xl p-4 text-center border border-slate-100">
+            <div className="bg-slate-50 rounded-2xl p-3 md:p-4 text-center border border-slate-100">
               <div className="text-xs text-slate-500 font-medium mb-1">Aux 2 sem.</div>
               <div className="text-xl font-bold text-slate-900">
                 {formatCurrency(results.netIncome / 26)}
               </div>
             </div>
-            <div className="bg-slate-50 rounded-2xl p-4 text-center border border-slate-100">
+            <div className="bg-slate-50 rounded-2xl p-3 md:p-4 text-center border border-slate-100">
               <div className="text-xs text-slate-500 font-medium mb-1">Hebdo</div>
               <div className="text-xl font-bold text-slate-900">
                 {formatCurrency(results.netIncome / 52)}
               </div>
             </div>
-            <div className="bg-red-50 rounded-2xl p-4 text-center border border-red-100">
+            <div className="bg-red-50 rounded-2xl p-3 md:p-4 text-center border border-red-100">
               <div className="text-xs text-red-600 font-medium mb-1">Déductions</div>
               <div className="text-xl font-bold text-red-700">
                 {formatCurrency(results.totalDeductions)}
@@ -175,85 +182,148 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
             </div>
           </div>
 
-          {/* Interactive Chart */}
+          {/* Detailed Breakdown - Collapsible */}
           <div className="border-t border-slate-200 pt-8">
-            <h3 className="text-xl font-bold text-slate-900 mb-6 text-center">
-              Répartition Interactive de Votre Revenu
-            </h3>
-            <InteractiveDonutChart
-              netIncome={results.netIncome}
-              federalTax={results.federalTax}
-              provincialTax={results.provincialTax}
-              qpp={results.qpp}
-              qpip={results.qpip}
-              ei={results.ei}
-            />
-          </div>
-
-          {/* Detailed Breakdown */}
-          <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200">
-            <h4 className="font-bold text-slate-900 mb-4">Détail des Déductions</h4>
-            <div className="space-y-3">
+            <button
+              onClick={() => setIsBreakdownOpen(!isBreakdownOpen)}
+              className="w-full flex items-center justify-between px-4 py-3 md:py-4 hover:opacity-70 transition-opacity"
+            >
+              <div className="flex items-center gap-3">
+                <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+                <span className="font-semibold text-slate-900">Détail des déductions</span>
+              </div>
+              <svg
+                className={`w-5 h-5 text-slate-400 transition-transform ${isBreakdownOpen ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {isBreakdownOpen && (
+              <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200">
+                <div className="space-y-3">
               <div className="flex justify-between items-center pb-3 border-b border-slate-200">
                 <div>
-                  <div className="font-semibold text-slate-900">Impôt Provincial (QC)</div>
+                  <div className="text-sm font-semibold text-slate-900">Impôt Provincial (QC)</div>
                   <div className="text-xs text-slate-500">
                     {((results.provincialTax / results.grossIncome) * 100).toFixed(1)}% du brut
                   </div>
                 </div>
-                <div className="text-lg font-bold text-blue-600">
+                <div className="font-bold text-blue-600">
                   {formatCurrency(results.provincialTax)}
                 </div>
               </div>
               <div className="flex justify-between items-center pb-3 border-b border-slate-200">
                 <div>
-                  <div className="font-semibold text-slate-900">Impôt Fédéral</div>
+                  <div className="text-sm font-semibold text-slate-900">Impôt Fédéral</div>
                   <div className="text-xs text-slate-500">
                     {((results.federalTax / results.grossIncome) * 100).toFixed(1)}% du brut
                   </div>
                 </div>
-                <div className="text-lg font-bold text-indigo-600">
+                <div className="font-bold text-indigo-600">
                   {formatCurrency(results.federalTax)}
                 </div>
               </div>
               <div className="flex justify-between items-center pb-3 border-b border-slate-200">
                 <div>
-                  <div className="font-semibold text-slate-900">RRQ (Régime de rentes)</div>
+                  <div className="text-sm font-semibold text-slate-900">RRQ (Régime de rentes)</div>
                   <div className="text-xs text-slate-500">
                     {((results.qpp / results.grossIncome) * 100).toFixed(1)}% du brut
                   </div>
                 </div>
-                <div className="text-lg font-bold text-amber-600">
+                <div className="font-bold text-amber-600">
                   {formatCurrency(results.qpp)}
                 </div>
               </div>
               <div className="flex justify-between items-center pb-3 border-b border-slate-200">
                 <div>
-                  <div className="font-semibold text-slate-900">RQAP (Assurance parentale)</div>
+                  <div className="text-sm font-semibold text-slate-900">RQAP (Assurance parentale)</div>
                   <div className="text-xs text-slate-500">
                     {((results.qpip / results.grossIncome) * 100).toFixed(1)}% du brut
                   </div>
                 </div>
-                <div className="text-lg font-bold text-pink-600">
+                <div className="font-bold text-pink-600">
                   {formatCurrency(results.qpip)}
                 </div>
               </div>
               <div className="flex justify-between items-center">
                 <div>
-                  <div className="font-semibold text-slate-900">AE (Assurance-emploi)</div>
+                  <div className="text-sm font-semibold text-slate-900">AE (Assurance-emploi)</div>
                   <div className="text-xs text-slate-500">
                     {((results.ei / results.grossIncome) * 100).toFixed(1)}% du brut
                   </div>
                 </div>
-                <div className="text-lg font-bold text-purple-600">
+                <div className="font-bold text-purple-600">
                   {formatCurrency(results.ei)}
                 </div>
               </div>
-            </div>
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* RRSP/FTQ Optimization Card */}
-          <div className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-2xl p-6 border-2 border-amber-200">
+          {/* Interactive Chart - Collapsible */}
+          <div className="border-t border-slate-200 pt-8">
+            <button
+              onClick={() => setIsChartOpen(!isChartOpen)}
+              className="w-full flex items-center justify-between px-4 py-3 md:py-4 hover:opacity-70 transition-opacity"
+            >
+              <div className="flex items-center gap-3">
+                <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+                </svg>
+                <span className="font-semibold text-slate-900">Visualisation graphique</span>
+              </div>
+              <svg
+                className={`w-5 h-5 text-slate-400 transition-transform ${isChartOpen ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {isChartOpen && (
+              <InteractiveDonutChart
+                netIncome={results.netIncome}
+                federalTax={results.federalTax}
+                provincialTax={results.provincialTax}
+                qpp={results.qpp}
+                qpip={results.qpip}
+                ei={results.ei}
+              />
+            )}
+          </div>
+
+          {/* RRSP/FTQ Optimization Card - Collapsible */}
+          <div className="border-t border-slate-200 pt-8">
+            <button
+              onClick={() => setIsRRSPOpen(!isRRSPOpen)}
+              className="w-full flex items-center justify-between px-4 py-3 md:py-4 hover:opacity-70 transition-opacity"
+            >
+              <div className="flex items-center gap-3">
+                <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <span className="font-semibold text-slate-900">Optimisation REER</span>
+                <span className="px-2 py-0.5 bg-amber-100 text-amber-800 text-xs font-bold rounded">Économisez</span>
+              </div>
+              <svg
+                className={`w-5 h-5 text-slate-400 transition-transform ${isRRSPOpen ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {isRRSPOpen && (
+              <div className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-2xl p-6 border-2 border-amber-200">
             <div className="flex items-start gap-3 mb-4">
               <div className="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center flex-shrink-0">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -375,6 +445,67 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
               </div>
             )}
           </div>
+            )}
+          </div>
+
+          {/* Quick Action Buttons */}
+          <div className="border-t border-slate-200 pt-6">
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={() => {
+                  if (navigator.share) {
+                    navigator.share({
+                      title: 'Mon Salaire Net',
+                      text: `Salaire Net: ${formatCurrency(results.netIncome)} sur ${formatCurrency(results.grossIncome)} brut`,
+                      url: window.location.href
+                    }).catch(() => {});
+                  } else {
+                    navigator.clipboard.writeText(`Salaire Net: ${formatCurrency(results.netIncome)} sur ${formatCurrency(results.grossIncome)} brut - ${window.location.href}`);
+                    alert('Lien copié dans le presse-papiers!');
+                  }
+                }}
+                className="flex items-center justify-center gap-2 px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                </svg>
+                Partager
+              </button>
+              <button
+                onClick={() => {
+                  generateSalaryPDF(results, payPeriod);
+                }}
+                className="flex items-center justify-center gap-2 px-4 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Imprimer
+              </button>
+            </div>
+          </div>
+
+          {/* Recalculate Button - Mobile Only */}
+          <div className="border-t border-slate-200 pt-6 md:hidden">
+            <button
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+                setTimeout(() => {
+                  inputRef.current?.focus()
+                  inputRef.current?.select()
+                }, 500)
+              }}
+              className="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl transition-colors flex items-center justify-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Calculer un autre montant
+            </button>
+          </div>
+
+          {/* Affiliate Card - Tax/RRSP Context */}
+          <AffiliateCard variant="tax" />
         </div>
       ) : (
         <div className="text-center py-12">
@@ -386,9 +517,31 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
           <h3 className="text-xl font-bold text-slate-900 mb-2">
             Entrez votre revenu
           </h3>
-          <p className="text-slate-600 text-sm">
-            Saisissez un montant ci-dessus pour voir votre salaire net et la répartition détaillée
+          <p className="text-slate-600 text-sm mb-6">
+            Saisissez un montant ci-dessus pour voir votre salaire net
           </p>
+
+          {/* Quick Info Cards */}
+          <div className="space-y-2 text-left">
+            <div className="flex items-start gap-2 text-sm">
+              <svg className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              <span className="text-slate-700">Calcul instantané avec taux 2026</span>
+            </div>
+            <div className="flex items-start gap-2 text-sm">
+              <svg className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              <span className="text-slate-700">Toutes déductions incluses</span>
+            </div>
+            <div className="flex items-start gap-2 text-sm">
+              <svg className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              <span className="text-slate-700">Analyse pouvoir d'achat</span>
+            </div>
+          </div>
         </div>
       )}
     </div>

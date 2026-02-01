@@ -2,9 +2,9 @@ import { Metadata } from 'next'
 import DaycareClient from './DaycareClient'
 import { Baby, DollarSign, FileText } from 'lucide-react'
 import StructuredData from '@/components/StructuredData'
-import Breadcrumb from '@/components/Breadcrumb'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
 import DataSource from '@/components/ui/DataSource'
+import DarkPageHeader from '@/components/DarkPageHeader'
 
 export const metadata: Metadata = {
   title: 'Calculateur Frais de Garde Québec 2026 - CPE vs Garderie Privée (Crédit d\'Impôt)',
@@ -47,24 +47,18 @@ export default function DaycarePage() {
           ratingCount: 890,
         }}
       />
-      <Breadcrumb
-        items={[
-          { label: 'Frais de Garde', href: '/frais-de-garde' },
-        ]}
-      />
-      <main className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-100">
+      <main className="min-h-screen bg-white">
+        <DarkPageHeader
+          badge="Famille & Finances"
+          badgeIcon="Baby"
+          title="Comparateur Garderie :"
+          titleAccent="CPE vs Privé"
+          description="Calculez le coût réel après déductions et trouvez la meilleure option pour votre enfant"
+          accentColor="purple"
+          breadcrumbLabel="Frais de Garde"
+          showLastUpdated={true}
+        />
       <div className="container mx-auto px-4 py-12 max-w-7xl">
-        <header className="text-center mb-12">
-          <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
-            👶 Famille & Finances
-          </span>
-          <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
-            Comparateur Garderie : CPE vs Privé
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Calculez le coût réel après déductions et trouvez la meilleure option pour votre enfant
-          </p>
-        </header>
 
         <div className="mb-12">
           <DaycareClient />

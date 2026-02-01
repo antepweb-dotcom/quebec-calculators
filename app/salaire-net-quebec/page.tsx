@@ -3,6 +3,8 @@ import LuxurySalaryCalculator from '@/components/LuxurySalaryCalculator'
 import EmptyStatePreview from '@/components/ui/EmptyStatePreview'
 import DataSource from '@/components/ui/DataSource'
 import SalaryLinkGrid from '@/components/calculators/SalaryLinkGrid'
+import DarkPageHeader from '@/components/DarkPageHeader'
+import { TrendingUp } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: "Calculateur Impôt Québec 2026 | Salaire Net Gratuit",
@@ -64,27 +66,20 @@ export default function SalaryLandingPage() {
         }}
       />
 
-      {/* 1. Immersive Header Background */}
-      <div className="bg-slate-900 text-white pb-32 pt-20 px-4 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-emerald-900/20 to-transparent" />
-        <div className="container mx-auto max-w-6xl relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-emerald-300 text-sm font-medium mb-6">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-            </svg>
-            Données Fiscales 2026
-          </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
-            Calculateur d'Impôt <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">Québec 2026</span>
-          </h1>
-          <p className="text-slate-300 text-lg max-w-2xl mx-auto">
-            Calculez instantanément votre salaire net après impôts, RRQ, RQAP et découvrez votre véritable pouvoir d'achat.
-          </p>
-        </div>
-      </div>
+      {/* Dark Header - Flagship Design */}
+      <DarkPageHeader
+        badge="Données Fiscales 2026"
+        badgeIcon={TrendingUp}
+        title="Calculateur d'Impôt"
+        titleAccent="Québec 2026"
+        description="Calculez instantanément votre salaire net après impôts, RRQ, RQAP et découvrez votre véritable pouvoir d'achat."
+        accentColor="emerald"
+        breadcrumbLabel="Salaire Net Québec"
+        showLastUpdated={true}
+      />
 
-      {/* 2. Main Content Floating Over Header */}
-      <div className="container mx-auto max-w-6xl px-4 -mt-20 pb-20">
+      {/* 2. Main Content */}
+      <div className="container mx-auto max-w-6xl px-4 py-12">
         <div className="grid lg:grid-cols-12 gap-8">
           {/* LEFT: Detailed Calculator (8 cols) */}
           <div className="lg:col-span-8 space-y-6">
@@ -103,8 +98,8 @@ export default function SalaryLandingPage() {
             </div>
           </div>
 
-          {/* RIGHT: Sticky Empty State (4 cols) */}
-          <div className="lg:col-span-4">
+          {/* RIGHT: Sticky Empty State (4 cols) - Hidden on Mobile */}
+          <div className="hidden lg:block lg:col-span-4">
             <div className="sticky top-8">
               <EmptyStatePreview />
             </div>

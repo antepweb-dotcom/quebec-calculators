@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import DeclarationSimplifieeClient from './DeclarationSimplifieeClient'
 import { FileText, Receipt, Calendar, DollarSign, AlertTriangle, CheckCircle, Clock, Building2 } from 'lucide-react'
 import DataSource from '@/components/ui/DataSource'
+import DarkPageHeader from '@/components/DarkPageHeader'
 
 export const metadata: Metadata = {
   title: "Déclaration Impôt Québec 2026 | Estimateur Gratuit PDF",
@@ -34,6 +35,17 @@ export const metadata: Metadata = {
 export default function DeclarationSimplifiee() {
   return (
     <>
+      <DarkPageHeader
+        badge="Déclaration de Revenus 2026"
+        badgeIcon="FileText"
+        title="Estimateur d'Impôt"
+        titleAccent="Simplifié"
+        description="Estimez votre remboursement d'impôt en 2 minutes. Téléchargez votre rapport PDF détaillé. Gratuit et confidentiel."
+        accentColor="emerald"
+        breadcrumbLabel="Déclaration Simplifiée"
+        showLastUpdated={true}
+      />
+
       <DeclarationSimplifieeClient />
       
       {/* Educational Content Sections */}

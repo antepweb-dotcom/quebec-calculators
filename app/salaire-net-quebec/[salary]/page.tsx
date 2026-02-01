@@ -6,6 +6,8 @@ import PaychequePreview from '@/components/ui/PaychequePreview'
 import DataSource from '@/components/ui/DataSource'
 import SalaryLinkGrid from '@/components/calculators/SalaryLinkGrid'
 import { calculateTaxes } from '@/utils/taxLogic'
+import DarkPageHeader from '@/components/DarkPageHeader'
+import { TrendingUp } from 'lucide-react'
 
 // Generate static paths for 170+ salary pages (30k to 200k in 1k increments)
 export async function generateStaticParams() {
@@ -110,25 +112,19 @@ export default function DynamicSalaryPage({ params }: { params: { salary: string
         }}
       />
 
-      <div className="bg-slate-900 text-white pb-32 pt-20 px-4 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-emerald-900/20 to-transparent" />
-        <div className="container mx-auto max-w-6xl relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-emerald-300 text-sm font-medium mb-6">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-            </svg>
-            Données Fiscales 2026
-          </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
-            Salaire Net <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">{formattedAmount} $</span> Québec 2026
-          </h1>
-          <p className="text-slate-300 text-lg max-w-2xl mx-auto">
-            Découvrez votre véritable pouvoir d'achat au Québec après impôts, RRQ et RQAP.
-          </p>
-        </div>
-      </div>
+      {/* Dark Header - Dynamic Salary */}
+      <DarkPageHeader
+        badge="Données Fiscales 2026"
+        badgeIcon={TrendingUp}
+        title={`Salaire Net ${formattedAmount} $`}
+        titleAccent="Québec 2026"
+        description="Découvrez votre véritable pouvoir d'achat au Québec après impôts, RRQ et RQAP."
+        accentColor="emerald"
+        breadcrumbLabel={`Salaire ${formattedAmount} $`}
+        showLastUpdated={true}
+      />
 
-      <div className="container mx-auto max-w-6xl px-4 -mt-20 pb-20">
+      <div className="container mx-auto max-w-6xl px-4 py-12">
         <div className="grid lg:grid-cols-12 gap-8">
           <div className="lg:col-span-8 space-y-6">
             <LuxurySalaryCalculator initialIncome={salaryNum} />

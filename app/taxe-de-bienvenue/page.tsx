@@ -2,9 +2,9 @@ import { Metadata } from 'next'
 import TransferTaxCalculator from '@/components/TransferTaxCalculator'
 import { Home, MapPin, Calculator } from 'lucide-react'
 import StructuredData from '@/components/StructuredData'
-import Breadcrumb from '@/components/Breadcrumb'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
 import DataSource from '@/components/ui/DataSource'
+import DarkPageHeader from '@/components/DarkPageHeader'
 
 export const metadata: Metadata = {
   title: 'Taxe de Bienvenue Québec 2026 | Calculateur Gratuit',
@@ -47,21 +47,20 @@ export default function TransferTaxPage() {
           ratingCount: 1240,
         }}
       />
-      <Breadcrumb
-        items={[
-          { label: 'Taxe de Bienvenue', href: '/taxe-de-bienvenue' },
-        ]}
+      
+      <DarkPageHeader
+        badge="Droits de Mutation"
+        badgeIcon="Home"
+        title="Calculateur de Taxe de"
+        titleAccent="Bienvenue 2026"
+        description="Calculez les droits de mutation pour votre achat immobilier au Québec"
+        accentColor="purple"
+        breadcrumbLabel="Taxe de Bienvenue"
+        showLastUpdated={true}
       />
+
       <main className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100">
       <div className="container mx-auto px-4 py-12 max-w-7xl">
-        <header className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Calculateur de Taxe de Bienvenue 2026
-          </h1>
-          <p className="text-xl text-gray-600">
-            Calculez les droits de mutation pour votre achat immobilier au Québec
-          </p>
-        </header>
 
         <div className="mb-12">
           <TransferTaxCalculator />

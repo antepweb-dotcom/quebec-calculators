@@ -178,18 +178,6 @@ export default function DeclarationSimplifieeClient() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-50 via-emerald-50 to-slate-100 py-12">
       <div className="container mx-auto px-4 max-w-4xl">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <span className="bg-emerald-100 text-emerald-800 rounded-full px-4 py-1.5 text-sm font-semibold inline-block mb-4">
-            💰 Saison des Impôts 2026
-          </span>
-          <h1 className="text-4xl lg:text-5xl font-extrabold text-slate-900 mb-3">
-            Déclaration Simplifiée
-          </h1>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Estimez votre remboursement en 4 étapes simples
-          </p>
-        </div>
 
         {/* Progress Bar */}
         {currentStep !== 'result' && (

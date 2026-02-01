@@ -2,9 +2,10 @@ import { Metadata } from 'next'
 import RentVsBuyClient from './RentVsBuyClient'
 import StructuredData from '@/components/StructuredData'
 import SEOContent from '@/components/SEOContent'
-import Breadcrumb from '@/components/Breadcrumb'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
 import DataSource from '@/components/ui/DataSource'
+import DarkPageHeader from '@/components/DarkPageHeader'
+import { Home as HomeIcon } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: "Louer ou Acheter Québec 2026 | Comparateur Gratuit",
@@ -48,26 +49,20 @@ export default function RentVsBuyPage() {
           ratingCount: 1230,
         }}
       />
+      
+      <DarkPageHeader
+        badge="Décision Immobilière"
+        badgeIcon="HomeIcon"
+        title="Louer ou Acheter :"
+        titleAccent="Faites le Bon Choix"
+        description="Comparez mathématiquement l'achat vs la location et découvrez quelle option maximise votre richesse"
+        accentColor="slate"
+        breadcrumbLabel="Louer ou Acheter"
+        showLastUpdated={true}
+      />
+
       <main className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-100">
         <div className="container mx-auto px-4 py-12 max-w-7xl">
-          <Breadcrumb 
-            items={[
-              { label: 'Immobilier', href: '/#immobilier' },
-              { label: 'Louer ou Acheter' }
-            ]} 
-          />
-          {/* Header */}
-          <header className="text-center mb-12">
-            <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
-              🏘️ Décision Immobilière
-            </span>
-            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
-              Louer ou Acheter : Faites le Bon Choix
-            </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Comparez mathématiquement l'achat vs la location et découvrez quelle option maximise votre richesse
-            </p>
-          </header>
 
           {/* Calculator */}
           <div className="mb-12">

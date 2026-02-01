@@ -2,8 +2,9 @@ import { Metadata } from 'next'
 import EICalculatorClient from './EICalculatorClient'
 import RelatedTools from '@/components/RelatedTools'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
-import Breadcrumb from '@/components/Breadcrumb'
 import DataSource from '@/components/ui/DataSource'
+import DarkPageHeader from '@/components/DarkPageHeader'
+import { Shield } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Calculateur Assurance-Emploi Québec 2026 - Prestations AE (Chômage)',
@@ -36,25 +37,20 @@ export const metadata: Metadata = {
 
 export default function EIPage() {
   return (
-    <><main className="min-h-screen bg-gradient-to-br from-blue-50 via-slate-50 to-blue-100">
+    <>
+      <DarkPageHeader
+        badge="Protection Revenu"
+        badgeIcon="Shield"
+        title="Vos Prestations d'"
+        titleAccent="Assurance-Emploi"
+        description="Calculez rapidement vos versements hebdomadaires et sécurisez votre budget pendant votre recherche d'emploi"
+        accentColor="blue"
+        breadcrumbLabel="Assurance-Emploi"
+        showLastUpdated={true}
+      />
+
+      <main className="min-h-screen bg-gradient-to-br from-blue-50 via-slate-50 to-blue-100">
       <div className="container mx-auto px-4 py-12 max-w-7xl">
-        <Breadcrumb 
-          items={[
-            { label: 'Impôts & Revenus', href: '/#impots' },
-            { label: 'Assurance-Emploi' }
-          ]} 
-        />
-        <header className="text-center mb-12">
-          <span className="bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
-            🛡️ Protection Revenu
-          </span>
-          <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
-            Vos Prestations d'Assurance-Emploi
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Calculez rapidement vos versements hebdomadaires et sécurisez votre budget pendant votre recherche d'emploi
-          </p>
-        </header>
 
         {/* GOLD STANDARD SPLIT-SCREEN CALCULATOR */}
         <EICalculatorClient />

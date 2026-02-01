@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, TrendingUp, Sparkles, Clock, Calculator, Car, GraduationCap, Building2, Wallet } from 'lucide-react';
+import { ArrowRight, TrendingUp, Sparkles, Clock, Calculator, Car, GraduationCap, Building2, Wallet, Users, Shield, Eye, Calendar } from 'lucide-react';
 import HeroSearch from '@/components/HeroSearch';
 import type { MarketRate } from '@/lib/marketData';
+import { useEffect, useRef, useState } from 'react';
 
 interface HomeClientProps {
   marketRates: MarketRate[];
@@ -68,6 +69,47 @@ const themeClasses = {
 };
 
 export default function HomeClient({ marketRates }: HomeClientProps) {
+  const [activeCarouselIndex, setActiveCarouselIndex] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  // Carousel scroll handler
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    const handleScroll = () => {
+      const scrollLeft = carousel.scrollLeft;
+      const cardWidth = carousel.querySelector('.snap-center')?.clientWidth || 0;
+      const gap = 16;
+      const currentIndex = Math.round(scrollLeft / (cardWidth + gap));
+      setActiveCarouselIndex(currentIndex);
+    };
+
+    carousel.addEventListener('scroll', handleScroll);
+    return () => carousel.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Intersection Observer for fade-in animations
+  useEffect(() => {
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-fade-in-up');
+            observerRef.current?.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    const elements = document.querySelectorAll('.observe-fade');
+    elements.forEach((el) => observerRef.current?.observe(el));
+
+    return () => observerRef.current?.disconnect();
+  }, []);
+
   return (
     <div className="bg-slate-50 min-h-screen font-sans selection:bg-emerald-200 selection:text-emerald-900">
       {/* TICKER */}
@@ -87,7 +129,7 @@ export default function HomeClient({ marketRates }: HomeClientProps) {
         </div>
       </div>
 
-      {/* HERO */}
+      {/* HERO with Interactive Quick Start */}
       <div className="relative bg-slate-950 pt-16 pb-32 overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
           <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[100px]" />
@@ -111,72 +153,230 @@ export default function HomeClient({ marketRates }: HomeClientProps) {
             Des outils de précision pour calculer vos impôts, votre hypothèque et vos investissements. <span className="text-emerald-400 font-semibold">Gratuit. Anonyme. Sécurisé.</span>
           </p>
 
+          {/* Simple CTA Button */}
+          <div className="max-w-xl mx-auto mb-8">
+            <Link 
+              href="/salaire-net-quebec"
+              className="group block w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold py-5 px-6 rounded-2xl hover:from-emerald-600 hover:to-teal-600 transition-all shadow-xl hover:shadow-2xl text-center active:scale-[0.98]"
+            >
+              <div className="text-xl mb-1 flex items-center justify-center gap-2">
+                <Calculator className="w-6 h-6" />
+                <span>Calculer Mon Salaire Net</span>
+              </div>
+              <div className="text-sm opacity-90">Résultat précis en 30 secondes • 100% gratuit</div>
+            </Link>
+          </div>
+
           <div className="max-w-xl mx-auto transform hover:scale-[1.01] transition-transform duration-500">
             <HeroSearch />
           </div>
         </div>
       </div>
 
-      {/* BENTO GRID */}
-      <div className="container mx-auto px-4 -mt-32 relative z-20 pb-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          {mainTools.map((tool, idx) => (
+      {/* HYBRID LAYOUT - Mobile: Hero + Carousel / Desktop: Grid */}
+      <div className="-mt-32 relative z-20 pb-24">
+        {/* Mobile: Enhanced Hero Card + Carousel with Indicators */}
+        <div className="md:hidden">
+          {/* First Card - Enhanced Full Width Hero */}
+          <div className="px-4 mb-6">
             <Link
-              key={idx}
-              href={tool.href}
-              className={`group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 ease-out ${tool.className}`}
+              href={mainTools[0].href}
+              className="group relative rounded-3xl overflow-hidden shadow-2xl hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] transition-all duration-500 ease-out block min-h-[420px] active:scale-[0.98]"
             >
               <div className="absolute inset-0 pointer-events-none overflow-hidden">
                 <Image
-                  src={tool.imageSrc}
-                  alt={tool.title}
+                  src={mainTools[0].imageSrc}
+                  alt={mainTools[0].title}
                   fill
                   className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
-                  priority={idx === 0}
-                  loading={idx === 0 ? 'eager' : 'lazy'}
-                  quality={idx === 0 ? 90 : 75}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  priority
+                  loading="eager"
+                  quality={90}
+                  sizes="100vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-50 group-hover:opacity-70 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent opacity-60 group-hover:opacity-70 transition-opacity" />
               </div>
 
-              <div className="absolute bottom-0 left-0 p-3 md:p-4 w-full z-20">
-                <div className="backdrop-blur-lg bg-white/70 border border-white/50 shadow-2xl rounded-2xl p-3 md:p-4 transform transition-all duration-300 ease-out group-hover:-translate-y-2 group-hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] group-hover:bg-white/80">
-                  <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-[9px] font-bold uppercase tracking-wider mb-2 ${themeClasses[tool.theme]} shadow-sm`}>
-                    <span className="w-1 h-1 rounded-full bg-current animate-pulse"></span>
-                    {tool.subtitle}
-                  </div>
+              <div className="absolute inset-0 p-5 flex flex-col justify-between z-20">
+                {/* Top Badge */}
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/75 backdrop-blur-md border border-white/30 text-white text-[10px] font-bold uppercase tracking-wider w-fit shadow-lg">
+                  <span className="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                  {mainTools[0].subtitle}
+                </div>
 
-                  <h3 className="text-base md:text-lg font-extrabold text-slate-900 leading-tight mb-1 group-hover:text-emerald-700 transition-colors">
-                    {tool.title}
+                {/* Bottom Content */}
+                <div>
+                  <h3 className="text-2xl font-extrabold text-white leading-tight mb-2 drop-shadow-lg">
+                    {mainTools[0].title}
                   </h3>
-                  <p className="text-[11px] md:text-xs text-slate-600 font-medium leading-snug line-clamp-1 mb-2.5">
-                    {tool.description}
+                  <p className="text-white/95 text-sm font-medium leading-snug mb-4 drop-shadow-md">
+                    {mainTools[0].description}
                   </p>
 
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] md:text-xs font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
-                      Calculer
-                    </span>
-                    <div className="w-7 h-7 rounded-full bg-emerald-500 group-hover:bg-emerald-600 flex items-center justify-center shadow-lg group-hover:shadow-emerald-500/50 transition-all">
-                      <ArrowRight className="w-3.5 h-3.5 text-white transform transition-transform duration-300 group-hover:translate-x-0.5" />
+                  {/* Enhanced CTA Button with Pulse */}
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-white rounded-2xl opacity-75 animate-ping" style={{ animationDuration: '2s' }}></div>
+                    <div className="relative bg-white text-emerald-600 font-bold py-3.5 px-5 rounded-2xl shadow-xl flex items-center justify-between group-hover:bg-emerald-50 transition-all">
+                      <span className="text-sm">Calculer Maintenant</span>
+                      <ArrowRight className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
                 </div>
               </div>
             </Link>
-          ))}
-        </div>
-
-        {/* SECONDARY TOOLS */}
-        <div className="mt-12">
-          <div className="flex items-center gap-4 mb-8 opacity-60">
-            <div className="h-px bg-slate-300 flex-1" />
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Outils Secondaires</span>
-            <div className="h-px bg-slate-300 flex-1" />
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+          {/* Remaining Cards - Horizontal Carousel with Scroll Indicators */}
+          <div className="relative">
+            <div ref={carouselRef} className="overflow-x-auto scrollbar-hide snap-x snap-mandatory">
+              <div className="flex gap-4 px-4 pb-2">
+                {mainTools.slice(1).map((tool, idx) => (
+                  <Link
+                    key={idx + 1}
+                    href={tool.href}
+                    className="group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 ease-out flex-shrink-0 snap-center min-h-[300px] active:scale-[0.98]"
+                    style={{ width: '85vw' }}
+                  >
+                    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                      <Image
+                        src={tool.imageSrc}
+                        alt={tool.title}
+                        fill
+                        className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
+                        loading="lazy"
+                        quality={75}
+                        sizes="85vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-50 group-hover:opacity-70 transition-opacity" />
+                    </div>
+
+                    <div className="absolute bottom-0 left-0 p-3 w-full z-20">
+                      <div className="backdrop-blur-lg bg-white/70 border border-white/50 shadow-2xl rounded-2xl p-3 transform transition-all duration-300 ease-out group-hover:-translate-y-2 group-hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] group-hover:bg-white/80">
+                        <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-[9px] font-bold uppercase tracking-wider mb-2 ${themeClasses[tool.theme]} shadow-sm`}>
+                          <span className="w-1 h-1 rounded-full bg-current animate-pulse"></span>
+                          {tool.subtitle}
+                        </div>
+
+                        <h3 className="text-base font-extrabold text-slate-900 leading-tight mb-1 group-hover:text-emerald-700 transition-colors">
+                          {tool.title}
+                        </h3>
+                        <p className="text-[11px] text-slate-600 font-medium leading-snug line-clamp-1 mb-2.5">
+                          {tool.description}
+                        </p>
+
+                        <div className="flex items-center justify-between">
+                          <span className="text-[11px] font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
+                            Calculer
+                          </span>
+                          <div className="w-7 h-7 rounded-full bg-emerald-500 group-hover:bg-emerald-600 flex items-center justify-center shadow-lg group-hover:shadow-emerald-500/50 transition-all">
+                            <ArrowRight className="w-3.5 h-3.5 text-white transform transition-transform duration-300 group-hover:translate-x-0.5" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* Scroll Progress Indicators */}
+            <div className="flex justify-center gap-2 mt-4">
+              {mainTools.slice(1).map((_, idx) => (
+                <div
+                  key={idx}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    activeCarouselIndex === idx
+                      ? 'w-6 bg-emerald-500'
+                      : 'w-2 bg-slate-300'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop: Grid Layout */}
+        <div className="hidden md:block container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {mainTools.map((tool, idx) => (
+              <Link
+                key={idx}
+                href={tool.href}
+                className={`group relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 ease-out ${tool.className}`}
+              >
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                  <Image
+                    src={tool.imageSrc}
+                    alt={tool.title}
+                    fill
+                    className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-110"
+                    priority={idx === 0}
+                    loading={idx === 0 ? 'eager' : 'lazy'}
+                    quality={idx === 0 ? 90 : 75}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-50 group-hover:opacity-70 transition-opacity" />
+                </div>
+
+                <div className="absolute bottom-0 left-0 p-3 md:p-4 w-full z-20">
+                  <div className="backdrop-blur-lg bg-white/70 border border-white/50 shadow-2xl rounded-2xl p-3 md:p-4 transform transition-all duration-300 ease-out group-hover:-translate-y-2 group-hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] group-hover:bg-white/80">
+                    <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-[9px] font-bold uppercase tracking-wider mb-2 ${themeClasses[tool.theme]} shadow-sm`}>
+                      <span className="w-1 h-1 rounded-full bg-current animate-pulse"></span>
+                      {tool.subtitle}
+                    </div>
+
+                    <h3 className="text-base md:text-lg font-extrabold text-slate-900 leading-tight mb-1 group-hover:text-emerald-700 transition-colors">
+                      {tool.title}
+                    </h3>
+                    <p className="text-[11px] md:text-xs text-slate-600 font-medium leading-snug line-clamp-1 mb-2.5">
+                      {tool.description}
+                    </p>
+
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] md:text-xs font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
+                        Calculer
+                      </span>
+                      <div className="w-7 h-7 rounded-full bg-emerald-500 group-hover:bg-emerald-600 flex items-center justify-center shadow-lg group-hover:shadow-emerald-500/50 transition-all">
+                        <ArrowRight className="w-3.5 h-3.5 text-white transform transition-transform duration-300 group-hover:translate-x-0.5" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* SECONDARY TOOLS - Mobile Carousel / Desktop Grid */}
+        <div className="mt-12 container mx-auto">
+          <div className="flex items-center justify-between px-4 mb-6">
+            <div className="flex items-center gap-3 flex-1">
+              <div className="h-px bg-slate-300 flex-1 max-w-[60px]" />
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-widest whitespace-nowrap">Outils Rapides</span>
+            </div>
+            <span className="text-[10px] text-slate-400 md:hidden">Swipe →</span>
+          </div>
+
+          {/* Mobile: Horizontal Carousel */}
+          <div className="md:hidden overflow-x-auto scrollbar-hide snap-x snap-mandatory">
+            <div className="flex gap-3 px-4 pb-2">
+              {secondaryTools.map((tool, i) => (
+                <Link
+                  key={i}
+                  href={tool.href}
+                  className="flex-shrink-0 snap-start flex flex-col items-center justify-center p-4 bg-white rounded-2xl border-2 border-slate-200 hover:border-emerald-400 hover:shadow-lg active:scale-95 transition-all group text-center gap-2 min-w-[120px]"
+                >
+                  <div className="p-2.5 bg-slate-50 rounded-full text-slate-400 group-hover:bg-emerald-500 group-hover:text-white transition-all">
+                    {tool.icon}
+                  </div>
+                  <span className="font-semibold text-slate-700 text-xs">{tool.label}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Desktop: Grid */}
+          <div className="hidden md:grid grid-cols-4 gap-3 md:gap-4 px-4">
             {secondaryTools.map((tool, i) => (
               <Link
                 key={i}
@@ -193,8 +393,8 @@ export default function HomeClient({ marketRates }: HomeClientProps) {
         </div>
       </div>
 
-      {/* PREMIUM BRAND SECTION */}
-      <div className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-16 md:py-24 overflow-hidden">
+      {/* PREMIUM BRAND SECTION with Fade-in */}
+      <div className="observe-fade opacity-0 relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-16 md:py-24 overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
         </div>
@@ -215,7 +415,7 @@ export default function HomeClient({ marketRates }: HomeClientProps) {
 
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all">
-              <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center mb-4">
+              <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center mb-4 animate-float">
                 <Calculator className="w-6 h-6 text-emerald-400" />
               </div>
               <h3 className="text-lg font-bold text-white mb-2">Précision Garantie</h3>
@@ -225,7 +425,7 @@ export default function HomeClient({ marketRates }: HomeClientProps) {
             </div>
 
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all">
-              <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center mb-4">
+              <div className="w-12 h-12 rounded-xl bg-blue-500/20 flex items-center justify-center mb-4 animate-float">
                 <TrendingUp className="w-6 h-6 text-blue-400" />
               </div>
               <h3 className="text-lg font-bold text-white mb-2">Toujours à Jour</h3>
@@ -235,7 +435,7 @@ export default function HomeClient({ marketRates }: HomeClientProps) {
             </div>
 
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all">
-              <div className="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center mb-4">
+              <div className="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center mb-4 animate-float">
                 <Sparkles className="w-6 h-6 text-purple-400" />
               </div>
               <h3 className="text-lg font-bold text-white mb-2">100% Gratuit</h3>
@@ -247,41 +447,61 @@ export default function HomeClient({ marketRates }: HomeClientProps) {
         </div>
       </div>
 
-      {/* STATISTICS SECTION - COMPACT */}
-      <div className="bg-white py-8 border-y border-slate-200">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-wrap justify-center items-center gap-6 md:gap-12 max-w-3xl mx-auto">
-            <div className="text-center">
-              <div className="text-xl md:text-2xl font-bold text-slate-800 mb-0.5">50K+</div>
-              <div className="text-[11px] md:text-xs text-slate-500">Utilisateurs</div>
+      {/* ENHANCED TRUST & STATISTICS SECTION */}
+      <div className="observe-fade opacity-0 relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-12 md:py-16 overflow-hidden">
+        <div className="container mx-auto px-4 relative z-10">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-[10px] font-bold uppercase tracking-wider mb-4">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              Plateforme de Confiance
             </div>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-2">
+              Utilisé par des milliers de Québécois
+            </h2>
+            <p className="text-slate-400 text-sm">Des calculs précis pour vos décisions financières</p>
+          </div>
 
-            <div className="hidden md:block w-px h-8 bg-slate-300"></div>
-
-            <div className="text-center">
-              <div className="text-xl md:text-2xl font-bold text-slate-800 mb-0.5">500K+</div>
-              <div className="text-[11px] md:text-xs text-slate-500">Calculs</div>
+          {/* Stats Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 max-w-4xl mx-auto">
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 md:p-6 text-center hover:bg-white/10 transition-all">
+              <div className="text-2xl md:text-3xl font-bold text-white mb-1">50K+</div>
+              <div className="text-[11px] md:text-xs text-slate-400">Utilisateurs Actifs</div>
             </div>
-
-            <div className="hidden md:block w-px h-8 bg-slate-300"></div>
-
-            <div className="text-center">
-              <div className="text-xl md:text-2xl font-bold text-slate-800 mb-0.5">99.9%</div>
-              <div className="text-[11px] md:text-xs text-slate-500">Précision</div>
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 md:p-6 text-center hover:bg-white/10 transition-all">
+              <div className="text-2xl md:text-3xl font-bold text-white mb-1">500K+</div>
+              <div className="text-[11px] md:text-xs text-slate-400">Calculs Effectués</div>
             </div>
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 md:p-6 text-center hover:bg-white/10 transition-all">
+              <div className="text-2xl md:text-3xl font-bold text-emerald-400 mb-1">99.9%</div>
+              <div className="text-[11px] md:text-xs text-slate-400">Taux de Précision</div>
+            </div>
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 md:p-6 text-center hover:bg-white/10 transition-all">
+              <div className="text-2xl md:text-3xl font-bold text-white mb-1">19+</div>
+              <div className="text-[11px] md:text-xs text-slate-400">Outils Disponibles</div>
+            </div>
+          </div>
 
-            <div className="hidden md:block w-px h-8 bg-slate-300"></div>
-
-            <div className="text-center">
-              <div className="text-xl md:text-2xl font-bold text-slate-800 mb-0.5">19+</div>
-              <div className="text-[11px] md:text-xs text-slate-500">Outils</div>
+          {/* Trust Badges */}
+          <div className="flex flex-wrap justify-center gap-3 max-w-2xl mx-auto">
+            <div className="flex items-center gap-2 px-3 py-2 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
+              <Shield className="w-4 h-4 text-emerald-400" />
+              <span className="text-xs font-semibold text-white">100% Sécurisé</span>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-2 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
+              <Eye className="w-4 h-4 text-emerald-400" />
+              <span className="text-xs font-semibold text-white">Données Privées</span>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-2 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20">
+              <Calendar className="w-4 h-4 text-emerald-400" />
+              <span className="text-xs font-semibold text-white">Mis à Jour 2026</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* SEO-RICH CONTENT SECTION */}
-      <div className="bg-white py-16 md:py-24">
+      <div className="observe-fade opacity-0 bg-white py-16 md:py-24">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="prose prose-slate max-w-none">
             <div className="grid md:grid-cols-2 gap-12 mb-16">
@@ -350,7 +570,7 @@ export default function HomeClient({ marketRates }: HomeClientProps) {
       </div>
 
       {/* FAQ SECTION */}
-      <div className="bg-slate-50 py-16 md:py-24 border-t border-slate-200">
+      <div className="observe-fade opacity-0 bg-slate-50 py-16 md:py-24 border-t border-slate-200">
         <div className="container mx-auto px-4 max-w-4xl">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Questions Fréquentes</h2>
@@ -418,6 +638,50 @@ export default function HomeClient({ marketRates }: HomeClientProps) {
         }
         .animate-marquee {
           animation: marquee 30s linear infinite;
+        }
+        
+        /* Hide scrollbar for mobile carousel */
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+
+        /* Pulse animation for CTA */
+        @keyframes ping {
+          75%, 100% {
+            transform: scale(1.1);
+            opacity: 0;
+          }
+        }
+        .animate-ping {
+          animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+
+        /* Fade in up animation */
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fade-in-up {
+          animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        /* Floating animation */
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
         }
       `}</style>
     </div>

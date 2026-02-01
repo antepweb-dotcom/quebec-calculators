@@ -1,10 +1,9 @@
 import { Metadata } from 'next'
 import MortgageCalculatorClient from './MortgageCalculatorClient'
-import Breadcrumb from '@/components/Breadcrumb'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
 import { Home, TrendingUp, DollarSign } from 'lucide-react'
 import DataSource from '@/components/ui/DataSource'
-import LastUpdatedBadge from '@/components/ui/LastUpdatedBadge'
+import DarkPageHeader from '@/components/DarkPageHeader'
 
 export const metadata: Metadata = {
   title: 'Calculateur Hypothèque Québec 2026 | Paiement Mensuel',
@@ -16,28 +15,20 @@ export const metadata: Metadata = {
 
 export default function MortgagePage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50">
+    <>
+      <DarkPageHeader
+        badge="Achat Immobilier"
+        badgeIcon="Home"
+        title="Planifiez Votre Hypothèque"
+        titleAccent="Intelligemment"
+        description="Calculez vos paiements mensuels réels et découvrez combien vous économiserez avec différentes stratégies"
+        accentColor="indigo"
+        breadcrumbLabel="Calcul Hypothécaire"
+        showLastUpdated={true}
+      />
+
+      <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-violet-50 to-purple-50">
       <div className="container mx-auto px-4 py-12 max-w-7xl">
-        <Breadcrumb 
-          items={[
-            { label: 'Immobilier', href: '/#immobilier' },
-            { label: 'Calcul Hypothécaire' }
-          ]} 
-        />
-        <header className="text-center mb-12">
-          <div className="flex items-center justify-center gap-3 mb-4 flex-wrap">
-            <span className="bg-indigo-100 text-indigo-800 rounded-full px-3 py-1 text-sm font-semibold inline-block">
-              🏠 Achat Immobilier
-            </span>
-            <LastUpdatedBadge />
-          </div>
-          <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
-            Planifiez Votre Hypothèque Intelligemment
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Calculez vos paiements mensuels réels et découvrez combien vous économiserez avec différentes stratégies
-          </p>
-        </header>
 
         {/* GOLD STANDARD SPLIT-SCREEN CALCULATOR */}
         <MortgageCalculatorClient />
@@ -248,6 +239,7 @@ export default function MortgagePage() {
           <DataSource source="bankOfCanada" />
         </div>
       </div>
-    </main>
+      </main>
+    </>
   )
 }

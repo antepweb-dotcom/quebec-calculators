@@ -2,8 +2,8 @@ import { Metadata } from 'next'
 import FamilyBenefitsClient from './FamilyBenefitsClient'
 import StructuredData from '@/components/StructuredData'
 import SEOContent from '@/components/SEOContent'
-import Breadcrumb from '@/components/Breadcrumb'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
+import DarkPageHeader from '@/components/DarkPageHeader'
 
 export const metadata: Metadata = {
   title: "Allocations Familiales Québec 2026 | Calculateur ACE",
@@ -46,26 +46,18 @@ export default function FamilyBenefitsPage() {
           ratingCount: 890,
         }}
       />
-      <main className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50">
+      <main className="min-h-screen bg-white">
+        <DarkPageHeader
+          badge="Aide Familiale"
+          badgeIcon="Baby"
+          title="Calculez Vos Allocations"
+          titleAccent="Familiales"
+          description="Découvrez combien vous recevrez chaque mois pour vos enfants avec l'ACE et le Soutien Québec"
+          accentColor="pink"
+          breadcrumbLabel="Allocations Familiales"
+          showLastUpdated={true}
+        />
         <div className="container mx-auto px-4 py-12 max-w-7xl">
-          <Breadcrumb 
-            items={[
-              { label: 'Famille & Quotidien', href: '/#famille' },
-              { label: 'Allocations Familiales' }
-            ]} 
-          />
-          {/* Header */}
-          <header className="text-center mb-12">
-            <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
-              👶 Aide Familiale
-            </span>
-            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
-              Calculez Vos Allocations Familiales
-            </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Découvrez combien vous recevrez chaque mois pour vos enfants avec l'ACE et le Soutien Québec
-            </p>
-          </header>
 
           {/* GOLD STANDARD SPLIT-SCREEN CALCULATOR */}
           <FamilyBenefitsClient />

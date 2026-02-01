@@ -2,9 +2,9 @@ import { Metadata } from 'next'
 import AutoLoanClient from './AutoLoanClient'
 import { Car, TrendingDown, DollarSign } from 'lucide-react'
 import StructuredData from '@/components/StructuredData'
-import Breadcrumb from '@/components/Breadcrumb'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
 import DataSource from '@/components/ui/DataSource'
+import DarkPageHeader from '@/components/DarkPageHeader'
 
 export const metadata: Metadata = {
   title: 'Prêt Auto Québec 2026 | Calculateur Financement',
@@ -47,24 +47,20 @@ export default function AutoLoanPage() {
           ratingCount: 720,
         }}
       />
-      <Breadcrumb
-        items={[
-          { label: 'Prêt Auto', href: '/pret-auto' },
-        ]}
+      
+      <DarkPageHeader
+        badge="Financement Auto"
+        badgeIcon="Car"
+        title="Votre Paiement Auto"
+        titleAccent="Réel"
+        description="Calculez vos paiements mensuels et découvrez combien vous économiserez avec les paiements bi-hebdomadaires"
+        accentColor="blue"
+        breadcrumbLabel="Prêt Auto"
+        showLastUpdated={true}
       />
+
       <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 py-12 max-w-7xl">
-        <header className="text-center mb-12">
-          <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
-            🚗 Financement Auto
-          </span>
-          <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
-            Votre Paiement Auto Réel
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Calculez vos paiements mensuels et découvrez combien vous économiserez avec les paiements bi-hebdomadaires
-          </p>
-        </header>
 
         {/* Calculator */}
         <div className="mb-12">

@@ -3,6 +3,7 @@ import CompoundInterestClient from './CompoundInterestClient'
 import { TrendingUp, Sparkles, DollarSign, Clock } from 'lucide-react'
 import { ToolCrossLink } from '@/components/ToolCrossLink'
 import DataSource from '@/components/ui/DataSource'
+import DarkPageHeader from '@/components/DarkPageHeader'
 
 export const metadata: Metadata = {
   title: "Intérêts Composés Québec 2026 | Calculateur Investissement",
@@ -14,20 +15,18 @@ export const metadata: Metadata = {
 
 export default function CompoundInterestPage() {
   return (
-    <><main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+    <><main className="min-h-screen bg-white">
+        <DarkPageHeader
+          badge="Croissance Exponentielle"
+          badgeIcon="Sparkles"
+          title="Voyez Votre Argent Se"
+          titleAccent="Multiplier"
+          description="Découvrez la puissance des intérêts composés et combien votre épargne vaudra dans 10, 20 ou 30 ans"
+          accentColor="blue"
+          breadcrumbLabel="Intérêts Composés"
+          showLastUpdated={true}
+        />
         <div className="container mx-auto px-4 py-12 max-w-7xl">
-          {/* Header */}
-          <header className="text-center mb-12">
-            <span className="bg-emerald-100 text-emerald-800 rounded-full px-3 py-1 text-sm font-semibold inline-block mb-4">
-              ✨ Croissance Exponentielle
-            </span>
-            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-4">
-              Voyez Votre Argent Se Multiplier
-            </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Découvrez la puissance des intérêts composés et combien votre épargne vaudra dans 10, 20 ou 30 ans
-            </p>
-          </header>
 
           <div className="mb-12">
             <CompoundInterestClient />
