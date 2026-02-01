@@ -7,7 +7,6 @@ import DataSource from '@/components/ui/DataSource'
 import SalaryLinkGrid from '@/components/calculators/SalaryLinkGrid'
 import { calculateTaxes } from '@/utils/taxLogic'
 import DarkPageHeader from '@/components/DarkPageHeader'
-import { TrendingUp } from 'lucide-react'
 
 // Generate static paths for 170+ salary pages (30k to 200k in 1k increments)
 export async function generateStaticParams() {
@@ -115,7 +114,7 @@ export default function DynamicSalaryPage({ params }: { params: { salary: string
       {/* Dark Header - Dynamic Salary */}
       <DarkPageHeader
         badge="Données Fiscales 2026"
-        badgeIcon={TrendingUp}
+        badgeIcon="TrendingUp"
         title={`Salaire Net ${formattedAmount} $`}
         titleAccent="Québec 2026"
         description="Découvrez votre véritable pouvoir d'achat au Québec après impôts, RRQ et RQAP."
