@@ -17,85 +17,192 @@ export default async function Image() {
           height: '100%',
           width: '100%',
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: 'linear-gradient(135deg, #0f766e 0%, #10b981 50%, #14b8a6 100%)',
+          background: 'linear-gradient(135deg, #0c4a6e 0%, #0369a1 25%, #0891b2 50%, #06b6d4 75%, #22d3ee 100%)',
           fontFamily: 'system-ui, sans-serif',
+          position: 'relative',
         }}
       >
-        {/* Main Content Container */}
+        {/* Decorative circles */}
         <div
           style={{
+            position: 'absolute',
+            top: '-100px',
+            right: '-100px',
+            width: '400px',
+            height: '400px',
+            background: 'rgba(255, 255, 255, 0.1)',
+            borderRadius: '50%',
+            display: 'flex',
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '-150px',
+            left: '-150px',
+            width: '500px',
+            height: '500px',
+            background: 'rgba(255, 255, 255, 0.08)',
+            borderRadius: '50%',
+            display: 'flex',
+          }}
+        />
+
+        {/* Left Side - Icons Grid */}
+        <div
+          style={{
+            flex: 1,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
             justifyContent: 'center',
-            padding: '80px',
+            padding: '80px 60px',
+            gap: '30px',
           }}
         >
-          {/* Logo */}
+          {/* Icon Grid */}
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: '20px',
+              maxWidth: '400px',
+            }}
+          >
+            {['💰', '🏠', '🚗', '👨‍👩‍👧', '📊', '💳', '📈', '🎓', '⚡'].map((emoji, i) => (
+              <div
+                key={i}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '100px',
+                  height: '100px',
+                  background: 'rgba(255, 255, 255, 0.15)',
+                  borderRadius: '24px',
+                  fontSize: '48px',
+                  backdropFilter: 'blur(10px)',
+                  border: '2px solid rgba(255, 255, 255, 0.2)',
+                }}
+              >
+                {emoji}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right Side - Content */}
+        <div
+          style={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            padding: '80px 60px',
+            position: 'relative',
+          }}
+        >
+          {/* Badge */}
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              width: '160px',
-              height: '160px',
-              background: 'rgba(255, 255, 255, 0.25)',
-              borderRadius: '35px',
-              marginBottom: '50px',
-              backdropFilter: 'blur(10px)',
-              border: '3px solid rgba(255, 255, 255, 0.3)',
+              gap: '10px',
+              marginBottom: '30px',
             }}
           >
             <div
               style={{
-                fontSize: '90px',
-                fontWeight: 'bold',
+                background: 'rgba(255, 255, 255, 0.25)',
+                padding: '12px 28px',
+                borderRadius: '50px',
+                fontSize: '22px',
                 color: 'white',
+                fontWeight: '700',
                 display: 'flex',
-                letterSpacing: '-3px',
+                backdropFilter: 'blur(10px)',
+                border: '2px solid rgba(255, 255, 255, 0.3)',
               }}
             >
-              QC
+              🇨🇦 Québec 2026
             </div>
           </div>
 
-          {/* Brand Name */}
+          {/* Logo + Brand */}
           <div
             style={{
-              fontSize: '80px',
-              fontWeight: 'bold',
-              color: 'white',
-              textAlign: 'center',
-              marginBottom: '24px',
               display: 'flex',
-              letterSpacing: '-2px',
+              alignItems: 'center',
+              gap: '20px',
+              marginBottom: '30px',
             }}
           >
-            QC Finance
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100px',
+                height: '100px',
+                background: 'white',
+                borderRadius: '24px',
+                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2)',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '56px',
+                  fontWeight: 'bold',
+                  background: 'linear-gradient(135deg, #0891b2 0%, #06b6d4 100%)',
+                  backgroundClip: 'text',
+                  color: 'transparent',
+                  display: 'flex',
+                  letterSpacing: '-2px',
+                }}
+              >
+                QC
+              </div>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '64px',
+                  fontWeight: 'bold',
+                  color: 'white',
+                  display: 'flex',
+                  letterSpacing: '-2px',
+                  lineHeight: 1,
+                }}
+              >
+                QC Finance
+              </div>
+            </div>
           </div>
 
           {/* Slogan */}
           <div
             style={{
-              fontSize: '42px',
+              fontSize: '36px',
               color: 'rgba(255, 255, 255, 0.95)',
-              textAlign: 'center',
-              marginBottom: '50px',
+              marginBottom: '40px',
               display: 'flex',
               fontWeight: '500',
+              lineHeight: 1.3,
             }}
           >
             Votre guide financier au Québec
           </div>
 
-          {/* Features */}
+          {/* Stats */}
           <div
             style={{
               display: 'flex',
-              gap: '30px',
+              flexDirection: 'column',
+              gap: '16px',
               marginBottom: '40px',
             }}
           >
@@ -104,58 +211,125 @@ export default async function Image() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
-                background: 'rgba(255, 255, 255, 0.2)',
-                padding: '18px 36px',
-                borderRadius: '50px',
-                backdropFilter: 'blur(10px)',
               }}
             >
-              <div style={{ fontSize: '32px', display: 'flex' }}>🧮</div>
-              <div style={{ fontSize: '28px', color: 'white', display: 'flex', fontWeight: '600' }}>
-                19 Calculateurs
+              <div
+                style={{
+                  width: '8px',
+                  height: '8px',
+                  background: 'white',
+                  borderRadius: '50%',
+                  display: 'flex',
+                }}
+              />
+              <div
+                style={{
+                  fontSize: '28px',
+                  color: 'white',
+                  display: 'flex',
+                  fontWeight: '600',
+                }}
+              >
+                19 calculateurs gratuits
               </div>
             </div>
-
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
-                background: 'rgba(255, 255, 255, 0.2)',
-                padding: '18px 36px',
-                borderRadius: '50px',
-                backdropFilter: 'blur(10px)',
               }}
             >
-              <div style={{ fontSize: '32px', display: 'flex' }}>✨</div>
-              <div style={{ fontSize: '28px', color: 'white', display: 'flex', fontWeight: '600' }}>
-                100% Gratuit
+              <div
+                style={{
+                  width: '8px',
+                  height: '8px',
+                  background: 'white',
+                  borderRadius: '50%',
+                  display: 'flex',
+                }}
+              />
+              <div
+                style={{
+                  fontSize: '28px',
+                  color: 'white',
+                  display: 'flex',
+                  fontWeight: '600',
+                }}
+              >
+                Impôts • Immobilier • Auto • Famille
               </div>
             </div>
-
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
-                background: 'rgba(255, 255, 255, 0.2)',
-                padding: '18px 36px',
-                borderRadius: '50px',
-                backdropFilter: 'blur(10px)',
               }}
             >
-              <div style={{ fontSize: '32px', display: 'flex' }}>🇨🇦</div>
-              <div style={{ fontSize: '28px', color: 'white', display: 'flex', fontWeight: '600' }}>
-                Québec 2026
+              <div
+                style={{
+                  width: '8px',
+                  height: '8px',
+                  background: 'white',
+                  borderRadius: '50%',
+                  display: 'flex',
+                }}
+              />
+              <div
+                style={{
+                  fontSize: '28px',
+                  color: 'white',
+                  display: 'flex',
+                  fontWeight: '600',
+                }}
+              >
+                Résultats instantanés et précis
               </div>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '16px',
+              background: 'white',
+              padding: '20px 40px',
+              borderRadius: '16px',
+              width: 'fit-content',
+              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2)',
+            }}
+          >
+            <div
+              style={{
+                fontSize: '32px',
+                fontWeight: 'bold',
+                background: 'linear-gradient(135deg, #0891b2 0%, #06b6d4 100%)',
+                backgroundClip: 'text',
+                color: 'transparent',
+                display: 'flex',
+              }}
+            >
+              Commencer Gratuitement
+            </div>
+            <div
+              style={{
+                fontSize: '32px',
+                display: 'flex',
+              }}
+            >
+              →
             </div>
           </div>
 
           {/* Footer */}
           <div
             style={{
-              fontSize: '26px',
+              fontSize: '22px',
               color: 'rgba(255, 255, 255, 0.8)',
+              marginTop: '40px',
               display: 'flex',
               fontWeight: '500',
             }}
