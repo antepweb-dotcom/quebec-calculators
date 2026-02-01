@@ -46,14 +46,24 @@ export async function generateMetadata({ params }: { params: { salary: string } 
     openGraph: {
       title: `Salaire Net ${formattedSalary} $ Québec 2026`,
       description: `Découvrez votre revenu net réel sur un salaire de ${formattedSalary} $ au Québec. Calcul complet avec impôts, RRQ, RQAP et AE.`,
-      url: `/salaire-net-quebec/${params.salary}`,
+      url: `https://qcfinance.ca/salaire-net-quebec/${params.salary}`,
       type: 'website',
       locale: 'fr_CA',
+      siteName: 'QC Finance',
+      images: [
+        {
+          url: `https://qcfinance.ca/salaire-net-quebec/${params.salary}/opengraph-image`,
+          width: 1200,
+          height: 630,
+          alt: `Salaire Net ${formattedSalary} $ Québec 2026`,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: `Salaire Net ${formattedSalary} $ Québec 2026`,
       description: `Calcul détaillé du revenu net sur ${formattedSalary} $ au Québec`,
+      images: [`https://qcfinance.ca/salaire-net-quebec/${params.salary}/opengraph-image`],
     },
   }
 }

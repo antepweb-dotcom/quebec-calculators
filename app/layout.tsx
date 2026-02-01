@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     description: '19 calculateurs gratuits pour impôts, hypothèque, salaire net et allocations familiales au Québec. Outils financiers 2026.',
     images: [
       {
-        url: '/opengraph-image',
+        url: 'https://qcfinance.ca/opengraph-image',
         width: 1200,
         height: 630,
         alt: 'QC Finance - Votre guide financier au Québec',
@@ -88,7 +88,7 @@ export const metadata: Metadata = {
     creator: '@qcfinance',
     title: 'QC Finance - Votre guide financier au Québec',
     description: '19 calculateurs gratuits pour vos finances au Québec. Impôts, hypothèque, salaire net et plus.',
-    images: ['/opengraph-image'],
+    images: ['https://qcfinance.ca/opengraph-image'],
   },
   verification: {
     google: 'your-google-verification-code',
