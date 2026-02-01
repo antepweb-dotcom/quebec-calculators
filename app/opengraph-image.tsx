@@ -17,7 +17,7 @@ export default async function Image() {
           height: '100%',
           width: '100%',
           display: 'flex',
-          background: 'linear-gradient(135deg, #0c4a6e 0%, #0891b2 50%, #06b6d4 100%)',
+          background: 'linear-gradient(135deg, #047857 0%, #10b981 50%, #34d399 100%)',
           fontFamily: 'system-ui, sans-serif',
         }}
       >
@@ -42,12 +42,12 @@ export default async function Image() {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100px', height: '100px', background: 'rgba(255, 255, 255, 0.15)', borderRadius: '24px', fontSize: '48px', border: '2px solid rgba(255, 255, 255, 0.2)' }}>💰</div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100px', height: '100px', background: 'rgba(255, 255, 255, 0.15)', borderRadius: '24px', fontSize: '48px', border: '2px solid rgba(255, 255, 255, 0.2)' }}>🏠</div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100px', height: '100px', background: 'rgba(255, 255, 255, 0.15)', borderRadius: '24px', fontSize: '48px', border: '2px solid rgba(255, 255, 255, 0.2)' }}>🚗</div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100px', height: '100px', background: 'rgba(255, 255, 255, 0.15)', borderRadius: '24px', fontSize: '48px', border: '2px solid rgba(255, 255, 255, 0.2)' }}>👨‍👩‍👧</div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100px', height: '100px', background: 'rgba(255, 255, 255, 0.15)', borderRadius: '24px', fontSize: '48px', border: '2px solid rgba(255, 255, 255, 0.2)' }}>📊</div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100px', height: '100px', background: 'rgba(255, 255, 255, 0.15)', borderRadius: '24px', fontSize: '48px', border: '2px solid rgba(255, 255, 255, 0.2)' }}>💳</div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100px', height: '100px', background: 'rgba(255, 255, 255, 0.15)', borderRadius: '24px', fontSize: '48px', border: '2px solid rgba(255, 255, 255, 0.2)' }}>📈</div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100px', height: '100px', background: 'rgba(255, 255, 255, 0.15)', borderRadius: '24px', fontSize: '48px', border: '2px solid rgba(255, 255, 255, 0.2)' }}>🎓</div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100px', height: '100px', background: 'rgba(255, 255, 255, 0.15)', borderRadius: '24px', fontSize: '48px', border: '2px solid rgba(255, 255, 255, 0.2)' }}>🎯</div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100px', height: '100px', background: 'rgba(255, 255, 255, 0.15)', borderRadius: '24px', fontSize: '48px', border: '2px solid rgba(255, 255, 255, 0.2)' }}>⚡</div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100px', height: '100px', background: 'rgba(255, 255, 255, 0.15)', borderRadius: '24px', fontSize: '48px', border: '2px solid rgba(255, 255, 255, 0.2)' }}>✅</div>
           </div>
         </div>
 
@@ -58,25 +58,45 @@ export default async function Image() {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            padding: '80px 60px',
+            padding: '60px 50px',
           }}
         >
-          {/* Badge */}
+          {/* Badge with Quebec Flag */}
           <div
             style={{
-              background: 'rgba(255, 255, 255, 0.25)',
-              padding: '12px 28px',
-              borderRadius: '50px',
-              fontSize: '22px',
-              color: 'white',
-              fontWeight: '700',
               display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              background: 'rgba(255, 255, 255, 0.25)',
+              padding: '10px 24px',
+              borderRadius: '50px',
               border: '2px solid rgba(255, 255, 255, 0.3)',
-              marginBottom: '30px',
-              width: 'fit-content',
+              marginBottom: '25px',
             }}
           >
-            🇨🇦 Québec 2026
+            <div
+              style={{
+                width: '50px',
+                height: '38px',
+                background: '#0F52BA',
+                borderRadius: '6px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '28px',
+              }}
+            >
+              ⚜️
+            </div>
+            <div
+              style={{
+                fontSize: '20px',
+                color: 'white',
+                fontWeight: '700',
+              }}
+            >
+              Québec 2026
+            </div>
           </div>
 
           {/* Logo + Brand */}
@@ -84,27 +104,26 @@ export default async function Image() {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '20px',
-              marginBottom: '30px',
+              gap: '12px',
+              marginBottom: '25px',
             }}
           >
             <div
               style={{
+                width: '90px',
+                height: '90px',
+                background: 'white',
+                borderRadius: '22px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '100px',
-                height: '100px',
-                background: 'white',
-                borderRadius: '24px',
               }}
             >
               <div
                 style={{
-                  fontSize: '56px',
+                  fontSize: '50px',
                   fontWeight: 'bold',
-                  color: '#0891b2',
-                  display: 'flex',
+                  color: '#10b981',
                   letterSpacing: '-2px',
                 }}
               >
@@ -113,24 +132,22 @@ export default async function Image() {
             </div>
             <div
               style={{
-                fontSize: '64px',
+                fontSize: '56px',
                 fontWeight: 'bold',
                 color: 'white',
-                display: 'flex',
                 letterSpacing: '-2px',
               }}
             >
-              QC Finance
+              Finance
             </div>
           </div>
 
           {/* Slogan */}
           <div
             style={{
-              fontSize: '36px',
+              fontSize: '32px',
               color: 'rgba(255, 255, 255, 0.95)',
-              marginBottom: '40px',
-              display: 'flex',
+              marginBottom: '35px',
               fontWeight: '500',
             }}
           >
@@ -142,26 +159,26 @@ export default async function Image() {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: '16px',
-              marginBottom: '40px',
+              gap: '14px',
+              marginBottom: '35px',
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{ width: '8px', height: '8px', background: 'white', borderRadius: '50%', display: 'flex' }} />
-              <div style={{ fontSize: '28px', color: 'white', display: 'flex', fontWeight: '600' }}>
+              <div style={{ width: '8px', height: '8px', background: 'white', borderRadius: '50%' }} />
+              <div style={{ fontSize: '26px', color: 'white', fontWeight: '600' }}>
                 19 calculateurs gratuits
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{ width: '8px', height: '8px', background: 'white', borderRadius: '50%', display: 'flex' }} />
-              <div style={{ fontSize: '28px', color: 'white', display: 'flex', fontWeight: '600' }}>
-                Impôts • Immobilier • Auto • Famille
+              <div style={{ width: '8px', height: '8px', background: 'white', borderRadius: '50%' }} />
+              <div style={{ fontSize: '26px', color: 'white', fontWeight: '600' }}>
+                Impôts • Immobilier • Auto
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{ width: '8px', height: '8px', background: 'white', borderRadius: '50%', display: 'flex' }} />
-              <div style={{ fontSize: '28px', color: 'white', display: 'flex', fontWeight: '600' }}>
-                Résultats instantanés et précis
+              <div style={{ width: '8px', height: '8px', background: 'white', borderRadius: '50%' }} />
+              <div style={{ fontSize: '26px', color: 'white', fontWeight: '600' }}>
+                Résultats instantanés
               </div>
             </div>
           </div>
@@ -173,22 +190,20 @@ export default async function Image() {
               alignItems: 'center',
               gap: '16px',
               background: 'white',
-              padding: '20px 40px',
+              padding: '18px 36px',
               borderRadius: '16px',
-              width: 'fit-content',
             }}
           >
             <div
               style={{
-                fontSize: '32px',
+                fontSize: '28px',
                 fontWeight: 'bold',
-                color: '#0891b2',
-                display: 'flex',
+                color: '#10b981',
               }}
             >
               Commencer Gratuitement
             </div>
-            <div style={{ fontSize: '32px', display: 'flex' }}>→</div>
+            <div style={{ fontSize: '32px' }}>→</div>
           </div>
 
           {/* Footer */}
@@ -196,9 +211,10 @@ export default async function Image() {
             style={{
               fontSize: '22px',
               color: 'rgba(255, 255, 255, 0.8)',
-              marginTop: '40px',
-              display: 'flex',
+              marginTop: '35px',
               fontWeight: '500',
+              display: 'flex',
+              justifyContent: 'center',
             }}
           >
             qcfinance.ca
@@ -211,4 +227,3 @@ export default async function Image() {
     }
   )
 }
-
