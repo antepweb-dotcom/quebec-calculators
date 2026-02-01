@@ -16,6 +16,8 @@ import {
   Palmtree,
   DollarSign
 } from 'lucide-react'
+import Breadcrumb from './Breadcrumb'
+import LastUpdatedBadge from './ui/LastUpdatedBadge'
 
 interface DarkPageHeaderProps {
   badge: string
@@ -76,14 +78,10 @@ export default function DarkPageHeader({
   return (
     <div className="bg-slate-900 text-white px-6 py-8 md:py-12">
       <div className="max-w-7xl mx-auto">
-        {/* Breadcrumb */}
+        {/* Breadcrumb with Schema.org */}
         {breadcrumbLabel && (
-          <div className="mb-6 text-sm">
-            <a href="/" className="text-slate-400 hover:text-white transition-colors">
-              Accueil
-            </a>
-            <span className="text-slate-600 mx-2">/</span>
-            <span className="text-slate-300">{breadcrumbLabel}</span>
+          <div className="mb-6">
+            <Breadcrumb items={[{ label: breadcrumbLabel }]} theme="dark" />
           </div>
         )}
 
@@ -91,16 +89,11 @@ export default function DarkPageHeader({
         <div className="text-center">
           <div className="flex items-center justify-center gap-3 mb-4 flex-wrap">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-slate-300 text-sm font-medium">
-              {IconComponent && <IconComponent className="w-4 h-4" />}
+              {IconComponent && <IconComponent className="w-4 h-4" aria-hidden="true" />}
               {badge}
             </div>
             {showLastUpdated && (
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-slate-300 text-sm font-medium">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                Mis à jour: Janvier 2026
-              </div>
+              <LastUpdatedBadge variant="prominent" theme="dark" />
             )}
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold mb-3 md:mb-4">

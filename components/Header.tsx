@@ -158,15 +158,22 @@ export default function Header() {
                   onMouseEnter={() => setActiveDropdown(index)}
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
-                  <button className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
-                    activeDropdown === index 
-                      ? 'bg-gray-100 text-gray-900' 
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                  }`}>
+                  <button 
+                    className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
+                      activeDropdown === index 
+                        ? 'bg-gray-100 text-gray-900' 
+                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                    }`}
+                    aria-label={`Menu ${category.title}`}
+                    aria-expanded={activeDropdown === index}
+                  >
                     {category.title}
-                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${
-                      activeDropdown === index ? 'rotate-180' : ''
-                    }`} />
+                    <ChevronDown 
+                      className={`w-4 h-4 transition-transform duration-200 ${
+                        activeDropdown === index ? 'rotate-180' : ''
+                      }`}
+                      aria-hidden="true"
+                    />
                   </button>
 
                   {/* Dropdown Animation - Mega Menu with Sub-Groups */}
@@ -241,9 +248,9 @@ export default function Header() {
               <button
                 onClick={() => setIsMobileMenuOpen(true)}
                 className="lg:hidden p-2 rounded-full hover:bg-gray-100 transition-colors"
-                aria-label="Menu"
+                aria-label="Ouvrir le menu de navigation"
               >
-                <Menu className="w-6 h-6 text-gray-700" />
+                <Menu className="w-6 h-6 text-gray-700" aria-hidden="true" />
               </button>
             </div>
           </div>
@@ -266,8 +273,9 @@ export default function Header() {
               <button
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 transition-colors"
+                aria-label="Fermer le menu"
               >
-                <X className="w-5 h-5" />
+                <X className="w-5 h-5" aria-hidden="true" />
               </button>
             </div>
 

@@ -10,9 +10,10 @@ interface BreadcrumbItem {
 
 interface BreadcrumbProps {
   items: BreadcrumbItem[]
+  theme?: 'light' | 'dark'
 }
 
-export default function Breadcrumb({ items }: BreadcrumbProps) {
+export default function Breadcrumb({ items, theme = 'light' }: BreadcrumbProps) {
   // Generate Schema.org BreadcrumbList
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -43,29 +44,37 @@ export default function Breadcrumb({ items }: BreadcrumbProps) {
 
       {/* Visual Breadcrumb */}
       <nav aria-label="Breadcrumb" className="mb-6">
-        <ol className="flex items-center gap-2 text-sm text-gray-600">
+        <ol className={`flex items-center gap-2 text-sm ${theme === 'dark' ? 'text-slate-300' : 'text-gray-600'}`}>
           <li>
             <Link 
               href="/" 
-              className="flex items-center gap-1 hover:text-emerald-600 transition-colors"
+              className={`flex items-center gap-1 transition-colors ${
+                theme === 'dark' 
+                  ? 'hover:text-white' 
+                  : 'hover:text-emerald-600'
+              }`}
             >
-              <Home className="w-4 h-4" />
+              <Home className="w-4 h-4" aria-hidden="true" />
               <span>Accueil</span>
             </Link>
           </li>
           
           {items.map((item, index) => (
             <li key={index} className="flex items-center gap-2">
-              <ChevronRight className="w-4 h-4 text-gray-400" />
+              <ChevronRight className={`w-4 h-4 ${theme === 'dark' ? 'text-slate-600' : 'text-gray-400'}`} aria-hidden="true" />
               {item.href ? (
                 <Link 
                   href={item.href}
-                  className="hover:text-emerald-600 transition-colors"
+                  className={`transition-colors ${
+                    theme === 'dark' 
+                      ? 'hover:text-white' 
+                      : 'hover:text-emerald-600'
+                  }`}
                 >
                   {item.label}
                 </Link>
               ) : (
-                <span className="text-gray-900 font-medium">{item.label}</span>
+                <span className={`font-medium ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{item.label}</span>
               )}
             </li>
           ))}

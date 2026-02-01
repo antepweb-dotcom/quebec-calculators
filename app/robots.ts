@@ -9,7 +9,10 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/admin', '/login', '/api/admin'], // Block admin routes
       },
     ],
-    sitemap: 'https://qcfinance.ca/sitemap.xml',
+    sitemap: [
+      'https://qcfinance.ca/sitemap.xml',
+      'https://qcfinance.ca/image-sitemap.xml',
+    ],
   }
 }
 
