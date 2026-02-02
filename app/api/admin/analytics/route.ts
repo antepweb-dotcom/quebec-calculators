@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { trackPageView, trackAdClick, getAnalytics, resetAnalytics } from '@/lib/analytics-storage';
-import { siteConfig } from '@/app/site-config';
 
 // Track a page view or ad click
 export async function POST(request: NextRequest) {
@@ -41,26 +40,23 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   try {
     const analytics = await getAnalytics();
-    const configAnalytics = siteConfig.analytics;
 
-    // Calculate metrics
-    const totalViews = analytics.totalViews + configAnalytics.totalViews;
+    // Calculate metrics from REAL data only (no mock data added)
+    const totalViews = analytics.totalViews;
     const recentViews = analytics.totalViews;
-    const uniqueVisitors = analytics.uniqueVisitors + configAnalytics.totalVisitors;
+    const uniqueVisitors = analytics.uniqueVisitors;
     
-    // Calculate CTR and revenue
-    const ctr = totalViews > 0 ? (analytics.adClicks / totalViews) * 100 : 2.4;
-    const estimatedRevenue = (analytics.adClicks * 0.50) + configAnalytics.monthlyRevenue;
+    // Calculate CTR and revenue from real data
+    const ctr = totalViews > 0 ? (analytics.adClicks / totalViews) * 100 : 0;
+    const estimatedRevenue = analytics.adClicks * 0.50;
 
-    // Merge top pages with config data
-    const topPages = analytics.topPages.length > 0 
-      ? analytics.topPages 
-      : configAnalytics.topPaths;
+    // Use real top pages data
+    const topPages = analytics.topPages;
 
     return NextResponse.json({
       success: true,
       data: {
-        // Core metrics
+        // Core metrics (REAL DATA ONLY)
         totalViews,
         recentViews,
         uniqueVisitors,

@@ -92,7 +92,7 @@ export const metadata: Metadata = {
     images: ['https://qcfinance.ca/opengraph-image'],
   },
   verification: {
-    google: 'your-google-verification-code',
+    google: 'googlee90bcef2687129b9',
   },
   other: {
     'theme-color': '#10b981',
