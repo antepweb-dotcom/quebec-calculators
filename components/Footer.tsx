@@ -38,7 +38,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-16">
           
           {/* Column 1: Brand & Mission (Span 4 cols) */}
-          <div className="lg:col-span-4 space-y-6">
+          <div className="md:col-span-2 lg:col-span-4 space-y-6">
             <Link href="/" className="inline-block group">
               <Image
                 src="/images/logo2.png"
@@ -83,7 +83,7 @@ export default function Footer() {
           </div>
 
           {/* Column 2: Outils (Span 2 cols) */}
-          <div className="lg:col-span-2">
+          <div className="md:col-span-1 lg:col-span-2">
             <h3 className="text-white font-bold text-sm uppercase tracking-wider mb-6">Outils Populaires</h3>
             <ul className="space-y-4">
               <FooterLink href="/salaire-net-quebec" icon={<DollarSign className="w-4 h-4" />} text="Impôt Net" />
@@ -97,7 +97,7 @@ export default function Footer() {
           </div>
 
           {/* Column 3: Ressources (Span 2 cols) */}
-          <div className="lg:col-span-2">
+          <div className="md:col-span-1 lg:col-span-2">
             <h3 className="text-white font-bold text-sm uppercase tracking-wider mb-6">Support</h3>
             <ul className="space-y-4">
               <FooterLink href="/a-propos" icon={<Info className="w-4 h-4" />} text="À Propos" />
@@ -108,7 +108,7 @@ export default function Footer() {
           </div>
 
           {/* Column 4: Newsletter (Span 4 cols) */}
-          <div className="lg:col-span-4">
+          <div className="md:col-span-2 lg:col-span-4">
             <NewsletterForm />
           </div>
         </div>
