@@ -11,7 +11,13 @@ let analyticsDataClient: BetaAnalyticsDataClient | null = null;
 
 if (process.env.GA4_CREDENTIALS) {
   try {
-    const credentials = JSON.parse(process.env.GA4_CREDENTIALS);
+    // Decode base64 if needed
+    let credentialsStr = process.env.GA4_CREDENTIALS;
+    if (!credentialsStr.startsWith('{')) {
+      // It's base64 encoded
+      credentialsStr = Buffer.from(credentialsStr, 'base64').toString('utf-8');
+    }
+    const credentials = JSON.parse(credentialsStr);
     analyticsDataClient = new BetaAnalyticsDataClient({
       credentials
     });
