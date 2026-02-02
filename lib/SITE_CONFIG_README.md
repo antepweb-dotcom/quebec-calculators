@@ -101,7 +101,6 @@ Her yıl başında (Ocak):
 
 ## 🚀 Gelecek İyileştirmeler
 
-- [ ] Admin panel ile GUI'den güncelleme
 - [ ] Otomatik yıl değiştirme (Ocak 1'de)
 - [ ] Version history tracking
 - [ ] A/B testing için feature flags

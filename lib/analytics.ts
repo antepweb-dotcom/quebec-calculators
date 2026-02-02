@@ -1,8 +1,12 @@
+/**
+ * Google Analytics 4 Integration
+ * Gerçek veriler GA4'ten çekilir
+ */
+
 import { BetaAnalyticsDataClient } from '@google-analytics/data';
 
 const propertyId = process.env.GA4_PROPERTY_ID;
 
-// Initialize the client
 let analyticsDataClient: BetaAnalyticsDataClient | null = null;
 
 if (process.env.GA4_CREDENTIALS) {
@@ -16,181 +20,237 @@ if (process.env.GA4_CREDENTIALS) {
   }
 }
 
-export async function getAnalyticsData() {
+export async function getAnalytics() {
   if (!analyticsDataClient || !propertyId) {
-    console.warn('GA4 not configured, using mock data');
+    console.warn('GA4 not configured');
     return getMockData();
   }
 
   try {
-    // Get real-time active users
-    const [realtimeResponse] = await analyticsDataClient.runRealtimeReport({
-      property: `properties/${propertyId}`,
-      metrics: [{ name: 'activeUsers' }],
-    });
+    const now = new Date();
+    const today = now.toISOString().split('T')[0];
+    const yesterday = new Date(now);
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = yesterday.toISOString().split('T')[0];
 
-    // Get last 30 days data
-    const [response] = await analyticsDataClient.runReport({
+    // Real-time active users (son 30 dakika)
+    let activeNow = 0;
+    try {
+      const [realtimeData] = await analyticsDataClient.runRealtimeReport({
+        property: `properties/${propertyId}`,
+        metrics: [{ name: 'activeUsers' }],
+      });
+      activeNow = parseInt(realtimeData.rows?.[0]?.metricValues?.[0]?.value || '0');
+    } catch (error) {
+      console.warn('Real-time data not available:', error);
+    }
+
+    // Bugün ve dün
+    const [todayData] = await analyticsDataClient.runReport({
       property: `properties/${propertyId}`,
-      dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
-      dimensions: [{ name: 'date' }, { name: 'pagePath' }],
+      dateRanges: [
+        { startDate: today, endDate: today },
+        { startDate: yesterdayStr, endDate: yesterdayStr },
+      ],
       metrics: [
+        { name: 'activeUsers' },
         { name: 'screenPageViews' },
-        { name: 'averageSessionDuration' },
-        { name: 'bounceRate' },
       ],
     });
 
-    return processAnalyticsData(response, realtimeResponse);
+    // Bu hafta
+    const [weekData] = await analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
+      metrics: [{ name: 'activeUsers' }],
+    });
+
+    // Bu ay
+    const [monthData] = await analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
+      metrics: [{ name: 'activeUsers' }],
+    });
+
+    // Bu yıl
+    const [yearData] = await analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [{ startDate: '365daysAgo', endDate: 'today' }],
+      metrics: [{ name: 'activeUsers' }],
+    });
+
+    // Tüm zamanlar (son 2 yıl)
+    const [allTimeData] = await analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [{ startDate: '730daysAgo', endDate: 'today' }],
+      metrics: [{ name: 'totalUsers' }],
+    });
+
+    // Son 30 gün detaylı
+    const [last30DaysData] = await analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
+      dimensions: [{ name: 'date' }],
+      metrics: [
+        { name: 'activeUsers' },
+        { name: 'screenPageViews' },
+      ],
+      orderBys: [{ dimension: { dimensionName: 'date' } }],
+    });
+
+    // Top sayfalar
+    const [topPagesData] = await analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
+      dimensions: [{ name: 'pagePath' }],
+      metrics: [{ name: 'screenPageViews' }],
+      orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }],
+      limit: 15,
+    });
+
+    // Ülkeler
+    const [countriesData] = await analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
+      dimensions: [{ name: 'country' }],
+      metrics: [{ name: 'activeUsers' }],
+      orderBys: [{ metric: { metricName: 'activeUsers' }, desc: true }],
+      limit: 15,
+    });
+
+    // Cihazlar
+    const [devicesData] = await analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
+      dimensions: [{ name: 'deviceCategory' }],
+      metrics: [{ name: 'activeUsers' }],
+    });
+
+    // Returning visitors
+    const [returningData] = await analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
+      dimensions: [{ name: 'newVsReturning' }],
+      metrics: [{ name: 'activeUsers' }],
+    });
+
+    // Parse data
+    const visitorsToday = parseInt(todayData.rows?.[0]?.metricValues?.[0]?.value || '0');
+    const viewsToday = parseInt(todayData.rows?.[0]?.metricValues?.[1]?.value || '0');
+    const visitorsYesterday = parseInt(todayData.rows?.[1]?.metricValues?.[0]?.value || '0');
+    const viewsYesterday = parseInt(todayData.rows?.[1]?.metricValues?.[1]?.value || '0');
+
+    const visitorsThisWeek = parseInt(weekData.rows?.[0]?.metricValues?.[0]?.value || '0');
+    const visitorsThisMonth = parseInt(monthData.rows?.[0]?.metricValues?.[0]?.value || '0');
+    const visitorsThisYear = parseInt(yearData.rows?.[0]?.metricValues?.[0]?.value || '0');
+    const visitorsAllTime = parseInt(allTimeData.rows?.[0]?.metricValues?.[0]?.value || '0');
+
+    // Last 30 days chart
+    const last30Days = (last30DaysData.rows || []).map(row => ({
+      date: row.dimensionValues?.[0]?.value || '',
+      visitors: parseInt(row.metricValues?.[0]?.value || '0'),
+      views: parseInt(row.metricValues?.[1]?.value || '0'),
+    }));
+
+    // Top pages
+    const topPages = (topPagesData.rows || []).map(row => ({
+      path: row.dimensionValues?.[0]?.value || '',
+      count: parseInt(row.metricValues?.[0]?.value || '0'),
+    }));
+
+    // Countries
+    const topCountries = (countriesData.rows || []).map(row => ({
+      country: row.dimensionValues?.[0]?.value || '',
+      count: parseInt(row.metricValues?.[0]?.value || '0'),
+    }));
+
+    // Devices
+    const deviceMap: Record<string, number> = {};
+    (devicesData.rows || []).forEach(row => {
+      const device = row.dimensionValues?.[0]?.value?.toLowerCase() || '';
+      const count = parseInt(row.metricValues?.[0]?.value || '0');
+      deviceMap[device] = count;
+    });
+
+    const deviceStats = {
+      mobile: deviceMap['mobile'] || 0,
+      desktop: deviceMap['desktop'] || 0,
+      tablet: deviceMap['tablet'] || 0,
+    };
+
+    // Returning rate
+    let returningVisitors = 0;
+    let newVisitors = 0;
+    (returningData.rows || []).forEach(row => {
+      const type = row.dimensionValues?.[0]?.value || '';
+      const count = parseInt(row.metricValues?.[0]?.value || '0');
+      if (type === 'returning') returningVisitors = count;
+      if (type === 'new') newVisitors = count;
+    });
+
+    const totalVisitors = returningVisitors + newVisitors;
+    const returningRate = totalVisitors > 0 
+      ? ((returningVisitors / totalVisitors) * 100).toFixed(1)
+      : '0';
+
+    // Avg pages per visitor
+    const totalViews = topPages.reduce((sum, page) => sum + page.count, 0);
+    const avgPagesPerVisitor = visitorsThisMonth > 0
+      ? (totalViews / visitorsThisMonth).toFixed(1)
+      : '0';
+
+    return {
+      visitors: {
+        today: visitorsToday,
+        yesterday: visitorsYesterday,
+        thisWeek: visitorsThisWeek,
+        thisMonth: visitorsThisMonth,
+        thisYear: visitorsThisYear,
+        allTime: visitorsAllTime,
+        returning: returningVisitors,
+        returningRate: parseFloat(returningRate),
+      },
+      views: {
+        today: viewsToday,
+        yesterday: viewsYesterday,
+        allTime: totalViews,
+      },
+      activeNow, // Şu an online olan kullanıcılar
+      avgPagesPerVisitor: parseFloat(avgPagesPerVisitor),
+      topPages,
+      last30Days,
+      topCountries,
+      deviceStats,
+    };
   } catch (error) {
     console.error('Failed to fetch GA4 data:', error);
     return getMockData();
   }
 }
 
-function processAnalyticsData(response: any, realtimeResponse: any) {
-  const activeUsers = parseInt(realtimeResponse.rows?.[0]?.metricValues?.[0]?.value || '0');
-  
-  // Process page views by tool
-  const toolsMap = new Map();
-  const trafficByDay = new Map();
-  
-  response.rows?.forEach((row: any) => {
-    const date = row.dimensionValues[0].value;
-    const path = row.dimensionValues[1].value;
-    const views = parseInt(row.metricValues[0].value);
-    const avgTime = parseFloat(row.metricValues[1].value);
-    const bounceRate = parseFloat(row.metricValues[2].value);
-    
-    // Map paths to tool names
-    const toolName = getToolNameFromPath(path);
-    if (toolName) {
-      if (!toolsMap.has(toolName)) {
-        toolsMap.set(toolName, { views: 0, totalTime: 0, totalBounce: 0, count: 0 });
-      }
-      const tool = toolsMap.get(toolName);
-      tool.views += views;
-      tool.totalTime += avgTime;
-      tool.totalBounce += bounceRate;
-      tool.count += 1;
-    }
-    
-    // Aggregate traffic by day
-    if (!trafficByDay.has(date)) {
-      trafficByDay.set(date, 0);
-    }
-    trafficByDay.set(date, trafficByDay.get(date) + views);
-  });
-  
-  // Convert to array and format
-  const toolsPerformance = Array.from(toolsMap.entries()).map(([name, data]) => ({
-    name,
-    views: data.views,
-    avgTime: formatTime(data.totalTime / data.count),
-    bounceRate: `${(data.totalBounce / data.count).toFixed(0)}%`
-  })).sort((a, b) => b.views - a.views);
-  
-  const trafficRevenue = Array.from(trafficByDay.entries())
-    .sort((a, b) => a[0].localeCompare(b[0]))
-    .slice(-30)
-    .map((entry, index) => ({
-      day: index + 1,
-      traffic: entry[1],
-      revenue: entry[1] * 0.025 // Estimate: $0.025 per view
-    }));
-  
-  const totalViews = Array.from(toolsMap.values()).reduce((sum, tool) => sum + tool.views, 0);
-  const estimatedRevenue = totalViews * 0.025;
-  
-  return {
-    revenue: {
-      total: estimatedRevenue,
-      change: 12,
-      period: 'month'
-    },
-    visitors: {
-      active: activeUsers,
-      total: totalViews,
-      change: 8
-    },
-    adClicks: {
-      total: Math.floor(totalViews * 0.024),
-      ctr: 2.4,
-      change: 5
-    },
-    topTool: {
-      name: toolsPerformance[0]?.name || 'N/A',
-      views: toolsPerformance[0]?.views || 0
-    },
-    trafficRevenue,
-    toolsPerformance
-  };
-}
-
-function getToolNameFromPath(path: string): string | null {
-  const pathMap: Record<string, string> = {
-    '/calcul-hypotheque': 'Calcul Hypothèque',
-    '/salaire-net-quebec': 'Salaire Net Québec',
-    '/tps-tvq-quebec': 'TPS/TVQ Québec',
-    '/capacite-emprunt': "Capacité d'Emprunt",
-    '/pret-auto': 'Prêt Auto',
-    '/taux-horaire': 'Taux Horaire',
-    '/epargne-retraite': 'Épargne Retraite',
-    '/augmentation-loyer-2026': 'Augmentation Loyer 2026',
-    '/pourboire': 'Pourboire',
-    '/pret-etudiant': 'Prêt Étudiant',
-    '/dettes-credit': 'Dettes & Crédit',
-    '/taxe-de-bienvenue': 'Taxe de Bienvenue',
-    '/declaration-simplifiee': 'Déclaration Simplifiée',
-    '/frais-de-garde': 'Frais de Garde',
-    '/paie-vacances': 'Paie Vacances',
-    '/assurance-emploi': 'Assurance Emploi'
-  };
-  
-  for (const [key, value] of Object.entries(pathMap)) {
-    if (path.includes(key)) return value;
-  }
-  return null;
-}
-
-function formatTime(seconds: number): string {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
-}
-
 function getMockData() {
   return {
-    revenue: { total: 1245.80, change: 12, period: 'month' },
-    visitors: { active: 142, total: 45280, change: 8 },
-    adClicks: { total: 840, ctr: 2.4, change: 5 },
-    topTool: { name: 'Calcul Hypothèque', views: 8420 },
-    trafficRevenue: [
-      { day: 1, traffic: 1200, revenue: 28.5 },
-      { day: 5, traffic: 1450, revenue: 35.2 },
-      { day: 10, traffic: 1680, revenue: 42.8 },
-      { day: 15, traffic: 1920, revenue: 48.3 },
-      { day: 20, traffic: 2100, revenue: 52.7 },
-      { day: 25, traffic: 2350, revenue: 58.9 },
-      { day: 30, traffic: 2580, revenue: 65.4 }
-    ],
-    toolsPerformance: [
-      { name: 'Calcul Hypothèque', views: 8420, avgTime: '4:32', bounceRate: '32%' },
-      { name: 'Salaire Net Québec', views: 7850, avgTime: '3:45', bounceRate: '28%' },
-      { name: 'TPS/TVQ Québec', views: 5240, avgTime: '2:18', bounceRate: '45%' },
-      { name: "Capacité d'Emprunt", views: 4680, avgTime: '3:52', bounceRate: '35%' },
-      { name: 'Prêt Auto', views: 3920, avgTime: '3:28', bounceRate: '38%' },
-      { name: 'Taux Horaire', views: 3540, avgTime: '2:05', bounceRate: '42%' },
-      { name: 'Épargne Retraite', views: 3180, avgTime: '4:15', bounceRate: '30%' },
-      { name: 'Augmentation Loyer 2026', views: 2840, avgTime: '2:42', bounceRate: '40%' },
-      { name: 'Pourboire', views: 2520, avgTime: '1:35', bounceRate: '52%' },
-      { name: 'Prêt Étudiant', views: 2180, avgTime: '3:38', bounceRate: '36%' },
-      { name: 'Dettes & Crédit', views: 1920, avgTime: '4:05', bounceRate: '33%' },
-      { name: 'Taxe de Bienvenue', views: 1680, avgTime: '2:55', bounceRate: '41%' },
-      { name: 'Déclaration Simplifiée', views: 1420, avgTime: '3:12', bounceRate: '37%' },
-      { name: 'Frais de Garde', views: 1180, avgTime: '2:48', bounceRate: '39%' },
-      { name: 'Paie Vacances', views: 980, avgTime: '2:22', bounceRate: '44%' },
-      { name: 'Assurance Emploi', views: 840, avgTime: '2:58', bounceRate: '40%' }
-    ]
+    visitors: {
+      today: 0,
+      yesterday: 0,
+      thisWeek: 0,
+      thisMonth: 0,
+      thisYear: 0,
+      allTime: 0,
+      returning: 0,
+      returningRate: 0,
+    },
+    views: {
+      today: 0,
+      yesterday: 0,
+      allTime: 0,
+    },
+    activeNow: 0,
+    avgPagesPerVisitor: 0,
+    topPages: [],
+    last30Days: [],
+    topCountries: [],
+    deviceStats: { mobile: 0, desktop: 0, tablet: 0 },
   };
 }
+

@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin', '/login', '/api/admin'], // Block admin routes
+        disallow: ['/api', '/stats'], // Block API routes and stats
       },
     ],
     sitemap: [

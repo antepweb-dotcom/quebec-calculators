@@ -1,30 +1,21 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
-
-const SESSION_COOKIE_NAME = 'admin-auth'
-const SESSION_TOKEN = 'authenticated'
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  // Only protect /admin routes
-  if (request.nextUrl.pathname.startsWith('/admin')) {
-    // Check for session cookie
-    const sessionCookie = request.cookies.get(SESSION_COOKIE_NAME)
+  // Protect /stats route (but not /stats/login)
+  if (request.nextUrl.pathname.startsWith('/stats') && 
+      !request.nextUrl.pathname.startsWith('/stats/login')) {
+    const authCookie = request.cookies.get('stats-auth');
     
-    // If no cookie or invalid token, redirect to login
-    if (!sessionCookie || sessionCookie.value !== SESSION_TOKEN) {
-      const loginUrl = new URL('/login', request.url)
-      return NextResponse.redirect(loginUrl)
+    if (!authCookie || authCookie.value !== 'authenticated') {
+      const loginUrl = new URL('/stats/login', request.url);
+      return NextResponse.redirect(loginUrl);
     }
-    
-    // Cookie valid - allow access
-    return NextResponse.next()
   }
   
-  // Allow all other routes
-  return NextResponse.next()
+  return NextResponse.next();
 }
 
-// Configure which routes to run middleware on
 export const config = {
-  matcher: '/admin/:path*',
-}
+  matcher: '/stats/:path*',
+};

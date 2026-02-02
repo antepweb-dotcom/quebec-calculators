@@ -40,21 +40,6 @@ export interface SiteConfig {
     type: 'info' | 'warning' | 'error' | 'success';
     message: string;
   };
-
-  // Admin Dashboard Mock Analytics
-  analytics: {
-    totalVisitors: number;
-    monthlyRevenue: number;
-    topTool: string;
-    totalViews: number;
-    recentViews: number;
-    topPaths: Array<{ path: string; count: number }>;
-  };
-
-  // Admin Authentication
-  auth: {
-    password: string; // In production, use environment variable
-  };
 }
 
 /**
@@ -131,31 +116,6 @@ export const siteConfig: SiteConfig = {
     isActive: false, // Toggle alert banner on/off
     type: 'info', // 'info' | 'warning' | 'error' | 'success'
     message: 'Maintenance: Nous mettons à jour nos calculateurs pour 2026.'
-  },
-
-  // ==========================================
-  // MOCK ANALYTICS DATA (Admin Dashboard)
-  // ==========================================
-  analytics: {
-    totalVisitors: 1542,
-    monthlyRevenue: 145.50,
-    topTool: 'Calcul Impôt Québec',
-    totalViews: 49820,
-    recentViews: 38640,
-    topPaths: [
-      { path: '/salaire-net-quebec', count: 8420 },
-      { path: '/calcul-hypotheque', count: 7850 },
-      { path: '/tps-tvq-quebec', count: 5240 },
-      { path: '/capacite-emprunt', count: 4680 },
-      { path: '/pret-auto', count: 3920 }
-    ]
-  },
-
-  // ==========================================
-  // ADMIN AUTHENTICATION
-  // ==========================================
-  auth: {
-    password: process.env.ADMIN_PASSWORD || 'quebec2026' // Use env var in production
   }
 };
 
@@ -189,17 +149,5 @@ export function getAlertConfig() {
   return siteConfig.alert;
 }
 
-/**
- * Helper function to get analytics data
- */
-export function getAnalyticsData() {
-  return siteConfig.analytics;
-}
 
-/**
- * Helper function to validate admin password
- */
-export function validateAdminPassword(password: string): boolean {
-  return password === siteConfig.auth.password;
-}
 
