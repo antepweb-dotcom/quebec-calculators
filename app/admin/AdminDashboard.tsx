@@ -26,51 +26,30 @@ function getCountryFlag(countryCode: string): string {
   return flags[countryCode] || '🌍';
 }
 
-// Mock data for now (until database is set up)
-const mockStats = {
-  totalViews: 49820,
-  recentViews: 38640,
-  uniqueVisitors: 1542,
-  topPages: [
-    { path: '/salaire-net-quebec', count: 8420 },
-    { path: '/calcul-hypotheque', count: 7850 },
-    { path: '/tps-tvq-quebec', count: 5240 },
-    { path: '/capacite-emprunt', count: 4680 },
-    { path: '/pret-auto', count: 3920 }
-  ],
+// Initial empty state
+const initialStats = {
+  totalViews: 0,
+  recentViews: 0,
+  uniqueVisitors: 0,
+  topPages: [] as Array<{ path: string; count: number }>,
   dailyViews: Array.from({ length: 30 }, (_, i) => ({
     date: new Date(Date.now() - (29 - i) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-    count: Math.floor(1200 + Math.random() * 1500)
+    count: 0
   })),
-  totalAdClicks: 928,
-  adClicksBySlot: [
-    { slot: 'header', count: 342 },
-    { slot: 'sidebar', count: 286 },
-    { slot: 'in-article', count: 300 }
-  ],
-  ctr: 2.4,
-  estimatedRevenue: 464.00,
-  topReferrers: [
-    { referrer: 'google.com', count: 1250 },
-    { referrer: 'facebook.com', count: 420 },
-    { referrer: 'direct', count: 850 }
-  ],
-  deviceBreakdown: [
-    { device: 'desktop', count: 21252 },
-    { device: 'mobile', count: 17388 }
-  ],
-  countryBreakdown: [
-    { country: 'CA', count: 35420 },
-    { country: 'US', count: 8240 },
-    { country: 'FR', count: 4180 }
-  ],
-  dataSource: 'memory'
+  totalAdClicks: 0,
+  adClicksBySlot: [] as Array<{ slot: string; count: number }>,
+  ctr: 0,
+  estimatedRevenue: 0,
+  topReferrers: [] as Array<{ referrer: string; count: number }>,
+  deviceBreakdown: [] as Array<{ device: string; count: number }>,
+  countryBreakdown: [] as Array<{ country: string; count: number }>,
+  dataSource: 'memory' as 'kv' | 'memory'
 };
 
-const mockSettings = {
+const initialSettings = {
   id: 1,
-  adsEnabled: true,
-  adSenseId: 'ca-pub-XXXXXXXXXXXXXXXX',
+  adsEnabled: false,
+  adSenseId: '',
   alertActive: false,
   alertMessage: '',
   alertType: 'info' as const,
@@ -79,15 +58,14 @@ const mockSettings = {
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<Tab>('overview');
-  const [stats, setStats] = useState(mockStats);
-  const [settings, setSettings] = useState(mockSettings);
-  const [loading, setLoading] = useState(false);
+  const [stats, setStats] = useState(initialStats);
+  const [settings, setSettings] = useState(initialSettings);
+  const [loading, setLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    setLastUpdate(new Date());
   }, []);
 
   // Load data
@@ -98,15 +76,28 @@ export default function AdminDashboard() {
       const analyticsResponse = await fetch('/api/admin/analytics', {
         cache: 'no-store'
       });
+      
+      if (!analyticsResponse.ok) {
+        throw new Error('Failed to fetch analytics');
+      }
+      
       const analyticsResult = await analyticsResponse.json();
       
       // Fetch real settings data
       const settingsResponse = await fetch('/api/admin/settings', {
         cache: 'no-store'
       });
+      
+      if (!settingsResponse.ok) {
+        throw new Error('Failed to fetch settings');
+      }
+      
       const settingsResult = await settingsResponse.json();
       
+      // Update stats with real data
       setStats(analyticsResult.data);
+      
+      // Update settings with real data
       setSettings({
         id: 1,
         adsEnabled: settingsResult.data.ads.isEnabled,
@@ -116,10 +107,11 @@ export default function AdminDashboard() {
         alertType: settingsResult.data.alert.type,
         updatedAt: new Date().toISOString()
       });
+      
       setLastUpdate(new Date());
     } catch (error) {
       console.error('Failed to load dashboard data:', error);
-      // Keep mock data on error
+      // Keep initial empty state on error
     } finally {
       setLoading(false);
     }

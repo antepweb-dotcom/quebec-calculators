@@ -67,14 +67,14 @@ export const siteConfig: SiteConfig = {
   // ==========================================
   ads: {
     isEnabled: true, // Master toggle for all ads
-    googleAdSenseId: 'ca-pub-XXXXXXXXXXXXXXXX', // Replace with your AdSense ID
+    googleAdSenseId: 'ca-pub-2733523563879283', // Your AdSense ID
 
     slots: {
       // Header Banner (728x90 desktop, 320x50 mobile)
       header: {
         enabled: true,
         type: 'adsense',
-        adId: 'ca-pub-XXXXXXXXXXXXXXXX',
+        adId: 'ca-pub-2733523563879283',
         size: '728x90',
         description: 'Top banner ad'
       },
@@ -83,7 +83,7 @@ export const siteConfig: SiteConfig = {
       sidebar: {
         enabled: true,
         type: 'adsense',
-        adId: 'ca-pub-XXXXXXXXXXXXXXXX',
+        adId: 'ca-pub-2733523563879283',
         size: '300x600',
         description: 'Sidebar skyscraper ad'
       },
@@ -92,7 +92,7 @@ export const siteConfig: SiteConfig = {
       inArticle: {
         enabled: true,
         type: 'adsense',
-        adId: 'ca-pub-XXXXXXXXXXXXXXXX',
+        adId: 'ca-pub-2733523563879283',
         size: '728x90',
         description: 'Mid-content ad'
       },
@@ -101,7 +101,7 @@ export const siteConfig: SiteConfig = {
       footer: {
         enabled: false,
         type: 'adsense',
-        adId: 'ca-pub-XXXXXXXXXXXXXXXX',
+        adId: 'ca-pub-2733523563879283',
         size: '728x90',
         description: 'Bottom banner ad'
       },

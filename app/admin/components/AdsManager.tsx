@@ -158,7 +158,7 @@ export default function AdsManager({ settings, onUpdate }: AdsManagerProps) {
               name="adSenseId"
               value={adSenseId}
               onChange={(e) => setAdSenseId(e.target.value)}
-              placeholder="ca-pub-XXXXXXXXXXXXXXXX"
+              placeholder="ca-pub-2733523563879283"
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               required={adsEnabled}
             />

@@ -72,7 +72,7 @@ async function initializeDatabase() {
     console.log('📝 Inserting default settings...');
     await sql`
       INSERT INTO site_settings (id, ads_enabled, adsense_id, alert_active, alert_message, alert_type)
-      VALUES (1, true, 'ca-pub-XXXXXXXXXXXXXXXX', false, '', 'info')
+      VALUES (1, true, 'ca-pub-2733523563879283', false, '', 'info')
       ON CONFLICT (id) DO NOTHING
     `;
     console.log('✅ Default settings inserted\n');

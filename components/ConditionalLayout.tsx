@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ScrollToTop from '@/components/ScrollToTop';
 import AnnouncementBar from '@/components/ui/AnnouncementBar';
+import PageTracker from '@/components/PageTracker';
 
 export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -15,12 +16,18 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
 
   if (!shouldShowLayout) {
     // Admin and login pages - no header/footer
-    return <>{children}</>;
+    return (
+      <>
+        <PageTracker />
+        {children}
+      </>
+    );
   }
 
   // Regular pages - with header/footer
   return (
     <>
+      <PageTracker />
       <AnnouncementBar />
       <Header />
       <main className="min-h-screen">
