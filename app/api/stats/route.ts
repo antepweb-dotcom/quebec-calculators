@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getAnalytics } from '@/lib/analytics';
 
-export const revalidate = 300; // Cache 5 dakika
+export const revalidate = 0; // Disable cache for testing
 
 export async function GET() {
   try {
