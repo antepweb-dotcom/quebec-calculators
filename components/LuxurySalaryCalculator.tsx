@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import { calculateTaxes, formatCurrency } from '@/utils/taxLogic'
 import { generateSalaryPDF } from '@/utils/pdfGenerator'
 import InteractiveDonutChart from './ui/InteractiveDonutChart'
@@ -13,6 +14,7 @@ interface LuxurySalaryCalculatorProps {
 type PayPeriod = 'annual' | 'monthly' | 'biweekly' | 'weekly'
 
 export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCalculatorProps) {
+  const router = useRouter()
   const [income, setIncome] = useState(initialIncome.toString())
   const [payPeriod, setPayPeriod] = useState<PayPeriod>('annual')
   const [useFTQ, setUseFTQ] = useState(false)
@@ -45,26 +47,42 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
   // Check if income is in highest tax bracket (2027 rule change warning)
   const isHighIncome = annualIncome >= 119910 // Approximate 2026 highest bracket threshold
 
+  // Handle calculate button click
+  const handleCalculate = () => {
+    if (numericIncome > 0) {
+      const salaryToNavigate = Math.round(annualIncome)
+      // Smooth scroll to top before navigation
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      // Navigate after a short delay to allow scroll animation
+      setTimeout(() => {
+        router.push(`/salaire-net-quebec/${salaryToNavigate}`)
+      }, 300)
+    }
+  }
+
   return (
     <div className="bg-white rounded-3xl shadow-xl border border-slate-100 p-8">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-100 text-emerald-800 rounded-full text-sm font-semibold mb-4">
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-          </svg>
-          Calculateur Interactif
-        </div>
-        <h2 className="text-3xl font-bold text-slate-900 mb-2">
-          Calculez Votre Salaire Net
-        </h2>
-        <p className="text-slate-600">
-          Entrez votre revenu et découvrez instantanément votre salaire net après impôts
-        </p>
-      </div>
+      {/* Header and Input Section - Only show on landing page */}
+      {initialIncome === 0 && (
+        <>
+          {/* Header */}
+          <div className="mb-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-100 text-emerald-800 rounded-full text-sm font-semibold mb-4">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+              </svg>
+              Calculateur Interactif
+            </div>
+            <h2 className="text-3xl font-bold text-slate-900 mb-2">
+              Calculez Votre Salaire Net
+            </h2>
+            <p className="text-slate-600">
+              Entrez votre revenu et découvrez instantanément votre salaire net après impôts
+            </p>
+          </div>
 
-      {/* Input Section */}
-      <div className="grid md:grid-cols-2 gap-6 mb-8">
+          {/* Input Section */}
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
         {/* Income Input */}
         <div>
           <label htmlFor="income-input" className="block text-sm font-semibold text-slate-700 mb-3">
@@ -138,8 +156,26 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
         </div>
       </div>
 
+      {/* Calculate Button - Landing Page Only */}
+      {initialIncome === 0 && (
+        <div className="mb-8">
+          <button
+            onClick={handleCalculate}
+            disabled={!income || parseFloat(income) <= 0}
+            className="w-full py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 disabled:from-slate-300 disabled:to-slate-400 disabled:cursor-not-allowed text-white font-bold text-lg rounded-2xl transition-all shadow-lg hover:shadow-xl disabled:shadow-none flex items-center justify-center gap-3"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+            Calculer mon salaire net
+          </button>
+        </div>
+      )}
+        </>
+      )}
+
       {/* Results Section */}
-      {numericIncome > 0 ? (
+      {numericIncome > 0 && (
         <div className="space-y-8">
           {/* Big Result */}
           <div className="text-center py-8 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-3xl border border-emerald-100">
@@ -485,63 +521,82 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
             </div>
           </div>
 
-          {/* Recalculate Button - Mobile Only */}
-          <div className="border-t border-slate-200 pt-6 md:hidden">
-            <button
-              onClick={() => {
-                window.scrollTo({ top: 0, behavior: 'smooth' })
-                setTimeout(() => {
-                  inputRef.current?.focus()
-                  inputRef.current?.select()
-                }, 500)
-              }}
-              className="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl transition-colors flex items-center justify-center gap-2"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-              Calculer un autre montant
-            </button>
-          </div>
+          {/* Recalculate Section - Show on result pages */}
+          {initialIncome > 0 && (
+            <div className="border-t border-slate-200 pt-8 mt-6">
+              <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-6 border border-slate-200">
+                <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                  <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  Calculer un autre montant
+                </h3>
+                
+                <div className="grid md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label htmlFor="recalc-input" className="block text-sm font-semibold text-slate-700 mb-2">
+                      Nouveau Revenu Brut
+                    </label>
+                    <div className="relative">
+                      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <input
+                        id="recalc-input"
+                        type="number"
+                        value={income}
+                        onChange={(e) => setIncome(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            handleCalculate()
+                          }
+                        }}
+                        className="w-full pl-10 pr-4 py-3 text-lg font-semibold border-2 border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                        placeholder="50000"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">
+                      Fréquence
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {['annual', 'monthly', 'biweekly', 'weekly'].map((period) => (
+                        <button
+                          key={period}
+                          onClick={() => setPayPeriod(period as PayPeriod)}
+                          className={`px-3 py-3 rounded-lg font-semibold text-sm transition-all ${
+                            payPeriod === period
+                              ? 'bg-emerald-600 text-white shadow-sm'
+                              : 'bg-white text-slate-700 hover:bg-slate-50 border-2 border-slate-200'
+                          }`}
+                        >
+                          {period === 'annual' ? 'Annuel' : period === 'monthly' ? 'Mensuel' : period === 'biweekly' ? 'Bi-hebdo' : 'Hebdo'}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleCalculate}
+                  disabled={!income || parseFloat(income) <= 0}
+                  className="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 disabled:from-slate-300 disabled:to-slate-400 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all shadow-md hover:shadow-lg disabled:shadow-none flex items-center justify-center gap-2"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                  </svg>
+                  Recalculer
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Affiliate Card - Tax/RRSP Context */}
           <AffiliateCard variant="tax" />
-        </div>
-      ) : (
-        <div className="text-center py-12">
-          <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <h3 className="text-xl font-bold text-slate-900 mb-2">
-            Entrez votre revenu
-          </h3>
-          <p className="text-slate-600 text-sm mb-6">
-            Saisissez un montant ci-dessus pour voir votre salaire net
-          </p>
-
-          {/* Quick Info Cards */}
-          <div className="space-y-2 text-left">
-            <div className="flex items-start gap-2 text-sm">
-              <svg className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              <span className="text-slate-700">Calcul instantané avec taux 2026</span>
-            </div>
-            <div className="flex items-start gap-2 text-sm">
-              <svg className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              <span className="text-slate-700">Toutes déductions incluses</span>
-            </div>
-            <div className="flex items-start gap-2 text-sm">
-              <svg className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              <span className="text-slate-700">Analyse pouvoir d'achat</span>
-            </div>
-          </div>
         </div>
       )}
     </div>

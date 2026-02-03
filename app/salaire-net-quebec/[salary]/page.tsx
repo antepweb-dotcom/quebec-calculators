@@ -17,6 +17,9 @@ export async function generateStaticParams() {
   return salaries
 }
 
+// Allow dynamic params outside of static generation
+export const dynamicParams = true
+
 // Dynamic SEO metadata for each salary page
 export async function generateMetadata({ params }: { params: { salary: string } }): Promise<Metadata> {
   const salaryNum = parseInt(params.salary)
@@ -78,12 +81,39 @@ export default function DynamicSalaryPage({ params }: { params: { salary: string
   }
 
   const formattedAmount = salaryNum.toLocaleString('fr-CA')
-  
-  // Calculate actual tax breakdown using real logic
   const taxResults = calculateTaxes(salaryNum)
   const marginalRate = calculateMarginalRate(salaryNum)
   const effectiveRate = ((taxResults.totalDeductions / salaryNum) * 100).toFixed(1)
   const monthlyNet = Math.round(taxResults.netIncome / 12)
+  
+  // Helper function to determine income bracket
+  const getIncomeBracket = () => {
+    if (salaryNum < 49275) return 'de base'
+    if (salaryNum < 98540) return 'intermédiaire'
+    if (salaryNum < 165430) return 'supérieure'
+    return 'maximale'
+  }
+  
+  // Helper function to format currency
+  const formatCurrency = (amount: number) => 
+    amount.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 })
+  
+  // Helper function to calculate percentage
+  const calcPercentage = (part: number, total: number) => 
+    ((part / total) * 100).toFixed(1)
+  
+  // Table row component for cleaner code
+  const TaxRow = ({ label, amount, className = "hover:bg-slate-50" }: { label: string, amount: number, className?: string }) => (
+    <tr className={className}>
+      <td className="px-6 py-4 text-sm text-slate-700">{label}</td>
+      <td className="px-6 py-4 text-sm text-right font-semibold text-slate-900">
+        {formatCurrency(amount)}
+      </td>
+      <td className="px-6 py-4 text-sm text-right text-slate-600">
+        {calcPercentage(amount, salaryNum)}%
+      </td>
+    </tr>
+  )
 
   return (
     <div className="min-h-screen bg-slate-50 selection:bg-emerald-100">
@@ -123,7 +153,7 @@ export default function DynamicSalaryPage({ params }: { params: { salary: string
         showLastUpdated={true}
       />
 
-      <div className="container mx-auto max-w-6xl px-4 py-12">
+      <div className="container mx-auto max-w-6xl px-4 py-6">
         <div className="grid lg:grid-cols-12 gap-8">
           <div className="lg:col-span-8 space-y-6">
             <LuxurySalaryCalculator initialIncome={salaryNum} />
@@ -138,8 +168,7 @@ export default function DynamicSalaryPage({ params }: { params: { salary: string
                 Impact fiscal de {formattedAmount}$ au Québec
               </h2>
               <p className="text-lg text-slate-700 leading-relaxed">
-                Avec un revenu brut de <strong>{formattedAmount} $</strong>, vous vous situez dans la tranche d'imposition 
-                {salaryNum < 49275 ? ' de base' : salaryNum < 98540 ? ' intermédiaire' : salaryNum < 165430 ? ' supérieure' : ' maximale'} au Québec. 
+                Avec un revenu brut de <strong>{formattedAmount} $</strong>, vous vous situez dans la tranche d'imposition {getIncomeBracket()} au Québec. 
                 Votre taux marginal d'imposition est de <strong>{marginalRate}%</strong>, ce qui signifie que chaque dollar supplémentaire 
                 gagné sera imposé à ce taux.
               </p>
@@ -244,8 +273,7 @@ export default function DynamicSalaryPage({ params }: { params: { salary: string
               Est-ce que {formattedAmount} $ est un bon salaire au Québec?
             </h2>
             <p className="text-lg text-slate-700 leading-relaxed mb-6">
-              Avec un revenu brut de <strong>{formattedAmount} $</strong>, vous vous situez dans la tranche d'imposition 
-              {salaryNum < 49275 ? ' de base' : salaryNum < 98540 ? ' intermédiaire' : salaryNum < 165430 ? ' supérieure' : ' maximale'} au Québec. 
+              Avec un revenu brut de <strong>{formattedAmount} $</strong>, vous vous situez dans la tranche d'imposition {getIncomeBracket()} au Québec. 
               Votre taux marginal d'imposition est de <strong>{marginalRate}%</strong>, ce qui signifie que chaque dollar supplémentaire 
               gagné sera imposé à ce taux. Cependant, votre taux effectif (le pourcentage réel d'impôt payé) est de <strong>{effectiveRate}%</strong>, 
               car les premiers dollars sont imposés à des taux inférieurs grâce au système progressif.
@@ -275,55 +303,16 @@ export default function DynamicSalaryPage({ params }: { params: { salary: string
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
-                  <tr className="hover:bg-slate-50">
-                    <td className="px-6 py-4 text-sm text-slate-700">Impôt Fédéral</td>
-                    <td className="px-6 py-4 text-sm text-right font-semibold text-slate-900">
-                      {taxResults.federalTax.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 })}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-right text-slate-600">
-                      {((taxResults.federalTax / salaryNum) * 100).toFixed(1)}%
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-slate-50">
-                    <td className="px-6 py-4 text-sm text-slate-700">Impôt Provincial (Québec)</td>
-                    <td className="px-6 py-4 text-sm text-right font-semibold text-slate-900">
-                      {taxResults.provincialTax.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 })}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-right text-slate-600">
-                      {((taxResults.provincialTax / salaryNum) * 100).toFixed(1)}%
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-slate-50">
-                    <td className="px-6 py-4 text-sm text-slate-700">RRQ (Régime de rentes du Québec)</td>
-                    <td className="px-6 py-4 text-sm text-right font-semibold text-slate-900">
-                      {taxResults.qpp.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 })}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-right text-slate-600">
-                      {((taxResults.qpp / salaryNum) * 100).toFixed(1)}%
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-slate-50">
-                    <td className="px-6 py-4 text-sm text-slate-700">RQAP (Assurance parentale)</td>
-                    <td className="px-6 py-4 text-sm text-right font-semibold text-slate-900">
-                      {taxResults.qpip.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 })}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-right text-slate-600">
-                      {((taxResults.qpip / salaryNum) * 100).toFixed(1)}%
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-slate-50">
-                    <td className="px-6 py-4 text-sm text-slate-700">AE (Assurance-emploi)</td>
-                    <td className="px-6 py-4 text-sm text-right font-semibold text-slate-900">
-                      {taxResults.ei.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 })}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-right text-slate-600">
-                      {((taxResults.ei / salaryNum) * 100).toFixed(1)}%
-                    </td>
-                  </tr>
+                  <TaxRow label="Impôt Fédéral" amount={taxResults.federalTax} />
+                  <TaxRow label="Impôt Provincial (Québec)" amount={taxResults.provincialTax} />
+                  <TaxRow label="RRQ (Régime de rentes du Québec)" amount={taxResults.qpp} />
+                  <TaxRow label="RQAP (Assurance parentale)" amount={taxResults.qpip} />
+                  <TaxRow label="AE (Assurance-emploi)" amount={taxResults.ei} />
+                  
                   <tr className="bg-red-50 font-semibold">
                     <td className="px-6 py-4 text-sm text-slate-900">Total des déductions</td>
                     <td className="px-6 py-4 text-sm text-right text-red-700 font-bold">
-                      {taxResults.totalDeductions.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 })}
+                      {formatCurrency(taxResults.totalDeductions)}
                     </td>
                     <td className="px-6 py-4 text-sm text-right text-red-700">
                       {effectiveRate}%
@@ -332,10 +321,10 @@ export default function DynamicSalaryPage({ params }: { params: { salary: string
                   <tr className="bg-emerald-50 font-semibold">
                     <td className="px-6 py-4 text-sm text-slate-900">Revenu net annuel</td>
                     <td className="px-6 py-4 text-sm text-right text-emerald-700 font-bold text-lg">
-                      {taxResults.netIncome.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 })}
+                      {formatCurrency(taxResults.netIncome)}
                     </td>
                     <td className="px-6 py-4 text-sm text-right text-emerald-700">
-                      {((taxResults.netIncome / salaryNum) * 100).toFixed(1)}%
+                      {calcPercentage(taxResults.netIncome, salaryNum)}%
                     </td>
                   </tr>
                 </tbody>
@@ -383,13 +372,13 @@ export default function DynamicSalaryPage({ params }: { params: { salary: string
                     </svg>
                   </summary>
                   <div className="px-5 py-4 bg-slate-50 text-slate-700 text-sm border-t border-slate-100">
-                    Les déductions totales sur {formattedAmount} $ s'élèvent à <strong>{taxResults.totalDeductions.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 })}</strong>, 
+                    Les déductions totales sur {formattedAmount} $ s'élèvent à <strong>{formatCurrency(taxResults.totalDeductions)}</strong>, 
                     soit <strong>{effectiveRate}%</strong> de votre revenu brut. Ce montant se divise ainsi : 
-                    impôt fédéral ({taxResults.federalTax.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 })}), 
-                    impôt provincial ({taxResults.provincialTax.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 })}), 
-                    RRQ ({taxResults.qpp.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 })}), 
-                    RQAP ({taxResults.qpip.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 })}) et 
-                    AE ({taxResults.ei.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 })}).
+                    impôt fédéral ({formatCurrency(taxResults.federalTax)}), 
+                    impôt provincial ({formatCurrency(taxResults.provincialTax)}), 
+                    RRQ ({formatCurrency(taxResults.qpp)}), 
+                    RQAP ({formatCurrency(taxResults.qpip)}) et 
+                    AE ({formatCurrency(taxResults.ei)}).
                   </div>
                 </details>
 
@@ -480,7 +469,7 @@ export default function DynamicSalaryPage({ params }: { params: { salary: string
                         name: `Combien d'impôts je paie sur ${formattedAmount} $ ?`,
                         acceptedAnswer: {
                           '@type': 'Answer',
-                          text: `Les déductions totales sur ${formattedAmount} $ s'élèvent à ${taxResults.totalDeductions.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 })}, soit ${effectiveRate}% de votre revenu brut.`
+                          text: `Les déductions totales sur ${formattedAmount} $ s'élèvent à ${formatCurrency(taxResults.totalDeductions)}, soit ${effectiveRate}% de votre revenu brut.`
                         }
                       },
                       {
