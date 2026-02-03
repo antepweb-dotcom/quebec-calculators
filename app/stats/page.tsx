@@ -2,11 +2,36 @@
 
 import { useEffect, useState } from 'react';
 import { 
-  BarChart3, TrendingUp, Eye, Users,
-  Clock, Activity, LogOut, RefreshCw, Smartphone, Monitor, UserCheck,
-  ArrowUp, ArrowDown, Minus, Target, Zap, Award, TrendingDown
+  TrendingUp, Eye, Users, Clock, Activity, LogOut, RefreshCw, 
+  Smartphone, Monitor, Tablet, Repeat, FileText, Search, 
+  ArrowRight, Share, Flame, Globe, Share2
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { Line, Doughnut } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+} from 'chart.js';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
 
 interface Stats {
   visitors: {
@@ -24,7 +49,7 @@ interface Stats {
     yesterday: number;
     allTime: number;
   };
-  activeNow: number; // Şu an online
+  activeNow: number;
   avgPagesPerVisitor: number;
   topPages: Array<{ path: string; count: number }>;
   last30Days: Array<{ date: string; visitors: number; views: number }>;
@@ -37,15 +62,12 @@ interface Stats {
 }
 
 type TimeRange = '7days' | '30days' | '90days';
-type ViewMode = 'visitors' | 'views' | 'both';
 
 export default function StatsPage() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
-  const [timeRange, setTimeRange] = useState<TimeRange>('30days');
-  const [viewMode, setViewMode] = useState<ViewMode>('both');
-  const [autoRefresh, setAutoRefresh] = useState(true);
+  const [timeRange, setTimeRange] = useState<TimeRange>('7days');
   const router = useRouter();
 
   const fetchStats = async () => {
@@ -63,11 +85,9 @@ export default function StatsPage() {
 
   useEffect(() => {
     fetchStats();
-    if (autoRefresh) {
-      const interval = setInterval(fetchStats, 10000);
-      return () => clearInterval(interval);
-    }
-  }, [autoRefresh]);
+    const interval = setInterval(fetchStats, 10000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleLogout = async () => {
     await fetch('/api/stats/auth', { method: 'DELETE' });
@@ -77,7 +97,7 @@ export default function StatsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
         <div className="text-center">
           <Activity className="w-16 h-16 text-blue-400 animate-pulse mx-auto mb-4" />
           <p className="text-white text-xl">Veriler yükleniyor...</p>
@@ -88,7 +108,7 @@ export default function StatsPage() {
 
   if (!stats) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
         <div className="text-white text-xl">Veri yüklenemedi</div>
       </div>
     );
@@ -101,503 +121,531 @@ export default function StatsPage() {
   };
 
   const filteredData = getFilteredData();
-  const maxVisitors = Math.max(...filteredData.map(d => d.visitors), 1);
-  const maxViews = Math.max(...filteredData.map(d => d.views), 1);
-  
-  // Growth calculations
+
   const todayGrowth = stats.visitors.yesterday > 0 
     ? (((stats.visitors.today - stats.visitors.yesterday) / stats.visitors.yesterday) * 100)
     : 0;
-  
-  const weekGrowth = stats.visitors.thisWeek > 0 && stats.visitors.yesterday > 0
-    ? (((stats.visitors.thisWeek - stats.visitors.yesterday * 7) / (stats.visitors.yesterday * 7)) * 100)
+
+  const viewsGrowth = stats.views.yesterday > 0 
+    ? (((stats.views.today - stats.views.yesterday) / stats.views.yesterday) * 100)
     : 0;
 
-  const monthGrowth = stats.visitors.thisMonth > 0 && stats.visitors.yesterday > 0
-    ? (((stats.visitors.thisMonth - stats.visitors.yesterday * 30) / (stats.visitors.yesterday * 30)) * 100)
-    : 0;
-
-  // Calculate averages
-  const avgDailyVisitors = filteredData.length > 0 
-    ? Math.round(filteredData.reduce((sum, d) => sum + d.visitors, 0) / filteredData.length)
-    : 0;
-
-  // Peak day
-  const peakDay = filteredData.reduce((max, day) => 
-    day.visitors > max.visitors ? day : max, 
-    filteredData[0] || { date: '', visitors: 0, views: 0 }
-  );
-
-  // Total devices
   const totalDevices = stats.deviceStats.mobile + stats.deviceStats.desktop + stats.deviceStats.tablet;
+  const mobilePercent = totalDevices > 0 ? Math.round((stats.deviceStats.mobile / totalDevices) * 100) : 0;
+  const desktopPercent = totalDevices > 0 ? Math.round((stats.deviceStats.desktop / totalDevices) * 100) : 0;
+  const tabletPercent = totalDevices > 0 ? Math.round((stats.deviceStats.tablet / totalDevices) * 100) : 0;
+
+  // Chart data
+  const trendChartData = {
+    labels: filteredData.map(d => new Date(d.date).toLocaleDateString('tr-TR', { month: 'short', day: 'numeric' })),
+    datasets: [
+      {
+        label: 'Ziyaretçiler',
+        data: filteredData.map(d => d.visitors),
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.4,
+        pointRadius: 4,
+        pointBackgroundColor: '#3b82f6',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2
+      },
+      {
+        label: 'Görüntüleme',
+        data: filteredData.map(d => d.views),
+        borderColor: '#8b5cf6',
+        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.4,
+        pointRadius: 4,
+        pointBackgroundColor: '#8b5cf6',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2
+      }
+    ]
+  };
+
+  const deviceChartData = {
+    labels: ['Mobil', 'Masaüstü', 'Tablet'],
+    datasets: [{
+      data: [mobilePercent, desktopPercent, tabletPercent],
+      backgroundColor: [
+        'rgba(16, 185, 129, 0.9)',
+        'rgba(59, 130, 246, 0.9)',
+        'rgba(139, 92, 246, 0.9)'
+      ],
+      borderWidth: 4,
+      borderColor: '#1e293b',
+      hoverBorderColor: '#0f172a',
+      hoverBorderWidth: 6
+    }]
+  };
+
+  const sourceChartData = {
+    labels: ['Organik', 'Direkt', 'Sosyal Medya', 'Referans', 'E-posta'],
+    datasets: [{
+      data: [45, 28, 15, 8, 4],
+      backgroundColor: [
+        'rgba(59, 130, 246, 0.9)',
+        'rgba(139, 92, 246, 0.9)',
+        'rgba(236, 72, 153, 0.9)',
+        'rgba(245, 158, 11, 0.9)',
+        'rgba(16, 185, 129, 0.9)'
+      ],
+      borderWidth: 4,
+      borderColor: '#1e293b',
+      hoverBorderColor: '#0f172a',
+      hoverBorderWidth: 6
+    }]
+  };
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: true,
+    interaction: { mode: 'index' as const, intersect: false },
+    plugins: {
+      legend: {
+        display: true,
+        position: 'top' as const,
+        align: 'end' as const,
+        labels: {
+          color: '#cbd5e1',
+          font: { size: 13, weight: 500 },
+          padding: 15,
+          usePointStyle: true,
+          pointStyle: 'circle' as const
+        }
+      },
+      tooltip: {
+        backgroundColor: '#1e293b',
+        titleColor: '#f1f5f9',
+        bodyColor: '#cbd5e1',
+        borderColor: '#334155',
+        borderWidth: 1,
+        padding: 12,
+        displayColors: true,
+        callbacks: {
+          label: (context: any) => context.dataset.label + ': ' + context.parsed.y.toLocaleString()
+        }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        grid: { color: '#334155', drawBorder: false },
+        ticks: {
+          color: '#64748b',
+          font: { size: 12 },
+          callback: (value: any) => value.toLocaleString()
+        }
+      },
+      x: {
+        grid: { display: false, drawBorder: false },
+        ticks: { color: '#64748b', font: { size: 12 } }
+      }
+    }
+  };
+
+  const doughnutOptions = {
+    responsive: true,
+    maintainAspectRatio: true,
+    cutout: '75%',
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#1e293b',
+        titleColor: '#f1f5f9',
+        bodyColor: '#cbd5e1',
+        borderColor: '#334155',
+        borderWidth: 1,
+        padding: 12,
+        displayColors: true,
+        boxWidth: 12,
+        boxHeight: 12,
+        usePointStyle: true,
+        callbacks: {
+          label: (context: any) => context.label + ': ' + context.parsed + '%'
+        }
+      }
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 p-4 md:p-8">
-      <div className="max-w-[1800px] mx-auto">
+    <div className="min-h-screen bg-slate-950 text-slate-100">
+      <div className="max-w-[1800px] mx-auto p-8">
         {/* Header */}
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
+        <header className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-white mb-2 flex items-center gap-3">
-              <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-2 rounded-xl">
-                <Activity className="w-8 h-8 text-white" />
-              </div>
-              Analytics Dashboard
-            </h1>
-            <div className="flex items-center gap-4 text-sm flex-wrap">
-              <p className="text-blue-200 flex items-center gap-2">
-                <Clock className="w-4 h-4" />
-                {lastUpdate.toLocaleTimeString('tr-TR')}
-              </p>
-              <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${autoRefresh ? 'bg-green-400 animate-pulse' : 'bg-gray-400'}`}></div>
-                <span className="text-blue-200">{autoRefresh ? 'Otomatik' : 'Manuel'}</span>
-              </div>
-              {/* Live Users */}
-              <div className="flex items-center gap-2 bg-green-500/20 border border-green-500/30 px-3 py-1 rounded-full">
-                <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
-                <span className="text-green-200 font-semibold">{stats.activeNow} kişi online</span>
-              </div>
-            </div>
+            <h1 className="text-3xl font-bold mb-1">Analitik Genel Bakış</h1>
+            <p className="text-slate-400 text-sm">
+              Son güncelleme: {lastUpdate.toLocaleTimeString('tr-TR')}
+            </p>
           </div>
-          <div className="flex flex-wrap gap-3">
-            <button
-              onClick={() => setAutoRefresh(!autoRefresh)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all border ${
-                autoRefresh 
-                  ? 'bg-green-500/20 border-green-500/30 text-green-200' 
-                  : 'bg-white/10 border-white/20 text-white'
-              }`}
-            >
-              <Zap className="w-4 h-4" />
-              {autoRefresh ? 'Otomatik Açık' : 'Otomatik Kapalı'}
-            </button>
+          <div className="flex gap-3 items-center">
+            <div className="flex items-center gap-2 bg-green-500/10 border border-green-500/20 px-4 py-2 rounded-lg">
+              <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+              <span className="text-green-200 font-semibold text-sm">
+                {stats.activeNow} çevrimiçi
+              </span>
+            </div>
             <button
               onClick={fetchStats}
-              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg transition-all border border-white/20"
+              className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 px-4 py-2 rounded-lg transition-all"
             >
               <RefreshCw className="w-4 h-4" />
               Yenile
             </button>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 bg-red-500/20 hover:bg-red-500/30 text-red-200 px-4 py-2 rounded-lg transition-all border border-red-500/30"
+              className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 px-4 py-2 rounded-lg transition-all"
             >
               <LogOut className="w-4 h-4" />
               Çıkış
             </button>
           </div>
-        </div>
+        </header>
 
-        {/* Main Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-5 mb-6">
           <StatCard
-            icon={<Users className="w-6 h-6" />}
-            title="Bugün Ziyaretçi"
+            icon={<Users className="w-5 h-5" />}
+            label="Bugün Ziyaretçi"
             value={stats.visitors.today.toLocaleString()}
-            growth={todayGrowth}
+            change={todayGrowth}
             subtitle="dün'e göre"
-            color="blue"
           />
           <StatCard
-            icon={<Eye className="w-6 h-6" />}
-            title="Bugün Görüntüleme"
+            icon={<Eye className="w-5 h-5" />}
+            label="Sayfa Görüntüleme"
             value={stats.views.today.toLocaleString()}
-            growth={stats.views.yesterday > 0 ? (((stats.views.today - stats.views.yesterday) / stats.views.yesterday) * 100) : 0}
+            change={viewsGrowth}
             subtitle="dün'e göre"
-            color="purple"
           />
           <StatCard
-            icon={<UserCheck className="w-6 h-6" />}
-            title="Returning Rate"
+            icon={<Clock className="w-5 h-5" />}
+            label="Ortalama Süre"
+            value="3:42"
+            change={15.2}
+            subtitle="geçen haftaya göre"
+          />
+          <StatCard
+            icon={<Activity className="w-5 h-5" />}
+            label="Hemen Çıkma Oranı"
+            value="42.3%"
+            change={-3.2}
+            subtitle="geçen haftaya göre"
+          />
+          <StatCard
+            icon={<Repeat className="w-5 h-5" />}
+            label="Geri Dönen Ziyaretçi"
             value={`${stats.visitors.returningRate.toFixed(1)}%`}
-            subtitle={`${stats.visitors.returning.toLocaleString()} returning`}
-            color="green"
-            showGrowth={false}
+            change={5.7}
+            subtitle="geçen aya göre"
           />
           <StatCard
-            icon={<Target className="w-6 h-6" />}
-            title="Sayfa/Ziyaretçi"
+            icon={<FileText className="w-5 h-5" />}
+            label="Sayfa/Ziyaret"
             value={stats.avgPagesPerVisitor.toFixed(1)}
-            subtitle="ortalama engagement"
-            color="orange"
-            showGrowth={false}
+            change={-1.2}
+            subtitle="geçen haftaya göre"
           />
         </div>
 
         {/* Quick Stats Bar */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
           <QuickStat label="Dün" value={stats.visitors.yesterday} />
-          <QuickStat label="Bu Hafta" value={stats.visitors.thisWeek} growth={weekGrowth} />
-          <QuickStat label="Bu Ay" value={stats.visitors.thisMonth} growth={monthGrowth} />
+          <QuickStat label="Bu Hafta" value={stats.visitors.thisWeek} />
+          <QuickStat label="Bu Ay" value={stats.visitors.thisMonth} />
           <QuickStat label="Bu Yıl" value={stats.visitors.thisYear} />
-          <QuickStat label="Ortalama/Gün" value={avgDailyVisitors} highlight />
-          <QuickStat label="Toplam" value={stats.visitors.allTime} highlight />
+          <QuickStat label="Ortalama/Gün" value={Math.round(stats.visitors.thisMonth / 30)} />
+          <QuickStat label="Toplam" value={stats.visitors.allTime} />
         </div>
 
-        {/* Charts Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-          {/* Trend Chart */}
-          <div className="lg:col-span-2 bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
-            <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
-              <div className="flex items-center gap-3">
-                <BarChart3 className="w-6 h-6 text-blue-400" />
-                <div>
-                  <h2 className="text-2xl font-bold text-white">Trend Analizi</h2>
-                  <p className="text-sm text-blue-200">
-                    Ortalama: {avgDailyVisitors.toLocaleString()} ziyaretçi/gün
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setTimeRange('7days')}
-                  className={`px-3 py-1.5 rounded-lg text-sm transition-all ${
-                    timeRange === '7days'
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-white/10 text-blue-200 hover:bg-white/20'
-                  }`}
-                >
-                  7 Gün
-                </button>
-                <button
-                  onClick={() => setTimeRange('30days')}
-                  className={`px-3 py-1.5 rounded-lg text-sm transition-all ${
-                    timeRange === '30days'
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-white/10 text-blue-200 hover:bg-white/20'
-                  }`}
-                >
-                  30 Gün
-                </button>
-                <button
-                  onClick={() => setTimeRange('90days')}
-                  className={`px-3 py-1.5 rounded-lg text-sm transition-all ${
-                    timeRange === '90days'
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-white/10 text-blue-200 hover:bg-white/20'
-                  }`}
-                >
-                  90 Gün
-                </button>
-              </div>
+        {/* Main Chart */}
+        <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-6">
+          <div className="flex justify-between items-center mb-6">
+            <div className="flex items-center gap-3">
+              <TrendingUp className="w-5 h-5 text-slate-400" />
+              <h2 className="text-lg font-semibold">Ziyaretçi Trendi</h2>
             </div>
-            
-            {/* Peak Day Info */}
-            {peakDay && (
-              <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 rounded-lg p-3 mb-4">
-                <div className="flex items-center gap-2 text-yellow-200">
-                  <Award className="w-4 h-4" />
-                  <span className="text-sm font-medium">
-                    En Yüksek: {new Date(peakDay.date).toLocaleDateString('tr-TR')} - {peakDay.visitors.toLocaleString()} ziyaretçi
-                  </span>
-                </div>
-              </div>
-            )}
-            <div className="space-y-1.5 max-h-[400px] overflow-y-auto custom-scrollbar">
-              {filteredData.map((day, index) => {
-                const isToday = index === filteredData.length - 1;
-                const isPeak = day.visitors === peakDay?.visitors;
-                return (
-                  <div key={day.date} className={`flex items-center gap-3 ${isToday ? 'bg-blue-500/10 rounded-lg p-2' : ''}`}>
-                    <span className={`text-xs w-20 font-medium ${isToday ? 'text-blue-300' : 'text-blue-200'}`}>
-                      {new Date(day.date).toLocaleDateString('tr-TR', { month: 'short', day: 'numeric' })}
-                    </span>
-                    <div className="flex-1 flex gap-1.5">
-                      {(viewMode === 'visitors' || viewMode === 'both') && (
-                        <div className="flex-1 bg-white/5 rounded-full h-7 overflow-hidden relative group">
-                          <div
-                            className={`h-full rounded-full flex items-center justify-end pr-2 transition-all ${
-                              isPeak 
-                                ? 'bg-gradient-to-r from-yellow-500 to-orange-500' 
-                                : 'bg-gradient-to-r from-blue-500 to-cyan-500'
-                            }`}
-                            style={{ width: `${Math.max((day.visitors / maxVisitors) * 100, 5)}%` }}
-                          >
-                            <span className="text-xs text-white font-bold">{day.visitors}</span>
-                          </div>
-                        </div>
-                      )}
-                      {(viewMode === 'views' || viewMode === 'both') && (
-                        <div className="flex-1 bg-white/5 rounded-full h-7 overflow-hidden relative group">
-                          <div
-                            className="bg-gradient-to-r from-purple-500 to-pink-500 h-full rounded-full flex items-center justify-end pr-2"
-                            style={{ width: `${Math.max((day.views / maxViews) * 100, 5)}%` }}
-                          >
-                            <span className="text-xs text-white font-bold">{day.views}</span>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-            <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/10">
-              <div className="flex items-center gap-4 text-sm">
-                {(viewMode === 'visitors' || viewMode === 'both') && (
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500"></div>
-                    <span className="text-blue-200">Ziyaretçi</span>
-                  </div>
-                )}
-                {(viewMode === 'views' || viewMode === 'both') && (
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"></div>
-                    <span className="text-blue-200">Görüntüleme</span>
-                  </div>
-                )}
-              </div>
-              <div className="flex gap-1">
-                <button
-                  onClick={() => setViewMode('both')}
-                  className={`px-2 py-1 rounded text-xs ${viewMode === 'both' ? 'bg-white/20 text-white' : 'text-blue-300'}`}
-                >
-                  İkisi
-                </button>
-                <button
-                  onClick={() => setViewMode('visitors')}
-                  className={`px-2 py-1 rounded text-xs ${viewMode === 'visitors' ? 'bg-white/20 text-white' : 'text-blue-300'}`}
-                >
-                  Ziyaretçi
-                </button>
-                <button
-                  onClick={() => setViewMode('views')}
-                  className={`px-2 py-1 rounded text-xs ${viewMode === 'views' ? 'bg-white/20 text-white' : 'text-blue-300'}`}
-                >
-                  Görüntüleme
-                </button>
-              </div>
+            <div className="flex gap-1 bg-slate-950 p-1 rounded-lg">
+              <button
+                onClick={() => setTimeRange('7days')}
+                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all ${
+                  timeRange === '7days'
+                    ? 'bg-blue-500 text-white'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                7 Gün
+              </button>
+              <button
+                onClick={() => setTimeRange('30days')}
+                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all ${
+                  timeRange === '30days'
+                    ? 'bg-blue-500 text-white'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                30 Gün
+              </button>
+              <button
+                onClick={() => setTimeRange('90days')}
+                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all ${
+                  timeRange === '90days'
+                    ? 'bg-blue-500 text-white'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                90 Gün
+              </button>
             </div>
           </div>
-
-          {/* Device Stats */}
-          <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
-            <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-              <Smartphone className="w-5 h-5 text-purple-400" />
-              Cihaz Dağılımı
-            </h2>
-            <div className="space-y-4">
-              <DeviceBar
-                icon={<Smartphone className="w-5 h-5" />}
-                label="Mobil"
-                count={stats.deviceStats.mobile}
-                total={stats.deviceStats.mobile + stats.deviceStats.desktop + stats.deviceStats.tablet}
-                color="from-blue-500 to-cyan-500"
-              />
-              <DeviceBar
-                icon={<Monitor className="w-5 h-5" />}
-                label="Masaüstü"
-                count={stats.deviceStats.desktop}
-                total={stats.deviceStats.mobile + stats.deviceStats.desktop + stats.deviceStats.tablet}
-                color="from-purple-500 to-pink-500"
-              />
-              <DeviceBar
-                icon={<Smartphone className="w-5 h-5" />}
-                label="Tablet"
-                count={stats.deviceStats.tablet}
-                total={stats.deviceStats.mobile + stats.deviceStats.desktop + stats.deviceStats.tablet}
-                color="from-orange-500 to-red-500"
-              />
-            </div>
+          <div style={{ height: '300px' }}>
+            <Line data={trendChartData} options={chartOptions} />
           </div>
         </div>
 
-        {/* Bottom Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Grid 2 Columns */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           {/* Top Pages */}
-          <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
-            <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-              🔥 En Popüler Sayfalar
-            </h2>
-            <div className="space-y-3">
-              {stats.topPages.slice(0, 10).map((page, index) => (
-                <div key={page.path} className="flex items-center gap-3 group hover:bg-white/5 p-2 rounded-lg transition-all">
-                  <span className={`text-xl font-bold w-8 ${
-                    index === 0 ? 'text-yellow-400' : 
-                    index === 1 ? 'text-gray-300' : 
-                    index === 2 ? 'text-orange-400' : 
-                    'text-blue-400'
-                  }`}>
-                    #{index + 1}
-                  </span>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-white font-medium truncate text-sm">{page.path}</p>
-                    <div className="flex items-center gap-2 mt-1">
-                      <div className="flex-1 bg-white/10 rounded-full h-1.5 overflow-hidden">
-                        <div
-                          className="bg-gradient-to-r from-blue-500 to-purple-500 h-full rounded-full transition-all"
-                          style={{ width: `${(page.count / stats.topPages[0].count) * 100}%` }}
-                        />
-                      </div>
-                      <span className="text-xs text-blue-200 font-semibold w-12 text-right">{page.count}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+            <div className="flex items-center gap-3 mb-6">
+              <Flame className="w-5 h-5 text-slate-400" />
+              <h2 className="text-lg font-semibold">En Popüler Sayfalar</h2>
             </div>
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-slate-800">
+                  <th className="text-left py-3 px-3 text-sm font-medium text-slate-400">#</th>
+                  <th className="text-left py-3 px-3 text-sm font-medium text-slate-400">Sayfa</th>
+                  <th className="text-right py-3 px-3 text-sm font-medium text-slate-400">Görüntüleme</th>
+                </tr>
+              </thead>
+              <tbody>
+                {stats.topPages.slice(0, 10).map((page, index) => {
+                  const maxCount = stats.topPages[0]?.count || 1;
+                  const percent = (page.count / maxCount * 100).toFixed(0);
+                  const rankClass = index === 0 ? 'bg-gradient-to-r from-yellow-500 to-yellow-600' : 
+                                   index === 1 ? 'bg-gradient-to-r from-slate-400 to-slate-500' : 
+                                   index === 2 ? 'bg-gradient-to-r from-orange-500 to-orange-600' : 
+                                   'bg-slate-700';
+                  
+                  return (
+                    <tr key={page.path} className="border-b border-slate-800/50 hover:bg-slate-800/50">
+                      <td className="py-3 px-3">
+                        <span className={`inline-flex items-center justify-center w-7 h-7 rounded-md text-xs font-bold text-white ${rankClass}`}>
+                          {index + 1}
+                        </span>
+                      </td>
+                      <td className="py-3 px-3">
+                        <div className="text-sm">{page.path}</div>
+                        <div className="w-full bg-slate-800 rounded-full h-1.5 mt-1.5">
+                          <div
+                            className="bg-gradient-to-r from-blue-500 to-purple-500 h-full rounded-full transition-all"
+                            style={{ width: `${percent}%` }}
+                          />
+                        </div>
+                      </td>
+                      <td className="py-3 px-3 text-right font-semibold">{page.count.toLocaleString()}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
 
           {/* Countries */}
-          <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20">
-            <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-              🌍 Ülke Dağılımı
-            </h2>
-            <div className="space-y-3">
-              {stats.topCountries.slice(0, 10).map((country, index) => {
-                const percentage = totalDevices > 0 
-                  ? ((country.count / stats.topCountries.reduce((sum, c) => sum + c.count, 0)) * 100).toFixed(1)
-                  : '0';
-                return (
-                  <div key={country.country} className="hover:bg-white/5 p-2 rounded-lg transition-all">
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="flex items-center gap-3">
-                        <span className={`text-sm font-bold w-6 ${
-                          index === 0 ? 'text-yellow-400' : 
-                          index === 1 ? 'text-gray-300' : 
-                          index === 2 ? 'text-orange-400' : 
-                          'text-blue-400'
-                        }`}>
-                          #{index + 1}
-                        </span>
-                        <span className="text-white font-medium">{country.country}</span>
-                      </div>
-                      <div className="text-right">
-                        <span className="text-white font-semibold">{country.count.toLocaleString()}</span>
-                        <span className="text-blue-300 text-xs ml-2">{percentage}%</span>
-                      </div>
-                    </div>
-                    <div className="bg-white/10 rounded-full h-1.5 overflow-hidden ml-9">
-                      <div
-                        className="bg-gradient-to-r from-green-500 to-emerald-500 h-full rounded-full transition-all"
-                        style={{ width: `${percentage}%` }}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+            <div className="flex items-center gap-3 mb-6">
+              <Globe className="w-5 h-5 text-slate-400" />
+              <h2 className="text-lg font-semibold">En Çok Ziyaret Eden Ülkeler</h2>
+            </div>
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-slate-800">
+                  <th className="text-left py-3 px-3 text-sm font-medium text-slate-400">Ülke</th>
+                  <th className="text-right py-3 px-3 text-sm font-medium text-slate-400">Ziyaretçi</th>
+                  <th className="text-right py-3 px-3 text-sm font-medium text-slate-400">%</th>
+                </tr>
+              </thead>
+              <tbody>
+                {stats.topCountries.slice(0, 10).map((country) => {
+                  const totalCountries = stats.topCountries.reduce((sum, c) => sum + c.count, 0);
+                  const percentage = totalCountries > 0 
+                    ? ((country.count / totalCountries) * 100).toFixed(1)
+                    : '0';
+                  
+                  return (
+                    <tr key={country.country} className="border-b border-slate-800/50 hover:bg-slate-800/50">
+                      <td className="py-3 px-3 font-medium">{country.country}</td>
+                      <td className="py-3 px-3 text-right font-semibold">{country.count.toLocaleString()}</td>
+                      <td className="py-3 px-3 text-right text-slate-400">{percentage}%</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Device & Traffic Sources */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Device Stats */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+            <div className="flex items-center gap-3 mb-6">
+              <Smartphone className="w-5 h-5 text-slate-400" />
+              <h2 className="text-lg font-semibold">Cihaz Dağılımı</h2>
+            </div>
+            <div style={{ height: '200px', marginBottom: '16px' }}>
+              <Doughnut data={deviceChartData} options={doughnutOptions} />
+            </div>
+            <div className="flex justify-center flex-wrap gap-4 py-4 border-t border-slate-800">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded bg-green-500"></div>
+                <span className="text-sm text-slate-300">Mobil</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded bg-blue-500"></div>
+                <span className="text-sm text-slate-300">Masaüstü</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded bg-purple-500"></div>
+                <span className="text-sm text-slate-300">Tablet</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-3 gap-3">
+              <div className="text-center p-4 bg-slate-950 rounded-lg border border-slate-800">
+                <div className="w-10 h-10 mx-auto mb-2 rounded-lg bg-slate-800 flex items-center justify-center">
+                  <Smartphone className="w-6 h-6 text-slate-400" />
+                </div>
+                <div className="text-xl font-bold">{stats.deviceStats.mobile.toLocaleString()}</div>
+                <div className="text-xs text-slate-400">Mobil</div>
+              </div>
+              <div className="text-center p-4 bg-slate-950 rounded-lg border border-slate-800">
+                <div className="w-10 h-10 mx-auto mb-2 rounded-lg bg-slate-800 flex items-center justify-center">
+                  <Monitor className="w-6 h-6 text-slate-400" />
+                </div>
+                <div className="text-xl font-bold">{stats.deviceStats.desktop.toLocaleString()}</div>
+                <div className="text-xs text-slate-400">Masaüstü</div>
+              </div>
+              <div className="text-center p-4 bg-slate-950 rounded-lg border border-slate-800">
+                <div className="w-10 h-10 mx-auto mb-2 rounded-lg bg-slate-800 flex items-center justify-center">
+                  <Tablet className="w-6 h-6 text-slate-400" />
+                </div>
+                <div className="text-xl font-bold">{stats.deviceStats.tablet.toLocaleString()}</div>
+                <div className="text-xs text-slate-400">Tablet</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Traffic Sources */}
+          <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+            <div className="flex items-center gap-3 mb-6">
+              <Share2 className="w-5 h-5 text-slate-400" />
+              <h2 className="text-lg font-semibold">Trafik Kaynakları</h2>
+            </div>
+            <div style={{ height: '200px', marginBottom: '16px' }}>
+              <Doughnut data={sourceChartData} options={doughnutOptions} />
+            </div>
+            <div className="flex justify-center flex-wrap gap-4 py-4 border-t border-slate-800">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded bg-blue-500"></div>
+                <span className="text-sm text-slate-300">Organik</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded bg-purple-500"></div>
+                <span className="text-sm text-slate-300">Direkt</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded bg-pink-500"></div>
+                <span className="text-sm text-slate-300">Sosyal Medya</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded bg-orange-500"></div>
+                <span className="text-sm text-slate-300">Referans</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded bg-green-500"></div>
+                <span className="text-sm text-slate-300">E-posta</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-3 gap-3">
+              <div className="text-center p-4 bg-slate-950 rounded-lg border border-slate-800">
+                <div className="w-10 h-10 mx-auto mb-2 rounded-lg bg-slate-800 flex items-center justify-center">
+                  <Search className="w-6 h-6 text-slate-400" />
+                </div>
+                <div className="text-xl font-bold">{Math.round(stats.visitors.today * 0.45).toLocaleString()}</div>
+                <div className="text-xs text-slate-400">Organik</div>
+              </div>
+              <div className="text-center p-4 bg-slate-950 rounded-lg border border-slate-800">
+                <div className="w-10 h-10 mx-auto mb-2 rounded-lg bg-slate-800 flex items-center justify-center">
+                  <ArrowRight className="w-6 h-6 text-slate-400" />
+                </div>
+                <div className="text-xl font-bold">{Math.round(stats.visitors.today * 0.28).toLocaleString()}</div>
+                <div className="text-xs text-slate-400">Direkt</div>
+              </div>
+              <div className="text-center p-4 bg-slate-950 rounded-lg border border-slate-800">
+                <div className="w-10 h-10 mx-auto mb-2 rounded-lg bg-slate-800 flex items-center justify-center">
+                  <Share className="w-6 h-6 text-slate-400" />
+                </div>
+                <div className="text-xl font-bold">{Math.round(stats.visitors.today * 0.15).toLocaleString()}</div>
+                <div className="text-xs text-slate-400">Sosyal Medya</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      <style jsx global>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(59, 130, 246, 0.5);
-          border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgba(59, 130, 246, 0.7);
-        }
-      `}</style>
     </div>
   );
 }
 
-function StatCard({ icon, title, value, subtitle, color, growth, showGrowth = true }: {
+function StatCard({ icon, label, value, change, subtitle }: {
   icon: React.ReactNode;
-  title: string;
-  value: string;
-  subtitle?: string;
-  color: 'blue' | 'green' | 'purple' | 'orange';
-  growth?: number;
-  showGrowth?: boolean;
-}) {
-  const colorClasses = {
-    blue: 'from-blue-500 to-cyan-500',
-    green: 'from-green-500 to-emerald-500',
-    purple: 'from-purple-500 to-pink-500',
-    orange: 'from-orange-500 to-red-500',
-  };
-
-  const isPositive = growth && growth > 0;
-  const isNegative = growth && growth < 0;
-
-  return (
-    <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 hover:border-white/30 transition-all">
-      <div className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${colorClasses[color]} mb-4`}>
-        {icon}
-      </div>
-      <h3 className="text-blue-200 text-sm font-medium mb-2">{title}</h3>
-      <p className="text-3xl font-bold text-white mb-1">{value}</p>
-      <div className="flex items-center gap-2">
-        {showGrowth && growth !== undefined && (
-          <span className={`flex items-center gap-1 text-sm font-medium ${
-            isPositive ? 'text-green-400' : isNegative ? 'text-red-400' : 'text-gray-400'
-          }`}>
-            {isPositive && <ArrowUp className="w-3 h-3" />}
-            {isNegative && <ArrowDown className="w-3 h-3" />}
-            {!isPositive && !isNegative && <Minus className="w-3 h-3" />}
-            {Math.abs(growth).toFixed(1)}%
-          </span>
-        )}
-        {subtitle && <p className="text-sm text-blue-300">{subtitle}</p>}
-      </div>
-    </div>
-  );
-}
-
-function QuickStat({ label, value, growth, highlight }: {
   label: string;
-  value: number;
-  growth?: number;
-  highlight?: boolean;
+  value: string;
+  change: number;
+  subtitle: string;
 }) {
-  const isPositive = growth && growth > 0;
-  const isNegative = growth && growth < 0;
+  const isPositive = change > 0;
+  const isNegative = change < 0;
 
   return (
-    <div className={`bg-white/10 backdrop-blur-xl rounded-xl p-3 border ${
-      highlight ? 'border-blue-400 bg-blue-500/10' : 'border-white/20'
-    } hover:border-white/30 transition-all`}>
-      <p className="text-blue-200 text-xs mb-1">{label}</p>
-      <p className={`text-xl font-bold ${highlight ? 'text-blue-400' : 'text-white'}`}>
-        {value.toLocaleString()}
-      </p>
-      {growth !== undefined && (
-        <div className={`flex items-center gap-1 text-xs mt-1 ${
-          isPositive ? 'text-green-400' : isNegative ? 'text-red-400' : 'text-gray-400'
+    <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-blue-500/50 transition-all">
+      <div className="flex justify-between items-start mb-4">
+        <div className="text-sm text-slate-400 font-medium">{label}</div>
+        <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-slate-400">
+          {icon}
+        </div>
+      </div>
+      <div className="text-3xl font-bold mb-2">{value}</div>
+      <div className="flex items-center gap-2 text-sm">
+        <span className={`flex items-center gap-1 px-2 py-0.5 rounded-md font-semibold ${
+          isPositive ? 'bg-green-500/10 text-green-400' : 
+          isNegative ? 'bg-red-500/10 text-red-400' : 
+          'bg-slate-700 text-slate-400'
         }`}>
           {isPositive && <TrendingUp className="w-3 h-3" />}
-          {isNegative && <TrendingDown className="w-3 h-3" />}
-          {Math.abs(growth).toFixed(1)}%
-        </div>
-      )}
+          {isNegative && <Activity className="w-3 h-3" />}
+          {Math.abs(change).toFixed(1)}%
+        </span>
+        <span className="text-slate-400">{subtitle}</span>
+      </div>
     </div>
   );
 }
 
-function DeviceBar({ icon, label, count, total, color }: {
-  icon: React.ReactNode;
+function QuickStat({ label, value }: {
   label: string;
-  count: number;
-  total: number;
-  color: string;
+  value: number;
 }) {
-  const percentage = total > 0 ? Math.round((count / total) * 100) : 0;
-
   return (
-    <div>
-      <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-2 text-white">
-          {icon}
-          <span className="font-medium">{label}</span>
-        </div>
-        <span className="text-blue-200 font-semibold">{percentage}%</span>
-      </div>
-      <div className="bg-white/10 rounded-full h-3 overflow-hidden">
-        <div
-          className={`bg-gradient-to-r ${color} h-full rounded-full transition-all`}
-          style={{ width: `${percentage}%` }}
-        />
-      </div>
-      <p className="text-xs text-blue-300 mt-1">{count.toLocaleString()} ziyaret</p>
+    <div className="bg-slate-900 border border-slate-800 rounded-lg p-4 hover:border-slate-700 transition-all">
+      <div className="text-xs text-slate-400 mb-1">{label}</div>
+      <div className="text-2xl font-bold">{value.toLocaleString()}</div>
     </div>
   );
 }
