@@ -212,131 +212,193 @@
         <main class="flex-1 p-8">
             <!-- Stats Cards -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                <div class="bg-white p-6 rounded-xl shadow-sm border">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-gray-600 text-sm">Toplam Gelir</span>
-                        <span class="text-green-500">📈</span>
+                <div class="card-hover glass-effect p-6 rounded-2xl shadow-xl border-0 animate-slide-in" style="animation-delay: 0.1s;">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-gray-600 text-sm font-medium">Toplam Gelir</span>
+                        <div class="w-12 h-12 gradient-green rounded-xl flex items-center justify-center shadow-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                            </svg>
+                        </div>
                     </div>
-                    <div class="text-3xl font-bold text-gray-900">₺245,680</div>
-                    <div class="text-sm text-green-600 mt-2">+12.5% bu ay</div>
+                    <div class="text-4xl font-bold text-gray-900 stat-number mb-2">₺245,680</div>
+                    <div class="flex items-center space-x-2">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            +12.5%
+                        </span>
+                        <span class="text-sm text-gray-500">bu ay</span>
+                    </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl shadow-sm border">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-gray-600 text-sm">Toplam Gider</span>
-                        <span class="text-red-500">📉</span>
+                <div class="card-hover glass-effect p-6 rounded-2xl shadow-xl border-0 animate-slide-in" style="animation-delay: 0.2s;">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-gray-600 text-sm font-medium">Toplam Gider</span>
+                        <div class="w-12 h-12 gradient-red rounded-xl flex items-center justify-center shadow-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path>
+                            </svg>
+                        </div>
                     </div>
-                    <div class="text-3xl font-bold text-gray-900">₺128,450</div>
-                    <div class="text-sm text-red-600 mt-2">+5.2% bu ay</div>
+                    <div class="text-4xl font-bold text-gray-900 stat-number mb-2">₺128,450</div>
+                    <div class="flex items-center space-x-2">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-800">
+                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 12.586V5a1 1 0 012 0v7.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            +5.2%
+                        </span>
+                        <span class="text-sm text-gray-500">bu ay</span>
+                    </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl shadow-sm border">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-gray-600 text-sm">Net Kar</span>
-                        <span class="text-blue-500">💎</span>
+                <div class="card-hover glass-effect p-6 rounded-2xl shadow-xl border-0 animate-slide-in" style="animation-delay: 0.3s;">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-gray-600 text-sm font-medium">Net Kar</span>
+                        <div class="w-12 h-12 gradient-blue rounded-xl flex items-center justify-center shadow-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
                     </div>
-                    <div class="text-3xl font-bold text-gray-900">₺117,230</div>
-                    <div class="text-sm text-green-600 mt-2">+18.3% bu ay</div>
+                    <div class="text-4xl font-bold text-gray-900 stat-number mb-2">₺117,230</div>
+                    <div class="flex items-center space-x-2">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 7.414V15a1 1 0 11-2 0V7.414L6.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                            </svg>
+                            +18.3%
+                        </span>
+                        <span class="text-sm text-gray-500">bu ay</span>
+                    </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl shadow-sm border">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="text-gray-600 text-sm">Bekleyen Faturalar</span>
-                        <span class="text-orange-500">⏳</span>
+                <div class="card-hover glass-effect p-6 rounded-2xl shadow-xl border-0 animate-slide-in" style="animation-delay: 0.4s;">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-gray-600 text-sm font-medium">Bekleyen Faturalar</span>
+                        <div class="w-12 h-12 gradient-orange rounded-xl flex items-center justify-center shadow-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
                     </div>
-                    <div class="text-3xl font-bold text-gray-900">12</div>
-                    <div class="text-sm text-gray-600 mt-2">₺45,200 değerinde</div>
+                    <div class="text-4xl font-bold text-gray-900 stat-number mb-2">12</div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-600 font-medium">₺45,200</span>
+                        <span class="text-sm text-gray-500">değerinde</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
                 <!-- Chart -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Gelir/Gider Grafiği</h3>
-                    <canvas id="incomeChart"></canvas>
+                <div class="lg:col-span-2 glass-effect p-6 rounded-2xl shadow-xl border-0 animate-fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-bold text-gray-900">Gelir/Gider Analizi</h3>
+                        <div class="flex space-x-2">
+                            <button class="px-4 py-2 text-sm font-medium text-white gradient-bg rounded-lg shadow-md hover:shadow-lg transition">6 Ay</button>
+                            <button class="px-4 py-2 text-sm font-medium text-gray-600 bg-white rounded-lg hover:bg-gray-50 transition">1 Yıl</button>
+                        </div>
+                    </div>
+                    <canvas id="incomeChart" class="w-full" style="max-height: 300px;"></canvas>
                 </div>
 
                 <!-- Recent Transactions -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Son İşlemler</h3>
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between pb-3 border-b">
+                <div class="glass-effect p-6 rounded-2xl shadow-xl border-0 animate-fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-bold text-gray-900">Son İşlemler</h3>
+                        <button class="text-sm text-purple-600 font-semibold hover:text-purple-700">Tümü →</button>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-white rounded-xl hover:shadow-md transition">
                             <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                                    <span class="text-green-600">↓</span>
+                                <div class="w-12 h-12 gradient-green rounded-xl flex items-center justify-center shadow-md">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
+                                    </svg>
                                 </div>
                                 <div>
-                                    <div class="font-medium text-gray-900">ABC Şirketi</div>
-                                    <div class="text-sm text-gray-500">Fatura #1234</div>
+                                    <div class="font-semibold text-gray-900">ABC Şirketi</div>
+                                    <div class="text-xs text-gray-500">Fatura #1234</div>
                                 </div>
                             </div>
                             <div class="text-right">
-                                <div class="font-semibold text-green-600">+₺15,000</div>
-                                <div class="text-sm text-gray-500">Bugün</div>
+                                <div class="font-bold text-green-600">+₺15,000</div>
+                                <div class="text-xs text-gray-500">Bugün</div>
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-between pb-3 border-b">
+                        <div class="flex items-center justify-between p-3 bg-white rounded-xl hover:shadow-md transition">
                             <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
-                                    <span class="text-red-600">↑</span>
+                                <div class="w-12 h-12 gradient-red rounded-xl flex items-center justify-center shadow-md">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6"></path>
+                                    </svg>
                                 </div>
                                 <div>
-                                    <div class="font-medium text-gray-900">Ofis Kirası</div>
-                                    <div class="text-sm text-gray-500">Gider</div>
+                                    <div class="font-semibold text-gray-900">Ofis Kirası</div>
+                                    <div class="text-xs text-gray-500">Gider</div>
                                 </div>
                             </div>
                             <div class="text-right">
-                                <div class="font-semibold text-red-600">-₺8,500</div>
-                                <div class="text-sm text-gray-500">Dün</div>
+                                <div class="font-bold text-red-600">-₺8,500</div>
+                                <div class="text-xs text-gray-500">Dün</div>
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-between pb-3 border-b">
+                        <div class="flex items-center justify-between p-3 bg-white rounded-xl hover:shadow-md transition">
                             <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                                    <span class="text-green-600">↓</span>
+                                <div class="w-12 h-12 gradient-green rounded-xl flex items-center justify-center shadow-md">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
+                                    </svg>
                                 </div>
                                 <div>
-                                    <div class="font-medium text-gray-900">XYZ Ltd.</div>
-                                    <div class="text-sm text-gray-500">Fatura #1233</div>
+                                    <div class="font-semibold text-gray-900">XYZ Ltd.</div>
+                                    <div class="text-xs text-gray-500">Fatura #1233</div>
                                 </div>
                             </div>
                             <div class="text-right">
-                                <div class="font-semibold text-green-600">+₺22,400</div>
-                                <div class="text-sm text-gray-500">2 gün önce</div>
+                                <div class="font-bold text-green-600">+₺22,400</div>
+                                <div class="text-xs text-gray-500">2 gün önce</div>
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-between pb-3 border-b">
+                        <div class="flex items-center justify-between p-3 bg-white rounded-xl hover:shadow-md transition">
                             <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
-                                    <span class="text-red-600">↑</span>
+                                <div class="w-12 h-12 gradient-red rounded-xl flex items-center justify-center shadow-md">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6"></path>
+                                    </svg>
                                 </div>
                                 <div>
-                                    <div class="font-medium text-gray-900">Elektrik Faturası</div>
-                                    <div class="text-sm text-gray-500">Gider</div>
+                                    <div class="font-semibold text-gray-900">Elektrik</div>
+                                    <div class="text-xs text-gray-500">Gider</div>
                                 </div>
                             </div>
                             <div class="text-right">
-                                <div class="font-semibold text-red-600">-₺1,250</div>
-                                <div class="text-sm text-gray-500">3 gün önce</div>
+                                <div class="font-bold text-red-600">-₺1,250</div>
+                                <div class="text-xs text-gray-500">3 gün önce</div>
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-between">
+                        <div class="flex items-center justify-between p-3 bg-white rounded-xl hover:shadow-md transition">
                             <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                                    <span class="text-green-600">↓</span>
+                                <div class="w-12 h-12 gradient-green rounded-xl flex items-center justify-center shadow-md">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
+                                    </svg>
                                 </div>
                                 <div>
-                                    <div class="font-medium text-gray-900">DEF A.Ş.</div>
-                                    <div class="text-sm text-gray-500">Fatura #1232</div>
+                                    <div class="font-semibold text-gray-900">DEF A.Ş.</div>
+                                    <div class="text-xs text-gray-500">Fatura #1232</div>
                                 </div>
                             </div>
                             <div class="text-right">
-                                <div class="font-semibold text-green-600">+₺18,900</div>
-                                <div class="text-sm text-gray-500">5 gün önce</div>
+                                <div class="font-bold text-green-600">+₺18,900</div>
+                                <div class="text-xs text-gray-500">5 gün önce</div>
                             </div>
                         </div>
                     </div>
@@ -407,6 +469,213 @@
                     }
                 }
             }
+        });
+    </script>
+</body>
+</html>
+
+            <!-- Quick Actions -->
+            <div class="glass-effect p-6 rounded-2xl shadow-xl border-0 animate-fade-in">
+                <h3 class="text-xl font-bold text-gray-900 mb-6">Hızlı İşlemler</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <button class="group p-6 bg-white rounded-xl hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border-2 border-transparent hover:border-purple-200">
+                        <div class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg group-hover:scale-110 transition-transform">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                        </div>
+                        <div class="font-semibold text-gray-900">Yeni Fatura</div>
+                        <div class="text-xs text-gray-500 mt-1">Fatura oluştur</div>
+                    </button>
+                    
+                    <button class="group p-6 bg-white rounded-xl hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border-2 border-transparent hover:border-red-200">
+                        <div class="w-14 h-14 gradient-red rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg group-hover:scale-110 transition-transform">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                            </svg>
+                        </div>
+                        <div class="font-semibold text-gray-900">Gider Ekle</div>
+                        <div class="text-xs text-gray-500 mt-1">Harcama kaydet</div>
+                    </button>
+                    
+                    <button class="group p-6 bg-white rounded-xl hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border-2 border-transparent hover:border-blue-200">
+                        <div class="w-14 h-14 gradient-blue rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg group-hover:scale-110 transition-transform">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                            </svg>
+                        </div>
+                        <div class="font-semibold text-gray-900">Müşteri Ekle</div>
+                        <div class="text-xs text-gray-500 mt-1">Yeni müşteri</div>
+                    </button>
+                    
+                    <button class="group p-6 bg-white rounded-xl hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border-2 border-transparent hover:border-green-200">
+                        <div class="w-14 h-14 gradient-green rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg group-hover:scale-110 transition-transform">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="font-semibold text-gray-900">Rapor Oluştur</div>
+                        <div class="text-xs text-gray-500 mt-1">Detaylı analiz</div>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Smooth animations on load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Chart.js ile gelişmiş grafik
+            const ctx = document.getElementById('incomeChart').getContext('2d');
+            const gradient1 = ctx.createLinearGradient(0, 0, 0, 300);
+            gradient1.addColorStop(0, 'rgba(16, 185, 129, 0.3)');
+            gradient1.addColorStop(1, 'rgba(16, 185, 129, 0)');
+            
+            const gradient2 = ctx.createLinearGradient(0, 0, 0, 300);
+            gradient2.addColorStop(0, 'rgba(239, 68, 68, 0.3)');
+            gradient2.addColorStop(1, 'rgba(239, 68, 68, 0)');
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran'],
+                    datasets: [{
+                        label: 'Gelir',
+                        data: [185000, 195000, 210000, 225000, 235000, 245680],
+                        borderColor: 'rgb(16, 185, 129)',
+                        backgroundColor: gradient1,
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        pointBackgroundColor: 'rgb(16, 185, 129)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointHoverBackgroundColor: 'rgb(16, 185, 129)',
+                        pointHoverBorderColor: '#fff',
+                        pointHoverBorderWidth: 3
+                    }, {
+                        label: 'Gider',
+                        data: [95000, 102000, 108000, 115000, 122000, 128450],
+                        borderColor: 'rgb(239, 68, 68)',
+                        backgroundColor: gradient2,
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        pointBackgroundColor: 'rgb(239, 68, 68)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointHoverBackgroundColor: 'rgb(239, 68, 68)',
+                        pointHoverBorderColor: '#fff',
+                        pointHoverBorderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                font: {
+                                    size: 13,
+                                    weight: '600'
+                                },
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            padding: 12,
+                            titleFont: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            bodyFont: {
+                                size: 13
+                            },
+                            borderColor: 'rgba(255, 255, 255, 0.1)',
+                            borderWidth: 1,
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    label += '₺' + context.parsed.y.toLocaleString('tr-TR');
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                padding: 10,
+                                font: {
+                                    size: 12
+                                },
+                                callback: function(value) {
+                                    return '₺' + (value / 1000) + 'K';
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false,
+                                drawBorder: false
+                            },
+                            ticks: {
+                                padding: 10,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Sayı animasyonu
+            function animateValue(element, start, end, duration) {
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    const value = Math.floor(progress * (end - start) + start);
+                    element.textContent = '₺' + value.toLocaleString('tr-TR');
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+            
+            // Stat kartlarındaki sayıları animasyonla göster
+            setTimeout(() => {
+                const stats = document.querySelectorAll('.stat-number');
+                stats.forEach((stat, index) => {
+                    const value = parseInt(stat.textContent.replace(/[^0-9]/g, ''));
+                    stat.textContent = '₺0';
+                    setTimeout(() => {
+                        animateValue(stat, 0, value, 1500);
+                    }, index * 100);
+                });
+            }, 300);
         });
     </script>
 </body>
