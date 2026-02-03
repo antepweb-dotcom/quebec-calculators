@@ -39,6 +39,20 @@ export default function MortgageCalculator() {
     const calculatedResult = calculateMortgage(inputs, stressTestEnabled)
     setResult(calculatedResult)
     
+    // Track mortgage calculation
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'calculate_mortgage', {
+        event_category: 'Calculator',
+        event_label: 'Mortgage Calculator',
+        loan_amount: loan,
+        interest_rate: rate,
+        amortization_years: amortizationYears,
+        payment_frequency: paymentFrequency,
+        stress_test: stressTestEnabled,
+        monthly_payment: Math.round(calculatedResult.monthlyPayment),
+      })
+    }
+    
     // Auto-scroll to results
     setTimeout(() => {
       resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -48,6 +62,14 @@ export default function MortgageCalculator() {
   // Recalculate when stress test toggle changes
   const handleStressTestToggle = (enabled: boolean) => {
     setStressTestEnabled(enabled)
+    
+    // Track stress test toggle
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'toggle_stress_test', {
+        calculator: 'mortgage',
+        enabled: enabled,
+      })
+    }
     
     // If we have existing results, recalculate with new stress test setting
     if (result) {
@@ -65,6 +87,15 @@ export default function MortgageCalculator() {
   const handleDownloadPDF = () => {
     if (result) {
       generateMortgagePDF(result)
+      
+      // Track PDF download
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'download_pdf', {
+          event_category: 'Engagement',
+          event_label: 'Mortgage PDF',
+          value: Math.round(result.loanAmount),
+        })
+      }
     }
   }
 

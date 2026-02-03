@@ -6,6 +6,7 @@ import { calculateTaxes, formatCurrency } from '@/utils/taxLogic'
 import { generateSalaryPDF } from '@/utils/pdfGenerator'
 import InteractiveDonutChart from './ui/InteractiveDonutChart'
 import { AffiliateCard } from '@/components/AffiliateCard'
+import { useDebouncedAnalytics } from '@/hooks/useDebouncedAnalytics'
 
 interface LuxurySalaryCalculatorProps {
   initialIncome: number
@@ -22,6 +23,9 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
   const [isChartOpen, setIsChartOpen] = useState(false)
   const [isRRSPOpen, setIsRRSPOpen] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  
+  // Analytics tracking
+  const trackEvent = useDebouncedAnalytics(800)
   
   const numericIncome = parseFloat(income) || 0
   
@@ -51,6 +55,19 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
   const handleCalculate = () => {
     if (numericIncome > 0) {
       const salaryToNavigate = Math.round(annualIncome)
+      
+      // Track calculation event
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'calculate_salary', {
+          event_category: 'Calculator',
+          event_label: 'Salary Calculator',
+          value: salaryToNavigate,
+          pay_period: payPeriod,
+          net_income: Math.round(results.netIncome),
+          total_deductions: Math.round(results.totalDeductions),
+        })
+      }
+      
       // Smooth scroll to top before navigation
       window.scrollTo({ top: 0, behavior: 'smooth' })
       // Navigate after a short delay to allow scroll animation
@@ -99,7 +116,14 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
               id="income-input"
               type="number"
               value={income}
-              onChange={(e) => setIncome(e.target.value)}
+              onChange={(e) => {
+                setIncome(e.target.value)
+                trackEvent('salary_input_change', {
+                  calculator: 'salary',
+                  field: 'income',
+                  pay_period: payPeriod,
+                })
+              }}
               className="w-full pl-14 pr-4 py-4 text-2xl font-bold border-2 border-slate-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
               placeholder="50000"
             />
@@ -113,7 +137,15 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
           </label>
           <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1 md:grid md:grid-cols-2 md:gap-2.5 md:p-1">
             <button
-              onClick={() => setPayPeriod('annual')}
+              onClick={() => {
+                setPayPeriod('annual')
+                if (typeof window !== 'undefined' && (window as any).gtag) {
+                  (window as any).gtag('event', 'change_pay_period', {
+                    calculator: 'salary',
+                    pay_period: 'annual',
+                  })
+                }
+              }}
               className={`flex-shrink-0 px-4 py-2 rounded-lg font-semibold text-sm transition-all ${
                 payPeriod === 'annual'
                   ? 'bg-emerald-600 text-white shadow-sm'
@@ -382,7 +414,17 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
                 <input
                   type="checkbox"
                   checked={useFTQ}
-                  onChange={(e) => setUseFTQ(e.target.checked)}
+                  onChange={(e) => {
+                    setUseFTQ(e.target.checked)
+                    
+                    // Track FTQ toggle
+                    if (typeof window !== 'undefined' && (window as any).gtag) {
+                      (window as any).gtag('event', 'toggle_ftq', {
+                        calculator: 'salary',
+                        enabled: e.target.checked,
+                      })
+                    }
+                  }}
                   className="mt-1 w-5 h-5 text-amber-600 border-2 border-slate-300 rounded focus:ring-2 focus:ring-amber-500"
                 />
                 <div className="flex-1">
@@ -489,6 +531,15 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
             <div className="grid grid-cols-2 gap-3">
               <button
                 onClick={() => {
+                  // Track share event
+                  if (typeof window !== 'undefined' && (window as any).gtag) {
+                    (window as any).gtag('event', 'share', {
+                      event_category: 'Engagement',
+                      event_label: 'Salary Result',
+                      method: navigator.share ? 'native' : 'clipboard',
+                    })
+                  }
+                  
                   if (navigator.share) {
                     navigator.share({
                       title: 'Mon Salaire Net',
@@ -510,6 +561,15 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
               <button
                 onClick={() => {
                   generateSalaryPDF(results, payPeriod);
+                  
+                  // Track PDF download
+                  if (typeof window !== 'undefined' && (window as any).gtag) {
+                    (window as any).gtag('event', 'download_pdf', {
+                      event_category: 'Engagement',
+                      event_label: 'Salary PDF',
+                      value: Math.round(results.grossIncome),
+                    })
+                  }
                 }}
                 className="flex items-center justify-center gap-2 px-4 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl transition-colors"
               >
