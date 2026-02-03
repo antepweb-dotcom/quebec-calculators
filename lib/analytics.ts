@@ -5,14 +5,15 @@
 
 import { BetaAnalyticsDataClient } from '@google-analytics/data';
 
-const propertyId = process.env.GA4_PROPERTY_ID;
+// Clean environment variables from newlines
+const propertyId = process.env.GA4_PROPERTY_ID?.trim().replace(/[\r\n]/g, '');
 
 let analyticsDataClient: BetaAnalyticsDataClient | null = null;
 
 if (process.env.GA4_CREDENTIALS) {
   try {
-    // Decode base64 if needed
-    let credentialsStr = process.env.GA4_CREDENTIALS;
+    // Decode base64 if needed and clean
+    let credentialsStr = process.env.GA4_CREDENTIALS.trim().replace(/[\r\n]/g, '');
     if (!credentialsStr.startsWith('{')) {
       // It's base64 encoded
       credentialsStr = Buffer.from(credentialsStr, 'base64').toString('utf-8');
