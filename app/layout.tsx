@@ -127,9 +127,7 @@ export default function RootLayout({
         <OrganizationSchema />
       </head>
       <body className={`${plusJakartaSans.className} bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-50 via-white to-white text-slate-900`}>
-        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
-          <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-        )}
+        <GoogleAnalytics GA_MEASUREMENT_ID="G-4E6L3DHKPJ" />
         <PerformanceMonitor />
         <ConditionalLayout>
           {children}

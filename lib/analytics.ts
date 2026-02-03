@@ -6,7 +6,7 @@
 import { BetaAnalyticsDataClient } from '@google-analytics/data';
 
 // Clean environment variables from newlines
-const propertyId = process.env.GA4_PROPERTY_ID?.trim().replace(/[\r\n]/g, '');
+const propertyId = process.env.GA4_PROPERTY_ID?.trim().replace(/[\r\n]/g, '') || '522075851';
 
 let analyticsDataClient: BetaAnalyticsDataClient | null = null;
 
