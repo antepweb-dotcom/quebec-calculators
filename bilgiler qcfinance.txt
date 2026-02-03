@@ -1,0 +1,19 @@
+şifre: qgsHxy70GHoisDvJ
+
+postgresql://postgres.rzppnykbgigpcdxfwhbi:qgsHxy70GHoisDvJ@aws-1-ca-central-1.pooler.supabase.com:6543/postgres
+
+
+git add .
+git commit -m "Fix: Remove Prisma and database completely"
+git push
+
+
+npm run dev
+
+
+şifreler ve hesaplar;
+
+vercel.com - 
+github
+
+bu hesaplar antepweb@gmail.com hesabına bağlı.

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muhasebe Pro - Premium Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .animate-slide-in { animation: slideIn 0.5s ease-out forwards; }
+        .animate-fade-in { animation: fadeIn 0.8s ease-out forwards; }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-green {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .gradient-red {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+        
+        .gradient-blue {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+        
+        .gradient-orange {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .sidebar-item {
+            transition: all 0.2s ease;
+        }
+        
+        .sidebar-item:hover {
+            transform: translateX(4px);
+        }
+        
+        .stat-number {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .notification-badge {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 min-h-screen">
+    <!-- Header -->
+    <header class="glass-effect sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center shadow-lg transform hover:scale-105 transition">
+                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">Muhasebe Pro</h1>
+                    <p class="text-xs text-gray-500">Premium Edition</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-6">
+                <div class="relative">
+                    <input type="text" placeholder="Ara..." class="pl-10 pr-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition">
+                    <svg class="w-5 h-5 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                
+                <button class="relative p-2 hover:bg-gray-100 rounded-xl transition">
+                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                    </svg>
+                    <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full notification-badge"></span>
+                </button>
+                
+                <div class="flex items-center space-x-3 pl-4 border-l border-gray-200">
+                    <div class="text-right">
+                        <div class="text-sm font-semibold text-gray-900">Ahmet Yılmaz</div>
+                        <div class="text-xs text-gray-500">Admin</div>
+                    </div>
+                    <img src="https://ui-avatars.com/api/?name=Ahmet+Yilmaz&background=667eea&color=fff" class="w-10 h-10 rounded-xl shadow-md" alt="Avatar">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside class="w-72 glass-effect h-screen shadow-xl">
+            <nav class="p-6 space-y-2">
+                <div class="mb-6">
+                    <div class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Ana Menü</div>
+                </div>
+                
+                <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 gradient-bg text-white rounded-xl shadow-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    <span class="font-semibold">Dashboard</span>
+                </a>
+                
+                <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-white hover:shadow-md rounded-xl">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="font-medium">Gelir/Gider</span>
+                    <span class="ml-auto bg-green-100 text-green-700 text-xs font-semibold px-2 py-1 rounded-full">+12</span>
+                </a>
+                
+                <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-white hover:shadow-md rounded-xl">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <span class="font-medium">Faturalar</span>
+                    <span class="ml-auto bg-orange-100 text-orange-700 text-xs font-semibold px-2 py-1 rounded-full">12</span>
+                </a>
+                
+                <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-white hover:shadow-md rounded-xl">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    <span class="font-medium">Müşteriler</span>
+                </a>
+                
+                <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-white hover:shadow-md rounded-xl">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                    <span class="font-medium">Raporlar</span>
+                </a>
+                
+                <div class="pt-6">
+                    <div class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Diğer</div>
+                </div>
+                
+                <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-white hover:shadow-md rounded-xl">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    <span class="font-medium">Ayarlar</span>
+                </a>
+                
+                <a href="#" class="sidebar-item flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-white hover:shadow-md rounded-xl">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                    <span class="font-medium">Destek</span>
+                </a>
+                
+                <div class="mt-8 p-4 gradient-bg rounded-xl text-white">
+                    <div class="text-sm font-semibold mb-2">🚀 Premium'a Yükselt</div>
+                    <p class="text-xs opacity-90 mb-3">Sınırsız özellikler ve raporlar</p>
+                    <button class="w-full bg-white text-purple-600 text-sm font-semibold py-2 rounded-lg hover:bg-gray-100 transition">
+                        Şimdi Yükselt
+                    </button>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8">
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm border">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-600 text-sm">Toplam Gelir</span>
+                        <span class="text-green-500">📈</span>
+                    </div>
+                    <div class="text-3xl font-bold text-gray-900">₺245,680</div>
+                    <div class="text-sm text-green-600 mt-2">+12.5% bu ay</div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-600 text-sm">Toplam Gider</span>
+                        <span class="text-red-500">📉</span>
+                    </div>
+                    <div class="text-3xl font-bold text-gray-900">₺128,450</div>
+                    <div class="text-sm text-red-600 mt-2">+5.2% bu ay</div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-600 text-sm">Net Kar</span>
+                        <span class="text-blue-500">💎</span>
+                    </div>
+                    <div class="text-3xl font-bold text-gray-900">₺117,230</div>
+                    <div class="text-sm text-green-600 mt-2">+18.3% bu ay</div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-gray-600 text-sm">Bekleyen Faturalar</span>
+                        <span class="text-orange-500">⏳</span>
+                    </div>
+                    <div class="text-3xl font-bold text-gray-900">12</div>
+                    <div class="text-sm text-gray-600 mt-2">₺45,200 değerinde</div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <!-- Chart -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Gelir/Gider Grafiği</h3>
+                    <canvas id="incomeChart"></canvas>
+                </div>
+
+                <!-- Recent Transactions -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Son İşlemler</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between pb-3 border-b">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <span class="text-green-600">↓</span>
+                                </div>
+                                <div>
+                                    <div class="font-medium text-gray-900">ABC Şirketi</div>
+                                    <div class="text-sm text-gray-500">Fatura #1234</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-semibold text-green-600">+₺15,000</div>
+                                <div class="text-sm text-gray-500">Bugün</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between pb-3 border-b">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                                    <span class="text-red-600">↑</span>
+                                </div>
+                                <div>
+                                    <div class="font-medium text-gray-900">Ofis Kirası</div>
+                                    <div class="text-sm text-gray-500">Gider</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-semibold text-red-600">-₺8,500</div>
+                                <div class="text-sm text-gray-500">Dün</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between pb-3 border-b">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <span class="text-green-600">↓</span>
+                                </div>
+                                <div>
+                                    <div class="font-medium text-gray-900">XYZ Ltd.</div>
+                                    <div class="text-sm text-gray-500">Fatura #1233</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-semibold text-green-600">+₺22,400</div>
+                                <div class="text-sm text-gray-500">2 gün önce</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between pb-3 border-b">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                                    <span class="text-red-600">↑</span>
+                                </div>
+                                <div>
+                                    <div class="font-medium text-gray-900">Elektrik Faturası</div>
+                                    <div class="text-sm text-gray-500">Gider</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-semibold text-red-600">-₺1,250</div>
+                                <div class="text-sm text-gray-500">3 gün önce</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <span class="text-green-600">↓</span>
+                                </div>
+                                <div>
+                                    <div class="font-medium text-gray-900">DEF A.Ş.</div>
+                                    <div class="text-sm text-gray-500">Fatura #1232</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-semibold text-green-600">+₺18,900</div>
+                                <div class="text-sm text-gray-500">5 gün önce</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Hızlı İşlemler</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <button class="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                        <div class="text-3xl mb-2">➕</div>
+                        <div class="font-medium text-gray-900">Yeni Fatura</div>
+                    </button>
+                    <button class="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                        <div class="text-3xl mb-2">💳</div>
+                        <div class="font-medium text-gray-900">Gider Ekle</div>
+                    </button>
+                    <button class="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                        <div class="text-3xl mb-2">👤</div>
+                        <div class="font-medium text-gray-900">Müşteri Ekle</div>
+                    </button>
+                    <button class="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition">
+                        <div class="text-3xl mb-2">📄</div>
+                        <div class="font-medium text-gray-900">Rapor Oluştur</div>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Chart.js ile grafik oluşturma
+        const ctx = document.getElementById('incomeChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran'],
+                datasets: [{
+                    label: 'Gelir',
+                    data: [185000, 195000, 210000, 225000, 235000, 245680],
+                    borderColor: 'rgb(34, 197, 94)',
+                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                    tension: 0.4
+                }, {
+                    label: 'Gider',
+                    data: [95000, 102000, 108000, 115000, 122000, 128450],
+                    borderColor: 'rgb(239, 68, 68)',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '₺' + value.toLocaleString('tr-TR');
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

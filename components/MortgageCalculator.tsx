@@ -49,7 +49,7 @@ export default function MortgageCalculator() {
         amortization_years: amortizationYears,
         payment_frequency: paymentFrequency,
         stress_test: stressTestEnabled,
-        monthly_payment: Math.round(calculatedResult.monthlyPayment),
+        payment_amount: Math.round(calculatedResult.paymentAmount),
       })
     }
     

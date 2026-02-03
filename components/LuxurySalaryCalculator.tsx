@@ -531,16 +531,18 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
             <div className="grid grid-cols-2 gap-3">
               <button
                 onClick={() => {
+                  const hasNativeShare = typeof navigator !== 'undefined' && 'share' in navigator;
+                  
                   // Track share event
                   if (typeof window !== 'undefined' && (window as any).gtag) {
                     (window as any).gtag('event', 'share', {
                       event_category: 'Engagement',
                       event_label: 'Salary Result',
-                      method: navigator.share ? 'native' : 'clipboard',
+                      method: hasNativeShare ? 'native' : 'clipboard',
                     })
                   }
                   
-                  if (navigator.share) {
+                  if (hasNativeShare) {
                     navigator.share({
                       title: 'Mon Salaire Net',
                       text: `Salaire Net: ${formatCurrency(results.netIncome)} sur ${formatCurrency(results.grossIncome)} brut`,
