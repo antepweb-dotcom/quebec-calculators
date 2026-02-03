@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
-const STATS_PASSWORD = process.env.STATS_PASSWORD || '145314';
+// Fallback password if env var is not set or has issues
+const STATS_PASSWORD = (process.env.STATS_PASSWORD || '145314').trim().replace(/[\r\n]/g, '');
 
 export async function POST(request: NextRequest) {
   try {
