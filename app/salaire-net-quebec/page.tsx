@@ -5,7 +5,7 @@ import EmptyStatePreview from '@/components/ui/EmptyStatePreview'
 import DataSource from '@/components/ui/DataSource'
 import SalaryLinkGrid from '@/components/calculators/SalaryLinkGrid'
 import DarkPageHeader from '@/components/DarkPageHeader'
-import { TrendingUp, Sparkles, ArrowRight, Check } from 'lucide-react'
+import { TrendingUp } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: "Calculateur Impôt Québec 2026 | Salaire Net Gratuit",
@@ -84,43 +84,6 @@ export default function SalaryLandingPage() {
         <div className="grid lg:grid-cols-12 gap-8">
           <div className="lg:col-span-8 space-y-6">
             <LuxurySalaryCalculator initialIncome={0} />
-
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-purple-600 to-blue-700 p-8 shadow-2xl">
-              <div className="absolute inset-0 bg-[url('/images/3d-salary.jpg')] opacity-10 mix-blend-overlay"></div>
-              <div className="relative z-10">
-                <div className="flex items-start justify-between gap-4 mb-4">
-                  <div className="flex-1">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white text-xs font-bold uppercase tracking-wider mb-3">
-                      <Sparkles className="w-3 h-3" />
-                      Nouveau
-                    </div>
-                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                      Simulateur de Vie au Québec
-                    </h3>
-                    <p className="text-white/90 text-sm md:text-base leading-relaxed">
-                      Découvrez votre pouvoir d'achat réel avec notre simulateur premium. Analyse complète en 3 étapes : revenus, ville, style de vie.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  <Link
-                    href="/simulateur-vie-quebec"
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-600 font-bold rounded-xl hover:bg-yellow-300 hover:text-purple-700 transition-all shadow-lg hover:shadow-xl group"
-                  >
-                    <span>Essayer Maintenant</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                  <div className="flex items-center gap-2 text-white/80 text-sm">
-                    <Check className="w-4 h-4" />
-                    <span>Gratuit</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-white/80 text-sm">
-                    <Check className="w-4 h-4" />
-                    <span>3 minutes</span>
-                  </div>
-                </div>
-              </div>
-            </div>
 
             {/* SEO Content Block */}
             <div className="prose prose-slate max-w-none bg-white p-8 rounded-3xl shadow-sm border border-slate-100">

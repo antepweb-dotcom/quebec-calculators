@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, TrendingUp, Sparkles, Clock, Calculator, Car, GraduationCap, Building2, Wallet, Users, Shield, Eye, Calendar } from 'lucide-react';
-import HeroSearch from '@/components/HeroSearch';
 import type { MarketRate } from '@/lib/marketData';
 import { useEffect, useRef, useState } from 'react';
 
@@ -18,7 +17,7 @@ const mainTools = [
     subtitle: "Après Impôts 2026",
     description: "Découvrez votre revenu réel précis au dollar près.",
     imageSrc: "/images/3d-salary.jpg",
-    className: "col-span-1 md:col-span-2 lg:col-span-2 lg:row-span-2 min-h-[400px] md:min-h-[500px]",
+    className: "col-span-1 md:col-span-2 lg:col-span-2 lg:row-span-2 min-h-[350px] md:min-h-[420px]",
     theme: "emerald" as const
   },
   {
@@ -27,7 +26,7 @@ const mainTools = [
     subtitle: "Vie au Québec",
     description: "Analyse complète en 3 étapes.",
     imageSrc: "/images/simulator.jpg",
-    className: "col-span-1 md:col-span-2 min-h-[250px]",
+    className: "col-span-1 md:col-span-2 min-h-[220px]",
     theme: "purple" as const,
     isPremium: true
   },
@@ -37,7 +36,7 @@ const mainTools = [
     subtitle: "Simulation",
     description: "Capacité d'emprunt.",
     imageSrc: "/images/3d-mortgage.jpg",
-    className: "col-span-1 min-h-[250px]",
+    className: "col-span-1 min-h-[220px]",
     theme: "blue" as const
   },
   {
@@ -145,7 +144,7 @@ export default function HomeClient({ marketRates }: HomeClientProps) {
           </div>
 
           <h1 className="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-4 leading-[1.1]">
-            Vos finances québécoises, <br />
+            Vos finances Québécoises, <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400">
               enfin claires.
             </span>
@@ -155,36 +154,44 @@ export default function HomeClient({ marketRates }: HomeClientProps) {
             Des outils de précision pour calculer vos impôts, votre hypothèque et vos investissements. <span className="text-emerald-400 font-semibold">Gratuit. Anonyme. Sécurisé.</span>
           </p>
 
-          <div className="max-w-xl mx-auto mb-8 space-y-4">
-            <Link 
-              href="/simulateur-vie-quebec"
-              className="group block w-full bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-size-200 bg-pos-0 hover:bg-pos-100 text-white font-bold py-5 px-6 rounded-2xl transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-blue-500/50 text-center active:scale-[0.98] relative overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
-              <div className="relative">
-                <div className="text-xl mb-1 flex items-center justify-center gap-2">
-                  <Sparkles className="w-6 h-6 animate-pulse" />
-                  <span>Simulateur de Vie au Québec</span>
-                  <Sparkles className="w-6 h-6 animate-pulse" />
+          <div className="max-w-xl md:max-w-3xl mx-auto mb-8">
+            <div className="grid grid-cols-2 gap-3 md:gap-4">
+              <Link 
+                href="/simulateur-vie-quebec"
+                className="group block w-full bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-size-200 bg-pos-0 hover:bg-pos-100 text-white font-bold py-3 md:py-3.5 px-4 md:px-5 rounded-2xl transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-blue-500/50 text-center active:scale-[0.98] relative overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
+                <div className="relative">
+                  <div className="text-base md:text-lg mb-0.5 flex items-center justify-center gap-2">
+                    <Sparkles className="w-4 h-4 md:w-5 md:h-5 animate-pulse" />
+                    <span className="md:hidden">Simulateur</span>
+                    <span className="hidden md:inline">Simulateur de Vie au Québec</span>
+                  </div>
+                  <div className="text-xs opacity-90">
+                    <span className="md:hidden">Premium ✨</span>
+                    <span className="hidden md:inline">Guide étape par étape • Expérience premium ✨</span>
+                  </div>
                 </div>
-                <div className="text-sm opacity-90">Guide étape par étape • Expérience premium ✨</div>
-              </div>
-            </Link>
+              </Link>
 
-            <Link 
-              href="/salaire-net-quebec"
-              className="group block w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold py-5 px-6 rounded-2xl hover:from-emerald-600 hover:to-teal-600 transition-all shadow-xl hover:shadow-2xl text-center active:scale-[0.98]"
-            >
-              <div className="text-xl mb-1 flex items-center justify-center gap-2">
-                <Calculator className="w-6 h-6" />
-                <span>Calculer Mon Salaire Net</span>
-              </div>
-              <div className="text-sm opacity-90">Résultat précis en 30 secondes • 100% gratuit</div>
-            </Link>
-          </div>
-
-          <div className="max-w-xl mx-auto transform hover:scale-[1.01] transition-transform duration-500">
-            <HeroSearch />
+              <Link 
+                href="/salaire-net-quebec"
+                className="group block w-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-500 bg-size-200 bg-pos-0 hover:bg-pos-100 text-white font-bold py-3 md:py-3.5 px-4 md:px-5 rounded-2xl transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-emerald-500/50 text-center active:scale-[0.98] relative overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
+                <div className="relative">
+                  <div className="text-base md:text-lg mb-0.5 flex items-center justify-center gap-2">
+                    <Calculator className="w-4 h-4 md:w-5 md:h-5" />
+                    <span className="md:hidden">Salaire Net</span>
+                    <span className="hidden md:inline">Calculer Mon Salaire Net</span>
+                  </div>
+                  <div className="text-xs opacity-90">
+                    <span className="md:hidden">100% gratuit</span>
+                    <span className="hidden md:inline">Résultat précis en 30 secondes • 100% gratuit</span>
+                  </div>
+                </div>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -266,40 +273,40 @@ export default function HomeClient({ marketRates }: HomeClientProps) {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-50 group-hover:opacity-70 transition-opacity" />
                     </div>
 
-                    <div className="absolute bottom-0 left-0 p-3 w-full z-20">
-                      <div className={`backdrop-blur-lg border border-white/50 shadow-2xl rounded-2xl p-3 transform transition-all duration-300 ease-out group-hover:-translate-y-2 group-hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] ${
+                    <div className="absolute bottom-0 left-0 p-2 md:p-3 w-full z-20">
+                      <div className={`backdrop-blur-lg border border-white/50 shadow-2xl rounded-xl p-2 md:p-3 transform transition-all duration-300 ease-out group-hover:-translate-y-2 group-hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] ${
                         tool.isPremium 
-                          ? 'bg-gradient-to-br from-purple-500/90 to-blue-500/90 group-hover:from-purple-600/95 group-hover:to-blue-600/95' 
+                          ? 'bg-gradient-to-br from-purple-500/70 to-blue-500/70 group-hover:from-purple-600/80 group-hover:to-blue-600/80' 
                           : 'bg-white/70 group-hover:bg-white/80'
                       }`}>
                         {tool.isPremium && (
-                          <div className="absolute -top-2 -right-2 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-[8px] font-bold px-2 py-1 rounded-full shadow-lg flex items-center gap-1">
-                            <Sparkles className="w-2.5 h-2.5" />
+                          <div className="absolute -top-1.5 -right-1.5 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-[7px] font-bold px-1.5 py-0.5 rounded-full shadow-lg flex items-center gap-0.5">
+                            <Sparkles className="w-2 h-2" />
                             PREMIUM
                           </div>
                         )}
-                        <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-[9px] font-bold uppercase tracking-wider mb-2 shadow-sm ${
+                        <div className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-lg text-[8px] font-bold uppercase tracking-wider mb-1.5 shadow-sm ${
                           tool.isPremium ? 'bg-white/30 text-white border border-white/40' : themeClasses[tool.theme]
                         }`}>
                           <span className="w-1 h-1 rounded-full bg-current animate-pulse"></span>
                           {tool.subtitle}
                         </div>
 
-                        <h3 className={`text-base font-extrabold leading-tight mb-1 transition-colors ${
+                        <h3 className={`text-sm md:text-base font-extrabold leading-tight mb-1 transition-colors ${
                           tool.isPremium 
                             ? 'text-white group-hover:text-yellow-100' 
                             : 'text-slate-900 group-hover:text-emerald-700'
                         }`}>
                           {tool.title}
                         </h3>
-                        <p className={`text-[11px] font-medium leading-snug line-clamp-1 mb-2.5 ${
+                        <p className={`text-[10px] font-medium leading-snug line-clamp-1 mb-2 ${
                           tool.isPremium ? 'text-white/90' : 'text-slate-600'
                         }`}>
                           {tool.description}
                         </p>
 
                         <div className="flex items-center justify-between">
-                          <span className={`text-[11px] font-bold transition-colors ${
+                          <span className={`text-[10px] font-bold transition-colors ${
                             tool.isPremium 
                               ? 'text-white group-hover:text-yellow-100' 
                               : 'text-slate-900 group-hover:text-emerald-600'
@@ -360,52 +367,52 @@ export default function HomeClient({ marketRates }: HomeClientProps) {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-50 group-hover:opacity-70 transition-opacity" />
                 </div>
 
-                <div className="absolute bottom-0 left-0 p-3 md:p-4 w-full z-20">
-                  <div className={`backdrop-blur-lg border border-white/50 shadow-2xl rounded-2xl p-3 md:p-4 transform transition-all duration-300 ease-out group-hover:-translate-y-2 group-hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] ${
+                <div className="absolute bottom-0 left-0 p-2 md:p-3 w-full z-20">
+                  <div className={`backdrop-blur-lg border border-white/50 shadow-2xl rounded-xl md:rounded-2xl p-2 md:p-3 transform transition-all duration-300 ease-out group-hover:-translate-y-2 group-hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] ${
                     tool.isPremium 
-                      ? 'bg-gradient-to-br from-purple-500/90 to-blue-500/90 group-hover:from-purple-600/95 group-hover:to-blue-600/95' 
+                      ? 'bg-gradient-to-br from-purple-500/70 to-blue-500/70 group-hover:from-purple-600/80 group-hover:to-blue-600/80' 
                       : 'bg-white/70 group-hover:bg-white/80'
                   }`}>
                     {tool.isPremium && (
-                      <div className="absolute -top-2 -right-2 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-[8px] font-bold px-2 py-1 rounded-full shadow-lg flex items-center gap-1">
-                        <Sparkles className="w-2.5 h-2.5" />
+                      <div className="absolute -top-1.5 -right-1.5 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-[7px] font-bold px-1.5 py-0.5 rounded-full shadow-lg flex items-center gap-0.5">
+                        <Sparkles className="w-2 h-2" />
                         PREMIUM
                       </div>
                     )}
-                    <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-[9px] font-bold uppercase tracking-wider mb-2 shadow-sm ${
+                    <div className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-lg text-[8px] font-bold uppercase tracking-wider mb-1.5 shadow-sm ${
                       tool.isPremium ? 'bg-white/30 text-white border border-white/40' : themeClasses[tool.theme]
                     }`}>
                       <span className="w-1 h-1 rounded-full bg-current animate-pulse"></span>
                       {tool.subtitle}
                     </div>
 
-                    <h3 className={`text-base md:text-lg font-extrabold leading-tight mb-1 transition-colors ${
+                    <h3 className={`text-sm md:text-base font-extrabold leading-tight mb-1 transition-colors ${
                       tool.isPremium 
                         ? 'text-white group-hover:text-yellow-100' 
                         : 'text-slate-900 group-hover:text-emerald-700'
                     }`}>
                       {tool.title}
                     </h3>
-                    <p className={`text-[11px] md:text-xs font-medium leading-snug line-clamp-1 mb-2.5 ${
+                    <p className={`text-[10px] md:text-[11px] font-medium leading-snug line-clamp-1 mb-2 ${
                       tool.isPremium ? 'text-white/90' : 'text-slate-600'
                     }`}>
                       {tool.description}
                     </p>
 
                     <div className="flex items-center justify-between">
-                      <span className={`text-[11px] md:text-xs font-bold transition-colors ${
+                      <span className={`text-[10px] md:text-[11px] font-bold transition-colors ${
                         tool.isPremium 
                           ? 'text-white group-hover:text-yellow-100' 
                           : 'text-slate-900 group-hover:text-emerald-600'
                       }`}>
                         {tool.isPremium ? 'Commencer' : 'Calculer'}
                       </span>
-                      <div className={`w-7 h-7 rounded-full flex items-center justify-center shadow-lg transition-all ${
+                      <div className={`w-6 h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center shadow-lg transition-all ${
                         tool.isPremium 
                           ? 'bg-white text-purple-600 group-hover:bg-yellow-300 group-hover:text-purple-700 group-hover:shadow-yellow-300/50' 
                           : 'bg-emerald-500 text-white group-hover:bg-emerald-600 group-hover:shadow-emerald-500/50'
                       }`}>
-                        <ArrowRight className="w-3.5 h-3.5 transform transition-transform duration-300 group-hover:translate-x-0.5" />
+                        <ArrowRight className="w-3 h-3 md:w-3.5 md:h-3.5 transform transition-transform duration-300 group-hover:translate-x-0.5" />
                       </div>
                     </div>
                   </div>
@@ -474,7 +481,7 @@ export default function HomeClient({ marketRates }: HomeClientProps) {
               Spécialisé Québec
             </div>
             <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6 leading-tight">
-              Vos finances québécoises,<br />
+              Vos finances Québécoises,<br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
                 calculées avec précision.
               </span>

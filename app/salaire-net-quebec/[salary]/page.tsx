@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import Link from 'next/link'
 import LuxurySalaryCalculator from '@/components/LuxurySalaryCalculator'
 import PurchasePowerCard from '@/components/ui/PurchasePowerCard'
 import PaychequePreview from '@/components/ui/PaychequePreview'
@@ -7,6 +8,7 @@ import DataSource from '@/components/ui/DataSource'
 import SalaryLinkGrid from '@/components/calculators/SalaryLinkGrid'
 import { calculateTaxes } from '@/utils/taxLogic'
 import DarkPageHeader from '@/components/DarkPageHeader'
+import { Sparkles } from 'lucide-react'
 
 // Generate static paths for 170+ salary pages (30k to 200k in 1k increments)
 export async function generateStaticParams() {
@@ -157,6 +159,21 @@ export default function DynamicSalaryPage({ params }: { params: { salary: string
         <div className="grid lg:grid-cols-12 gap-8">
           <div className="lg:col-span-8 space-y-6">
             <LuxurySalaryCalculator initialIncome={salaryNum} />
+
+            <Link 
+              href="/simulateur-vie-quebec"
+              className="group block w-full bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-size-200 bg-pos-0 hover:bg-pos-100 text-white font-bold py-5 px-6 rounded-2xl transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-blue-500/50 text-center active:scale-[0.98] relative overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
+              <div className="relative">
+                <div className="text-xl mb-1 flex items-center justify-center gap-2">
+                  <Sparkles className="w-6 h-6 animate-pulse" />
+                  <span>Simulateur de Vie au Québec</span>
+                  <Sparkles className="w-6 h-6 animate-pulse" />
+                </div>
+                <div className="text-sm opacity-90">Guide étape par étape • Expérience premium ✨</div>
+              </div>
+            </Link>
 
             <PurchasePowerCard 
               netIncome={taxResults.netIncome}

@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion, AnimatePresence } from 'framer-motion'
 import { 
   ChevronDown, 
   Menu, 
@@ -11,7 +10,8 @@ import {
   Calculator,
   Home,
   Users,
-  Sparkles
+  Sparkles,
+  Search
 } from 'lucide-react'
 
 // Enhanced Type Definition
@@ -108,15 +108,72 @@ const NAV_ITEMS: NavCategory[] = [
   },
 ]
 
+const tools = [
+  { name: 'Salaire Net Québec', href: '/salaire-net-quebec', keywords: ['salaire', 'net', 'impot', 'revenu', 'paie'] },
+  { name: 'Calcul Hypothécaire', href: '/calcul-hypotheque', keywords: ['hypotheque', 'maison', 'pret', 'immobilier'] },
+  { name: 'Déclaration Simplifiée', href: '/declaration-simplifiee', keywords: ['impot', 'declaration', 'retour', 'remboursement'] },
+  { name: 'Assurance-Emploi', href: '/assurance-emploi', keywords: ['chomage', 'ae', 'emploi', 'prestation'] },
+  { name: 'Allocations Familiales', href: '/allocations-familiales', keywords: ['famille', 'enfant', 'allocation', 'aide'] },
+  { name: 'Frais de Garde', href: '/frais-de-garde', keywords: ['garde', 'cpe', 'enfant', 'garderie'] },
+  { name: 'Louer ou Acheter', href: '/louer-ou-acheter', keywords: ['louer', 'acheter', 'maison', 'appartement'] },
+  { name: 'Capacité d\'Emprunt', href: '/capacite-emprunt', keywords: ['emprunt', 'pret', 'banque', 'credit'] },
+  { name: 'Taxe de Bienvenue', href: '/taxe-de-bienvenue', keywords: ['taxe', 'bienvenue', 'mutation', 'maison'] },
+  { name: 'Augmentation de Loyer', href: '/augmentation-loyer-2026', keywords: ['loyer', 'augmentation', 'tal', 'locataire'] },
+  { name: 'Taux Horaire', href: '/taux-horaire', keywords: ['taux', 'horaire', 'salaire', 'heure'] },
+  { name: 'TPS/TVQ', href: '/tps-tvq-quebec', keywords: ['tps', 'tvq', 'taxe', 'vente'] },
+  { name: 'Épargne-Retraite', href: '/epargne-retraite', keywords: ['retraite', 'epargne', 'reer', 'investissement'] },
+  { name: 'Remboursement Dettes', href: '/dettes-credit', keywords: ['dette', 'credit', 'remboursement', 'pret'] },
+  { name: 'Prêt Auto', href: '/pret-auto', keywords: ['auto', 'voiture', 'pret', 'financement'] },
+  { name: 'Prêt Étudiant', href: '/pret-etudiant', keywords: ['etudiant', 'pret', 'afr', 'ecole'] },
+  { name: 'Intérêts Composés', href: '/interets-composes', keywords: ['interet', 'compose', 'investissement', 'epargne'] },
+  { name: 'Auto Électrique vs Essence', href: '/auto-electrique-vs-essence', keywords: ['auto', 'electrique', 'essence', 'voiture'] },
+];
+
 export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [openAccordion, setOpenAccordion] = useState<number | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [searchResults, setSearchResults] = useState<typeof tools>([])
+  const [showSearchResults, setShowSearchResults] = useState(false)
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false)
 
   // Toggle accordion - only one open at a time
   const toggleAccordion = (index: number) => {
     setOpenAccordion(prev => prev === index ? null : index)
   }
+
+  // Search handler
+  const handleSearch = (query: string) => {
+    setSearchQuery(query)
+    const trimmedQuery = query.toLowerCase().trim()
+    
+    if (trimmedQuery.length === 0) {
+      setShowSearchResults(false)
+      return
+    }
+
+    const filtered = tools.filter(tool => {
+      const nameMatch = tool.name.toLowerCase().includes(trimmedQuery)
+      const keywordMatch = tool.keywords.some(keyword => keyword.includes(trimmedQuery))
+      return nameMatch || keywordMatch
+    })
+
+    setSearchResults(filtered)
+    setShowSearchResults(true)
+  }
+
+  // Close search on click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      if (!target.closest('.header-search-container')) {
+        setShowSearchResults(false)
+      }
+    }
+    document.addEventListener('click', handleClickOutside)
+    return () => document.removeEventListener('click', handleClickOutside)
+  }, [])
 
   // Scroll lock for mobile menu
   useEffect(() => {
@@ -180,16 +237,11 @@ export default function Header() {
                   </button>
 
                   {/* Dropdown Animation - Elegant Design */}
-                  <AnimatePresence>
-                    {activeDropdown === index && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-                        className="dropdown-menu absolute top-full left-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50"
-                        style={{ pointerEvents: 'auto' }}
-                      >
+                  {activeDropdown === index && (
+                    <div
+                      className="dropdown-menu absolute top-full left-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 animate-fade-in"
+                      style={{ pointerEvents: 'auto' }}
+                    >
                         <div className="p-2">
                           <div className="flex items-center gap-2 px-2 py-1.5 mb-1 border-b border-gray-100">
                             {category.icon}
@@ -237,22 +289,110 @@ export default function Header() {
                             })
                           })()}
                         </div>
-                      </motion.div>
+                      </div>
                     )}
-                  </AnimatePresence>
                 </div>
               ))}
             </div>
 
-            {/* 3. ACTIONS & MOBILE TOGGLE */}
+            {/* 3. SIMPLE HOVER SEARCH - Desktop */}
+            <div 
+              className="hidden lg:block header-search-container"
+              onMouseEnter={() => setIsSearchExpanded(true)}
+              onMouseLeave={() => {
+                if (searchQuery.length === 0) {
+                  setIsSearchExpanded(false)
+                  setShowSearchResults(false)
+                }
+              }}
+            >
+              <div className="relative flex justify-end">
+                <div
+                  className={`flex items-center gap-2 px-3 py-2 rounded-full transition-all duration-300 ${
+                    isSearchExpanded 
+                      ? 'w-80 border-2 border-emerald-500 bg-white shadow-md' 
+                      : 'w-10 border border-gray-300 hover:border-gray-400 bg-white'
+                  }`}
+                >
+                  <Search className={`w-4 h-4 flex-shrink-0 transition-colors ${
+                    isSearchExpanded ? 'text-emerald-600' : 'text-gray-400'
+                  }`} />
+                  
+                  {isSearchExpanded && (
+                    <>
+                      <input
+                        id="desktop-search-input"
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => handleSearch(e.target.value)}
+                        placeholder="Rechercher..."
+                        className="flex-1 outline-none text-sm text-gray-900 placeholder:text-gray-400 bg-transparent"
+                      />
+                      {searchQuery && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setSearchQuery('')
+                            setShowSearchResults(false)
+                          }}
+                          className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+                        >
+                          <X className="w-3 h-3 text-gray-500" />
+                        </button>
+                      )}
+                    </>
+                  )}
+                </div>
+                
+                {/* Search Results Dropdown */}
+                {showSearchResults && searchQuery.length > 0 && (
+                  <div className="absolute top-full right-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden max-h-[400px] overflow-y-auto z-[150]">
+                    {searchResults.length > 0 ? (
+                      <div className="p-1">
+                        {searchResults.map((tool, idx) => (
+                          <Link
+                            key={idx}
+                            href={tool.href}
+                            onClick={() => {
+                              setShowSearchResults(false)
+                              setSearchQuery('')
+                              setIsSearchExpanded(false)
+                            }}
+                            className="block px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors group"
+                          >
+                            <span className="text-sm font-medium text-gray-700 group-hover:text-emerald-600">
+                              {tool.name}
+                            </span>
+                          </Link>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="px-4 py-6 text-center">
+                        <p className="text-xs text-gray-500">
+                          Aucun résultat
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* 4. MOBILE TOGGLE & SEARCH ICON */}
             <div className="flex items-center gap-3">
-              <Link 
-                href="/simulateur-vie-quebec" 
-                className="hidden lg:flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm font-bold rounded-full hover:from-purple-700 hover:to-blue-700 hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 group"
+              {/* Mobile Search Icon - Opens search in menu */}
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(true)
+                  setTimeout(() => {
+                    document.getElementById('mobile-search-input')?.focus()
+                  }, 300)
+                }}
+                className="lg:hidden p-2 rounded-full hover:bg-gray-100 transition-colors"
+                aria-label="Rechercher"
               >
-                <Sparkles className="w-4 h-4 group-hover:animate-pulse" />
-                Simulateur Premium
-              </Link>
+                <Search className="w-5 h-5 text-gray-700" />
+              </button>
 
               <button
                 onClick={() => setIsMobileMenuOpen(true)}
@@ -267,15 +407,10 @@ export default function Header() {
       </header>
 
       {/* 4. MOBILE MENU OVERLAY */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[200] bg-white lg:hidden flex flex-col"
-          >
+      {isMobileMenuOpen && (
+        <div
+          className="fixed inset-0 z-[200] bg-white lg:hidden flex flex-col animate-slide-in"
+        >
             {/* Mobile Header */}
             <div className="px-4 h-16 flex items-center justify-between border-b border-gray-100 bg-white/80 backdrop-blur-md sticky top-0 z-10">
               <span className="text-lg font-bold text-slate-900">Menu</span>
@@ -291,6 +426,83 @@ export default function Header() {
             {/* Mobile Content - Collapsible Accordion with Sub-Groups */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-20">
               
+              {/* MOBILE SEARCH - Simple Expandable */}
+              <div className="mb-4">
+                {!isSearchExpanded ? (
+                  // Collapsed State - Button
+                  <button
+                    onClick={() => {
+                      setIsSearchExpanded(true)
+                      setTimeout(() => {
+                        document.getElementById('mobile-search-input')?.focus()
+                      }, 100)
+                    }}
+                    className="w-full flex items-center justify-center gap-3 px-4 py-3.5 bg-gradient-to-r from-emerald-50 to-teal-50 border-2 border-emerald-200 rounded-2xl hover:border-emerald-300 active:scale-[0.98] transition-all"
+                  >
+                    <Search className="w-5 h-5 text-emerald-600" />
+                    <span className="text-sm font-semibold text-emerald-700">Rechercher un outil</span>
+                  </button>
+                ) : (
+                  // Expanded State - Search Input
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3 px-4 py-3.5 bg-white border-2 border-emerald-500 rounded-2xl shadow-lg">
+                      <Search className="w-5 h-5 text-emerald-600 flex-shrink-0" />
+                      <input
+                        id="mobile-search-input"
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => handleSearch(e.target.value)}
+                        placeholder="Rechercher..."
+                        className="flex-1 outline-none text-base text-gray-900 placeholder:text-gray-400 bg-transparent"
+                      />
+                      <button
+                        onClick={() => {
+                          setSearchQuery('')
+                          setShowSearchResults(false)
+                          setIsSearchExpanded(false)
+                        }}
+                        className="p-1.5 hover:bg-gray-100 rounded-full transition-colors flex-shrink-0"
+                      >
+                        <X className="w-4 h-4 text-gray-500" />
+                      </button>
+                    </div>
+                    
+                    {/* Mobile Search Results */}
+                    {searchQuery.length > 0 && (
+                      <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+                        {searchResults.length > 0 ? (
+                          <div className="max-h-[300px] overflow-y-auto">
+                            {searchResults.map((tool, idx) => (
+                              <Link
+                                key={idx}
+                                href={tool.href}
+                                onClick={() => {
+                                  setShowSearchResults(false)
+                                  setSearchQuery('')
+                                  setIsSearchExpanded(false)
+                                  setIsMobileMenuOpen(false)
+                                }}
+                                className="block px-4 py-3 hover:bg-gray-50 active:bg-gray-100 transition-colors border-b border-gray-100 last:border-b-0"
+                              >
+                                <span className="text-sm font-semibold text-gray-700">
+                                  {tool.name}
+                                </span>
+                              </Link>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="px-4 py-6 text-center">
+                            <p className="text-sm text-gray-500">
+                              Aucun résultat
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
               {/* TOP 5 - Accès Rapide Section */}
               <div className="mb-4">
                 <div className="flex items-center justify-between px-3 py-2 mb-3 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200">
@@ -496,9 +708,8 @@ export default function Header() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
     </>
   )
 }

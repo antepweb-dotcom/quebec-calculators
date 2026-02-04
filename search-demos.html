@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Box Demos - QCFinance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        * { font-family: 'Inter', sans-serif; }
+        
+        /* Demo 1: Minimalist Google Style */
+        .search-minimal {
+            transition: all 0.3s ease;
+        }
+        
+        .search-minimal:hover {
+            box-shadow: 0 1px 6px rgba(32,33,36,.28);
+        }
+        
+        .search-minimal:focus-within {
+            box-shadow: 0 1px 6px rgba(32,33,36,.28);
+            border-color: #10b981;
+        }
+        
+        /* Demo 2: Glassmorphism */
+        .search-glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .search-glass:focus-within {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        /* Demo 3: Gradient Border */
+        .search-gradient {
+            position: relative;
+            background: white;
+        }
+        
+        .search-gradient::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 9999px;
+            padding: 2px;
+            background: linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .search-gradient:focus-within::before {
+            opacity: 1;
+        }
+        
+        /* Demo 4: Neumorphism */
+        .search-neuro {
+            background: #e0e5ec;
+            box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.6), -9px -9px 16px rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .search-neuro:focus-within {
+            box-shadow: inset 4px 4px 8px rgba(163, 177, 198, 0.6), inset -4px -4px 8px rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Demo 5: Neon Glow */
+        .search-neon {
+            transition: all 0.3s ease;
+        }
+        
+        .search-neon:focus-within {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5), 0 0 40px rgba(16, 185, 129, 0.3);
+            border-color: #10b981;
+        }
+        
+        /* Demo 6: Floating Label */
+        .search-floating input:focus ~ label,
+        .search-floating input:not(:placeholder-shown) ~ label {
+            transform: translateY(-150%) scale(0.85);
+            color: #10b981;
+        }
+        
+        .search-floating label {
+            transition: all 0.3s ease;
+        }
+        
+        /* Demo 7: Pill with Shadow */
+        .search-pill {
+            transition: all 0.3s ease;
+        }
+        
+        .search-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-pill:focus-within {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.3);
+        }
+        
+        /* Demo 8: Underline Style */
+        .search-underline {
+            border-bottom: 2px solid #e5e7eb;
+            transition: border-color 0.3s ease;
+        }
+        
+        .search-underline:focus-within {
+            border-bottom-color: #10b981;
+        }
+        
+        .search-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #10b981, #3b82f6);
+            transition: width 0.3s ease;
+        }
+        
+        .search-underline:focus-within::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-gray-100 min-h-screen p-8">
+    
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">Search Box Demos</h1>
+            <p class="text-gray-600">8 différents styles de recherche pour QCFinance</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            
+            <!-- Demo 1: Minimalist Google Style -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">1. Minimalist Google</h3>
+                    <p class="text-sm text-gray-500">Simple, propre, efficace</p>
+                </div>
+                <div class="search-minimal flex items-center gap-3 px-4 py-3 border border-gray-300 rounded-full">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <input type="text" placeholder="Rechercher un outil..." class="flex-1 outline-none text-sm text-gray-900 placeholder:text-gray-400 bg-transparent">
+                </div>
+            </div>
+
+            <!-- Demo 2: Glassmorphism -->
+            <div class="bg-gradient-to-br from-purple-500 to-blue-600 rounded-2xl p-8 shadow-lg">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-white mb-1">2. Glassmorphism</h3>
+                    <p class="text-sm text-white/80">Effet verre moderne</p>
+                </div>
+                <div class="search-glass flex items-center gap-3 px-4 py-3 rounded-full">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <input type="text" placeholder="Rechercher..." class="flex-1 outline-none text-sm text-white placeholder:text-white/60 bg-transparent">
+                </div>
+            </div>
+
+            <!-- Demo 3: Gradient Border -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">3. Gradient Border</h3>
+                    <p class="text-sm text-gray-500">Bordure dégradée au focus</p>
+                </div>
+                <div class="search-gradient flex items-center gap-3 px-4 py-3 border border-gray-200 rounded-full">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <input type="text" placeholder="Rechercher..." class="flex-1 outline-none text-sm text-gray-900 placeholder:text-gray-400 bg-transparent">
+                </div>
+            </div>
+
+            <!-- Demo 4: Neumorphism -->
+            <div class="bg-[#e0e5ec] rounded-2xl p-8">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">4. Neumorphism</h3>
+                    <p class="text-sm text-gray-600">Style 3D soft</p>
+                </div>
+                <div class="search-neuro flex items-center gap-3 px-4 py-3 rounded-full">
+                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <input type="text" placeholder="Rechercher..." class="flex-1 outline-none text-sm text-gray-700 placeholder:text-gray-500 bg-transparent">
+                </div>
+            </div>
+
+            <!-- Demo 5: Neon Glow -->
+            <div class="bg-slate-900 rounded-2xl p-8">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-white mb-1">5. Neon Glow</h3>
+                    <p class="text-sm text-gray-400">Effet néon lumineux</p>
+                </div>
+                <div class="search-neon flex items-center gap-3 px-4 py-3 bg-slate-800 border border-slate-700 rounded-full">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <input type="text" placeholder="Rechercher..." class="flex-1 outline-none text-sm text-white placeholder:text-gray-500 bg-transparent">
+                </div>
+            </div>
+
+            <!-- Demo 6: Floating Label -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">6. Floating Label</h3>
+                    <p class="text-sm text-gray-500">Label animé</p>
+                </div>
+                <div class="search-floating relative flex items-center gap-3 px-4 py-3 border-2 border-gray-200 rounded-full focus-within:border-emerald-500">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <input type="text" placeholder=" " class="flex-1 outline-none text-sm text-gray-900 bg-transparent peer">
+                    <label class="absolute left-12 text-sm text-gray-400 pointer-events-none">Rechercher un outil...</label>
+                </div>
+            </div>
+
+            <!-- Demo 7: Pill with Shadow -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">7. Pill with Shadow</h3>
+                    <p class="text-sm text-gray-500">Effet de levée au hover</p>
+                </div>
+                <div class="search-pill flex items-center gap-3 px-5 py-3.5 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-full">
+                    <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <input type="text" placeholder="Rechercher..." class="flex-1 outline-none text-sm text-gray-900 placeholder:text-gray-500 bg-transparent">
+                </div>
+            </div>
+
+            <!-- Demo 8: Underline Style -->
+            <div class="bg-white rounded-2xl p-8 shadow-sm">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">8. Underline Style</h3>
+                    <p class="text-sm text-gray-500">Ligne animée en dessous</p>
+                </div>
+                <div class="search-underline relative flex items-center gap-3 px-2 py-3">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <input type="text" placeholder="Rechercher un outil..." class="flex-1 outline-none text-sm text-gray-900 placeholder:text-gray-400 bg-transparent">
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bonus: Compact Icon-Only Search -->
+        <div class="mt-8 bg-white rounded-2xl p-8 shadow-sm">
+            <div class="mb-4">
+                <h3 class="text-lg font-bold text-gray-900 mb-1">Bonus: Icon-Only Expandable</h3>
+                <p class="text-sm text-gray-500">S'agrandit au clic (parfait pour header)</p>
+            </div>
+            
+            <div class="flex items-center justify-center gap-4">
+                <!-- Collapsed State -->
+                <div class="flex items-center gap-3 px-3 py-2 border border-gray-300 rounded-full hover:border-gray-400 transition-all cursor-pointer">
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+
+                <span class="text-gray-400">→</span>
+
+                <!-- Expanded State -->
+                <div class="flex items-center gap-3 px-4 py-2 border-2 border-emerald-500 rounded-full shadow-lg ring-2 ring-emerald-500/20">
+                    <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <input type="text" placeholder="Rechercher..." class="w-48 outline-none text-sm text-gray-900 placeholder:text-gray-400 bg-transparent">
+                    <button class="p-1 hover:bg-gray-100 rounded-full transition-colors">
+                        <svg class="w-3 h-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendation -->
+        <div class="mt-8 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl p-8 text-white">
+            <h3 class="text-xl font-bold mb-3">💡 Recommandation pour QCFinance</h3>
+            <div class="space-y-2 text-sm">
+                <p><strong>Desktop Header:</strong> Demo 1 (Minimalist Google) - Simple, professionnel, universel</p>
+                <p><strong>Mobile Menu:</strong> Demo 7 (Pill with Shadow) - Coloré, engageant, facile à toucher</p>
+                <p><strong>Alternative:</strong> Bonus (Icon-Only) - Très compact pour header minimaliste</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
