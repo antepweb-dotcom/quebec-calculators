@@ -22,13 +22,14 @@ const mainTools = [
     theme: "emerald" as const
   },
   {
-    href: "/frais-de-garde",
-    title: "Frais de Garde",
-    subtitle: "CPE vs Privé",
-    description: "Optimisez vos allocations.",
-    imageSrc: "/images/3d-childcare.jpg",
+    href: "/simulateur-vie-quebec",
+    title: "Simulateur Premium",
+    subtitle: "Vie au Québec",
+    description: "Analyse complète en 3 étapes.",
+    imageSrc: "/images/simulator.jpg",
     className: "col-span-1 md:col-span-2 min-h-[250px]",
-    theme: "pink" as const
+    theme: "purple" as const,
+    isPremium: true
   },
   {
     href: "/calcul-hypotheque",
@@ -65,7 +66,8 @@ const themeClasses = {
   emerald: 'bg-emerald-50 text-emerald-700 border border-emerald-100',
   blue: 'bg-blue-50 text-blue-700 border border-blue-100',
   pink: 'bg-pink-50 text-pink-700 border border-pink-100',
-  amber: 'bg-amber-50 text-amber-700 border border-amber-100'
+  amber: 'bg-amber-50 text-amber-700 border border-amber-100',
+  purple: 'bg-purple-50 text-purple-700 border border-purple-100'
 };
 
 export default function HomeClient({ marketRates }: HomeClientProps) {
@@ -153,8 +155,22 @@ export default function HomeClient({ marketRates }: HomeClientProps) {
             Des outils de précision pour calculer vos impôts, votre hypothèque et vos investissements. <span className="text-emerald-400 font-semibold">Gratuit. Anonyme. Sécurisé.</span>
           </p>
 
-          {/* Simple CTA Button */}
-          <div className="max-w-xl mx-auto mb-8">
+          <div className="max-w-xl mx-auto mb-8 space-y-4">
+            <Link 
+              href="/simulateur-vie-quebec"
+              className="group block w-full bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 bg-size-200 bg-pos-0 hover:bg-pos-100 text-white font-bold py-5 px-6 rounded-2xl transition-all duration-500 shadow-xl hover:shadow-2xl hover:shadow-blue-500/50 text-center active:scale-[0.98] relative overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000"></div>
+              <div className="relative">
+                <div className="text-xl mb-1 flex items-center justify-center gap-2">
+                  <Sparkles className="w-6 h-6 animate-pulse" />
+                  <span>Simulateur de Vie au Québec</span>
+                  <Sparkles className="w-6 h-6 animate-pulse" />
+                </div>
+                <div className="text-sm opacity-90">Guide étape par étape • Expérience premium ✨</div>
+              </div>
+            </Link>
+
             <Link 
               href="/salaire-net-quebec"
               className="group block w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold py-5 px-6 rounded-2xl hover:from-emerald-600 hover:to-teal-600 transition-all shadow-xl hover:shadow-2xl text-center active:scale-[0.98]"
@@ -251,25 +267,51 @@ export default function HomeClient({ marketRates }: HomeClientProps) {
                     </div>
 
                     <div className="absolute bottom-0 left-0 p-3 w-full z-20">
-                      <div className="backdrop-blur-lg bg-white/70 border border-white/50 shadow-2xl rounded-2xl p-3 transform transition-all duration-300 ease-out group-hover:-translate-y-2 group-hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] group-hover:bg-white/80">
-                        <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-[9px] font-bold uppercase tracking-wider mb-2 ${themeClasses[tool.theme]} shadow-sm`}>
+                      <div className={`backdrop-blur-lg border border-white/50 shadow-2xl rounded-2xl p-3 transform transition-all duration-300 ease-out group-hover:-translate-y-2 group-hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] ${
+                        tool.isPremium 
+                          ? 'bg-gradient-to-br from-purple-500/90 to-blue-500/90 group-hover:from-purple-600/95 group-hover:to-blue-600/95' 
+                          : 'bg-white/70 group-hover:bg-white/80'
+                      }`}>
+                        {tool.isPremium && (
+                          <div className="absolute -top-2 -right-2 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-[8px] font-bold px-2 py-1 rounded-full shadow-lg flex items-center gap-1">
+                            <Sparkles className="w-2.5 h-2.5" />
+                            PREMIUM
+                          </div>
+                        )}
+                        <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-[9px] font-bold uppercase tracking-wider mb-2 shadow-sm ${
+                          tool.isPremium ? 'bg-white/30 text-white border border-white/40' : themeClasses[tool.theme]
+                        }`}>
                           <span className="w-1 h-1 rounded-full bg-current animate-pulse"></span>
                           {tool.subtitle}
                         </div>
 
-                        <h3 className="text-base font-extrabold text-slate-900 leading-tight mb-1 group-hover:text-emerald-700 transition-colors">
+                        <h3 className={`text-base font-extrabold leading-tight mb-1 transition-colors ${
+                          tool.isPremium 
+                            ? 'text-white group-hover:text-yellow-100' 
+                            : 'text-slate-900 group-hover:text-emerald-700'
+                        }`}>
                           {tool.title}
                         </h3>
-                        <p className="text-[11px] text-slate-600 font-medium leading-snug line-clamp-1 mb-2.5">
+                        <p className={`text-[11px] font-medium leading-snug line-clamp-1 mb-2.5 ${
+                          tool.isPremium ? 'text-white/90' : 'text-slate-600'
+                        }`}>
                           {tool.description}
                         </p>
 
                         <div className="flex items-center justify-between">
-                          <span className="text-[11px] font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
-                            Calculer
+                          <span className={`text-[11px] font-bold transition-colors ${
+                            tool.isPremium 
+                              ? 'text-white group-hover:text-yellow-100' 
+                              : 'text-slate-900 group-hover:text-emerald-600'
+                          }`}>
+                            {tool.isPremium ? 'Commencer' : 'Calculer'}
                           </span>
-                          <div className="w-7 h-7 rounded-full bg-emerald-500 group-hover:bg-emerald-600 flex items-center justify-center shadow-lg group-hover:shadow-emerald-500/50 transition-all">
-                            <ArrowRight className="w-3.5 h-3.5 text-white transform transition-transform duration-300 group-hover:translate-x-0.5" />
+                          <div className={`w-7 h-7 rounded-full flex items-center justify-center shadow-lg transition-all ${
+                            tool.isPremium 
+                              ? 'bg-white text-purple-600 group-hover:bg-yellow-300 group-hover:text-purple-700 group-hover:shadow-yellow-300/50' 
+                              : 'bg-emerald-500 text-white group-hover:bg-emerald-600 group-hover:shadow-emerald-500/50'
+                          }`}>
+                            <ArrowRight className="w-3.5 h-3.5 transform transition-transform duration-300 group-hover:translate-x-0.5" />
                           </div>
                         </div>
                       </div>
@@ -319,25 +361,51 @@ export default function HomeClient({ marketRates }: HomeClientProps) {
                 </div>
 
                 <div className="absolute bottom-0 left-0 p-3 md:p-4 w-full z-20">
-                  <div className="backdrop-blur-lg bg-white/70 border border-white/50 shadow-2xl rounded-2xl p-3 md:p-4 transform transition-all duration-300 ease-out group-hover:-translate-y-2 group-hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] group-hover:bg-white/80">
-                    <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-[9px] font-bold uppercase tracking-wider mb-2 ${themeClasses[tool.theme]} shadow-sm`}>
+                  <div className={`backdrop-blur-lg border border-white/50 shadow-2xl rounded-2xl p-3 md:p-4 transform transition-all duration-300 ease-out group-hover:-translate-y-2 group-hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)] ${
+                    tool.isPremium 
+                      ? 'bg-gradient-to-br from-purple-500/90 to-blue-500/90 group-hover:from-purple-600/95 group-hover:to-blue-600/95' 
+                      : 'bg-white/70 group-hover:bg-white/80'
+                  }`}>
+                    {tool.isPremium && (
+                      <div className="absolute -top-2 -right-2 bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-[8px] font-bold px-2 py-1 rounded-full shadow-lg flex items-center gap-1">
+                        <Sparkles className="w-2.5 h-2.5" />
+                        PREMIUM
+                      </div>
+                    )}
+                    <div className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg text-[9px] font-bold uppercase tracking-wider mb-2 shadow-sm ${
+                      tool.isPremium ? 'bg-white/30 text-white border border-white/40' : themeClasses[tool.theme]
+                    }`}>
                       <span className="w-1 h-1 rounded-full bg-current animate-pulse"></span>
                       {tool.subtitle}
                     </div>
 
-                    <h3 className="text-base md:text-lg font-extrabold text-slate-900 leading-tight mb-1 group-hover:text-emerald-700 transition-colors">
+                    <h3 className={`text-base md:text-lg font-extrabold leading-tight mb-1 transition-colors ${
+                      tool.isPremium 
+                        ? 'text-white group-hover:text-yellow-100' 
+                        : 'text-slate-900 group-hover:text-emerald-700'
+                    }`}>
                       {tool.title}
                     </h3>
-                    <p className="text-[11px] md:text-xs text-slate-600 font-medium leading-snug line-clamp-1 mb-2.5">
+                    <p className={`text-[11px] md:text-xs font-medium leading-snug line-clamp-1 mb-2.5 ${
+                      tool.isPremium ? 'text-white/90' : 'text-slate-600'
+                    }`}>
                       {tool.description}
                     </p>
 
                     <div className="flex items-center justify-between">
-                      <span className="text-[11px] md:text-xs font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
-                        Calculer
+                      <span className={`text-[11px] md:text-xs font-bold transition-colors ${
+                        tool.isPremium 
+                          ? 'text-white group-hover:text-yellow-100' 
+                          : 'text-slate-900 group-hover:text-emerald-600'
+                      }`}>
+                        {tool.isPremium ? 'Commencer' : 'Calculer'}
                       </span>
-                      <div className="w-7 h-7 rounded-full bg-emerald-500 group-hover:bg-emerald-600 flex items-center justify-center shadow-lg group-hover:shadow-emerald-500/50 transition-all">
-                        <ArrowRight className="w-3.5 h-3.5 text-white transform transition-transform duration-300 group-hover:translate-x-0.5" />
+                      <div className={`w-7 h-7 rounded-full flex items-center justify-center shadow-lg transition-all ${
+                        tool.isPremium 
+                          ? 'bg-white text-purple-600 group-hover:bg-yellow-300 group-hover:text-purple-700 group-hover:shadow-yellow-300/50' 
+                          : 'bg-emerald-500 text-white group-hover:bg-emerald-600 group-hover:shadow-emerald-500/50'
+                      }`}>
+                        <ArrowRight className="w-3.5 h-3.5 transform transition-transform duration-300 group-hover:translate-x-0.5" />
                       </div>
                     </div>
                   </div>

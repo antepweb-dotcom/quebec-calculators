@@ -17,6 +17,53 @@
   animation: slide-up 0.3s ease-out;
 }
 
+/* Premium Fintech Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s linear infinite;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  background-size: 1000px 100%;
+}
+
 :root {
   --foreground-rgb: 15, 23, 42;
   --background-start-rgb: 249, 250, 251;
@@ -71,6 +118,12 @@
     @apply scroll-smooth;
     /* Prevent horizontal scroll on mobile */
     overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  body {
+    overflow-x: hidden;
+    max-width: 100vw;
   }
   
   /* Reduce motion for accessibility */
@@ -125,3 +178,57 @@
   }
 }
 
+
+/* Header Navigation Styles */
+.nav-link {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #10b981, #3b82f6);
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::before {
+  width: 100%;
+}
+
+.dropdown-menu {
+  pointer-events: none;
+  margin-top: 0 !important;
+  padding-top: 0.5rem;
+}
+
+.nav-item:hover .dropdown-menu {
+  pointer-events: auto;
+}
+
+.dropdown-menu:hover {
+  pointer-events: auto;
+}
+
+.nav-item::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  height: 0.5rem;
+  background: transparent;
+}
+
+.hover-lift {
+  transition: transform 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+}

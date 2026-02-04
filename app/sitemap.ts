@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     
     // Tax & Income Tools (High Priority) - Updated for 2026 tax year
     { route: '/salaire-net-quebec', priority: 1.0, changeFrequency: 'weekly' as const, lastModified: '2026-01-27' },
+    { route: '/simulateur-vie-quebec', priority: 1.0, changeFrequency: 'weekly' as const, lastModified: '2026-02-03' },
     { route: '/declaration-simplifiee', priority: 0.9, changeFrequency: 'weekly' as const, lastModified: '2026-01-20' },
     { route: '/assurance-emploi', priority: 0.9, changeFrequency: 'monthly' as const, lastModified: '2026-01-15' },
     { route: '/taux-horaire', priority: 0.8, changeFrequency: 'monthly' as const, lastModified: '2026-01-10' },

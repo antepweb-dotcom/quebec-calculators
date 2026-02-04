@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header Demo 3 - Modern Split Navigation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        
+        * { font-family: 'Inter', sans-serif; }
+        
+        .split-nav {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .mega-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-group:hover .mega-dropdown {
+            display: block;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .pulse-dot {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-gray-100 min-h-screen">
+
+    <!-- HEADER MODERN SPLIT NAVIGATION -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-200">
+        <nav class="max-w-7xl mx-auto px-6 py-4">
+            <div class="split-nav">
+                
+                <!-- LEFT: Logo -->
+                <a href="/" class="flex items-center gap-3 group">
+                    <div class="relative">
+                        <div class="w-12 h-12 bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all group-hover:scale-105">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full pulse-dot"></div>
+                    </div>
+                    <div class="hidden sm:block">
+                        <div class="text-xl font-black gradient-text">QCFinance</div>
+                        <div class="text-[10px] text-gray-500 font-semibold -mt-1">Outils Financiers 2026</div>
+                    </div>
+                </a>
+
+                <!-- CENTER: Main Navigation -->
+                <div class="hidden lg:flex items-center justify-center gap-6">
+                    
+                    <!-- Nav Item 1 -->
+                    <div class="nav-group relative">
+                        <button class="flex items-center gap-2 px-4 py-2 text-sm font-bold text-gray-700 hover:text-purple-600 transition-colors rounded-lg hover:bg-purple-50">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                            Impôts & Revenus
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        
+                        <!-- Mega Dropdown -->
+                        <div class="mega-dropdown w-96 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
+                            <div class="bg-gradient-to-r from-emerald-500 to-teal-500 p-4 text-white">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                    </svg>
+                                    <span class="font-black text-sm uppercase tracking-wider">Impôts & Revenus</span>
+                                </div>
+                                <p class="text-xs text-emerald-50">Calculez vos impôts et revenus nets</p>
+                            </div>
+                            
+                            <div class="p-4 space-y-2">
+                                <!-- Featured Card -->
+                                <a href="#" class="card-hover block p-4 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl border-2 border-emerald-200">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <div>
+                                            <div class="font-black text-emerald-900 text-base">Salaire Net Québec</div>
+                                            <div class="text-xs text-emerald-700 mt-1">Calcul instantané avec déductions 2026</div>
+                                        </div>
+                                        <span class="px-3 py-1 bg-emerald-600 text-white text-[10px] font-black rounded-full">2026</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-emerald-600 font-semibold">
+                                        <span>Essayer maintenant</span>
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                        </svg>
+                                    </div>
+                                </a>
+                                
+                                <!-- Regular Items -->
+                                <a href="#" class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                                            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                            </svg>
+                                        </div>
+                                        <span class="text-sm font-semibold text-gray-700">Déclaration Simplifiée</span>
+                                    </div>
+                                    <span class="px-2 py-1 bg-blue-100 text-blue-700 text-[10px] font-bold rounded-md">Nouveau</span>
+                                </a>
+                                
+                                <a href="#" class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                                            <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                        </div>
+                                        <span class="text-sm font-semibold text-gray-700">Taux Horaire</span>
+                                    </div>
+                                </a>
+                                
+                                <a href="#" class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center">
+                                            <svg class="w-4 h-4 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                        </div>
+                                        <span class="text-sm font-semibold text-gray-700">TPS/TVQ</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nav Item 2 -->
+                    <div class="nav-group relative">
+                        <button class="flex items-center gap-2 px-4 py-2 text-sm font-bold text-gray-700 hover:text-blue-600 transition-colors rounded-lg hover:bg-blue-50">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                            Immobilier
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        
+                        <div class="mega-dropdown w-96 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
+                            <div class="bg-gradient-to-r from-blue-500 to-indigo-500 p-4 text-white">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                    </svg>
+                                    <span class="font-black text-sm uppercase tracking-wider">Immobilier</span>
+                                </div>
+                                <p class="text-xs text-blue-50">Achat, location et financement</p>
+                            </div>
+                            
+                            <div class="p-4 space-y-2">
+                                <a href="#" class="card-hover block p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-200">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <div>
+                                            <div class="font-black text-blue-900 text-base">Calcul Hypothécaire</div>
+                                            <div class="text-xs text-blue-700 mt-1">Paiements mensuels et amortissement</div>
+                                        </div>
+                                        <span class="px-3 py-1 bg-amber-500 text-white text-[10px] font-black rounded-full">TOP</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-blue-600 font-semibold">
+                                        <span>Calculer maintenant</span>
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                        </svg>
+                                    </div>
+                                </a>
+                                
+                                <a href="#" class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                                            <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                        </div>
+                                        <span class="text-sm font-semibold text-gray-700">Capacité d'Emprunt</span>
+                                    </div>
+                                </a>
+                                
+                                <a href="#" class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                                            <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                            </svg>
+                                        </div>
+                                        <span class="text-sm font-semibold text-gray-700">Taxe de Bienvenue</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nav Item 3 -->
+                    <div class="nav-group relative">
+                        <button class="flex items-center gap-2 px-4 py-2 text-sm font-bold text-gray-700 hover:text-purple-600 transition-colors rounded-lg hover:bg-purple-50">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                            Vie & Finances
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        
+                        <div class="mega-dropdown w-96 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden">
+                            <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-4 text-white">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                    </svg>
+                                    <span class="font-black text-sm uppercase tracking-wider">Vie & Finances</span>
+                                </div>
+                                <p class="text-xs text-purple-50">Famille, véhicules et épargne</p>
+                            </div>
+                            
+                            <div class="p-4 space-y-3">
+                                <div>
+                                    <div class="text-[10px] font-black text-gray-400 uppercase tracking-wider mb-2 px-2">Véhicules</div>
+                                    <a href="#" class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                                        <span class="text-sm font-semibold text-gray-700">Prêt Auto</span>
+                                    </a>
+                                    <a href="#" class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                                        <span class="text-sm font-semibold text-gray-700">Électrique vs Essence</span>
+                                        <span class="px-2 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded-md">ÉCO</span>
+                                    </a>
+                                </div>
+                                
+                                <div class="border-t border-gray-100 pt-3">
+                                    <div class="text-[10px] font-black text-gray-400 uppercase tracking-wider mb-2 px-2">Famille</div>
+                                    <a href="#" class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                                        <span class="text-sm font-semibold text-gray-700">Frais de Garde</span>
+                                    </a>
+                                    <a href="#" class="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                                        <span class="text-sm font-semibold text-gray-700">Allocations Familiales</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: CTA -->
+                <div class="flex items-center gap-3">
+                    <a href="#" class="hidden lg:flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm font-black rounded-full hover:shadow-xl hover:scale-105 transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                        </svg>
+                        Simulateur
+                    </a>
+                    
+                    <button class="lg:hidden p-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 transition-colors">
+                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Demo Content -->
+    <div class="py-20 px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <h1 class="text-6xl font-black gradient-text mb-4">Header Demo 3</h1>
+                <p class="text-xl text-gray-600 font-semibold">Modern Split Navigation avec Mega Cards</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 card-hover">
+                    <div class="w-12 h-12 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-black text-gray-900 mb-2">Split Layout</h3>
+                    <p class="text-sm text-gray-600">Logo à gauche, navigation au centre, CTA à droite</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 card-hover">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-black text-gray-900 mb-2">Mega Cards</h3>
+                    <p class="text-sm text-gray-600">Dropdowns avec headers colorés et featured cards</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 card-hover">
+                    <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-pink-500 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-black text-gray-900 mb-2">Hover Effects</h3>
+                    <p class="text-sm text-gray-600">Cards qui se soulèvent avec shadow dynamique</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

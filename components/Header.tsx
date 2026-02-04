@@ -111,6 +111,12 @@ const NAV_ITEMS: NavCategory[] = [
 export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [openAccordion, setOpenAccordion] = useState<number | null>(null)
+
+  // Toggle accordion - only one open at a time
+  const toggleAccordion = (index: number) => {
+    setOpenAccordion(prev => prev === index ? null : index)
+  }
 
   // Scroll lock for mobile menu
   useEffect(() => {
@@ -150,23 +156,20 @@ export default function Header() {
             </Link>
 
             {/* 2. DESKTOP NAVIGATION */}
-            <div className="hidden lg:flex items-center gap-1">
+            <div className="hidden lg:flex items-center gap-8">
               {NAV_ITEMS.map((category, index) => (
                 <div
                   key={index}
-                  className="relative group/menu"
+                  className="nav-item relative"
                   onMouseEnter={() => setActiveDropdown(index)}
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
                   <button 
-                    className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
-                      activeDropdown === index 
-                        ? 'bg-gray-100 text-gray-900' 
-                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                    }`}
+                    className="nav-link flex items-center gap-2 py-2 text-sm font-semibold text-gray-700 hover:text-gray-900 transition-colors relative"
                     aria-label={`Menu ${category.title}`}
                     aria-expanded={activeDropdown === index}
                   >
+                    {category.icon}
                     {category.title}
                     <ChevronDown 
                       className={`w-4 h-4 transition-transform duration-200 ${
@@ -176,21 +179,25 @@ export default function Header() {
                     />
                   </button>
 
-                  {/* Dropdown Animation - Mega Menu with Sub-Groups */}
+                  {/* Dropdown Animation - Elegant Design */}
                   <AnimatePresence>
                     {activeDropdown === index && (
                       <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        transition={{ duration: 0.15, ease: "easeOut" }}
-                        className="absolute top-full left-0 mt-2 w-72 bg-white rounded-2xl shadow-2xl border border-gray-100/50 overflow-hidden ring-1 ring-black/5 z-50"
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                        className="dropdown-menu absolute top-full left-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50"
+                        style={{ pointerEvents: 'auto' }}
                       >
                         <div className="p-2">
-                          <div className="flex items-center gap-2 px-3 py-2 text-xs font-bold text-gray-400 uppercase tracking-wider border-b border-gray-50 mb-1">
+                          <div className="flex items-center gap-2 px-2 py-1.5 mb-1 border-b border-gray-100">
                             {category.icon}
-                            {category.title}
+                            <span className="text-xs font-black text-gray-400 uppercase tracking-wider">
+                              {category.title}
+                            </span>
                           </div>
+                          
                           {(() => {
                             let lastGroup = ''
                             return category.items.map((item, itemIndex) => {
@@ -200,21 +207,23 @@ export default function Header() {
                               return (
                                 <div key={itemIndex}>
                                   {showGroupLabel && (
-                                    <div className="px-3 pt-3 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                                    <div className="px-2 pt-1 pb-0.5 text-[10px] font-bold text-gray-400 uppercase tracking-wider">
                                       {item.groupLabel}
                                     </div>
                                   )}
                                   <Link
                                     href={item.href}
-                                    className={`group flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-gray-50 transition-colors ${
-                                      item.isFlagship ? 'bg-emerald-50/50 border border-emerald-100' : ''
+                                    className={`group flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition-all hover-lift ${
+                                      item.isFlagship ? 'bg-emerald-50 hover:bg-emerald-100' : ''
                                     }`}
                                   >
-                                    <span className={`text-sm font-medium group-hover:text-emerald-700 ${
-                                      item.isFlagship ? 'text-emerald-800 font-bold' : 'text-gray-700'
-                                    }`}>
-                                      {item.name}
-                                    </span>
+                                    <div className="flex items-center gap-2">
+                                      <span className={`text-sm font-medium group-hover:text-gray-900 ${
+                                        item.isFlagship ? 'text-emerald-900 font-bold' : 'text-gray-700'
+                                      }`}>
+                                        {item.name}
+                                      </span>
+                                    </div>
                                     {item.badge && (
                                       <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wide ${
                                         item.badgeColor || 'bg-gray-100 text-gray-600'
@@ -238,11 +247,11 @@ export default function Header() {
             {/* 3. ACTIONS & MOBILE TOGGLE */}
             <div className="flex items-center gap-3">
               <Link 
-                href="/salaire-net-quebec" 
-                className="hidden lg:flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-full hover:bg-emerald-600 hover:shadow-lg hover:shadow-emerald-500/30 transition-all duration-300"
+                href="/simulateur-vie-quebec" 
+                className="hidden lg:flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm font-bold rounded-full hover:from-purple-700 hover:to-blue-700 hover:shadow-lg hover:shadow-purple-500/30 transition-all duration-300 group"
               >
-                <Sparkles className="w-4 h-4" />
-                Outil #1
+                <Sparkles className="w-4 h-4 group-hover:animate-pulse" />
+                Simulateur Premium
               </Link>
 
               <button
@@ -280,44 +289,200 @@ export default function Header() {
             </div>
 
             {/* Mobile Content - Collapsible Accordion with Sub-Groups */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-8 pb-20">
-              {NAV_ITEMS.map((category, idx) => (
-                <div key={idx} className="space-y-3">
-                  <div className="flex items-center gap-2 text-sm font-bold text-emerald-600 uppercase tracking-wider px-2">
-                    {category.icon}
-                    {category.title}
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-20">
+              
+              {/* TOP 5 - Accès Rapide Section */}
+              <div className="mb-4">
+                <div className="flex items-center justify-between px-3 py-2 mb-3 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-amber-500" />
+                    <span className="text-sm font-bold text-gray-900">Accès Rapide</span>
                   </div>
-                  <div className="grid grid-cols-1 gap-1">
+                  <span className="px-2 py-0.5 bg-amber-500 text-white text-[10px] font-bold rounded-full">TOP 5</span>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-3">
+                  {/* 1. Simulateur Premium - MEGA CARD */}
+                  <Link
+                    href="/simulateur-vie-quebec"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="relative group overflow-hidden col-span-2"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-pink-500 to-rose-500 rounded-2xl"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/10 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+                    
+                    <div className="relative p-5">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
+                          <div className="relative">
+                            <div className="absolute inset-0 bg-white rounded-2xl blur-xl opacity-50"></div>
+                            <div className="relative w-16 h-16 bg-white/95 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-2xl group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">
+                              <Sparkles className="w-8 h-8 text-purple-600" />
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <div className="text-lg font-black text-white drop-shadow-2xl mb-1">Simulateur Premium</div>
+                            <div className="text-xs text-white/90 font-semibold">Simulation complète de vie au Québec</div>
+                            <div className="relative inline-flex items-center mt-2">
+                              <div className="absolute inset-0 bg-gradient-to-r from-yellow-300 via-white to-yellow-300 rounded-full blur-md opacity-75 animate-pulse"></div>
+                              <span className="relative inline-flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-white via-yellow-50 to-white rounded-full shadow-2xl border-2 border-white">
+                                <Sparkles className="w-3.5 h-3.5 text-purple-600" />
+                                <span className="text-[11px] font-black text-purple-700 tracking-wider">NOUVEAU</span>
+                                <Sparkles className="w-3.5 h-3.5 text-purple-600" />
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                  
+                  {/* 2. Salaire Net */}
+                  <Link
+                    href="/salaire-net-quebec"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="relative group overflow-hidden col-span-2"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-500 rounded-2xl"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/10 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+                    
+                    <div className="relative p-4">
+                      <div className="flex items-center gap-3">
+                        <div className="relative">
+                          <div className="absolute inset-0 bg-white rounded-xl blur-lg opacity-40"></div>
+                          <div className="relative w-14 h-14 bg-white/95 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
+                            <Calculator className="w-7 h-7 text-emerald-600" />
+                          </div>
+                        </div>
+                        <div>
+                          <div className="text-base font-black text-white drop-shadow-lg">Salaire Net Québec</div>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className="px-2 py-0.5 bg-white text-emerald-600 text-[9px] font-black rounded-full shadow-lg">2026</span>
+                            <span className="px-2 py-0.5 bg-emerald-900/50 backdrop-blur-sm text-white text-[9px] font-bold rounded-full">Le plus utilisé</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                  
+                  {/* 3. Taux Horaire */}
+                  <Link
+                    href="/taux-horaire"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="relative group overflow-hidden"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-600 rounded-2xl"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+                    
+                    <div className="relative p-4">
+                      <div className="flex flex-col items-center text-center gap-3">
+                        <div className="relative">
+                          <div className="absolute inset-0 bg-white rounded-xl blur-lg opacity-40"></div>
+                          <div className="relative w-14 h-14 bg-white/95 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
+                            <Calculator className="w-7 h-7 text-purple-600" />
+                          </div>
+                        </div>
+                        <div className="text-sm font-black text-white drop-shadow-lg">Taux Horaire</div>
+                      </div>
+                    </div>
+                  </Link>
+                  
+                  {/* 4. Déclaration */}
+                  <Link
+                    href="/declaration-simplifiee"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="relative group overflow-hidden"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-orange-400 via-amber-400 to-yellow-500 rounded-2xl"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+                    
+                    <div className="relative p-4">
+                      <div className="flex flex-col items-center text-center gap-3">
+                        <div className="relative">
+                          <div className="absolute inset-0 bg-white rounded-xl blur-lg opacity-40"></div>
+                          <div className="relative w-14 h-14 bg-white/95 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
+                            <Calculator className="w-7 h-7 text-orange-600" />
+                          </div>
+                        </div>
+                        <div className="text-sm font-black text-white drop-shadow-lg">Déclaration</div>
+                      </div>
+                    </div>
+                  </Link>
+                  
+                  {/* 5. Loyer 2026 */}
+                  <Link
+                    href="/augmentation-loyer-2026"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="relative group overflow-hidden col-span-2"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-red-500 via-rose-500 to-pink-600 rounded-2xl"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+                    
+                    <div className="relative p-4">
+                      <div className="flex items-center gap-3">
+                        <div className="relative">
+                          <div className="absolute inset-0 bg-white rounded-xl blur-lg opacity-40"></div>
+                          <div className="relative w-14 h-14 bg-white/95 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
+                            <Home className="w-7 h-7 text-red-600" />
+                          </div>
+                        </div>
+                        <div className="text-sm font-black text-white drop-shadow-lg">Augmentation Loyer 2026</div>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+
+              {NAV_ITEMS.map((category, idx) => (
+                <div key={idx} className="space-y-2">
+                  <button 
+                    onClick={() => toggleAccordion(idx)}
+                    className="w-full flex items-center justify-between p-3 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl border border-emerald-200 hover:border-emerald-300 transition-all"
+                  >
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center">
+                        {category.icon}
+                      </div>
+                      <span className="font-bold text-gray-900 text-sm">{category.title}</span>
+                    </div>
+                    <ChevronDown 
+                      className={`w-4 h-4 text-gray-600 transition-transform ${
+                        openAccordion === idx ? 'rotate-180' : ''
+                      }`} 
+                    />
+                  </button>
+                  
+                  <div className={`space-y-1 pl-2 overflow-hidden transition-all duration-300 ${
+                    openAccordion === idx ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
+                  }`}>
                     {(() => {
                       let lastGroup = ''
-                      return category.items.map((item, itemIdx) => {
+                      return category.items.slice(0, 4).map((item, itemIdx) => {
                         const showGroupLabel = item.groupLabel && item.groupLabel !== lastGroup
                         if (item.groupLabel) lastGroup = item.groupLabel
                         
                         return (
                           <div key={itemIdx}>
                             {showGroupLabel && (
-                              <div className="px-2 pt-4 pb-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider border-t border-gray-100 mt-2">
+                              <div className="px-2 pt-2 pb-1 text-[9px] font-bold text-gray-400 uppercase tracking-wider">
                                 {item.groupLabel}
                               </div>
                             )}
                             <Link
                               href={item.href}
                               onClick={() => setIsMobileMenuOpen(false)}
-                              className={`flex items-center justify-between p-3 rounded-xl hover:bg-emerald-50 active:scale-[0.98] transition-all ${
-                                item.isFlagship 
-                                  ? 'bg-emerald-50 border border-emerald-200 shadow-sm' 
-                                  : 'bg-gray-50 border border-transparent hover:border-emerald-100'
-                              }`}
+                              className="flex items-center justify-between p-2 bg-white rounded-lg hover:bg-gray-50 transition-colors"
                             >
-                              <span className={`font-semibold ${
-                                item.isFlagship ? 'text-emerald-800' : 'text-gray-700'
-                              }`}>
-                                {item.name}
-                              </span>
+                              <span className="text-xs font-medium text-gray-700">{item.name}</span>
                               {item.badge && (
-                                <span className={`text-[10px] px-2 py-1 rounded-md font-bold ${
-                                  item.badgeColor || 'bg-white shadow-sm'
+                                <span className={`text-[9px] px-2 py-0.5 rounded-full font-bold ${
+                                  item.badgeColor || 'bg-gray-100 text-gray-600'
                                 }`}>
                                   {item.badge}
                                 </span>
@@ -330,18 +495,6 @@ export default function Header() {
                   </div>
                 </div>
               ))}
-            </div>
-
-            {/* Mobile Footer CTA */}
-            <div className="p-4 border-t border-gray-100 bg-white safe-area-bottom">
-              <Link 
-                href="/salaire-net-quebec"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-center gap-2 w-full py-3.5 bg-slate-900 text-white font-bold rounded-xl active:scale-[0.98] transition-transform"
-              >
-                <Calculator className="w-5 h-5" />
-                Calculer mon salaire net
-              </Link>
             </div>
           </motion.div>
         )}

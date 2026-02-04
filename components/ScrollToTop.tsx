@@ -31,19 +31,18 @@ export default function ScrollToTop() {
     })
   }
 
-  // Don't render if not visible
-  if (!isVisible) {
-    return null
-  }
-
   return (
     <button
       onClick={scrollToTop}
-      className="fixed bottom-8 right-8 z-40 w-12 h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 flex items-center justify-center"
-      aria-label="Scroll to top"
+      className={`fixed bottom-8 right-8 z-40 w-14 h-14 bg-white/10 backdrop-blur-xl border border-white/20 hover:bg-emerald-500/20 hover:border-emerald-400/50 text-white rounded-2xl shadow-2xl transition-all duration-300 flex items-center justify-center group hover:scale-110 ${
+        isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+      }`}
+      aria-label="Retour en haut"
     >
-      <ArrowUp className="w-6 h-6" />
+      <ArrowUp className="w-6 h-6 group-hover:-translate-y-1 transition-transform text-emerald-400 stroke-[2.5]" />
+      
+      {/* Glow effect */}
+      <div className="absolute inset-0 bg-emerald-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
     </button>
   )
 }
-

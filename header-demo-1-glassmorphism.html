@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header Demo 1 - Glassmorphism Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        * { font-family: 'Inter', sans-serif; }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .gradient-border {
+            position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2px;
+            border-radius: 9999px;
+        }
+        
+        .gradient-border-inner {
+            background: white;
+            border-radius: 9999px;
+        }
+        
+        .mega-menu {
+            display: none;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-item:hover .mega-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .floating-badge {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 min-h-screen">
+    
+    <!-- HEADER GLASSMORPHISM PREMIUM -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-effect shadow-xl">
+        <nav class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                
+                <!-- Logo avec effet premium -->
+                <a href="/" class="flex items-center gap-3 group">
+                    <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-2xl transition-all duration-300 group-hover:scale-110">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-xl font-black bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                            QCFinance
+                        </div>
+                        <div class="text-[10px] text-gray-500 font-semibold -mt-1">Calculateurs Premium</div>
+                    </div>
+                </a>
+
+                <!-- Navigation Desktop avec Mega Menu -->
+                <div class="hidden lg:flex items-center gap-2">
+                    
+                    <!-- Menu 1: Impôts & Revenus -->
+                    <div class="nav-item relative group">
+                        <button class="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold text-gray-700 hover:bg-white/80 hover:shadow-md transition-all duration-300">
+                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                            Impôts & Revenus
+                            <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        
+                        <!-- Mega Menu Dropdown -->
+                        <div class="mega-menu absolute top-full left-0 mt-3 w-80 bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
+                            <div class="p-6">
+                                <div class="flex items-center gap-2 mb-4 pb-3 border-b border-gray-100">
+                                    <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                    </svg>
+                                    <span class="text-xs font-black text-gray-400 uppercase tracking-wider">Impôts & Revenus</span>
+                                </div>
+                                
+                                <!-- Flagship Item -->
+                                <a href="#" class="group/item flex items-center justify-between p-4 mb-2 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl border-2 border-emerald-200 hover:border-emerald-400 transition-all duration-300 hover:shadow-lg">
+                                    <div>
+                                        <div class="font-bold text-emerald-900 group-hover/item:text-emerald-700 transition-colors">Salaire Net Québec</div>
+                                        <div class="text-xs text-emerald-600 mt-0.5">Calcul instantané 2026</div>
+                                    </div>
+                                    <span class="px-3 py-1 bg-emerald-600 text-white text-[10px] font-black rounded-full floating-badge">2026</span>
+                                </a>
+                                
+                                <!-- Regular Items -->
+                                <a href="#" class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors group/item">
+                                    <span class="text-sm font-semibold text-gray-700 group-hover/item:text-emerald-700">Déclaration Simplifiée</span>
+                                    <span class="px-2 py-1 bg-blue-100 text-blue-700 text-[10px] font-bold rounded-full">NOUVEAU</span>
+                                </a>
+                                
+                                <a href="#" class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors group/item">
+                                    <span class="text-sm font-semibold text-gray-700 group-hover/item:text-emerald-700">Taux Horaire</span>
+                                </a>
+                                
+                                <a href="#" class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors group/item">
+                                    <span class="text-sm font-semibold text-gray-700 group-hover/item:text-emerald-700">Paie de Vacances</span>
+                                </a>
+                                
+                                <a href="#" class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors group/item">
+                                    <span class="text-sm font-semibold text-gray-700 group-hover/item:text-emerald-700">TPS/TVQ</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Menu 2: Immobilier -->
+                    <div class="nav-item relative group">
+                        <button class="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold text-gray-700 hover:bg-white/80 hover:shadow-md transition-all duration-300">
+                            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                            Immobilier
+                            <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        
+                        <div class="mega-menu absolute top-full left-0 mt-3 w-80 bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
+                            <div class="p-6">
+                                <div class="flex items-center gap-2 mb-4 pb-3 border-b border-gray-100">
+                                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                                    </svg>
+                                    <span class="text-xs font-black text-gray-400 uppercase tracking-wider">Immobilier</span>
+                                </div>
+                                
+                                <a href="#" class="group/item flex items-center justify-between p-4 mb-2 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border-2 border-blue-200 hover:border-blue-400 transition-all duration-300 hover:shadow-lg">
+                                    <div>
+                                        <div class="font-bold text-blue-900 group-hover/item:text-blue-700">Calcul Hypothécaire</div>
+                                        <div class="text-xs text-blue-600 mt-0.5">Outil le plus utilisé</div>
+                                    </div>
+                                    <span class="px-3 py-1 bg-amber-500 text-white text-[10px] font-black rounded-full">TOP</span>
+                                </a>
+                                
+                                <a href="#" class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                                    <span class="text-sm font-semibold text-gray-700">Capacité d'Emprunt</span>
+                                </a>
+                                
+                                <a href="#" class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                                    <span class="text-sm font-semibold text-gray-700">Taxe de Bienvenue</span>
+                                </a>
+                                
+                                <a href="#" class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                                    <span class="text-sm font-semibold text-gray-700">Louer ou Acheter?</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Menu 3: Vie & Finances -->
+                    <div class="nav-item relative group">
+                        <button class="flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold text-gray-700 hover:bg-white/80 hover:shadow-md transition-all duration-300">
+                            <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                            Vie & Finances
+                            <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        
+                        <div class="mega-menu absolute top-full left-0 mt-3 w-80 bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
+                            <div class="p-6">
+                                <div class="flex items-center gap-2 mb-4 pb-3 border-b border-gray-100">
+                                    <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                    </svg>
+                                    <span class="text-xs font-black text-gray-400 uppercase tracking-wider">Vie & Finances</span>
+                                </div>
+                                
+                                <!-- Grouped Items -->
+                                <div class="mb-4">
+                                    <div class="text-[10px] font-black text-gray-400 uppercase tracking-wider mb-2 px-2">Véhicules</div>
+                                    <a href="#" class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                                        <span class="text-sm font-semibold text-gray-700">Prêt Auto</span>
+                                    </a>
+                                    <a href="#" class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                                        <span class="text-sm font-semibold text-gray-700">Électrique vs Essence</span>
+                                        <span class="px-2 py-1 bg-green-100 text-green-700 text-[10px] font-bold rounded-full">ÉCO</span>
+                                    </a>
+                                </div>
+                                
+                                <div>
+                                    <div class="text-[10px] font-black text-gray-400 uppercase tracking-wider mb-2 px-2 pt-2 border-t border-gray-100">Famille</div>
+                                    <a href="#" class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                                        <span class="text-sm font-semibold text-gray-700">Frais de Garde</span>
+                                    </a>
+                                    <a href="#" class="flex items-center justify-between p-3 rounded-xl hover:bg-gray-50 transition-colors">
+                                        <span class="text-sm font-semibold text-gray-700">Allocations Familiales</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Premium Button -->
+                <div class="hidden lg:block">
+                    <div class="gradient-border">
+                        <a href="#" class="gradient-border-inner flex items-center gap-2 px-6 py-2.5 text-sm font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent hover:scale-105 transition-transform">
+                            <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                            </svg>
+                            Simulateur Premium
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="lg:hidden p-2 rounded-xl hover:bg-white/80 transition-colors">
+                    <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Demo Content -->
+    <div class="pt-32 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-5xl font-black bg-gradient-to-r from-purple-600 via-blue-600 to-pink-600 bg-clip-text text-transparent mb-4">
+                Header Demo 1
+            </h1>
+            <p class="text-xl text-gray-600 font-semibold">
+                Glassmorphism Premium avec Mega Menu & Badges Animés
+            </p>
+            <div class="mt-12 p-8 bg-white/60 backdrop-blur-lg rounded-3xl shadow-xl border border-white/30">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Caractéristiques</h2>
+                <ul class="text-left space-y-3 text-gray-700">
+                    <li class="flex items-start gap-3">
+                        <span class="text-emerald-600 font-bold">✓</span>
+                        <span><strong>Glassmorphism Effect:</strong> Effet de verre moderne avec backdrop-filter</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="text-emerald-600 font-bold">✓</span>
+                        <span><strong>Mega Menu:</strong> Dropdowns riches avec groupes et badges</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="text-emerald-600 font-bold">✓</span>
+                        <span><strong>Animations:</strong> Badges flottants et transitions fluides</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="text-emerald-600 font-bold">✓</span>
+                        <span><strong>Gradient Border:</strong> Bordure dégradée pour le CTA premium</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
