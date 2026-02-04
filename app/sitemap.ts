@@ -39,7 +39,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { route: '/interets-composes', priority: 0.9, changeFrequency: 'monthly' as const, lastModified: '2026-01-22' },
     
     // Static Pages
+    { route: '/faq', priority: 0.5, changeFrequency: 'monthly' as const, lastModified: '2026-02-03' },
+    { route: '/contact', priority: 0.4, changeFrequency: 'yearly' as const, lastModified: '2026-02-03' },
     { route: '/confidentialite', priority: 0.3, changeFrequency: 'yearly' as const, lastModified: '2025-12-01' },
+    { route: '/conditions', priority: 0.3, changeFrequency: 'yearly' as const, lastModified: '2026-02-03' },
+    { route: '/avis-legal', priority: 0.3, changeFrequency: 'yearly' as const, lastModified: '2026-02-03' },
     { route: '/a-propos', priority: 0.3, changeFrequency: 'yearly' as const, lastModified: '2025-12-01' },
   ].map(({ route, priority, changeFrequency, lastModified }) => ({
     url: `${baseUrl}${route}`,
