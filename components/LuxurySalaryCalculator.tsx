@@ -206,8 +206,8 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
         </>
       )}
 
-      {/* Results Section */}
-      {numericIncome > 0 && (
+      {/* Results Section - Only show on result pages (when initialIncome > 0) */}
+      {initialIncome > 0 && (
         <div className="space-y-8">
           {/* Big Result */}
           <div className="text-center py-8 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-3xl border border-emerald-100">
@@ -224,25 +224,25 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
 
           {/* Quick Stats Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-slate-50 rounded-2xl p-3 md:p-4 text-center border border-slate-100">
-              <div className="text-xs text-slate-500 font-medium mb-1">Mensuel</div>
+            <div className="bg-emerald-50 rounded-2xl p-3 md:p-4 text-center border border-emerald-100">
+              <div className="text-xs text-emerald-600 font-medium mb-1">Net Mensuel</div>
               <div className="text-xl font-bold text-slate-900">
                 {formatCurrency(results.netIncome / 12)}
               </div>
             </div>
-            <div className="bg-slate-50 rounded-2xl p-3 md:p-4 text-center border border-slate-100">
-              <div className="text-xs text-slate-500 font-medium mb-1">Aux 2 sem.</div>
+            <div className="bg-emerald-50 rounded-2xl p-3 md:p-4 text-center border border-emerald-100">
+              <div className="text-xs text-emerald-600 font-medium mb-1">Net Bi-hebdo</div>
               <div className="text-xl font-bold text-slate-900">
                 {formatCurrency(results.netIncome / 26)}
               </div>
             </div>
-            <div className="bg-slate-50 rounded-2xl p-3 md:p-4 text-center border border-slate-100">
-              <div className="text-xs text-slate-500 font-medium mb-1">Hebdo</div>
+            <div className="bg-emerald-50 rounded-2xl p-3 md:p-4 text-center border border-emerald-100">
+              <div className="text-xs text-emerald-600 font-medium mb-1">Net Hebdo</div>
               <div className="text-xl font-bold text-slate-900">
                 {formatCurrency(results.netIncome / 52)}
               </div>
             </div>
-            <div className="bg-red-50 rounded-2xl p-3 md:p-4 text-center border border-red-100">
+            <div className="bg-red-50 rounded-2xl p-3 md:p-4 text-center border border-slate-100">
               <div className="text-xs text-red-600 font-medium mb-1">Déductions</div>
               <div className="text-xl font-bold text-red-700">
                 {formatCurrency(results.totalDeductions)}
