@@ -10,7 +10,8 @@ export const contentType = 'image/png'
 
 export default async function Image({ params }: { params: { salary: string } }) {
   const salaryNum = parseInt(params.salary)
-  const formattedSalary = salaryNum.toLocaleString('fr-CA')
+  // Format with space separator for French Canadian standards (45 000 instead of 45,000)
+  const formattedSalary = salaryNum.toLocaleString('fr-CA').replace(',', ' ')
 
   return new ImageResponse(
     (
@@ -255,7 +256,7 @@ export default async function Image({ params }: { params: { salary: string } }) 
               display: 'flex',
             }}
           >
-            qcfinance.ca/salaire-net-quebec
+            qcfinance.ca/salaire-net-quebec/{params.salary}
           </div>
         </div>
       </div>

@@ -10,19 +10,25 @@ import { calculateTaxes } from '@/utils/taxLogic'
 import DarkPageHeader from '@/components/DarkPageHeader'
 import { Sparkles } from 'lucide-react'
 
-// Generate static paths for 170+ salary pages (30k to 200k in 1k increments)
+// Generate static paths for 341 salary pages (30k to 200k in 500$ increments)
+// This creates more SEO entry points for long-tail salary searches
 export async function generateStaticParams() {
   const salaries = []
-  for (let i = 30000; i <= 200000; i += 1000) {
+  
+  // Generate salary pages with 500$ increments for better SEO coverage
+  // Range: 30,000$ to 200,000$ (covers 95% of Quebec salaries)
+  // Total pages: 341 (vs 171 with 1k increments)
+  for (let i = 30000; i <= 200000; i += 500) {
     salaries.push({ salary: i.toString() })
   }
+  
   return salaries
 }
 
 // Allow dynamic params outside of static generation
 export const dynamicParams = true
 
-// Dynamic SEO metadata for each salary page
+// Dynamic SEO metadata for each salary page - Optimized for Google
 export async function generateMetadata({ params }: { params: { salary: string } }): Promise<Metadata> {
   const salaryNum = parseInt(params.salary)
   
@@ -33,25 +39,28 @@ export async function generateMetadata({ params }: { params: { salary: string } 
     }
   }
 
-  const formattedSalary = salaryNum.toLocaleString('fr-CA')
+  // Format with space separator for better readability (45 000 instead of 45,000)
+  const formattedSalary = salaryNum.toLocaleString('fr-CA').replace(',', ' ')
   
   return {
-    title: `Salaire Net ${formattedSalary} $ Québec 2026 | Calculateur Impôts`,
-    description: `💰 Calculez votre salaire net sur ${formattedSalary} $ au Québec en 2026. Impôts fédéral et provincial, RRQ, RQAP, AE. Résultat instantané avec répartition détaillée et pouvoir d'achat.`,
+    title: `Salaire Net ${formattedSalary} $ au Québec 2026 : Calcul et Impôts | QC Finance`,
+    description: `Découvrez votre salaire net pour ${formattedSalary} $ par année au Québec. Calcul précis des impôts, RRQ et RQAP pour 2026.`,
     keywords: [
       `salaire net ${formattedSalary}`,
       `${formattedSalary} net québec`,
       `impôt ${formattedSalary} québec`,
-      'calcul salaire net',
-      'salaire après impôts',
+      `calcul salaire ${formattedSalary}`,
+      'salaire après impôts québec',
       'revenu net québec 2026',
+      `${formattedSalary} dollars québec`,
+      'calculateur salaire québec',
     ],
     alternates: {
       canonical: `https://qcfinance.ca/salaire-net-quebec/${params.salary}`,
     },
     openGraph: {
-      title: `Salaire Net ${formattedSalary} $ Québec 2026`,
-      description: `Découvrez votre revenu net réel sur un salaire de ${formattedSalary} $ au Québec. Calcul complet avec impôts, RRQ, RQAP et AE.`,
+      title: `Salaire Net ${formattedSalary} $ au Québec 2026 : Calcul et Impôts`,
+      description: `Découvrez votre salaire net pour ${formattedSalary} $ par année au Québec. Calcul précis des impôts, RRQ et RQAP pour 2026.`,
       url: `https://qcfinance.ca/salaire-net-quebec/${params.salary}`,
       type: 'website',
       locale: 'fr_CA',
@@ -67,8 +76,8 @@ export async function generateMetadata({ params }: { params: { salary: string } 
     },
     twitter: {
       card: 'summary_large_image',
-      title: `Salaire Net ${formattedSalary} $ Québec 2026`,
-      description: `Calcul détaillé du revenu net sur ${formattedSalary} $ au Québec`,
+      title: `Salaire Net ${formattedSalary} $ au Québec 2026`,
+      description: `Découvrez votre salaire net pour ${formattedSalary} $ par année au Québec. Calcul précis des impôts, RRQ et RQAP pour 2026.`,
       images: [`https://qcfinance.ca/salaire-net-quebec/${params.salary}/opengraph-image`],
     },
   }
