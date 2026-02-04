@@ -16,7 +16,8 @@ type PayPeriod = 'annual' | 'monthly' | 'biweekly' | 'weekly'
 
 export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCalculatorProps) {
   const router = useRouter()
-  const [income, setIncome] = useState(initialIncome.toString())
+  // Store the annual gross as the base value
+  const [annualGross, setAnnualGross] = useState(initialIncome)
   const [payPeriod, setPayPeriod] = useState<PayPeriod>('annual')
   const [useFTQ, setUseFTQ] = useState(false)
   const [isBreakdownOpen, setIsBreakdownOpen] = useState(true)
@@ -27,19 +28,51 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
   // Analytics tracking
   const trackEvent = useDebouncedAnalytics(800)
   
-  const numericIncome = parseFloat(income) || 0
+  // Calculate the display value based on the current pay period
+  const getDisplayValue = () => {
+    if (annualGross === 0) return ''
+    switch (payPeriod) {
+      case 'annual':
+        return annualGross.toString()
+      case 'monthly':
+        return (annualGross / 12).toFixed(2)
+      case 'biweekly':
+        return (annualGross / 26).toFixed(2)
+      case 'weekly':
+        return (annualGross / 52).toFixed(2)
+      default:
+        return annualGross.toString()
+    }
+  }
   
-  // Convert to annual based on pay period
-  const annualIncome = 
-    payPeriod === 'annual' ? numericIncome :
-    payPeriod === 'monthly' ? numericIncome * 12 :
-    payPeriod === 'biweekly' ? numericIncome * 26 :
-    numericIncome * 52 // weekly
+  // Handle input change - convert to annual gross
+  const handleIncomeChange = (value: string) => {
+    const numericValue = parseFloat(value) || 0
+    
+    // Convert the input value to annual gross based on current period
+    let newAnnualGross = 0
+    switch (payPeriod) {
+      case 'annual':
+        newAnnualGross = numericValue
+        break
+      case 'monthly':
+        newAnnualGross = numericValue * 12
+        break
+      case 'biweekly':
+        newAnnualGross = numericValue * 26
+        break
+      case 'weekly':
+        newAnnualGross = numericValue * 52
+        break
+    }
+    
+    setAnnualGross(newAnnualGross)
+  }
 
-  const results = calculateTaxes(annualIncome)
+  const results = calculateTaxes(annualGross)
   
   // RRSP calculations
-  const rrspLimit = Math.min(annualIncome * 0.18, 31560) // 2026 limit
+  const rrspLimit = Math.min(annualGross * 0.18, 31560) // 2026 limit
   const rrspContribution = Math.min(5000, rrspLimit) // Max FTQ contribution
   
   // FTQ/Fondaction calculations
@@ -49,12 +82,12 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
   const realCost = rrspContribution - totalTaxSavings
   
   // Check if income is in highest tax bracket (2027 rule change warning)
-  const isHighIncome = annualIncome >= 119910 // Approximate 2026 highest bracket threshold
+  const isHighIncome = annualGross >= 119910 // Approximate 2026 highest bracket threshold
 
   // Handle calculate button click
   const handleCalculate = () => {
-    if (numericIncome > 0) {
-      const salaryToNavigate = Math.round(annualIncome)
+    if (annualGross > 0) {
+      const salaryToNavigate = Math.round(annualGross)
       
       // Track calculation event
       if (typeof window !== 'undefined' && (window as any).gtag) {
@@ -115,9 +148,9 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
               ref={inputRef}
               id="income-input"
               type="number"
-              value={income}
+              value={getDisplayValue()}
               onChange={(e) => {
-                setIncome(e.target.value)
+                handleIncomeChange(e.target.value)
                 trackEvent('salary_input_change', {
                   calculator: 'salary',
                   field: 'income',
@@ -193,7 +226,7 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
         <div className="mb-8">
           <button
             onClick={handleCalculate}
-            disabled={!income || parseFloat(income) <= 0}
+            disabled={!annualGross || annualGross <= 0}
             className="w-full py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 disabled:from-slate-300 disabled:to-slate-400 disabled:cursor-not-allowed text-white font-bold text-lg rounded-2xl transition-all shadow-lg hover:shadow-xl disabled:shadow-none flex items-center justify-center gap-3"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -608,8 +641,8 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
                       <input
                         id="recalc-input"
                         type="number"
-                        value={income}
-                        onChange={(e) => setIncome(e.target.value)}
+                        value={getDisplayValue()}
+                        onChange={(e) => handleIncomeChange(e.target.value)}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
                             handleCalculate()
@@ -645,7 +678,7 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
 
                 <button
                   onClick={handleCalculate}
-                  disabled={!income || parseFloat(income) <= 0}
+                  disabled={!annualGross || annualGross <= 0}
                   className="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 disabled:from-slate-300 disabled:to-slate-400 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all shadow-md hover:shadow-lg disabled:shadow-none flex items-center justify-center gap-2"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
