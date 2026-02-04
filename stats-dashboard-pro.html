@@ -1,0 +1,1793 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QC Finance Analytics Pro - Advanced Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --bg-dark: #0a0e27;
+            --bg-card: #141b3a;
+            --bg-hover: #1a2347;
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --text-muted: #718096;
+            --accent-blue: #4f46e5;
+            --accent-purple: #7c3aed;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-pink: #ec4899;
+            --border: rgba(255, 255, 255, 0.1);
+            --glow-blue: rgba(79, 70, 229, 0.3);
+            --glow-purple: rgba(124, 58, 237, 0.3);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.4;
+            background: 
+                radial-gradient(circle at 20% 50%, var(--glow-blue) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, var(--glow-purple) 0%, transparent 50%);
+            animation: bgMove 20s ease infinite;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, 50px); }
+        }
+
+        /* Topbar */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .live-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 24px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-green);
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 10px var(--accent-green);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+        }
+
+        .topbar-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: white;
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-hover);
+            border-color: var(--accent-blue);
+        }
+
+        /* Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            padding: 40px;
+            max-width: 1920px;
+            margin: 0 auto;
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .grid-4 { grid-template-columns: repeat(4, 1fr); }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+
+        /* Glass Card */
+        .card {
+            background: rgba(20, 27, 58, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 28px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 40px rgba(79, 70, 229, 0.2);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        /* KPI Card */
+        .kpi-card {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .kpi-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .kpi-info h3 {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .kpi-value {
+            font-size: 42px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+
+        .kpi-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-top: 12px;
+        }
+
+        .kpi-change.up {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-green);
+        }
+
+        .kpi-change.down {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-red);
+        }
+
+        .kpi-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .kpi-icon::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 18px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.5;
+        }
+
+        .mini-chart {
+            height: 60px !important;
+            max-height: 60px !important;
+            width: 100%;
+        }
+
+        /* Chart Card */
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .chart-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px;
+            border-radius: 12px;
+        }
+
+        .tab {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            color: var(--text-primary);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: white;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 400px;
+        }
+
+        .chart-wrapper.large {
+            height: 500px;
+        }
+
+        /* Table */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+        }
+
+        thead th {
+            text-align: left;
+            padding: 16px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(255, 255, 255, 0.03);
+            border: none;
+        }
+
+        thead th:first-child { border-radius: 12px 0 0 12px; }
+        thead th:last-child { border-radius: 0 12px 12px 0; }
+
+        tbody tr {
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.3s;
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: scale(1.01);
+        }
+
+        tbody td {
+            padding: 20px 16px;
+            border: none;
+            font-size: 14px;
+        }
+
+        tbody tr td:first-child { border-radius: 12px 0 0 12px; }
+        tbody tr td:last-child { border-radius: 0 12px 12px 0; }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge.high {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-green);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .badge.medium {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent-orange);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .badge.low {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--accent-red);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        /* Progress */
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+            border-radius: 10px;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Search */
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 20px;
+            transition: all 0.3s;
+        }
+
+        .search-box:focus-within {
+            border-color: var(--accent-blue);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px rgba(79, 70, 229, 0.2);
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            font-size: 14px;
+            color: var(--text-primary);
+            width: 300px;
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 1400px) {
+            .grid-4 { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+            .container { padding: 20px; }
+            .topbar { padding: 16px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Topbar -->
+    <div class="topbar">
+        <div class="logo-section">
+            <div class="logo">QC Finance Analytics</div>
+            <div class="live-badge">
+                <div class="pulse-dot"></div>
+                <span id="liveCount">Canlı (234)</span>
+            </div>
+        </div>
+        
+        <div class="topbar-actions">
+            <button class="btn btn-secondary" onclick="exportData()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Dışa Aktar
+            </button>
+            
+            <button class="btn btn-primary" onclick="refreshData()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
+                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                </svg>
+                Yenile
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- KPI Cards -->
+        <div class="grid grid-4">
+            <div class="card kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-info">
+                        <h3>Toplam Hesaplama</h3>
+                        <div class="kpi-value" id="totalCalc">24,567</div>
+                        <div class="kpi-change up">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <polyline points="18 15 12 9 6 15"/>
+                            </svg>
+                            <span>+23.5%</span>
+                        </div>
+                    </div>
+                    <div class="kpi-icon" style="background: rgba(79, 70, 229, 0.1);">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2">
+                            <rect x="4" y="2" width="16" height="20" rx="2"/>
+                            <line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/>
+                            <line x1="8" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="12" y2="18"/>
+                        </svg>
+                    </div>
+                </div>
+                <canvas class="mini-chart" id="miniChart1"></canvas>
+            </div>
+
+            <div class="card kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-info">
+                        <h3>Aktif Kullanıcı</h3>
+                        <div class="kpi-value" id="activeUsers">8,234</div>
+                        <div class="kpi-change up">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <polyline points="18 15 12 9 6 15"/>
+                            </svg>
+                            <span>+18.2%</span>
+                        </div>
+                    </div>
+                    <div class="kpi-icon" style="background: rgba(16, 185, 129, 0.1);">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                </div>
+                <canvas class="mini-chart" id="miniChart2"></canvas>
+            </div>
+
+            <div class="card kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-info">
+                        <h3>Gelir (AdSense)</h3>
+                        <div class="kpi-value" id="revenue">$6,789</div>
+                        <div class="kpi-change up">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <polyline points="18 15 12 9 6 15"/>
+                            </svg>
+                            <span>+31.8%</span>
+                        </div>
+                    </div>
+                    <div class="kpi-icon" style="background: rgba(245, 158, 11, 0.1);">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
+                            <line x1="12" y1="1" x2="12" y2="23"/>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
+                    </div>
+                </div>
+                <canvas class="mini-chart" id="miniChart3"></canvas>
+            </div>
+
+            <div class="card kpi-card">
+                <div class="kpi-header">
+                    <div class="kpi-info">
+                        <h3>Dönüşüm Oranı</h3>
+                        <div class="kpi-value" id="conversion">32.4%</div>
+                        <div class="kpi-change up">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                <polyline points="18 15 12 9 6 15"/>
+                            </svg>
+                            <span>+5.2%</span>
+                        </div>
+                    </div>
+                    <div class="kpi-icon" style="background: rgba(236, 72, 153, 0.1);">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                        </svg>
+                    </div>
+                </div>
+                <canvas class="mini-chart" id="miniChart4"></canvas>
+            </div>
+        </div>
+
+        <!-- Main Charts -->
+        <div class="grid grid-2">
+            <div class="card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Kullanım Trendi & Tahmin</div>
+                        <div class="chart-subtitle">Son 30 gün + 7 günlük tahmin</div>
+                    </div>
+                    <div class="tabs">
+                        <button class="tab active">Günlük</button>
+                        <button class="tab">Haftalık</button>
+                        <button class="tab">Aylık</button>
+                    </div>
+                </div>
+                <div class="chart-wrapper large">
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Hesaplayıcı Dağılımı</div>
+                        <div class="chart-subtitle">Kullanım oranları</div>
+                    </div>
+                </div>
+                <div class="chart-wrapper large">
+                    <canvas id="distributionChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Analytics -->
+        <div class="grid grid-3">
+            <div class="card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Dönüşüm Hunisi</div>
+                        <div class="chart-subtitle">Kullanıcı yolculuğu</div>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="funnelChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Anomali Tespiti</div>
+                        <div class="chart-subtitle">Otomatik tespit</div>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="anomalyChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Cihaz Dağılımı</div>
+                        <div class="chart-subtitle">Platform analizi</div>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="deviceChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Heatmap -->
+        <div class="card">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-title">Aktivite Isı Haritası</div>
+                    <div class="chart-subtitle">7 gün × 24 saat kullanım deseni</div>
+                </div>
+            </div>
+            <div id="heatmapContainer"></div>
+        </div>
+
+        <!-- User Sessions -->
+        <div class="grid grid-3">
+            <div class="card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Oturum Süresi Dağılımı</div>
+                        <div class="chart-subtitle">Kullanıcı etkileşim süreleri</div>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="sessionDurationChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Sayfa Başına Oturum</div>
+                        <div class="chart-subtitle">Ortalama sayfa görüntüleme</div>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="pagesPerSessionChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Bounce Rate Analizi</div>
+                        <div class="chart-subtitle">Hemen çıkma oranları</div>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="bounceRateChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Session Details -->
+        <div class="grid grid-2">
+            <div class="card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Yeni vs Dönen Kullanıcılar</div>
+                        <div class="chart-subtitle">Son 30 gün karşılaştırması</div>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="newVsReturningChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Trafik Kaynakları</div>
+                        <div class="chart-subtitle">Kullanıcı akış kanalları</div>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="trafficSourcesChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Sessions Table -->
+        <div class="card">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-title">Canlı Oturumlar</div>
+                    <div class="chart-subtitle">Şu anda aktif kullanıcılar</div>
+                </div>
+                <div class="live-badge">
+                    <div class="pulse-dot"></div>
+                    <span id="liveSessionCount">234 Aktif</span>
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Kullanıcı ID</th>
+                            <th>Konum</th>
+                            <th>Cihaz</th>
+                            <th>Sayfa</th>
+                            <th>Süre</th>
+                            <th>Sayfa Sayısı</th>
+                            <th>Durum</th>
+                        </tr>
+                    </thead>
+                    <tbody id="liveSessionsBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Performance Table -->
+        <div class="card">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-title">Hesaplayıcı Performans Detayı</div>
+                    <div class="chart-subtitle">Gerçek zamanlı metrikler</div>
+                </div>
+                <div class="search-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    <input type="text" placeholder="Hesaplayıcı ara..." id="searchInput">
+                </div>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Hesaplayıcı</th>
+                            <th>Kullanım</th>
+                            <th>Ort. Süre</th>
+                            <th>Tamamlanma</th>
+                            <th>PDF</th>
+                            <th>Ortaklık</th>
+                            <th>Etkileşim</th>
+                            <th>Trend</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Disable all Chart.js animations globally
+        Chart.defaults.animation = false;
+        Chart.defaults.color = '#a0aec0';
+        Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
+        Chart.defaults.font.family = 'Inter';
+
+        // Data
+        const calculatorData = [
+            { name: 'Salaire Net Québec', usage: 4567, avgTime: 245, completion: 94, pdf: 789, affiliate: 345, engagement: 'high', trend: [65, 72, 68, 75, 80, 78, 85, 90, 88, 95] },
+            { name: 'Calcul Hypothèque', usage: 3456, avgTime: 312, completion: 91, pdf: 678, affiliate: 567, engagement: 'high', trend: [55, 58, 62, 65, 70, 75, 78, 82, 85, 88] },
+            { name: 'Allocations Familiales', usage: 2890, avgTime: 198, completion: 88, pdf: 456, affiliate: 234, engagement: 'high', trend: [45, 48, 52, 55, 58, 62, 65, 68, 72, 75] },
+            { name: 'Louer ou Acheter', usage: 2345, avgTime: 287, completion: 85, pdf: 389, affiliate: 456, engagement: 'medium', trend: [40, 42, 45, 48, 52, 55, 58, 62, 65, 68] },
+            { name: 'Assurance Emploi', usage: 2123, avgTime: 156, completion: 96, pdf: 334, affiliate: 178, engagement: 'medium', trend: [35, 38, 42, 45, 48, 52, 55, 58, 62, 65] },
+            { name: 'Épargne Retraite', usage: 1890, avgTime: 334, completion: 82, pdf: 278, affiliate: 389, engagement: 'high', trend: [30, 33, 36, 40, 43, 47, 50, 54, 58, 62] },
+            { name: 'Prêt Auto', usage: 1678, avgTime: 223, completion: 87, pdf: 234, affiliate: 312, engagement: 'medium', trend: [25, 28, 32, 35, 39, 42, 46, 50, 54, 58] },
+            { name: 'Frais de Garde', usage: 1456, avgTime: 189, completion: 92, pdf: 189, affiliate: 123, engagement: 'medium', trend: [20, 23, 27, 30, 34, 37, 41, 45, 49, 53] },
+            { name: 'TPS/TVQ Québec', usage: 1234, avgTime: 98, completion: 98, pdf: 156, affiliate: 67, engagement: 'low', trend: [18, 21, 24, 27, 31, 34, 38, 41, 45, 49] },
+            { name: 'Dettes & Crédit', usage: 1089, avgTime: 267, completion: 79, pdf: 123, affiliate: 234, engagement: 'medium', trend: [15, 18, 22, 25, 29, 32, 36, 40, 44, 48] }
+        ];
+
+        // Mini Charts (Sparklines)
+        function createMiniChart(id, data, color) {
+            const canvas = document.getElementById(id);
+            // Force fixed dimensions
+            canvas.width = canvas.offsetWidth;
+            canvas.height = 60;
+            canvas.style.height = '60px';
+            canvas.style.maxHeight = '60px';
+            
+            const ctx = canvas.getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data,
+                    datasets: [{
+                        data: data,
+                        borderColor: color,
+                        borderWidth: 3,
+                        fill: true,
+                        backgroundColor: `${color}20`,
+                        tension: 0.4,
+                        pointRadius: 0,
+                        pointHoverRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                    scales: { x: { display: false }, y: { display: false } }
+                }
+            });
+        }
+
+        createMiniChart('miniChart1', [850, 920, 880, 1050, 980, 1100, 1020, 1150, 1080, 1200], '#4f46e5');
+        createMiniChart('miniChart2', [450, 480, 520, 500, 550, 580, 600, 650, 620, 680], '#10b981');
+        createMiniChart('miniChart3', [320, 350, 380, 360, 400, 420, 450, 480, 460, 500], '#f59e0b');
+        createMiniChart('miniChart4', [22, 24, 26, 25, 27, 28, 29, 31, 30, 32], '#ec4899');
+
+        // Trend Chart with Prediction
+        const trendCtx = document.getElementById('trendChart').getContext('2d');
+        const last30Days = Array.from({length: 30}, (_, i) => {
+            const d = new Date();
+            d.setDate(d.getDate() - (29 - i));
+            return d.toLocaleDateString('tr-TR', { month: 'short', day: 'numeric' });
+        });
+        const next7Days = Array.from({length: 7}, (_, i) => {
+            const d = new Date();
+            d.setDate(d.getDate() + i + 1);
+            return d.toLocaleDateString('tr-TR', { month: 'short', day: 'numeric' });
+        });
+
+        const historicalData = Array.from({length: 30}, () => Math.floor(Math.random() * 400) + 800);
+        const predictionData = Array.from({length: 7}, () => Math.floor(Math.random() * 400) + 1000);
+
+        new Chart(trendCtx, {
+            type: 'line',
+            data: {
+                labels: [...last30Days, ...next7Days],
+                datasets: [
+                    {
+                        label: 'Gerçek Veri',
+                        data: [...historicalData, ...Array(7).fill(null)],
+                        borderColor: '#4f46e5',
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#4f46e5',
+                        pointBorderColor: '#0a0e27',
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 6
+                    },
+                    {
+                        label: 'Tahmin (AI)',
+                        data: [...Array(29).fill(null), historicalData[29], ...predictionData],
+                        borderColor: '#7c3aed',
+                        backgroundColor: 'rgba(124, 58, 237, 0.05)',
+                        borderWidth: 3,
+                        borderDash: [10, 5],
+                        fill: false,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#7c3aed',
+                        pointBorderColor: '#0a0e27',
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 6
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            color: '#a0aec0',
+                            padding: 20,
+                            usePointStyle: true,
+                            font: { size: 13, weight: '600' }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 14, 39, 0.95)',
+                        titleColor: '#ffffff',
+                        bodyColor: '#a0aec0',
+                        borderColor: 'rgba(79, 70, 229, 0.5)',
+                        borderWidth: 1,
+                        padding: 16,
+                        displayColors: true,
+                        titleFont: { size: 14, weight: '700' },
+                        bodyFont: { size: 13 }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { color: '#718096', font: { size: 12 } }
+                    },
+                    y: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { color: '#718096', font: { size: 12 } }
+                    }
+                }
+            }
+        });
+
+        // Distribution Chart (Polar Area)
+        const distributionCtx = document.getElementById('distributionChart').getContext('2d');
+        new Chart(distributionCtx, {
+            type: 'polarArea',
+            data: {
+                labels: calculatorData.slice(0, 6).map(c => c.name.split(' ')[0]),
+                datasets: [{
+                    data: calculatorData.slice(0, 6).map(c => c.usage),
+                    backgroundColor: [
+                        'rgba(79, 70, 229, 0.7)',
+                        'rgba(124, 58, 237, 0.7)',
+                        'rgba(16, 185, 129, 0.7)',
+                        'rgba(245, 158, 11, 0.7)',
+                        'rgba(239, 68, 68, 0.7)',
+                        'rgba(236, 72, 153, 0.7)'
+                    ],
+                    borderColor: [
+                        '#4f46e5',
+                        '#7c3aed',
+                        '#10b981',
+                        '#f59e0b',
+                        '#ef4444',
+                        '#ec4899'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            color: '#a0aec0',
+                            padding: 15,
+                            font: { size: 13, weight: '600' }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 14, 39, 0.95)',
+                        titleColor: '#ffffff',
+                        bodyColor: '#a0aec0',
+                        borderColor: 'rgba(79, 70, 229, 0.5)',
+                        borderWidth: 1,
+                        padding: 16
+                    }
+                },
+                scales: {
+                    r: {
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                        ticks: { color: '#718096', backdropColor: 'transparent' }
+                    }
+                }
+            }
+        });
+
+        // Funnel Chart
+        const funnelCtx = document.getElementById('funnelChart').getContext('2d');
+        new Chart(funnelCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Ziyaret', 'Açıldı', 'Veri', 'Hesaplama', 'Dönüşüm'],
+                datasets: [{
+                    data: [10000, 7500, 5000, 3500, 2800],
+                    backgroundColor: [
+                        'rgba(79, 70, 229, 0.8)',
+                        'rgba(124, 58, 237, 0.8)',
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(245, 158, 11, 0.8)',
+                        'rgba(236, 72, 153, 0.8)'
+                    ],
+                    borderRadius: 10,
+                    barThickness: 40
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 14, 39, 0.95)',
+                        callbacks: {
+                            label: function(context) {
+                                const percent = ((context.parsed.x / 10000) * 100).toFixed(1);
+                                return `${context.parsed.x.toLocaleString()} (${percent}%)`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { color: '#718096' }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: { color: '#a0aec0', font: { size: 13, weight: '600' } }
+                    }
+                }
+            }
+        });
+
+        // Anomaly Detection Chart
+        const anomalyCtx = document.getElementById('anomalyChart').getContext('2d');
+        const anomalyData = Array.from({length: 30}, () => Math.floor(Math.random() * 200) + 800);
+        anomalyData[8] = 1600;  // Anomaly
+        anomalyData[15] = 400;  // Anomaly
+        anomalyData[24] = 1700; // Anomaly
+
+        new Chart(anomalyCtx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 30}, (_, i) => i + 1),
+                datasets: [{
+                    label: 'Kullanım',
+                    data: anomalyData,
+                    borderColor: '#06b6d4',
+                    backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: anomalyData.map(v => v > 1400 || v < 600 ? 8 : 3),
+                    pointBackgroundColor: anomalyData.map(v => v > 1400 || v < 600 ? '#ef4444' : '#06b6d4'),
+                    pointBorderColor: '#0a0e27',
+                    pointBorderWidth: 2,
+                    pointHoverRadius: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 14, 39, 0.95)',
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.parsed.y;
+                                const isAnomaly = value > 1400 || value < 600;
+                                return isAnomaly ? `⚠️ Anomali: ${value}` : `Kullanım: ${value}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { color: '#718096' }
+                    },
+                    y: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { color: '#718096' }
+                    }
+                }
+            }
+        });
+
+        // Device Chart (Doughnut)
+        const deviceCtx = document.getElementById('deviceChart').getContext('2d');
+        new Chart(deviceCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Mobil', 'Masaüstü', 'Tablet'],
+                datasets: [{
+                    data: [5234, 2890, 1110],
+                    backgroundColor: [
+                        'rgba(79, 70, 229, 0.8)',
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(245, 158, 11, 0.8)'
+                    ],
+                    borderColor: ['#4f46e5', '#10b981', '#f59e0b'],
+                    borderWidth: 3,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#a0aec0',
+                            padding: 20,
+                            font: { size: 13, weight: '600' },
+                            usePointStyle: true
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 14, 39, 0.95)',
+                        callbacks: {
+                            label: function(context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percent = ((context.parsed / total) * 100).toFixed(1);
+                                return `${context.label}: ${context.parsed.toLocaleString()} (${percent}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Heatmap with D3.js
+        const days = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+        const hours = Array.from({length: 24}, (_, i) => i);
+        
+        const heatmapData = days.flatMap((day, dayIndex) =>
+            hours.map((hour, hourIndex) => ({
+                day: dayIndex,
+                hour: hourIndex,
+                value: Math.random() * 100
+            }))
+        );
+
+        const margin = { top: 40, right: 40, bottom: 40, left: 60 };
+        const width = 1200 - margin.left - margin.right;
+        const height = 300 - margin.top - margin.bottom;
+
+        const svg = d3.select('#heatmapContainer')
+            .append('svg')
+            .attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom)
+            .append('g')
+            .attr('transform', `translate(${margin.left},${margin.top})`);
+
+        const x = d3.scaleBand()
+            .range([0, width])
+            .domain(hours)
+            .padding(0.05);
+
+        const y = d3.scaleBand()
+            .range([0, height])
+            .domain(days)
+            .padding(0.05);
+
+        const colorScale = d3.scaleSequential()
+            .interpolator(d3.interpolateRgb('#1a2347', '#4f46e5'))
+            .domain([0, 100]);
+
+        svg.selectAll()
+            .data(heatmapData)
+            .enter()
+            .append('rect')
+            .attr('x', d => x(d.hour))
+            .attr('y', d => y(days[d.day]))
+            .attr('width', x.bandwidth())
+            .attr('height', y.bandwidth())
+            .attr('rx', 4)
+            .style('fill', d => colorScale(d.value))
+            .style('stroke', 'none')
+            .style('cursor', 'pointer')
+            .on('mouseover', function(event, d) {
+                d3.select(this)
+                    .style('stroke', '#4f46e5')
+                    .style('stroke-width', 2);
+            })
+            .on('mouseout', function() {
+                d3.select(this)
+                    .style('stroke', 'none');
+            });
+
+        svg.append('g')
+            .style('font-size', 12)
+            .style('color', '#718096')
+            .call(d3.axisLeft(y).tickSize(0))
+            .select('.domain').remove();
+
+        svg.append('g')
+            .attr('transform', `translate(0,${height})`)
+            .style('font-size', 12)
+            .style('color', '#718096')
+            .call(d3.axisBottom(x).tickValues([0, 6, 12, 18, 23]).tickSize(0))
+            .select('.domain').remove();
+
+        // Session Duration Chart
+        const sessionDurationCtx = document.getElementById('sessionDurationChart').getContext('2d');
+        new Chart(sessionDurationCtx, {
+            type: 'bar',
+            data: {
+                labels: ['0-30s', '30s-1m', '1-3m', '3-5m', '5-10m', '10m+'],
+                datasets: [{
+                    label: 'Oturum Sayısı',
+                    data: [1234, 2345, 3456, 2890, 1567, 890],
+                    backgroundColor: 'rgba(79, 70, 229, 0.8)',
+                    borderColor: '#4f46e5',
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 14, 39, 0.95)',
+                        titleColor: '#ffffff',
+                        bodyColor: '#a0aec0',
+                        borderColor: 'rgba(79, 70, 229, 0.5)',
+                        borderWidth: 1,
+                        padding: 16
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { color: '#718096', font: { size: 12, weight: '600' } }
+                    },
+                    y: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { color: '#718096' }
+                    }
+                }
+            }
+        });
+
+        // Pages Per Session Chart
+        const pagesPerSessionCtx = document.getElementById('pagesPerSessionChart').getContext('2d');
+        new Chart(pagesPerSessionCtx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 30}, (_, i) => i + 1),
+                datasets: [{
+                    label: 'Ort. Sayfa/Oturum',
+                    data: Array.from({length: 30}, () => Math.random() * 2 + 2),
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#10b981',
+                    pointBorderColor: '#0a0e27',
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 14, 39, 0.95)',
+                        callbacks: {
+                            label: function(context) {
+                                return `Ortalama: ${context.parsed.y.toFixed(2)} sayfa`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { color: '#718096' }
+                    },
+                    y: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { color: '#718096' },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Bounce Rate Chart
+        const bounceRateCtx = document.getElementById('bounceRateChart').getContext('2d');
+        new Chart(bounceRateCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Etkileşimli', 'Bounce'],
+                datasets: [{
+                    data: [68, 32],
+                    backgroundColor: ['rgba(16, 185, 129, 0.8)', 'rgba(239, 68, 68, 0.8)'],
+                    borderColor: ['#10b981', '#ef4444'],
+                    borderWidth: 3,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#a0aec0',
+                            padding: 20,
+                            font: { size: 13, weight: '600' },
+                            usePointStyle: true
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 14, 39, 0.95)',
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.label}: ${context.parsed}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // New vs Returning Chart
+        const newVsReturningCtx = document.getElementById('newVsReturningChart').getContext('2d');
+        const last30DaysLabels = Array.from({length: 30}, (_, i) => {
+            const d = new Date();
+            d.setDate(d.getDate() - (29 - i));
+            return d.toLocaleDateString('tr-TR', { month: 'short', day: 'numeric' });
+        });
+
+        new Chart(newVsReturningCtx, {
+            type: 'line',
+            data: {
+                labels: last30DaysLabels,
+                datasets: [
+                    {
+                        label: 'Yeni Kullanıcılar',
+                        data: Array.from({length: 30}, () => Math.floor(Math.random() * 300) + 400),
+                        borderColor: '#4f46e5',
+                        backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 3,
+                        pointBackgroundColor: '#4f46e5'
+                    },
+                    {
+                        label: 'Dönen Kullanıcılar',
+                        data: Array.from({length: 30}, () => Math.floor(Math.random() * 200) + 200),
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 3,
+                        pointBackgroundColor: '#10b981'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            color: '#a0aec0',
+                            padding: 20,
+                            usePointStyle: true,
+                            font: { size: 13, weight: '600' }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 14, 39, 0.95)',
+                        titleColor: '#ffffff',
+                        bodyColor: '#a0aec0',
+                        borderColor: 'rgba(79, 70, 229, 0.5)',
+                        borderWidth: 1,
+                        padding: 16
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { color: '#718096', maxRotation: 45 }
+                    },
+                    y: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        ticks: { color: '#718096' }
+                    }
+                }
+            }
+        });
+
+        // Traffic Sources Chart
+        const trafficSourcesCtx = document.getElementById('trafficSourcesChart').getContext('2d');
+        new Chart(trafficSourcesCtx, {
+            type: 'polarArea',
+            data: {
+                labels: ['Organik Arama', 'Direkt', 'Sosyal Medya', 'Referans', 'Email'],
+                datasets: [{
+                    data: [4567, 2345, 1890, 1234, 890],
+                    backgroundColor: [
+                        'rgba(79, 70, 229, 0.7)',
+                        'rgba(16, 185, 129, 0.7)',
+                        'rgba(236, 72, 153, 0.7)',
+                        'rgba(245, 158, 11, 0.7)',
+                        'rgba(6, 182, 212, 0.7)'
+                    ],
+                    borderColor: ['#4f46e5', '#10b981', '#ec4899', '#f59e0b', '#06b6d4'],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            color: '#a0aec0',
+                            padding: 15,
+                            font: { size: 13, weight: '600' }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(10, 14, 39, 0.95)',
+                        callbacks: {
+                            label: function(context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percent = ((context.parsed / total) * 100).toFixed(1);
+                                return `${context.label}: ${context.parsed.toLocaleString()} (${percent}%)`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    r: {
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                        ticks: { color: '#718096', backdropColor: 'transparent' }
+                    }
+                }
+            }
+        });
+
+        // Live Sessions Table
+        const liveSessionsBody = document.getElementById('liveSessionsBody');
+        const locations = ['Montréal', 'Québec', 'Laval', 'Gatineau', 'Longueuil', 'Sherbrooke'];
+        const devices = ['Desktop', 'Mobile', 'Tablet'];
+        const pages = ['Salaire Net', 'Hypothèque', 'Allocations', 'Louer/Acheter', 'Assurance Emploi'];
+        const statuses = ['active', 'idle', 'engaged'];
+
+        function generateLiveSessions() {
+            liveSessionsBody.innerHTML = '';
+            const sessionCount = Math.floor(Math.random() * 20) + 15;
+            
+            for (let i = 0; i < sessionCount; i++) {
+                const tr = document.createElement('tr');
+                const userId = `USR-${Math.floor(Math.random() * 9000) + 1000}`;
+                const location = locations[Math.floor(Math.random() * locations.length)];
+                const device = devices[Math.floor(Math.random() * devices.length)];
+                const page = pages[Math.floor(Math.random() * pages.length)];
+                const duration = `${Math.floor(Math.random() * 10) + 1}m ${Math.floor(Math.random() * 60)}s`;
+                const pageCount = Math.floor(Math.random() * 8) + 1;
+                const status = statuses[Math.floor(Math.random() * statuses.length)];
+                
+                const statusBadge = status === 'active' ? 'high' : status === 'engaged' ? 'medium' : 'low';
+                const statusText = status === 'active' ? 'Aktif' : status === 'engaged' ? 'Etkileşimli' : 'Beklemede';
+                
+                tr.innerHTML = `
+                    <td style="font-family: monospace; color: #7c3aed;">${userId}</td>
+                    <td>${location}</td>
+                    <td>${device}</td>
+                    <td style="font-weight: 600;">${page}</td>
+                    <td>${duration}</td>
+                    <td style="text-align: center; font-weight: 700;">${pageCount}</td>
+                    <td><span class="badge ${statusBadge}">${statusText}</span></td>
+                `;
+                
+                liveSessionsBody.appendChild(tr);
+            }
+            
+            document.getElementById('liveSessionCount').textContent = `${sessionCount} Aktif`;
+        }
+
+        generateLiveSessions();
+        setInterval(generateLiveSessions, 10000); // Update every 10 seconds
+
+        // Performance Table
+        const tbody = document.getElementById('tableBody');
+        calculatorData.forEach(calc => {
+            const tr = document.createElement('tr');
+            
+            const trendCanvas = document.createElement('canvas');
+            trendCanvas.width = 100;
+            trendCanvas.height = 40;
+            trendCanvas.style.width = '100px';
+            trendCanvas.style.height = '40px';
+            trendCanvas.style.maxWidth = '100px';
+            trendCanvas.style.maxHeight = '40px';
+            
+            const engBadge = calc.engagement === 'high' ? 'Yüksek' : calc.engagement === 'medium' ? 'Orta' : 'Düşük';
+            
+            tr.innerHTML = `
+                <td style="font-weight: 600; color: #ffffff;">${calc.name}</td>
+                <td style="font-weight: 600;">${calc.usage.toLocaleString()}</td>
+                <td>${Math.floor(calc.avgTime / 60)}m ${calc.avgTime % 60}s</td>
+                <td>
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: 120px;">
+                            <div class="progress-fill" style="width: ${calc.completion}%;"></div>
+                        </div>
+                        <span style="font-weight: 700; font-size: 13px;">${calc.completion}%</span>
+                    </div>
+                </td>
+                <td style="color: #10b981; font-weight: 700;">${calc.pdf}</td>
+                <td style="color: #f59e0b; font-weight: 700;">${calc.affiliate}</td>
+                <td><span class="badge ${calc.engagement}">${engBadge}</span></td>
+                <td style="width: 120px; min-width: 120px; max-width: 120px;"></td>
+            `;
+            
+            tbody.appendChild(tr);
+            tr.lastElementChild.appendChild(trendCanvas);
+            
+            // Mini trend chart
+            const trendCtx = trendCanvas.getContext('2d');
+            new Chart(trendCtx, {
+                type: 'line',
+                data: {
+                    labels: calc.trend,
+                    datasets: [{
+                        data: calc.trend,
+                        borderColor: calc.engagement === 'high' ? '#10b981' : calc.engagement === 'medium' ? '#f59e0b' : '#ef4444',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                    scales: { x: { display: false }, y: { display: false } }
+                }
+            });
+        });
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const value = e.target.value.toLowerCase();
+            const rows = tbody.querySelectorAll('tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(value) ? '' : 'none';
+            });
+        });
+
+        // Export Data
+        function exportData() {
+            const data = calculatorData.map(c => ({
+                'Hesaplayıcı': c.name,
+                'Kullanım': c.usage,
+                'Ortalama Süre': `${Math.floor(c.avgTime / 60)}m ${c.avgTime % 60}s`,
+                'Tamamlanma': `${c.completion}%`,
+                'PDF': c.pdf,
+                'Ortaklık': c.affiliate,
+                'Etkileşim': c.engagement
+            }));
+
+            const csv = [
+                Object.keys(data[0]).join(','),
+                ...data.map(row => Object.values(row).join(','))
+            ].join('\n');
+
+            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `qc-finance-analytics-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Refresh Data with Animation
+        function refreshData() {
+            // Add loading state
+            document.querySelectorAll('.card').forEach(card => {
+                card.style.opacity = '0.5';
+            });
+
+            setTimeout(() => {
+                // Animate numbers
+                animateValue('totalCalc', 24567, Math.floor(Math.random() * 5000) + 22000, 1500);
+                animateValue('activeUsers', 8234, Math.floor(Math.random() * 2000) + 7000, 1500);
+                animateValue('revenue', 6789, Math.floor(Math.random() * 2000) + 6000, 1500);
+                
+                const newConversion = (Math.random() * 10 + 28).toFixed(1);
+                document.getElementById('conversion').textContent = newConversion + '%';
+
+                // Update live count
+                const liveCount = Math.floor(Math.random() * 100) + 200;
+                document.getElementById('liveCount').textContent = `Canlı (${liveCount})`;
+
+                // Remove loading state
+                document.querySelectorAll('.card').forEach(card => {
+                    card.style.opacity = '1';
+                });
+            }, 1000);
+        }
+
+        // Animate Number
+        function animateValue(id, start, end, duration) {
+            const element = document.getElementById(id);
+            const range = end - start;
+            const increment = range / (duration / 16);
+            let current = start;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                
+                if (id === 'revenue') {
+                    element.textContent = '$' + Math.floor(current).toLocaleString();
+                } else if (id === 'conversion') {
+                    element.textContent = current.toFixed(1) + '%';
+                } else {
+                    element.textContent = Math.floor(current).toLocaleString();
+                }
+            }, 16);
+        }
+
+        // Real-time Updates Simulation
+        setInterval(() => {
+            const liveCount = Math.floor(Math.random() * 100) + 200;
+            document.getElementById('liveCount').textContent = `Canlı (${liveCount})`;
+        }, 5000);
+
+        // Keyboard Shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key.toLowerCase()) {
+                    case 'r':
+                        e.preventDefault();
+                        refreshData();
+                        break;
+                    case 'e':
+                        e.preventDefault();
+                        exportData();
+                        break;
+                    case 'f':
+                        e.preventDefault();
+                        document.getElementById('searchInput').focus();
+                        break;
+                }
+            }
+        });
+
+        // Initial Card Animation
+        setTimeout(() => {
+            document.querySelectorAll('.card').forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 80);
+            });
+        }, 100);
+
+        // Console Easter Egg
+        console.log('%c🚀 QC Finance Analytics Pro', 'color: #4f46e5; font-size: 24px; font-weight: bold; text-shadow: 2px 2px 4px rgba(79, 70, 229, 0.3);');
+        console.log('%c⌨️  Keyboard Shortcuts:', 'color: #10b981; font-size: 16px; font-weight: bold; margin-top: 10px;');
+        console.log('%cCtrl/Cmd + R → Refresh Data', 'color: #a0aec0; font-size: 14px;');
+        console.log('%cCtrl/Cmd + E → Export CSV', 'color: #a0aec0; font-size: 14px;');
+        console.log('%cCtrl/Cmd + F → Search Table', 'color: #a0aec0; font-size: 14px;');
+        console.log('%c\n💡 Built with Chart.js, D3.js & Love', 'color: #7c3aed; font-size: 12px; font-style: italic;');
+    </script>
+</body>
+</html>

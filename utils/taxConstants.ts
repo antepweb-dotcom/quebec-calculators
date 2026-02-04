@@ -15,7 +15,7 @@ export const TAX_YEAR = 2026;
 // ============================================================================
 export const BASIC_PERSONAL_AMOUNT = {
   FEDERAL: 15705,
-  QUEBEC: 18056,
+  QUEBEC: 18952,
 } as const;
 
 // Legacy exports for backward compatibility
