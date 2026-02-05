@@ -1,5 +1,6 @@
 import WizardSimulatorV2 from '@/src/components/v2/WizardSimulatorV2';
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Simulateur de Vie au Québec 2026 - Calculateur Salaire Net, Loyer & Budget | QCFinance.ca',
@@ -173,7 +174,9 @@ export default function SimulateurVieQuebecV2Page() {
       />
       
       {/* Main Content */}
-      <WizardSimulatorV2 />
+      <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div></div>}>
+        <WizardSimulatorV2 />
+      </Suspense>
       
       {/* SEO Content Section */}
       <section className="max-w-7xl mx-auto px-4 py-16 bg-slate-50">
