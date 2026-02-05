@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
-export const alt = 'Simulateur de Vie au Québec - Calculateur Salaire Net & Budget';
+export const alt = 'Simulateur de Vie au Québec 2026 - Calculateur Budget, Salaire Net & Allocations';
 export const size = {
   width: 1200,
   height: 630,
@@ -20,7 +20,7 @@ export default async function Image() {
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: '#0f172a',
-          backgroundImage: 'radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.15) 0%, transparent 50%), radial-gradient(circle at 75% 75%, rgba(168, 85, 247, 0.15) 0%, transparent 50%)',
+          backgroundImage: 'radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.2) 0%, transparent 50%), radial-gradient(circle at 75% 75%, rgba(168, 85, 247, 0.2) 0%, transparent 50%)',
         }}
       >
         {/* Logo/Badge */}
@@ -29,26 +29,26 @@ export default async function Image() {
             display: 'flex',
             alignItems: 'center',
             gap: '12px',
-            marginBottom: '40px',
+            marginBottom: '32px',
           }}
         >
           <div
             style={{
-              width: '60px',
-              height: '60px',
+              width: '64px',
+              height: '64px',
               borderRadius: '16px',
               background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '32px',
+              fontSize: '36px',
             }}
           >
-            ✨
+            💰
           </div>
           <div
             style={{
-              fontSize: '24px',
+              fontSize: '28px',
               fontWeight: 'bold',
               color: '#94a3b8',
               letterSpacing: '0.05em',
@@ -61,65 +61,113 @@ export default async function Image() {
         {/* Main Title */}
         <div
           style={{
-            fontSize: '72px',
+            fontSize: '76px',
             fontWeight: 'bold',
-            color: 'white',
             textAlign: 'center',
             lineHeight: 1.1,
-            marginBottom: '24px',
-            maxWidth: '900px',
+            marginBottom: '20px',
+            maxWidth: '1000px',
+            background: 'linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
           }}
         >
           Simulateur de Vie
           <br />
-          au Québec
+          au Québec 2026
         </div>
 
         {/* Subtitle */}
         <div
           style={{
-            fontSize: '32px',
-            color: '#94a3b8',
+            fontSize: '28px',
+            color: '#cbd5e1',
             textAlign: 'center',
-            marginBottom: '48px',
+            marginBottom: '40px',
+            fontWeight: '500',
           }}
         >
-          Calculez votre salaire net, budget et épargne
+          Budget • Salaire Net • Allocations • Loyer
         </div>
 
-        {/* Features */}
+        {/* Stats Row */}
         <div
           style={{
             display: 'flex',
-            gap: '32px',
-            marginBottom: '40px',
+            gap: '24px',
+            marginBottom: '36px',
           }}
         >
-          {['10 Villes', 'Taux 2025-2026', '100% Gratuit'].map((feature) => (
+          {[
+            { label: '10 Villes', icon: '🏙️' },
+            { label: 'Taux 2026', icon: '📊' },
+            { label: 'Gratuit', icon: '✨' },
+            { label: 'Temps Réel', icon: '⚡' },
+          ].map((item) => (
+            <div
+              key={item.label}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '16px 28px',
+                backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                borderRadius: '16px',
+                border: '2px solid rgba(255, 255, 255, 0.15)',
+                backdropFilter: 'blur(10px)',
+              }}
+            >
+              <div style={{ fontSize: '32px' }}>{item.icon}</div>
+              <span
+                style={{
+                  fontSize: '18px',
+                  color: 'white',
+                  fontWeight: '700',
+                }}
+              >
+                {item.label}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* Features Pills */}
+        <div
+          style={{
+            display: 'flex',
+            gap: '16px',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            maxWidth: '900px',
+          }}
+        >
+          {['Impôts QC & Fédéral', 'CCB + Allocation Famille', 'CPE & Garderie', 'Comparaison Villes'].map((feature) => (
             <div
               key={feature}
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: '12px 24px',
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                borderRadius: '12px',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
+                padding: '10px 20px',
+                backgroundColor: 'rgba(16, 185, 129, 0.15)',
+                borderRadius: '999px',
+                border: '1px solid rgba(16, 185, 129, 0.4)',
               }}
             >
               <div
                 style={{
-                  width: '8px',
-                  height: '8px',
+                  width: '6px',
+                  height: '6px',
                   borderRadius: '50%',
                   backgroundColor: '#10b981',
                 }}
               />
               <span
                 style={{
-                  fontSize: '20px',
-                  color: 'white',
+                  fontSize: '16px',
+                  color: '#10b981',
                   fontWeight: '600',
                 }}
               >
@@ -127,38 +175,6 @@ export default async function Image() {
               </span>
             </div>
           ))}
-        </div>
-
-        {/* Bottom Badge */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '8px 20px',
-            backgroundColor: 'rgba(16, 185, 129, 0.2)',
-            borderRadius: '999px',
-            border: '1px solid rgba(16, 185, 129, 0.3)',
-          }}
-        >
-          <div
-            style={{
-              width: '8px',
-              height: '8px',
-              borderRadius: '50%',
-              backgroundColor: '#10b981',
-            }}
-          />
-          <span
-            style={{
-              fontSize: '16px',
-              color: '#10b981',
-              fontWeight: 'bold',
-              letterSpacing: '0.1em',
-            }}
-          >
-            GUIDE ÉTAPE PAR ÉTAPE
-          </span>
         </div>
       </div>
     ),

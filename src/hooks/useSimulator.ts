@@ -13,6 +13,11 @@ import {
   calculateRentToIncomeRatio,
   type QuebecCity 
 } from '@/src/data/quebecCosts';
+import { 
+  calculateChildrenCosts,
+  calculateAdditionalHousingCost,
+  type ChildCostBreakdown
+} from '@/src/data/childrenCosts';
 
 export interface SimulatorResult {
   // Tax Calculations
@@ -22,6 +27,9 @@ export interface SimulatorResult {
   city: QuebecCity;
   monthlyExpenses: number;
   annualExpenses: number;
+  
+  // Children Data
+  childrenCosts: ChildCostBreakdown;
   
   // Disposable Income
   disposableIncome: number;
@@ -51,6 +59,8 @@ export interface SimulatorResult {
     groceries: number;
     utilities: number;
     transportation: number;
+    childrenCost: number;
+    childrenBenefits: number;
     disposable: number;
   };
 }
@@ -61,13 +71,19 @@ export interface SimulatorResult {
  * @param cityId - Selected city ID
  * @param hasPartner - Living with partner (splits rent/utilities)
  * @param hasCar - Owns a car (adds car expenses)
+ * @param childrenCount - Number of children
+ * @param childrenAges - Ages of children ('0-5', '6-12', '13-17')
+ * @param hasCPE - Has access to subsidized daycare
  * @returns Complete simulation results
  */
 export function useSimulator(
   grossSalary: number,
   cityId: string,
   hasPartner: boolean = false,
-  hasCar: boolean = false
+  hasCar: boolean = false,
+  childrenCount: number = 0,
+  childrenAges: string[] = [],
+  hasCPE: boolean = false
 ): SimulatorResult | null {
   return useMemo(() => {
     // Validate inputs
@@ -83,12 +99,30 @@ export function useSimulator(
     // Calculate taxes
     const tax = calculateQuebecTax(grossSalary);
 
+    // Calculate children costs and benefits
+    const childrenCosts = calculateChildrenCosts(
+      childrenCount,
+      childrenAges,
+      hasCPE,
+      tax.netAnnual
+    );
+
+    // Calculate additional housing cost for children
+    const additionalHousingCost = calculateAdditionalHousingCost(childrenCount, city.avgRent);
+
     // Calculate city expenses with lifestyle adjustments
-    const monthlyExpenses = calculateMonthlyCityExpenses(city, hasPartner, hasCar);
+    const baseMonthlyExpenses = calculateMonthlyCityExpenses(city, hasPartner, hasCar);
+    const monthlyExpenses = baseMonthlyExpenses + (additionalHousingCost / 12) + childrenCosts.netMonthlyCost;
     const annualExpenses = monthlyExpenses * 12;
 
-    // Calculate disposable income
-    const disposableIncome = calculateDisposableIncome(tax.netMonthly, city);
+    // Calculate disposable income with lifestyle and children adjustments
+    const adjustedRent = (hasPartner ? city.avgRent * 0.5 : city.avgRent) + (additionalHousingCost / 12);
+    const adjustedGroceries = hasPartner ? city.monthlyGrocery * 1.5 : city.monthlyGrocery;
+    const adjustedTransport = hasCar ? 300 : city.transportation;
+    const adjustedUtilities = hasPartner ? city.utilities * 0.5 : city.utilities;
+    
+    const totalMonthlyExpenses = adjustedRent + adjustedGroceries + adjustedTransport + adjustedUtilities + childrenCosts.netMonthlyCost;
+    const disposableIncome = tax.netMonthly - totalMonthlyExpenses;
     const annualDisposableIncome = disposableIncome * 12;
     const savingsRate = tax.netMonthly > 0 
       ? (disposableIncome / tax.netMonthly) * 100 
@@ -108,10 +142,12 @@ export function useSimulator(
       qpp: tax.qppContribution,
       qpip: tax.qpipContribution,
       ei: tax.eiContribution,
-      rent: city.avgRent * 12,
-      groceries: city.monthlyGrocery * 12,
-      utilities: city.utilities * 12,
-      transportation: city.transportation * 12,
+      rent: adjustedRent * 12,
+      groceries: adjustedGroceries * 12,
+      utilities: adjustedUtilities * 12,
+      transportation: adjustedTransport * 12,
+      childrenCost: childrenCosts.totalMonthly * 12,
+      childrenBenefits: childrenCosts.totalBenefits,
       disposable: Math.max(0, annualDisposableIncome),
     };
 
@@ -120,6 +156,7 @@ export function useSimulator(
       city,
       monthlyExpenses,
       annualExpenses,
+      childrenCosts,
       disposableIncome,
       annualDisposableIncome,
       savingsRate,
@@ -128,7 +165,7 @@ export function useSimulator(
       isRentAffordable,
       breakdown,
     };
-  }, [grossSalary, cityId, hasPartner, hasCar]);
+  }, [grossSalary, cityId, hasPartner, hasCar, childrenCount, childrenAges, hasCPE]);
 }
 
 export type InsightType = 'success' | 'warning' | 'info' | 'danger';
@@ -217,15 +254,28 @@ export function generateInsights(result: SimulatorResult | null): Insight[] {
  */
 export function compareCities(
   grossSalary: number,
-  cityIds: string[]
+  cityIds: string[],
+  hasPartner: boolean = false,
+  hasCar: boolean = false
 ): Array<SimulatorResult | null> {
   return cityIds.map((cityId) => {
     const city = getCityById(cityId);
     if (!city) return null;
 
     const tax = calculateQuebecTax(grossSalary);
-    const monthlyExpenses = calculateMonthlyCityExpenses(city);
-    const disposableIncome = calculateDisposableIncome(tax.netMonthly, city);
+    
+    // Calculate expenses with lifestyle adjustments
+    const monthlyExpenses = calculateMonthlyCityExpenses(city, hasPartner, hasCar);
+    
+    // Calculate disposable income with lifestyle adjustments
+    const adjustedRent = hasPartner ? city.avgRent * 0.5 : city.avgRent;
+    const adjustedGroceries = hasPartner ? city.monthlyGrocery * 1.5 : city.monthlyGrocery;
+    const adjustedTransport = hasCar ? 300 : city.transportation;
+    const adjustedUtilities = hasPartner ? city.utilities * 0.5 : city.utilities;
+    
+    const totalMonthlyExpenses = adjustedRent + adjustedGroceries + adjustedTransport + adjustedUtilities;
+    const disposableIncome = tax.netMonthly - totalMonthlyExpenses;
+    
     const savingsRate = tax.netMonthly > 0 
       ? (disposableIncome / tax.netMonthly) * 100 
       : 0;
@@ -239,18 +289,18 @@ export function compareCities(
       annualDisposableIncome: disposableIncome * 12,
       savingsRate,
       financialHealth: getFinancialHealthStatus(disposableIncome, tax.netMonthly),
-      rentToIncomeRatio: calculateRentToIncomeRatio(city.avgRent, tax.netMonthly),
-      isRentAffordable: calculateRentToIncomeRatio(city.avgRent, tax.netMonthly) < 30,
+      rentToIncomeRatio: calculateRentToIncomeRatio(adjustedRent, tax.netMonthly),
+      isRentAffordable: calculateRentToIncomeRatio(adjustedRent, tax.netMonthly) < 30,
       breakdown: {
         federalTax: tax.federalTax,
         provincialTax: tax.provincialTax,
         qpp: tax.qppContribution,
         qpip: tax.qpipContribution,
         ei: tax.eiContribution,
-        rent: city.avgRent * 12,
-        groceries: city.monthlyGrocery * 12,
-        utilities: city.utilities * 12,
-        transportation: city.transportation * 12,
+        rent: adjustedRent * 12,
+        groceries: adjustedGroceries * 12,
+        utilities: adjustedUtilities * 12,
+        transportation: adjustedTransport * 12,
         disposable: Math.max(0, disposableIncome * 12),
       },
     };

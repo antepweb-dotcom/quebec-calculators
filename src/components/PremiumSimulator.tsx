@@ -51,30 +51,47 @@ function AnimatedCounter({ value, prefix = '', suffix = '' }: { value: number; p
   );
 }
 
-export default function PremiumSimulator() {
+export default function PremiumSimulator({ onReset }: { onReset?: () => void }) {
   const [grossSalary, setGrossSalary] = useState<string>('75000');
   const [selectedCity, setSelectedCity] = useState<string>('montreal');
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [hasPartner, setHasPartner] = useState(false);
   const [hasCar, setHasCar] = useState(false);
+  const [childrenCount, setChildrenCount] = useState(0);
+  const [childrenAges, setChildrenAges] = useState<string[]>([]);
+  const [hasCPE, setHasCPE] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
   const [refreshScenarios, setRefreshScenarios] = useState(0);
+  const [isInitialized, setIsInitialized] = useState(false);
 
+  // Load wizard data on mount AND whenever component re-renders from wizard
   useEffect(() => {
     const wizardDataStr = localStorage.getItem('wizardData');
     if (wizardDataStr) {
       try {
         const wizardData = JSON.parse(wizardDataStr);
+        console.log('Loading wizard data:', wizardData);
+        
+        // Update all states from wizard data
         if (wizardData.income) setGrossSalary(wizardData.income);
         if (wizardData.cityId) setSelectedCity(wizardData.cityId);
-        if (wizardData.hasPartner !== undefined) setHasPartner(wizardData.hasPartner);
-        if (wizardData.hasCar !== undefined) setHasCar(wizardData.hasCar);
+        setHasPartner(wizardData.hasPartner || false);
+        setHasCar(wizardData.hasCar || false);
+        setChildrenCount(wizardData.childrenCount || 0);
+        setChildrenAges(wizardData.childrenAges || []);
+        setHasCPE(wizardData.hasCPE || false);
+        
+        // Clear localStorage after successful load
         localStorage.removeItem('wizardData');
+        setIsInitialized(true);
       } catch (e) {
         console.error('Failed to parse wizard data', e);
+        setIsInitialized(true);
       }
+    } else {
+      setIsInitialized(true);
     }
-  }, []);
+  }, []); // Empty dependency array - runs once on mount
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/[^0-9]/g, '');
@@ -97,7 +114,7 @@ export default function PremiumSimulator() {
 
   // Use the simulator hook
   const salaryNum = parseFloat(grossSalary) || 0;
-  const result = useSimulator(salaryNum, selectedCity, hasPartner, hasCar);
+  const result = useSimulator(salaryNum, selectedCity, hasPartner, hasCar, childrenCount, childrenAges, hasCPE);
   const insights = generateInsights(result);
 
   if (!result) {
@@ -183,18 +200,30 @@ export default function PremiumSimulator() {
       >
         {/* Header */}
         <motion.div variants={itemVariants} className="mb-8">
-          <div className="flex items-center gap-4 mb-2">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/50">
-              <Sparkles className="w-7 h-7 text-white" />
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/50">
+                <Sparkles className="w-7 h-7 text-white" />
+              </div>
+              <div>
+                <h1 className="text-4xl font-bold text-white mb-1">
+                  Simulateur de Vie au Québec
+                </h1>
+                <p className="text-slate-400">
+                  Calculez votre pouvoir d'achat réel - Taux 2025/2026
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-4xl font-bold text-white mb-1">
-                Simulateur de Vie au Québec
-              </h1>
-              <p className="text-slate-400">
-                Calculez votre pouvoir d'achat réel - Taux 2025/2026
-              </p>
-            </div>
+            {onReset && (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={onReset}
+                className="px-6 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl text-white hover:bg-white/10 hover:border-white/20 transition-all font-semibold"
+              >
+                Nouvelle Simulation
+              </motion.button>
+            )}
           </div>
         </motion.div>
 
