@@ -150,7 +150,21 @@ export function useSimulatorV2(wizardState: WizardState): SimulatorV2Result | nu
       '4br': 1.9,
       'house': 2.2
     };
-    adjustedRent = city.avgRent * (housingMultipliers[wizardState.housingType] || 1.0);
+    
+    // For roommates, automatically select appropriate housing size
+    let effectiveHousingType = wizardState.housingType;
+    if (isRoommate && wizardState.roommateCount) {
+      // Roommates need bedrooms based on their count
+      if (wizardState.roommateCount === 2) {
+        effectiveHousingType = '2br'; // 2 people share 2BR
+      } else if (wizardState.roommateCount === 3) {
+        effectiveHousingType = '3br'; // 3 people share 3BR
+      } else if (wizardState.roommateCount >= 4) {
+        effectiveHousingType = '4br'; // 4+ people share 4BR
+      }
+    }
+    
+    adjustedRent = city.avgRent * (housingMultipliers[effectiveHousingType] || 1.0);
 
     // Roommate: Split rent equally
     if (isRoommate && wizardState.roommateCount && wizardState.roommateCount > 1) {
