@@ -5,6 +5,7 @@ import EmptyStatePreview from '@/components/ui/EmptyStatePreview'
 import DataSource from '@/components/ui/DataSource'
 import SalaryLinkGrid from '@/components/calculators/SalaryLinkGrid'
 import DarkPageHeader from '@/components/DarkPageHeader'
+import EzoicAd from '@/components/EzoicAd'
 import { TrendingUp } from 'lucide-react'
 
 export const metadata: Metadata = {
@@ -79,11 +80,19 @@ export default function SalaryLandingPage() {
         showLastUpdated={true}
       />
 
+      {/* Ezoic Ad - Top Banner */}
+      <div className="container mx-auto max-w-6xl px-4 pt-8">
+        <EzoicAd placementId={101} className="flex justify-center" />
+      </div>
+
       {/* 2. Main Content */}
       <div className="container mx-auto max-w-6xl px-4 py-12">
         <div className="grid lg:grid-cols-12 gap-8">
           <div className="lg:col-span-8 space-y-6">
             <LuxurySalaryCalculator initialIncome={0} />
+            
+            {/* Ezoic Ad - Mid Content */}
+            <EzoicAd placementId={103} className="my-8" />
 
             {/* SEO Content Block */}
             <div className="prose prose-slate max-w-none bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
@@ -97,10 +106,13 @@ export default function SalaryLandingPage() {
             </div>
           </div>
 
-          {/* RIGHT: Sticky Empty State (4 cols) - Hidden on Mobile */}
+          {/* RIGHT: Sticky Sidebar (4 cols) - Hidden on Mobile */}
           <div className="hidden lg:block lg:col-span-4">
-            <div className="sticky top-8">
+            <div className="sticky top-8 space-y-6">
               <EmptyStatePreview />
+              
+              {/* Ezoic Ad - Sidebar */}
+              <EzoicAd placementId={102} />
             </div>
           </div>
         </div>
@@ -407,6 +419,13 @@ export default function SalaryLandingPage() {
       <div className="bg-slate-50 py-6 border-t border-slate-200">
         <div className="max-w-6xl mx-auto px-4">
           <SalaryLinkGrid />
+        </div>
+      </div>
+
+      {/* Ezoic Ad - Footer */}
+      <div className="bg-white py-8 border-t border-slate-100">
+        <div className="max-w-6xl mx-auto px-4">
+          <EzoicAd placementId={104} className="flex justify-center" />
         </div>
       </div>
     </div>

@@ -12,8 +12,9 @@
 
 export interface AdSlotConfig {
   enabled: boolean;
-  type: 'adsense' | 'affiliate' | 'custom';
+  type: 'adsense' | 'affiliate' | 'custom' | 'ezoic';
   adId?: string;
+  placementId?: number; // For Ezoic
   html?: string;
   size?: string;
   description?: string;
@@ -48,46 +49,42 @@ export interface SiteConfig {
  */
 export const siteConfig: SiteConfig = {
   // ==========================================
-  // ADS CONFIGURATION
+  // ADS CONFIGURATION - EZOIC
   // ==========================================
   ads: {
     isEnabled: true, // Master toggle for all ads
-    googleAdSenseId: 'ca-pub-2733523563879283', // Your AdSense ID
+    googleAdSenseId: 'ca-pub-2733523563879283', // Backup AdSense ID
 
     slots: {
-      // Header Banner (728x90 desktop, 320x50 mobile)
+      // Header Banner - Top of page
       header: {
         enabled: true,
-        type: 'adsense',
-        adId: 'ca-pub-2733523563879283',
-        size: '728x90',
-        description: 'Top banner ad'
+        type: 'ezoic',
+        placementId: 101, // Create this in Ezoic Dashboard
+        description: 'Top banner ad - above fold'
       },
 
-      // Sidebar Ad (300x600 desktop only)
+      // Sidebar Ad - Desktop only
       sidebar: {
         enabled: true,
-        type: 'adsense',
-        adId: 'ca-pub-2733523563879283',
-        size: '300x600',
-        description: 'Sidebar skyscraper ad'
+        type: 'ezoic',
+        placementId: 102, // Create this in Ezoic Dashboard
+        description: 'Sidebar ad - sticky'
       },
 
-      // In-Article Ad (728x90 desktop, 320x50 mobile)
+      // In-Article Ad - Middle of content
       inArticle: {
         enabled: true,
-        type: 'adsense',
-        adId: 'ca-pub-2733523563879283',
-        size: '728x90',
+        type: 'ezoic',
+        placementId: 103, // Create this in Ezoic Dashboard
         description: 'Mid-content ad'
       },
 
-      // Footer Banner (728x90 desktop, 320x50 mobile)
+      // Footer Banner - Bottom of page
       footer: {
-        enabled: false,
-        type: 'adsense',
-        adId: 'ca-pub-2733523563879283',
-        size: '728x90',
+        enabled: true,
+        type: 'ezoic',
+        placementId: 104, // Create this in Ezoic Dashboard
         description: 'Bottom banner ad'
       },
 
