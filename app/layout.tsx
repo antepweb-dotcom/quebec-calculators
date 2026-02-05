@@ -10,6 +10,7 @@ import OrganizationSchema from '@/components/OrganizationSchema'
 import AnnouncementBar from '@/components/ui/AnnouncementBar'
 import PerformanceMonitor from '@/components/PerformanceMonitor'
 import ConditionalLayout from '@/components/ConditionalLayout'
+import IntroPopup from '@/components/IntroPopup'
 
 const plusJakartaSans = Plus_Jakarta_Sans({ 
   subsets: ['latin'],
@@ -129,6 +130,7 @@ export default function RootLayout({
       <body className={`${plusJakartaSans.className} bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-50 via-white to-white text-slate-900`}>
         <GoogleAnalytics GA_MEASUREMENT_ID="G-4E6L3DHKPJ" />
         <PerformanceMonitor />
+        <IntroPopup />
         <ConditionalLayout>
           {children}
         </ConditionalLayout>

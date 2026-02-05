@@ -101,6 +101,11 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
         })
       }
       
+      // Dispatch custom event for IntroPopup
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('qcfinance:calculation-complete'))
+      }
+      
       // Smooth scroll to top before navigation
       window.scrollTo({ top: 0, behavior: 'smooth' })
       // Navigate after a short delay to allow scroll animation
@@ -557,6 +562,45 @@ export default function LuxurySalaryCalculator({ initialIncome }: LuxurySalaryCa
             )}
           </div>
             )}
+          </div>
+
+          {/* Life Simulator CTA - Professional Button */}
+          <div className="border-t border-slate-200 pt-6 mb-6">
+            <button
+              onClick={() => {
+                router.push(`/simulateur-vie-quebec?income=${annualGross}`);
+                
+                // Track simulator navigation
+                if (typeof window !== 'undefined' && (window as any).gtag) {
+                  (window as any).gtag('event', 'navigate_to_simulator', {
+                    event_category: 'Engagement',
+                    event_label: 'Life Simulator',
+                    value: Math.round(annualGross),
+                  })
+                }
+              }}
+              className="group w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold py-5 px-6 rounded-2xl transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-emerald-500/30 text-center active:scale-[0.98] relative overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+              <div className="relative flex items-center justify-center gap-3">
+                <div className="flex items-center justify-center w-10 h-10 bg-white/20 rounded-xl backdrop-blur-sm">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <div className="text-left">
+                  <div className="text-lg font-bold leading-tight">
+                    Simulez votre budget complet
+                  </div>
+                  <div className="text-sm font-normal opacity-90 leading-tight mt-0.5">
+                    Loyer, épicerie, allocations et plus
+                  </div>
+                </div>
+                <svg className="w-5 h-5 ml-auto group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </div>
+            </button>
           </div>
 
           {/* Quick Action Buttons */}

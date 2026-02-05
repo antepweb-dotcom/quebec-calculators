@@ -10,7 +10,8 @@ import {
   Home, ShoppingBag, TrendingUp, TrendingDown,
   PiggyBank, Wallet, Lightbulb, Users, Baby, Car, Zap,
   Receipt, Utensils, Bus, Building2, Sparkles,
-  AlertTriangle, AlertCircle, Coins, UserPlus, BarChart3
+  AlertTriangle, AlertCircle, Coins, UserPlus, BarChart3,
+  PartyPopper, Sparkle, ThumbsUp, AlertOctagon
 } from 'lucide-react';
 import { WizardState } from './types';
 import { useSimulatorV2, generateInsightsV2 } from '@/src/hooks/v2/useSimulatorV2';
@@ -228,10 +229,66 @@ export default function PremiumSimulatorV2({ wizardState, onReset }: Props) {
               <div className="text-4xl font-bold text-white mb-2">
                 <AnimatedCounter value={result.monthlyBreakdown.disposable} prefix="$" />
               </div>
-              <div className={`text-sm ${
+              <div className={`text-sm mb-3 ${
                 result.monthlyBreakdown.disposable >= 0 ? 'text-green-200' : 'text-red-200'
               }`}>
                 par mois
+              </div>
+              
+              {/* Psychological Message */}
+              <div className={`mt-3 pt-3 border-t ${
+                result.monthlyBreakdown.disposable >= 0 ? 'border-green-400/20' : 'border-red-400/20'
+              }`}>
+                <div className={`flex items-center gap-2 ${
+                  result.monthlyBreakdown.disposable >= 0 ? 'text-green-100' : 'text-red-100'
+                }`}>
+                  {result.financialHealth.savingsRate >= 30 ? (
+                    <>
+                      <div className="w-5 h-5 rounded-lg bg-green-500/30 flex items-center justify-center flex-shrink-0">
+                        <PartyPopper className="w-3 h-3 text-green-300" />
+                      </div>
+                      <p className="text-xs font-medium">
+                        Excellent! Votre capacité d'épargne est très élevée.
+                      </p>
+                    </>
+                  ) : result.financialHealth.savingsRate >= 20 ? (
+                    <>
+                      <div className="w-5 h-5 rounded-lg bg-green-500/30 flex items-center justify-center flex-shrink-0">
+                        <Sparkle className="w-3 h-3 text-green-300" />
+                      </div>
+                      <p className="text-xs font-medium">
+                        Très bien! Vous avez un bon potentiel d'épargne.
+                      </p>
+                    </>
+                  ) : result.financialHealth.savingsRate >= 10 ? (
+                    <>
+                      <div className="w-5 h-5 rounded-lg bg-yellow-500/30 flex items-center justify-center flex-shrink-0">
+                        <ThumbsUp className="w-3 h-3 text-yellow-300" />
+                      </div>
+                      <p className="text-xs font-medium text-yellow-100">
+                        Correct, mais essayez d'économiser davantage.
+                      </p>
+                    </>
+                  ) : result.financialHealth.savingsRate >= 0 ? (
+                    <>
+                      <div className="w-5 h-5 rounded-lg bg-orange-500/30 flex items-center justify-center flex-shrink-0">
+                        <AlertTriangle className="w-3 h-3 text-orange-300" />
+                      </div>
+                      <p className="text-xs font-medium text-orange-100">
+                        Attention, votre budget est serré. Réduisez vos dépenses.
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <div className="w-5 h-5 rounded-lg bg-red-500/30 flex items-center justify-center flex-shrink-0">
+                        <AlertOctagon className="w-3 h-3 text-red-300" />
+                      </div>
+                      <p className="text-xs font-medium">
+                        Budget déficitaire! Vos dépenses dépassent vos revenus.
+                      </p>
+                    </>
+                  )}
+                </div>
               </div>
             </motion.div>
 
@@ -326,6 +383,11 @@ export default function PremiumSimulatorV2({ wizardState, onReset }: Props) {
                     </span>
                   </div>
                 )}
+              </div>
+              
+              {/* Data Source Note */}
+              <div className="mt-3 text-xs text-slate-400 italic text-center">
+                Basé sur les prix moyens à {result.city.name} 2026
               </div>
             </motion.div>
 
@@ -627,11 +689,88 @@ export default function PremiumSimulatorV2({ wizardState, onReset }: Props) {
               />
             </motion.div>
 
-            {/* Affiliate Recommendations */}
+            {/* Next Steps - Related Calculators */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
+              className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 shadow-xl"
+            >
+              <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center">
+                  <TrendingUp className="w-5 h-5 text-blue-400" />
+                </div>
+                Planifiez votre avenir
+              </h3>
+              <p className="text-sm text-slate-300 mb-6">
+                Avec {result.monthlyBreakdown.disposable.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD', maximumFractionDigits: 0 })}/mois disponible, explorez vos options
+              </p>
+              
+              <div className="grid md:grid-cols-3 gap-4">
+                {/* Mortgage Calculator */}
+                <a
+                  href="/calcul-hypotheque"
+                  className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-400/30 rounded-xl p-4 transition-all hover:scale-105"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center group-hover:bg-blue-500/30 transition-colors">
+                      <Home className="w-5 h-5 text-blue-400" />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-white text-sm">Hypothèque</h4>
+                      <p className="text-xs text-slate-400">Calculez votre prêt</p>
+                    </div>
+                  </div>
+                  <p className="text-xs text-slate-300">
+                    Pouvez-vous acheter une maison avec ce budget?
+                  </p>
+                </a>
+
+                {/* Auto Loan Calculator */}
+                <a
+                  href="/pret-auto"
+                  className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-400/30 rounded-xl p-4 transition-all hover:scale-105"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center group-hover:bg-purple-500/30 transition-colors">
+                      <Car className="w-5 h-5 text-purple-400" />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-white text-sm">Prêt Auto</h4>
+                      <p className="text-xs text-slate-400">Financez votre voiture</p>
+                    </div>
+                  </div>
+                  <p className="text-xs text-slate-300">
+                    Quel véhicule pouvez-vous vous permettre?
+                  </p>
+                </a>
+
+                {/* Retirement Calculator */}
+                <a
+                  href="/epargne-retraite"
+                  className="group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-emerald-400/30 rounded-xl p-4 transition-all hover:scale-105"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center group-hover:bg-emerald-500/30 transition-colors">
+                      <PiggyBank className="w-5 h-5 text-emerald-400" />
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-white text-sm">Retraite</h4>
+                      <p className="text-xs text-slate-400">Planifiez l'avenir</p>
+                    </div>
+                  </div>
+                  <p className="text-xs text-slate-300">
+                    Combien épargner pour une retraite confortable?
+                  </p>
+                </a>
+              </div>
+            </motion.div>
+
+            {/* Affiliate Recommendations */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
             >
               <AffiliateRecommendationsV2 result={result} />
             </motion.div>

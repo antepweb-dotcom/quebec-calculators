@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Loader2, Zap } from 'lucide-react';
 import PremiumSimulatorV2 from './PremiumSimulatorV2';
@@ -16,6 +17,7 @@ const FleurDeLis = ({ className }: { className?: string }) => (
 );
 
 export default function WizardSimulatorV2() {
+  const searchParams = useSearchParams();
   const [currentStep, setCurrentStep] = useState<WizardStep>('income');
   const [direction, setDirection] = useState(0);
   const [wizardState, setWizardState] = useState<WizardState>({
@@ -35,6 +37,20 @@ export default function WizardSimulatorV2() {
     housingType: '1br',
     transportType: 'public',
   });
+
+  // Load income from URL parameter on mount
+  useEffect(() => {
+    const incomeParam = searchParams?.get('income');
+    if (incomeParam) {
+      const income = parseFloat(incomeParam);
+      if (!isNaN(income) && income > 0) {
+        setWizardState(prev => ({
+          ...prev,
+          grossIncome: income
+        }));
+      }
+    }
+  }, [searchParams]);
 
   const canContinue = WizardFlow.canContinue(currentStep, wizardState);
   const progress = WizardFlow.getProgress(currentStep, wizardState);
