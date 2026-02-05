@@ -141,6 +141,26 @@ export async function getAnalytics() {
       metrics: [{ name: 'activeUsers' }],
     });
 
+    // Trafik kaynakları
+    const [trafficSourcesData] = await analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
+      dimensions: [{ name: 'sessionDefaultChannelGroup' }],
+      metrics: [{ name: 'activeUsers' }],
+      orderBys: [{ metric: { metricName: 'activeUsers' }, desc: true }],
+    });
+
+    // Engagement metrikleri (ortalama süre ve bounce rate)
+    const [engagementData] = await analyticsDataClient.runReport({
+      property: `properties/${propertyId}`,
+      dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
+      metrics: [
+        { name: 'averageSessionDuration' },
+        { name: 'bounceRate' },
+        { name: 'engagementRate' },
+      ],
+    });
+
     // Parse data
     const visitorsToday = parseInt(todayData.rows?.[0]?.metricValues?.[0]?.value || '0');
     const viewsToday = parseInt(todayData.rows?.[0]?.metricValues?.[1]?.value || '0');
@@ -206,6 +226,50 @@ export async function getAnalytics() {
       ? (totalViews / visitorsThisMonth).toFixed(1)
       : '0';
 
+    // Engagement metrikleri parse
+    const avgSessionDuration = parseFloat(engagementData.rows?.[0]?.metricValues?.[0]?.value || '0');
+    const bounceRate = parseFloat(engagementData.rows?.[0]?.metricValues?.[1]?.value || '0') * 100; // GA4 returns as decimal
+    const engagementRate = parseFloat(engagementData.rows?.[0]?.metricValues?.[2]?.value || '0') * 100;
+
+    // Format average session duration to MM:SS
+    const minutes = Math.floor(avgSessionDuration / 60);
+    const seconds = Math.floor(avgSessionDuration % 60);
+    const formattedDuration = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+    // Trafik kaynakları parse
+    const trafficSources: Record<string, number> = {};
+    let totalTraffic = 0;
+    (trafficSourcesData.rows || []).forEach(row => {
+      const source = row.dimensionValues?.[0]?.value || '';
+      const count = parseInt(row.metricValues?.[0]?.value || '0');
+      trafficSources[source] = count;
+      totalTraffic += count;
+    });
+
+    // GA4 channel gruplarını kategorize et
+    const organicSources = ['Organic Search', 'Organic Social'];
+    const directSources = ['Direct'];
+    const socialSources = ['Social', 'Paid Social'];
+    const referralSources = ['Referral'];
+    const emailSources = ['Email'];
+
+    const organic = organicSources.reduce((sum, key) => sum + (trafficSources[key] || 0), 0);
+    const direct = directSources.reduce((sum, key) => sum + (trafficSources[key] || 0), 0);
+    const social = socialSources.reduce((sum, key) => sum + (trafficSources[key] || 0), 0);
+    const referral = referralSources.reduce((sum, key) => sum + (trafficSources[key] || 0), 0);
+    const email = emailSources.reduce((sum, key) => sum + (trafficSources[key] || 0), 0);
+    const other = totalTraffic - (organic + direct + social + referral + email);
+
+    const trafficSourceStats = {
+      organic,
+      direct,
+      social,
+      referral,
+      email,
+      other: other > 0 ? other : 0,
+      total: totalTraffic,
+    };
+
     return {
       visitors: {
         today: visitorsToday,
@@ -224,10 +288,14 @@ export async function getAnalytics() {
       },
       activeNow, // Şu an online olan kullanıcılar
       avgPagesPerVisitor: parseFloat(avgPagesPerVisitor),
+      avgSessionDuration: formattedDuration,
+      bounceRate: bounceRate.toFixed(1),
+      engagementRate: engagementRate.toFixed(1),
       topPages,
       last30Days,
       topCountries,
       deviceStats,
+      trafficSourceStats,
     };
   } catch (error) {
     console.error('Failed to fetch GA4 data:', error);
@@ -254,10 +322,22 @@ function getMockData() {
     },
     activeNow: 0,
     avgPagesPerVisitor: 0,
+    avgSessionDuration: '0:00',
+    bounceRate: '0',
+    engagementRate: '0',
     topPages: [],
     last30Days: [],
     topCountries: [],
     deviceStats: { mobile: 0, desktop: 0, tablet: 0 },
+    trafficSourceStats: {
+      organic: 0,
+      direct: 0,
+      social: 0,
+      referral: 0,
+      email: 0,
+      other: 0,
+      total: 0,
+    },
   };
 }
 

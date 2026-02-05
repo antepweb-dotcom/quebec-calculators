@@ -51,6 +51,9 @@ interface Stats {
   };
   activeNow: number;
   avgPagesPerVisitor: number;
+  avgSessionDuration: string;
+  bounceRate: string;
+  engagementRate: string;
   topPages: Array<{ path: string; count: number }>;
   last30Days: Array<{ date: string; visitors: number; views: number }>;
   topCountries: Array<{ country: string; count: number }>;
@@ -58,6 +61,15 @@ interface Stats {
     mobile: number;
     desktop: number;
     tablet: number;
+  };
+  trafficSourceStats: {
+    organic: number;
+    direct: number;
+    social: number;
+    referral: number;
+    email: number;
+    other: number;
+    total: number;
   };
 }
 
@@ -135,6 +147,15 @@ export default function StatsPage() {
   const desktopPercent = totalDevices > 0 ? Math.round((stats.deviceStats.desktop / totalDevices) * 100) : 0;
   const tabletPercent = totalDevices > 0 ? Math.round((stats.deviceStats.tablet / totalDevices) * 100) : 0;
 
+  // Trafik kaynakları yüzdeleri
+  const trafficTotal = stats.trafficSourceStats.total || 1;
+  const organicPercent = Math.round((stats.trafficSourceStats.organic / trafficTotal) * 100);
+  const directPercent = Math.round((stats.trafficSourceStats.direct / trafficTotal) * 100);
+  const socialPercent = Math.round((stats.trafficSourceStats.social / trafficTotal) * 100);
+  const referralPercent = Math.round((stats.trafficSourceStats.referral / trafficTotal) * 100);
+  const emailPercent = Math.round((stats.trafficSourceStats.email / trafficTotal) * 100);
+  const otherPercent = Math.round((stats.trafficSourceStats.other / trafficTotal) * 100);
+
   // Chart data
   const trendChartData = {
     labels: filteredData.map(d => new Date(d.date).toLocaleDateString('tr-TR', { month: 'short', day: 'numeric' })),
@@ -185,15 +206,16 @@ export default function StatsPage() {
   };
 
   const sourceChartData = {
-    labels: ['Organik', 'Direkt', 'Sosyal Medya', 'Referans', 'E-posta'],
+    labels: ['Organik', 'Direkt', 'Sosyal Medya', 'Referans', 'E-posta', 'Diğer'],
     datasets: [{
-      data: [45, 28, 15, 8, 4],
+      data: [organicPercent, directPercent, socialPercent, referralPercent, emailPercent, otherPercent],
       backgroundColor: [
         'rgba(59, 130, 246, 0.9)',
         'rgba(139, 92, 246, 0.9)',
         'rgba(236, 72, 153, 0.9)',
         'rgba(245, 158, 11, 0.9)',
-        'rgba(16, 185, 129, 0.9)'
+        'rgba(16, 185, 129, 0.9)',
+        'rgba(100, 116, 139, 0.9)'
       ],
       borderWidth: 4,
       borderColor: '#1e293b',
@@ -327,16 +349,16 @@ export default function StatsPage() {
           <StatCard
             icon={<Clock className="w-5 h-5" />}
             label="Ortalama Süre"
-            value="3:42"
-            change={15.2}
-            subtitle="geçen haftaya göre"
+            value={stats.avgSessionDuration}
+            change={parseFloat(stats.engagementRate) - 50}
+            subtitle="etkileşim oranı"
           />
           <StatCard
             icon={<Activity className="w-5 h-5" />}
             label="Hemen Çıkma Oranı"
-            value="42.3%"
-            change={-3.2}
-            subtitle="geçen haftaya göre"
+            value={`${stats.bounceRate}%`}
+            change={-(parseFloat(stats.bounceRate) - 40)}
+            subtitle="hedef: %40 altı"
           />
           <StatCard
             icon={<Repeat className="w-5 h-5" />}
@@ -572,27 +594,31 @@ export default function StatsPage() {
                 <div className="w-3 h-3 rounded bg-green-500"></div>
                 <span className="text-sm text-slate-300">E-posta</span>
               </div>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded bg-slate-500"></div>
+                <span className="text-sm text-slate-300">Diğer</span>
+              </div>
             </div>
             <div className="grid grid-cols-3 gap-3">
               <div className="text-center p-4 bg-slate-950 rounded-lg border border-slate-800">
                 <div className="w-10 h-10 mx-auto mb-2 rounded-lg bg-slate-800 flex items-center justify-center">
                   <Search className="w-6 h-6 text-slate-400" />
                 </div>
-                <div className="text-xl font-bold">{Math.round(stats.visitors.today * 0.45).toLocaleString()}</div>
+                <div className="text-xl font-bold">{stats.trafficSourceStats.organic.toLocaleString()}</div>
                 <div className="text-xs text-slate-400">Organik</div>
               </div>
               <div className="text-center p-4 bg-slate-950 rounded-lg border border-slate-800">
                 <div className="w-10 h-10 mx-auto mb-2 rounded-lg bg-slate-800 flex items-center justify-center">
                   <ArrowRight className="w-6 h-6 text-slate-400" />
                 </div>
-                <div className="text-xl font-bold">{Math.round(stats.visitors.today * 0.28).toLocaleString()}</div>
+                <div className="text-xl font-bold">{stats.trafficSourceStats.direct.toLocaleString()}</div>
                 <div className="text-xs text-slate-400">Direkt</div>
               </div>
               <div className="text-center p-4 bg-slate-950 rounded-lg border border-slate-800">
                 <div className="w-10 h-10 mx-auto mb-2 rounded-lg bg-slate-800 flex items-center justify-center">
                   <Share className="w-6 h-6 text-slate-400" />
                 </div>
-                <div className="text-xl font-bold">{Math.round(stats.visitors.today * 0.15).toLocaleString()}</div>
+                <div className="text-xl font-bold">{stats.trafficSourceStats.social.toLocaleString()}</div>
                 <div className="text-xs text-slate-400">Sosyal Medya</div>
               </div>
             </div>
