@@ -273,6 +273,17 @@ export function compareCities(
     const adjustedTransport = hasCar ? 300 : city.transportation;
     const adjustedUtilities = hasPartner ? city.utilities * 0.5 : city.utilities;
     
+    // Empty children costs for comparison (no children data in this function)
+    const childrenCosts: ChildCostBreakdown = {
+      baseMonthly: 0,
+      daycareMonthly: 0,
+      totalMonthly: 0,
+      federalBenefits: 0,
+      provincialBenefits: 0,
+      totalBenefits: 0,
+      netMonthlyCost: 0,
+    };
+    
     const totalMonthlyExpenses = adjustedRent + adjustedGroceries + adjustedTransport + adjustedUtilities;
     const disposableIncome = tax.netMonthly - totalMonthlyExpenses;
     
@@ -285,6 +296,7 @@ export function compareCities(
       city,
       monthlyExpenses,
       annualExpenses: monthlyExpenses * 12,
+      childrenCosts,
       disposableIncome,
       annualDisposableIncome: disposableIncome * 12,
       savingsRate,
@@ -301,6 +313,8 @@ export function compareCities(
         groceries: adjustedGroceries * 12,
         utilities: adjustedUtilities * 12,
         transportation: adjustedTransport * 12,
+        childrenCost: 0,
+        childrenBenefits: 0,
         disposable: Math.max(0, disposableIncome * 12),
       },
     };
